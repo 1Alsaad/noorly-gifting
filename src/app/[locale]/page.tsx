@@ -120,7 +120,7 @@ export default async function Home({
         <h2>{t.home.storyTitle}</h2>
         <p>{t.home.storyText}</p>
         <Link className="text-link" href={`/${locale}/about`}>
-          {t.home.storyCta.replace("STILLA", brand.name)}
+          {t.home.storyCta}
           <ArrowUpRight size={17} />
         </Link>
         <div className="story-mark" aria-hidden>

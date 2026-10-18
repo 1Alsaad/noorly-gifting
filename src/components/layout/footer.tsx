@@ -40,7 +40,6 @@ export function Footer({ locale }: { locale: Locale }) {
         <div>
           <Link href={`/${locale}`} className="wordmark">
             {brand.name}
-            <span className="wordmark-dot">®</span>
           </Link>
           <p>{t.footer.text}</p>
           <a className="footer-email" href={`mailto:${brand.supportEmail}`}>
@@ -62,7 +61,7 @@ export function Footer({ locale }: { locale: Locale }) {
         ))}
       </div>
       <div className="footer-bottom">
-        <span>© 2026 {t.footer.rights.replace("STILLA", brand.name)}</span>
+        <span>© 2026 {t.footer.rights}</span>
         <ConsentSettingsButton locale={locale} />
         <span>{t.edition}</span>
       </div>

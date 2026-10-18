@@ -17,7 +17,7 @@ export const envSchema = z
       .enum(["development", "preview", "production"])
       .default("development"),
     NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
-    NEXT_PUBLIC_BRAND_NAME: z.string().default("Stilla"),
+    NEXT_PUBLIC_BRAND_NAME: z.string().default("NOORLY"),
     NEXT_PUBLIC_DEFAULT_LOCALE: z.enum(["sv", "en"]).default("sv"),
     NEXT_PUBLIC_COMMERCE_PROVIDER: z.enum(["mock", "shopify"]).default("mock"),
     ALLOW_MOCK_COMMERCE: z.preprocess(

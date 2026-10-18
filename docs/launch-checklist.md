@@ -4,7 +4,8 @@ This checklist records work required before a real store launch. A passing local
 
 ## Identity, content and legal
 
-- [ ] Replace STILLA if needed, legal company/address/support placeholders, social links and customer-service details in central configuration.
+- [x] Set the chosen brand to Noorly and intended canonical domain to noorly.se.
+- [ ] Replace legal company/address/support placeholders, social links and customer-service details in central configuration.
 - [ ] Replace fictional catalogue, product images/material descriptions, stock, prices, gift packaging and placeholder reviews. Remove unsupported claims.
 - [ ] Obtain appropriate rights for final artwork, fonts, product photography and video; review generated static placeholders before any marketing use.
 - [ ] Finalize Swedish/English copy, delivery countries/times, returns, customer-service workflow and corporate-gifting process.

@@ -1,5 +1,7 @@
 # Verification record — 18 October 2026
 
+The Noorly rebrand was rechecked on the same date: formatting, lint, strict TypeScript, all 64 unit/component tests, all 10 Playwright tests, and the production preview build passed. Live Shopify/domain connection is deferred at the owner's request.
+
 This records the delivered fictional preview foundation, not certification of live third-party services or a production accessibility audit.
 
 | Check                                    | Result                                                                                       |

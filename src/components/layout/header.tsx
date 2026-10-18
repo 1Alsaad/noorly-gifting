@@ -35,7 +35,6 @@ export function Header({ locale }: { locale: Locale }) {
           aria-label={`${brand.name} — ${t.about}`}
         >
           {brand.name}
-          <span className="wordmark-dot">®</span>
         </Link>
         <nav className="desktop-nav" aria-label={t.shop}>
           {nav.map((item) => (

@@ -1,6 +1,6 @@
 # Implementation inventory
 
-This is a map of the implemented foundation and the files to change for common work. STILLA, catalogue records, legal content and media are replaceable placeholders; a listed integration seam does not imply the external service is connected.
+This is a map of the implemented foundation and the files to change for common work. NOORLY, catalogue records, legal content and media are replaceable placeholders; a listed integration seam does not imply the external service is connected.
 
 ## Routes
 

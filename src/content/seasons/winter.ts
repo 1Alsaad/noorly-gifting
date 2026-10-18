@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import type { GiftBoxTemplate, Season } from "@/types/content";
 import { winterScenes } from "@/features/seasonal-experience/winter-scenes";
 
@@ -96,8 +97,8 @@ export const winter: Season = {
   seo: {
     title: { sv: "Omtänksamma vintergåvor", en: "Thoughtful winter gifts" },
     description: {
-      sv: "Upptäck vintergåvor och personliga presentaskar från STILLA.",
-      en: "Discover winter gifts and personal gift boxes from STILLA.",
+      sv: `Upptäck vintergåvor och personliga presentaskar från ${brand.name}.`,
+      en: `Discover winter gifts and personal gift boxes from ${brand.name}.`,
     },
   },
 };

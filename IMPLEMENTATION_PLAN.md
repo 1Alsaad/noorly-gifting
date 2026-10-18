@@ -1,5 +1,7 @@
 # Implementation plan
 
+Brand update, 18 October 2026: the owner selected **Noorly** with intended domain **noorly.se**. Shopify and domain account connection are deferred at the owner's request; the original working-name assumptions below remain as implementation history.
+
 The workspace was inspected before editing. It contains no existing application or Git repository, so no code needs preserving.
 
 1. Establish a strict TypeScript / Next.js App Router / pnpm project with typed brand, content, commerce and analytics contracts.

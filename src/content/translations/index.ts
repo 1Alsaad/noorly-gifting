@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import type { Locale } from "@/types/commerce";
 
 const en = {
@@ -84,7 +85,7 @@ const en = {
     storyTitle: "Made for the moment\nbetween the moments.",
     storyText:
       "Inspired by Nordic winters and the everyday rituals that bring us closer. Simple pieces. Natural textures. A little room to slow down.",
-    storyCta: "The story of STILLA",
+    storyCta: `The story of ${brand.name}`,
     trust: [
       "A small, considered collection",
       "A note in your own words",
@@ -106,7 +107,7 @@ const en = {
     explore: "Explore",
     help: "Here to help",
     details: "The details",
-    rights: "STILLA · Fictional demonstration brand",
+    rights: `${brand.name} · Fictional demonstration brand`,
     cookieSettings: "Cookie settings",
     contact: "Contact & support",
     faq: "Questions & answers",
@@ -184,7 +185,7 @@ const en = {
     about: {
       eyebrow: "OUR STORY",
       title: "Thoughtfulness,\nin the little things.",
-      text: "STILLA is a working concept for a seasonal gifting studio inspired by the Nordic way of finding warmth in simple rituals. Our first fictional collection brings together tactile pieces for slower winter days.",
+      text: `${brand.name} is a working concept for a seasonal gifting studio inspired by the Nordic way of finding warmth in simple rituals. Our first fictional collection brings together tactile pieces for slower winter days.`,
       extra:
         "We believe a gift can be quiet and still say a great deal. This foundation is designed for a small, considered assortment that changes with the season.",
     },
@@ -353,7 +354,7 @@ const sv: Dictionary = {
     storyTitle: "För stunderna\nmellan stunderna.",
     storyText:
       "Inspirerat av nordiska vintrar och vardagens små ritualer som för oss närmare. Enkla ting. Naturliga texturer. Lite utrymme att sakta ner.",
-    storyCta: "Berättelsen om STILLA",
+    storyCta: `Berättelsen om ${brand.name}`,
     trust: [
       "En liten, genomtänkt kollektion",
       "En hälsning med dina egna ord",
@@ -375,7 +376,7 @@ const sv: Dictionary = {
     explore: "Upptäck",
     help: "Vi hjälper dig",
     details: "Detaljerna",
-    rights: "STILLA · Fiktivt demonstrationsvarumärke",
+    rights: `${brand.name} · Fiktivt demonstrationsvarumärke`,
     cookieSettings: "Cookieinställningar",
     contact: "Kontakt & kundservice",
     faq: "Frågor & svar",
@@ -453,7 +454,7 @@ const sv: Dictionary = {
     about: {
       eyebrow: "VÅR BERÄTTELSE",
       title: "Omtanke,\ni de små sakerna.",
-      text: "STILLA är ett arbetskoncept för en säsongsbaserad presentstudio inspirerad av nordisk värme i enkla ritualer. Vår första fiktiva kollektion samlar taktila ting för vinterns långsamma dagar.",
+      text: `${brand.name} är ett arbetskoncept för en säsongsbaserad presentstudio inspirerad av nordisk värme i enkla ritualer. Vår första fiktiva kollektion samlar taktila ting för vinterns långsamma dagar.`,
       extra:
         "Vi tror att en gåva kan vara stilla och ändå säga väldigt mycket. Grunden är skapad för ett litet, genomtänkt sortiment som förändras med säsongen.",
     },

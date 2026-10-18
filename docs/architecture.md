@@ -1,6 +1,6 @@
 # Architecture
 
-STILLA is a modular Next.js App Router application built for a catalogue of roughly ten products. The working name and fictional seed content can be replaced without changing the commerce interfaces.
+NOORLY is a modular Next.js App Router application built for a catalogue of roughly ten products. The working name and fictional seed content can be replaced without changing the commerce interfaces.
 
 ## Boundaries
 
