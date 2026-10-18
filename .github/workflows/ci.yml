@@ -1,0 +1,63 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Check formatting
+        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
+      - name: Check TypeScript
+        run: pnpm typecheck
+      - name: Unit and component tests
+        run: pnpm test
+      - name: Production preview build
+        run: pnpm build
+        env:
+          ALLOW_MOCK_COMMERCE: "true"
+          CART_COOKIE_SECRET: "ci-preview-only-dummy-secret-never-use-in-production"
+          NEXT_PUBLIC_COMMERCE_PROVIDER: mock
+          DEPLOYMENT_ENV: preview
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Browser and accessibility tests
+        run: pnpm test:e2e
+        env:
+          CI: "true"
+      - name: Scan production dependency vulnerabilities
+        run: pnpm audit --prod --audit-level high
+      - name: Upload browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
