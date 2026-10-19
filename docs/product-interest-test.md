@@ -1,5 +1,7 @@
 # Noorly product-interest test — 19 October 2026
 
+> Acquisition goal superseded on 19 October 2026: the merchant now wants paid demand. See [paid pre-order plan](paid-preorder-test.md). The implementation below remains the current closed public preview until real checkout, commercial terms and fulfilment are ready.
+
 This is a demand test, not a shop launch or a pre-order offer. No payment, order, stock reservation, delivery date or discount is promised. The public site defaults to product-test mode. Its commerce providers remain available behind an explicit future opt-in; public cart mutations are refused in test mode.
 
 ## Customer experience
