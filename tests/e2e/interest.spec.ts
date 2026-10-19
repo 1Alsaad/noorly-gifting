@@ -17,11 +17,11 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
       .getByText("Pris ej fastställt", { exact: true }),
   ).toBeVisible();
   await expect(page.getByRole("button", { name: /Lägg i/ })).toHaveCount(0);
-  const productSchema = page
-    .locator('script[type="application/ld+json"]')
-    .filter({ hasText: '"@type":"Product"' });
-  await expect(productSchema).toHaveCount(1);
-  await expect(productSchema).not.toContainText('"@type":"Offer"');
+  const productResponse = await request.get("/sv/products/candle-sand");
+  expect(productResponse.ok()).toBe(true);
+  const html = await productResponse.text();
+  expect(html).toContain('"@type":"Product"');
+  expect(html).not.toContain('"@type":"Offer"');
   const response = await request.post("/api/cart", {
     headers: { Origin: "http://127.0.0.1:3000" },
     data: { type: "checkout", locale: "sv" },
