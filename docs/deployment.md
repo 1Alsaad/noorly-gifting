@@ -15,6 +15,10 @@ Visit `http://127.0.0.1:3000/sv`. Development defaults to mock commerce, process
 
 To configure a provider, copy `.env.example` to `.env.local` using your editor or file manager. Keep that file untracked. Public `NEXT_PUBLIC_*` values are embedded at build time; rebuild after changing them.
 
+### Viewing through an HTTP-only preview tunnel
+
+Set `NEXT_PUBLIC_SITE_URL` to the tunnel's HTTPS origin and `NOORLY_DEV_PREVIEW_HOST` to its exact hostname (without a scheme or port), then run `pnpm dev`. This development-only option allows that preview origin and disables React's development debug channel, keeping hydration data on HTTP. Without it, a tunnel that cannot forward the debug WebSocket can show server-rendered posters while interactive scenes never start. Normal local development and production keep their existing configuration. Live code updates still require WebSocket forwarding; reload the preview after editing.
+
 ## Verification before deployment
 
 ```sh
