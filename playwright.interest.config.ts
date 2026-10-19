@@ -22,7 +22,8 @@ export default defineConfig({
     env: {
       NEXT_PUBLIC_COMMERCE_PROVIDER: "mock",
       ALLOW_MOCK_COMMERCE: "true",
-      CART_COOKIE_SECRET: "ci-preview-only-dummy-secret-never-use-in-production",
+      CART_COOKIE_SECRET:
+        "ci-preview-only-dummy-secret-never-use-in-production",
       DEPLOYMENT_ENV: "preview",
       NEXT_PUBLIC_PRODUCT_TEST_MODE: "true",
       PRODUCT_INTEREST_ENABLED: "false",
