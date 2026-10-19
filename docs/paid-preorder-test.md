@@ -1,5 +1,7 @@
 # Paid pre-order test
 
+> Budget correction, 19 October 2026: the 4,000 SEK is the shared research reserve across sequential product tests. The two earlier campaigns below are archived. The current campaign is 120251947281020015 with a 50 SEK DAILY campaign budget, and its Purchase ad set is 120251947284140015. See [current budget and Purchase plan](meta-product-test-budget.md). The first test targets about 200–250 SEK over four to five days; 250 SEK is not an enforced platform cap.
+
 Updated 19 October 2026. This plan supersedes the free-interest acquisition plan in product-interest-test.md. It is an internal launch draft, not published customer terms.
 
 ## Goal and current state
@@ -50,12 +52,12 @@ Keep refundable order funds separate from the advertising budget. Do not fund th
 ## Meta setup saved, not launched
 
 - Account: 479891386519342, SEK.
-- Sales campaign: 120251946652050015, OUTCOME_SALES, verified PAUSED.
-- Campaign lifetime budget and spend cap: 400,000 ore each, equivalent to 4,000 SEK total. This replaces the intended acquisition plan; it is not another approved 4,000 SEK allocation.
-- Ad set: 120251946661520015, verified PAUSED, website OFFSITE_CONVERSIONS with dataset 511816900240916 and PURCHASE event.
+- Current Sales campaign: 120251947281020015, OUTCOME_SALES, verified PAUSED.
+- Campaign DAILY budget: 5,000 ore = 50 SEK total per day. Campaign spend cap: 400,000 ore = 4,000 SEK across ALL sequential product tests. The ceiling is not a per-product allocation or a lifetime budget.
+- Current ad set: 120251947284140015, verified PAUSED, website OFFSITE_CONVERSIONS with dataset 511816900240916 and PURCHASE event.
 - Targeting: Sweden, broad adult audience, Advantage+ Audience. Placement restrictions were omitted, allowing default placements.
 - Draft window: 23 October at 08:00 through 27 October at 08:00, Europe/Stockholm. The daylight-saving change makes this approximately four days. Refresh the schedule if checkout readiness misses this window; no delivery deadline is implied by the ad schedule.
-- The old Leads campaign 120251945584240015 is renamed SUPERSEDED and remains PAUSED. Do not activate both acquisition plans.
+- Previous Sales and Leads campaigns (120251946652050015 and 120251945584240015) and their ad sets are archived. Do not restore or activate the superseded plans.
 - No sales ad has been attached or activated. Existing free-interest copy must not be reused for a purchase offer.
 - Existing supplier-photo image hashes can be reused for final paid-offer creatives. Do not generate or upload duplicate media.
 - Meta previously rejected ad attachment for an invalid payment method. Fix billing before retrying. The existing dataset must also be verified on the final checkout/domain.

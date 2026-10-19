@@ -4,7 +4,7 @@ Created 19 October 2026. Eight image concepts are saved: the two initial remakes
 
 ## Campaign use
 
-Use the existing paused Sales campaign and Purchase event. These are creative candidates for a small sequential product test, not eight simultaneously funded tests. The total media ceiling remains 4,000 SEK.
+Use the current paused Sales campaign 120251947281020015 and Purchase ad set 120251947284140015. Its DAILY campaign budget is 50 SEK shared by the whole campaign. Test one product at a time. The 4,000 SEK is the entire research reserve, not a per-product or per-creative allocation. Review the first product after roughly four to five days (about 200–250 SEK planned spend). This allowance is not an enforced cap: Meta daily budgets can vary, the campaign cap minimum here is 1,000 SEK, and no account-level limit has been set. A 4,000 SEK campaign spending ceiling protects the entire multi-product program, separate from its 50 SEK daily budget. See [current budget plan](meta-product-test-budget.md). The previous Sales and Leads campaigns/ad sets are archived.
 
 The copy below describes the products without inventing prices, discounts, availability or delivery. A real paid pre-order offer, checkout and verified terms must be in place before activation. See [paid pre-order plan](paid-preorder-test.md).
 
@@ -20,75 +20,75 @@ Meta previously rejected ad attachments because billing lacked a valid payment m
 
 ## Draft copy and imagery
 
-### Ljussand � Vit � Doftfri
+### Ljussand · Vit · Doftfri
 
-![Ljussand � Vit � Doftfri ad concept](../public/media/ads/noorly-csand-11.png)
+![Ljussand · Vit · Doftfri ad concept](../public/media/ads/noorly-csand-11.png)
 
 - Status: CREATIVE_DRAFT.
 - Headline: Ge bort en liten paus.
-- Primary text: Ge bort en liten paus. Vit, doftfri ljussand f�r en stilla stund. En p�se med 300 g och fyra bomullsvekar. K�rl och dekorationer ing�r inte.
-- Proposed button: L�s mer / LEARN_MORE.
+- Primary text: Ge bort en liten paus. Vit, doftfri ljussand för en stilla stund. En påse med 300 g och fyra bomullsvekar. Kärl och dekorationer ingår inte.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/candle-sand?variant=candle-sand-11&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=csand-11
 
-### Ljussand � Gammalrosa � Maison de Roses
+### Ljussand · Gammalrosa · Maison de Roses
 
-![Ljussand � Gammalrosa � Maison de Roses ad concept](../public/media/ads/noorly-csand-07.png)
+![Ljussand · Gammalrosa · Maison de Roses ad concept](../public/media/ads/noorly-csand-07.png)
 
 - Status: CREATIVE_DRAFT.
-- Headline: En liten gest. En varm k�nsla.
-- Primary text: En liten gest som s�ger att du t�nker p� n�gon. Gammalrosa ljussand med doften Maison de Roses. 300 g och fyra bomullsvekar. K�rl och dekorationer ing�r inte.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: En liten gest. En varm känsla.
+- Primary text: En liten gest som säger att du tänker på någon. Gammalrosa ljussand med doften Maison de Roses. 300 g och fyra bomullsvekar. Kärl och dekorationer ingår inte.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/candle-sand?variant=candle-sand-07&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=csand-07
 
-### Ljussand � Mockabrun � Crimson Crystal
+### Ljussand · Mockabrun · Crimson Crystal
 
-![Ljussand � Mockabrun � Crimson Crystal ad concept](../public/media/ads/noorly-csand-01.png)
+![Ljussand · Mockabrun · Crimson Crystal ad concept](../public/media/ads/noorly-csand-01.png)
 
 - Status: HELD_PACKAGING_LIKENESS.
-- Headline: G�r kv�llen till din.
-- Primary text: Varma toner f�r en lugnare kv�ll. Mockabrun ljussand med doften Crimson Crystal. 300 g och fyra bomullsvekar. K�rl och dekorationer ing�r inte.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: Gör kvällen till din.
+- Primary text: Varma toner för en lugnare kväll. Mockabrun ljussand med doften Crimson Crystal. 300 g och fyra bomullsvekar. Kärl och dekorationer ingår inte.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/candle-sand?variant=candle-sand-01&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=csand-01
 - Hold: Generated label differs from supplier packaging. Scene concept only; do not attach to an ad.
 
-### Ljussand � Svart � Spirited
+### Ljussand · Svart · Spirited
 
-![Ljussand � Svart � Spirited ad concept](../public/media/ads/noorly-csand-09.png)
+![Ljussand · Svart · Spirited ad concept](../public/media/ads/noorly-csand-09.png)
 
 - Status: CREATIVE_DRAFT.
-- Headline: L�t kv�llen gl�da.
-- Primary text: M�rka toner. Ett mjukt sken. Svart ljussand med doften Spirited f�r din egen stilla stund. 300 g och fyra bomullsvekar. K�rl och dekorationer ing�r inte.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: Låt kvällen glöda.
+- Primary text: Mörka toner. Ett mjukt sken. Svart ljussand med doften Spirited för din egen stilla stund. 300 g och fyra bomullsvekar. Kärl och dekorationer ingår inte.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/candle-sand?variant=candle-sand-09&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=csand-09
 
-### Anteckningsbok � Waves
+### Anteckningsbok · Waves
 
-![Anteckningsbok � Waves ad concept](../public/media/ads/noorly-pnb-01.png)
+![Anteckningsbok · Waves ad concept](../public/media/ads/noorly-pnb-01.png)
 
 - Status: CREATIVE_DRAFT.
-- Headline: Plats f�r dina tankar.
-- Primary text: F�r tankar, planer och s�dant du vill komma ih�g. En anteckningsbok med v�gmotiv, rem och 200 olinjerade sidor. En liten g�va med plats f�r n�got personligt.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: Plats för dina tankar.
+- Primary text: För tankar, planer och sådant du vill komma ihåg. En anteckningsbok med vågmotiv, rem och 200 olinjerade sidor. En liten gåva med plats för något personligt.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/notebook-with-strap?variant=pnb-01&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=pnb-01
 
-### Anteckningsbok � Leaves
+### Anteckningsbok · Leaves
 
-![Anteckningsbok � Leaves ad concept](../public/media/ads/noorly-pnb-02.png)
+![Anteckningsbok · Leaves ad concept](../public/media/ads/noorly-pnb-02.png)
 
 - Status: CREATIVE_DRAFT.
-- Headline: L�t tankarna ta plats.
-- Primary text: Sm� id�er f�rtj�nar ocks� en egen plats. Anteckningsbok med l�vmotiv, rem och 200 olinjerade sidor f�r ord, skisser och nya planer.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: Låt tankarna ta plats.
+- Primary text: Små idéer förtjänar också en egen plats. Anteckningsbok med lövmotiv, rem och 200 olinjerade sidor för ord, skisser och nya planer.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/notebook-with-strap?variant=pnb-02&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=pnb-02
 
-### Anteckningsbok � Flowers
+### Anteckningsbok · Flowers
 
-![Anteckningsbok � Flowers ad concept](../public/media/ads/noorly-pnb-03.png)
+![Anteckningsbok · Flowers ad concept](../public/media/ads/noorly-pnb-03.png)
 
 - Status: CREATIVE_DRAFT.
-- Headline: F�r tankar att spara.
-- Primary text: En plats f�r sm� minnen och stora id�er. Anteckningsbok med blommotiv, rem och 200 olinjerade sidor. Till n�gon du t�nker p�, eller till dig sj�lv.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: För tankar att spara.
+- Primary text: En plats för små minnen och stora idéer. Anteckningsbok med blommotiv, rem och 200 olinjerade sidor. Till någon du tänker på, eller till dig själv.
+- Proposed button: Läs mer / LEARN_MORE.
 - Proposed destination: https://noorly-gifting.vercel.app/sv/products/notebook-with-strap?variant=pnb-03&utm_source=facebook&utm_medium=paid_social&utm_campaign=noorly_paid_test&utm_content=pnb-03
 
 ### Chai-te i burk
@@ -96,9 +96,9 @@ Meta previously rejected ad attachments because billing lacked a valid payment m
 ![Chai-te i burk ad concept](../public/media/ads/noorly-arttt-24.png)
 
 - Status: HELD_SPECIFICATION.
-- Headline: V�rme i en kopp.
-- Primary text: N�r dagen f�r g� lite l�ngsammare. Svart chai-te med kryddor, i en dekorativ burk. Kopp och tillbeh�r p� bilden ing�r inte.
-- Proposed button: L�s mer / LEARN_MORE.
+- Headline: Värme i en kopp.
+- Primary text: När dagen får gå lite långsammare. Svart chai-te med kryddor, i en dekorativ burk. Kopp och tillbehör på bilden ingår inte.
+- Proposed button: Läs mer / LEARN_MORE.
 - Hold: Supplier title and net-weight fields disagree; no storefront route yet.
 
 ## Holds
