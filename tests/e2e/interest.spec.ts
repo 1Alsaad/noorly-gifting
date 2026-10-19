@@ -79,6 +79,16 @@ test("interest page is accessible and does not collect data without its backend"
     .withTags(["wcag2a", "wcag2aa"])
     .analyze();
   expect(audit.violations).toEqual([]);
+  await page.getByRole("link", { name: "Language: SV", exact: true }).click();
+  await expect(page).toHaveURL(
+    /\/sv\/interest\?product=notebook-with-strap&variant=pnb-02$/,
+  );
+  await expect(
+    page.getByRole("heading", { name: "Anteckningsbok med rem" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Leaves on the same tree", { exact: true }),
+  ).toBeVisible();
 });
 
 test("without JavaScript the product remains available with honest test messaging", async ({

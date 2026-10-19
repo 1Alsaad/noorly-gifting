@@ -5,7 +5,7 @@ import {
   interestHref,
 } from "@/config/product-test";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ShoppingBag, ArrowUpRight, Menu } from "lucide-react";
 import { brand } from "@/config/brand";
 import { getDictionary } from "@/content/translations";
@@ -16,8 +16,11 @@ export function Header({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart } = useCart();
   const path = usePathname();
+  const query = useSearchParams().toString();
   const other = locale === "sv" ? "en" : "sv";
-  const otherPath = path.replace(/^\/(sv|en)(?=\/|$)/, `/${other}`);
+  const otherPath =
+    path.replace(/^\/(sv|en)(?=\/|$)/, `/${other}`) +
+    (query ? `?${query}` : "");
   const nav = [
     { href: `/${locale}/shop`, label: t.shop },
     { href: `/${locale}/build-a-box`, label: t.builder },
