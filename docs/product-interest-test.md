@@ -66,6 +66,9 @@ CTA: LEARN_MORE. No artificial scarcity, countdown, unverified savings, stock or
 ## Current blockers
 
 Both ad-creation attempts were rejected by Meta with error 1359188: update/add a valid payment method. No ads were created or activated. Campaign and ad set remain paused; the two image uploads are available in the ad account.
+Meta retained both creative-library objects after rejecting the ad attachments: candle sand **856684787503853** and notebook **949012087890927**. Their ACTIVE creative status means the assets are available for reuse; no ad is delivering. Reuse these IDs after billing is fixed instead of uploading duplicate images.
+
+Preview links: [Candle sand](https://business.facebook.com/ads/api/preview_iframe.php?d=AQIHs4D0_n0hi1mkZmIre5WwD-6XpaP_U7BlTCJSL1lYeND7xvF3fLKlKazTRFpTTGNZebM_5qzWU6AI7hZ7-D97KQTHrYr2zfLhBUJD7tjTVLNzfYHQa9a5lLDQZGC_Ev9P8fUw5bGC7aJpqWFZPjggVlSz-mQgqh_ucmPAmG-qHFAAWhSV3flGhIVNBdSa-QplFityQkMX86sn6-P-1DTjHmb3_1DNXFL8-goQTM7Opg&t=AQIcYWN7uxQONyYtk-U) · [Notebook](https://business.facebook.com/ads/api/preview_iframe.php?d=AQLAMszDQsxE3CzjN4pODmaaBWO4oVFi-291CgGxG4KVyoosv8zjeZ1coVmhxHYAEjTMMz5Xj0cC-6PBttE2TvW3g3BTBA0Fd2KZHNKJ2ZqQR_4MPx0RSJLz1LlOlDsCIeDcB1K3nCeP9nWf3dRuF2J1HxBeqeWOEh8QmAp342XSv6cggoLJNOaCsY2lCPIIIHkM4ZM0OvW4ni-ixRZcPvSKGIOS5rhX7M_Sixgeerz8xA&t=AQIPx-BO-3TRPdeYzmM). Previews do not establish Instagram delivery eligibility.
 
 On-site signup storage/delivery is not configured, the business's public legal identity/contact and privacy details remain placeholders, the old pixel must be verified on this domain, and Instagram advertising access is absent. Keep registration collection and advertising off until these concrete requirements are resolved. The chai candidate remains excluded from this first test because its supplier weight specifications conflict.
 

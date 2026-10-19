@@ -7,11 +7,14 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
   request,
 }) => {
   await page.goto("/sv/products/candle-sand");
+  await page.getByRole("button", { name: "Avvisa valfria" }).click();
   await expect(
     page.getByRole("link", { name: "Visa mitt intresse" }).last(),
   ).toBeVisible();
   await expect(
-    page.getByText("Pris ej fastställt", { exact: true }),
+    page
+      .locator(".purchase-panel")
+      .getByText("Pris ej fastställt", { exact: true }),
   ).toBeVisible();
   await expect(page.getByRole("button", { name: /Lägg i/ })).toHaveCount(0);
   const data = await page
@@ -25,7 +28,7 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
   expect(response.status()).toBe(403);
   await page.getByRole("link", { name: "Visa mitt intresse" }).last().click();
   await expect(page).toHaveURL(/\/sv\/interest\?product=candle-sand/);
-  await expect(page.getByRole("status")).toContainText(
+  await expect(page.getByText(/Intresselistan öppnar snart/)).toContainText(
     "Intresselistan öppnar snart",
   );
   await expect(page.getByRole("textbox", { name: "E-postadress" })).toHaveCount(
