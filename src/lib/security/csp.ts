@@ -17,7 +17,7 @@ export function contentSecurityPolicy(
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https://cdn.shopify.com",
     "font-src 'self'",
-    "media-src 'self' blob:",
+    "media-src 'self' blob: https://d2ol7oe51mr4n9.cloudfront.net",
     `connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com ${optionalOrigin(posthogHost)} ${optionalOrigin(sentryDsn)}${production ? "" : " ws: wss:"}`,
     "object-src 'none'",
     "base-uri 'self'",

@@ -72,7 +72,7 @@ Providers load/send only after analytics consent. Marketing is a stored preferen
 
 ## Replace media or extend content
 
-- **Cinematic media:** put the separate mobile/desktop MP4s and WebP posters at the paths in `winter-scenes.ts`. The video paths intentionally have no final video assets. See [media pipeline, budgets and replacement](docs/cinematic-media.md).
+- **Cinematic media:** the entrance and candle-room scenes use completed Higgsfield videos through permanent CDN URLs in `winter-scenes.ts`, with existing local desktop/mobile posters. Both viewports currently use landscape video with cover cropping; portrait video compositions remain future work. See [media provenance, encoding, hosting and replacement](docs/cinematic-media.md).
 - **New season:** add a typed `Season` and `CinematicScene[]`, update `LocalContentRepository` to select it, and supply localized editorial copy, theme, products and curated boxes. See [content management](docs/content-management.md).
 - **New hotspot:** add a typed hotspot with its product handle, stable progress interval, responsive normalized coordinates and translated accessible label to a scene. The entrance scene intentionally has none.
 - **New product or curated box:** replace/extend mock catalogue content locally or publish the corresponding real Shopify product, then register its handle in the seasonal content and templates. Builder selection rules remain data-driven. See [commerce](docs/commerce.md) and [content management](docs/content-management.md).
@@ -94,7 +94,7 @@ On Linux CI, install browsers using `pnpm exec playwright install --with-deps ch
 
 ## Known limitations and launch gate
 
-Final winter videos are intentionally absent. Static artwork and catalogue data are placeholders; no real customer reviews or delivery claims should be inferred. Shopify checkout, fulfilment, stock and localization need a real-store acceptance pass. The local form mock acknowledges submissions without delivering them. Production form delivery, Redis, paid-order scheduling, monitoring, legal content, company identity and customer-service details must be supplied.
+The integrated winter videos depend on an external CDN and use landscape exports on mobile; verify cropping and performance on target devices. Static artwork and catalogue data are placeholders; no real customer reviews or delivery claims should be inferred. Shopify checkout, fulfilment, stock and localization need a real-store acceptance pass. The local form mock acknowledges submissions without delivering them. Production form delivery, Redis, paid-order scheduling, monitoring, legal content, company identity and customer-service details must be supplied.
 
 The purchase outbox uses at-least-once delivery with stable provider IDs, not an exactly-once guarantee. Operations must monitor queue age, retry failures and reconcile paid orders. Sentry, CRM/email delivery, a CMS and fulfilment are integration seams, not installed third-party services. Automated accessibility checks support, but do not replace, manual keyboard/screen-reader and device testing.
 

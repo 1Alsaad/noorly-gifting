@@ -6,7 +6,7 @@ import { createVideoScrubber } from "./video-scrubber";
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 
-export function useSceneMedia(frozen: boolean) {
+export function useSceneMedia(frozen: boolean, disabled = false) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
@@ -69,8 +69,9 @@ export function useSceneMedia(frozen: boolean) {
     };
   }, []);
 
-  const enhanced = motionAllowed && mediaState === "ready";
-  const canLoadVideo = near && motionAllowed && mediaState !== "failed";
+  const enhanced = !disabled && motionAllowed && mediaState === "ready";
+  const canLoadVideo =
+    !disabled && near && motionAllowed && mediaState !== "failed";
 
   useEffect(() => {
     const video = videoRef.current;

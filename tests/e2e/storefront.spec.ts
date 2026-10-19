@@ -40,6 +40,7 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   await rejectOptional(page);
   await page.getByRole("link", { name: "Skip experience" }).first().click();
   await expect(page).toHaveURL(/\/en#gifts$/);
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "Thoughtfully brought together" }),
   ).toBeInViewport();
@@ -52,6 +53,39 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
     page.getByRole("link", { name: "Create your gift box" }),
   ).toHaveAttribute("href", "/en/build-a-box");
 });
+
+for (const linkName of ["Skip experience", "Explore the collection"]) {
+  test(`${linkName} keeps gifts in view when video metadata arrives late`, async ({
+    page,
+  }) => {
+    // Hold media responses so metadata cannot arrive before anchor navigation.
+    await page.route("**/*.mp4", () => {});
+    await page.goto("/en", { waitUntil: "domcontentloaded" });
+    await rejectOptional(page);
+    await expect(
+      page.locator('[data-scene="winter-entrance"] video'),
+    ).toHaveCount(1);
+    await page.getByRole("link", { name: linkName }).first().click();
+    await expect(page).toHaveURL(/\/en#gifts$/);
+
+    // Reproduce the late event that previously expanded a scene after skipping.
+    await page.evaluate(() => {
+      document
+        .querySelectorAll(".cinematic-experience video")
+        .forEach((video) => video.dispatchEvent(new Event("loadedmetadata")));
+    });
+    await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+    for (const scene of ["winter-entrance", "winter-candle-room"]) {
+      await expect(page.locator(`[data-scene="${scene}"]`)).toHaveAttribute(
+        "data-enhanced",
+        "false",
+      );
+    }
+    await expect(
+      page.getByRole("heading", { name: "Thoughtfully brought together" }),
+    ).toBeInViewport();
+  });
+}
 
 test("a static scene product opens a keyboard-accessible drawer and preserves focus", async ({
   page,
@@ -496,4 +530,60 @@ test("locale links preserve the route and update the document language", async (
   await expect(
     page.getByRole("heading", { level: 1, name: "Alla gåvor", exact: true }),
   ).toBeVisible();
+});
+
+test("unavailable cinematic videos restore posters and conventional product controls", async ({
+  page,
+}) => {
+  let attempted = 0;
+  await page.route("**/*.mp4", async (route) => {
+    attempted += 1;
+    await route.abort();
+  });
+  await page.goto("/en");
+  await rejectOptional(page);
+  const scene = page.locator('[data-scene="winter-candle-room"]');
+  await scene.scrollIntoViewIfNeeded();
+  await expect.poll(() => attempted).toBeGreaterThan(0);
+  await expect(scene).toHaveAttribute("data-enhanced", "false");
+  await expect(scene.locator("video")).toHaveCount(0);
+  await expect(scene.locator(".cinema-poster")).not.toHaveClass(
+    /cinema-poster-hidden/,
+  );
+  const trigger = scene.getByRole("button", { name: /Winter Candle.*295/ });
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByRole("dialog", { name: "Winter Candle" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
+});
+
+test("Save-Data suppresses video requests while keeping shopping available", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "connection", {
+      configurable: true,
+      value: Object.assign(new EventTarget(), {
+        saveData: true,
+        effectiveType: "4g",
+      }),
+    });
+  });
+  const requests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp4")) requests.push(request.url());
+  });
+  await page.goto("/en");
+  await rejectOptional(page);
+  const trigger = page.getByRole("button", { name: /Winter Candle.*295/ });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  await expect(
+    page.getByRole("dialog", { name: "Winter Candle" }),
+  ).toBeVisible();
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+  expect(requests).toEqual([]);
 });

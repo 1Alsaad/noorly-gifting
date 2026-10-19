@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { parseEnv } from "../../src/lib/env/schema";
 import { verifyShopifyHmac } from "../../src/lib/security/webhook";
 import { formSchema } from "../../src/lib/security/forms";
+import { winterScenes } from "../../src/features/seasonal-experience/winter-scenes";
 import { contentSecurityPolicy } from "../../src/lib/security/csp";
 
 describe("configuration and request security", () => {
@@ -62,6 +63,26 @@ describe("configuration and request security", () => {
     expect(
       formSchema.safeParse({ ...form, submissionId: "same" }).success,
     ).toBe(false);
+  });
+  it("allows scene video origins only as media sources", () => {
+    const directives = contentSecurityPolicy("nonce-value", true)
+      .split("; ")
+      .map((directive) => directive.split(" "));
+    const media = directives.find(([name]) => name === "media-src")!;
+    for (const scene of winterScenes) {
+      for (const asset of [scene.media.desktop, scene.media.mobile]) {
+        const origin = new URL(asset.video).origin;
+        expect(media).toContain(origin);
+        for (const directive of directives.filter(
+          ([name]) => name !== "media-src",
+        )) {
+          expect(directive).not.toContain(origin);
+        }
+        expect(asset.poster).toMatch(/^\/media\/winter\/.*\.webp$/);
+      }
+    }
+    expect(media).not.toContain("*");
+    expect(media).not.toContain("https:");
   });
   it("uses nonce scripts and prevents framing and object embeds", () => {
     const policy = contentSecurityPolicy("nonce-value", true);

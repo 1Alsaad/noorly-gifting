@@ -7,11 +7,13 @@ export const winterScenes: CinematicScene[] = [
     name: { sv: "Entrén", en: "The entrance" },
     media: {
       desktop: {
-        video: "/media/winter/entrance-desktop.mp4",
+        video:
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/58984439-9e2b-4cf7-8c93-1bf92b4ea876.mp4",
         poster: "/media/winter/entrance-poster-desktop.webp",
       },
       mobile: {
-        video: "/media/winter/entrance-mobile.mp4",
+        video:
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/58984439-9e2b-4cf7-8c93-1bf92b4ea876.mp4",
         poster: "/media/winter/entrance-poster-mobile.webp",
       },
     },
@@ -34,11 +36,13 @@ export const winterScenes: CinematicScene[] = [
     name: { sv: "Ett varmt välkomnande", en: "A warmer welcome" },
     media: {
       desktop: {
-        video: "/media/winter/candle-room-desktop.mp4",
+        video:
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/be114901-8392-4460-af09-29eb6fea0d89.mp4",
         poster: "/media/winter/candle-room-poster-desktop.webp",
       },
       mobile: {
-        video: "/media/winter/candle-room-mobile.mp4",
+        video:
+          "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/be114901-8392-4460-af09-29eb6fea0d89.mp4",
         poster: "/media/winter/candle-room-poster-mobile.webp",
       },
     },

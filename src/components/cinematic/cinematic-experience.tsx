@@ -4,6 +4,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { useCart } from "@/features/cart/cart-provider";
 import { useSceneMedia } from "@/features/seasonal-experience/use-scene-media";
@@ -38,6 +39,7 @@ export function CinematicExperience({
   const [selection, setSelection] = useState<Selection | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [directStatus, setDirectStatus] = useState("");
+  const [skipped, setSkipped] = useState(false);
   const { addLines, loading } = useCart();
 
   useEffect(() => {
@@ -121,6 +123,8 @@ export function CinematicExperience({
           locale={locale}
           products={products}
           frozen={drawerOpen}
+          mediaDisabled={skipped}
+          onSkip={() => flushSync(() => setSkipped(true))}
           onSelect={(product, trigger, hotspot) =>
             select(product, trigger, scene, hotspot)
           }
@@ -147,6 +151,8 @@ interface SceneProps {
   locale: Locale;
   products: Product[];
   frozen: boolean;
+  mediaDisabled: boolean;
+  onSkip: () => void;
   onSelect: (
     product: Product,
     trigger: HTMLButtonElement,
@@ -161,6 +167,8 @@ function Scene({
   locale,
   products,
   frozen,
+  mediaDisabled,
+  onSkip,
   onSelect,
 }: SceneProps) {
   const {
@@ -176,7 +184,7 @@ function Scene({
     onMetadata,
     onFrame,
     onMediaError,
-  } = useSceneMedia(frozen);
+  } = useSceneMedia(frozen, mediaDisabled);
   const copy = cinematicCopy[locale];
   const sceneAsset = mobile ? scene.media.mobile : scene.media.desktop;
   const first = index === 0;
@@ -244,7 +252,9 @@ function Scene({
     <a
       className={`cinema-skip ${first ? "cinema-skip-top" : ""}`}
       href="#gifts"
-      onClick={() =>
+      onClick={() => {
+        // Collapse all scene ranges before native anchor navigation measures its target.
+        onSkip();
         trackEvent({
           name: "cinematic_experience_skipped",
           properties: {
@@ -253,8 +263,8 @@ function Scene({
             scene_id: scene.id,
             reduced_motion: reducedMotion,
           },
-        })
-      }
+        });
+      }}
     >
       {copy.skip}
       <span aria-hidden="true"> ↗</span>
@@ -330,7 +340,11 @@ function Scene({
           <p className="cinema-description">{scene.copy.description[locale]}</p>
           {first && (
             <div className="cinema-actions">
-              <a className="cinema-button cinema-button-light" href="#gifts">
+              <a
+                className="cinema-button cinema-button-light"
+                href="#gifts"
+                onClick={onSkip}
+              >
                 {copy.explore}
                 <span aria-hidden="true">↗</span>
               </a>

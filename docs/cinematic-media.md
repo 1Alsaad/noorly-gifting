@@ -1,6 +1,6 @@
 # Cinematic media and seasonal scenes
 
-The winter experience is an enhancement over server-rendered editorial content. It ships with static placeholder artwork and intentionally missing video files. No final video has been generated. The complete shop, product links, drawer, and gift builder work without video. The first scene contains no hotspot.
+The winter experience is an enhancement over server-rendered editorial content. The entrance and candle-room scenes use completed Noorly Higgsfield videos, optimized for bidirectional seeking and served from Higgsfield’s media CDN. Existing local desktop/mobile posters remain the first paint and static fallback. The complete shop, product links, drawer, and gift builder work without video. The first scene contains no hotspot.
 
 ## Runtime behavior
 
@@ -13,6 +13,24 @@ The winter experience is an enhancement over server-rendered editorial content. 
 - Reduced motion, Save-Data, and slow 2G connections suppress video sources altogether. Static scenes occupy one viewport each. No JavaScript still renders the editorial images and conventional product/shop/builder links.
 - Drawers freeze seeking, trap focus, close on Escape, restore the opener without scrolling, and retain the document position. Hidden hotspots are removed from the accessibility tree. Hotspots are HTML buttons with 48px touch areas.
 - Ambient audio is absent. Add a visible, accessible opt-in sound control before introducing any audio; provide a meaningful text alternative.
+
+## Integrated Noorly videos
+
+- Entrance: “The Threshold”, Higgsfield job `bd60d44b-ae30-4037-a389-6ead3321ca16`.
+- Candle room: “A Moment of Stillness”, Higgsfield job `2212557d-0646-402f-bc21-08a862a2bb46`.
+- Both exports: 1280×720, 24fps, 8.042 seconds, H.264, yuv420p, no audio, keyframe interval 8, no B-frames, MP4 faststart. Entrance is approximately 1.5MB; candle room approximately 1.8MB.
+- Confirmed upload IDs: `58984439-9e2b-4cf7-8c93-1bf92b4ea876` (entrance) and `be114901-8392-4460-af09-29eb6fea0d89` (candle room). Scene configuration uses their permanent CDN URLs, never the expiring upload URLs or Higgsfield share pages.
+- Only `media-src` allows the exact CDN hostname. Images, scripts, frames and API connections retain their existing policy.
+- The supplied masters are landscape. Both viewport configurations currently use the same export with the existing CSS cover treatment; mobile is not a separately composed portrait video. Keep the mobile posters and verify cropping on target devices before replacing these with independently composed portrait exports.
+- Skip/explore links disable the scene enhancement synchronously before native anchor navigation, so late metadata cannot expand a scene and move the gifts section out of view. The story remains static for the rest of that page visit.
+- The existing hotspot interval/coordinates, scroll scrubber, drawer behavior, reduced motion, Save-Data/2G suppression and error fallback are preserved. No autoplay or audio is introduced.
+- The CDN is an external runtime dependency. If an export is removed or unavailable, the existing error handler removes the video and restores the local poster and conventional product controls. To self-host, download these confirmed exports into the paths below and replace the scene URLs; remove the CDN permission when no longer used.
+
+Reproduce each optimized export from its original downloaded MP4:
+
+```sh
+ffmpeg -i source.mp4 -an -c:v libx264 -preset fast -crf 22 -g 8 -keyint_min 8 -sc_threshold 0 -bf 0 -pix_fmt yuv420p -movflags +faststart output.mp4
+```
 
 ## Replace the media
 
