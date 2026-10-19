@@ -6,6 +6,7 @@ import type { Locale, Product } from "@/types/commerce";
 import { ProductGallery } from "./product-gallery";
 import { ProductPurchase } from "./product-purchase";
 import { variantLabel } from "./variant-picker";
+import { OfferComparison } from "./offer-comparison";
 
 export function ProductPresentation({
   product,
@@ -71,6 +72,11 @@ export function ProductPresentation({
           onVariantChange={setVariantId}
         />
         {children}
+        <OfferComparison
+          locale={locale}
+          productHandle={product.handle}
+          variantId={variantId}
+        />
       </div>
     </div>
   );

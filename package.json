@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
+    "test": "vitest run && node --test scripts/price-offers.check.mjs",
     "test:watch": "vitest",
     "test:e2e": "playwright test && playwright test --config=playwright.interest.config.ts",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e"

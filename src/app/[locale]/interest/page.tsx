@@ -82,8 +82,8 @@ export default async function InterestPage({
             <>
               <p>{copy.concept}</p>
               <ul>
-                {boxContents.map((item) => (
-                  <li key={item}>
+                {boxContents.map((item, index) => (
+                  <li key={`${item}-${index}`}>
                     {products.find((p) => p.handle === item)?.title[locale]}
                   </li>
                 ))}
