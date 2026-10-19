@@ -1,6 +1,6 @@
 "use client";
 
-/* Native picture supports separate art-directed mobile posters without downloading both images. */
+/* Responsive first frames also cover loading and static-media fallbacks. */
 
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
@@ -351,6 +351,7 @@ function Scene({
               ref={videoRef}
               className="cinema-video"
               src={sceneAsset.video}
+              poster={sceneAsset.poster}
               muted
               playsInline
               preload="auto"

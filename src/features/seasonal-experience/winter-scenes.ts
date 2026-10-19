@@ -9,12 +9,12 @@ export const winterScenes: CinematicScene[] = [
       desktop: {
         video:
           "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/46439a25-f450-49f4-b8b1-785e0d1bc834.mp4",
-        poster: "/media/winter/entrance-poster-desktop.webp",
+        poster: "/media/winter/entrance-first-frame-desktop.webp",
       },
       mobile: {
         video:
           "https://d2ol7oe51mr4n9.cloudfront.net/user_3HdOg0854ky23xVGpsB15oIg3ri/0e98a61d-fd67-4fee-8c28-793ca27c6fce.mp4",
-        poster: "/media/winter/entrance-poster-mobile.webp",
+        poster: "/media/winter/entrance-first-frame-mobile.webp",
       },
     },
     copy: {

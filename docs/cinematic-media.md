@@ -8,7 +8,7 @@ The supplied films were downloaded and inspected at half-second intervals before
 
 | Scroll progress | Film time   | Behavior                                                                                                              |
 | --------------- | ----------- | --------------------------------------------------------------------------------------------------------------------- |
-| 0–20%           | 0–3s        | Doorway and approach. Opening title clears by 14%; the existing editorial poster dissolves over 0.5–8.5%.             |
+| 0–20%           | 0–3s        | Doorway and approach. Opening title clears by 14%; the matching first frame dissolves over 0.5–8.5%.                  |
 | 15–29%          | 2.25–4.35s  | Brief localized narrative beat as the camera enters.                                                                  |
 | 20–67%          | 3–10s       | Product orbit. Copy and shopping controls leave the filmed arrangement clear.                                         |
 | 67–100%         | 10–14.96s   | Camera settles into the filmed hold. The localized shopping card appears after a decoded frame reaches this interval. |
@@ -30,7 +30,9 @@ SHA-256:
 - Desktop: bd0654f536cf9a843409486816174210ba6435623db79b7ecc99892ba26e387e
 - Mobile: 581a965b2024952fc621edbd9736c71ddcc90cd214e361a3fc0213b86631d3ae
 
-Only media-src permits the exact d2ol7oe51mr4n9.cloudfront.net hostname. No other CSP directive is widened. CSS cover fills the viewport using the proper landscape or portrait composition. The existing snowy-cabin poster is editorial artwork rather than a matching first video frame; it remains the first paint and fallback, with a short deliberate dissolve.
+Only media-src permits the exact d2ol7oe51mr4n9.cloudfront.net hostname. No other CSP directive is widened. CSS cover fills the viewport using the proper landscape or portrait composition. The opening artwork has been replaced with decoded frame zero from each supplied film, so first paint matches the video rather than switching from a different environment.
+
+The responsive first-frame files are `entrance-first-frame-desktop.webp` (1920 × 1080, 84,894 bytes) and `entrance-first-frame-mobile.webp` (1080 × 1920, 41,296 bytes). They were extracted from the existing supplied MP4s with FFmpeg (`-frames:v 1 -c:v libwebp -quality 85`), without generating imagery or re-encoding either video. The same frames remain available when playback is disabled or fails.
 
 These exports exceed the earlier starting budgets (5MB desktop / 2.5MB mobile). Nearby loading, frequent keyframes, and Save-Data suppression help, but do not remove bandwidth or device decoding costs. Verify target phones and connections before launch. The CDN remains an external dependency.
 
@@ -44,7 +46,7 @@ These exports exceed the earlier starting budgets (5MB desktop / 2.5MB mobile). 
 - Hidden shopping controls are inert and absent from the accessibility tree. A focused card remains available during reverse scrolling until focus leaves. Product details use the existing focus-trapped drawer, Escape dismissal, opener restoration, and frozen seek behavior. A keyboard-focused control reveals its pinned stage if the collection covers it.
 - Opening, shopping-card Explore, and Skip anchors synchronously flush the enhancement off before native #gifts navigation measures its target. Late metadata cannot expand the range again during that visit. The static product page link remains usable without JavaScript.
 - The card occupies the lower left on desktop and the upper portion on portrait screens to leave the candle visible during the hold. Constrained-height screens can scroll the card internally.
-- The initial poster uses eager loading and high fetch priority; picture selects the appropriate mobile image. No redundant video poster attribute is used.
+- The initial frame uses eager loading and high fetch priority; picture selects the appropriate mobile frame. The native video poster uses the same selected frame while decoding starts, avoiding a blank media surface during loading.
 
 ## Content and replacement
 
