@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { sceneProgress } from "./progress";
+import {
+  clampProgress,
+  dampProgress,
+  progressToTime,
+  sceneProgress,
+} from "./progress";
 import { createVideoScrubber } from "./video-scrubber";
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
@@ -84,21 +89,40 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
     const scrubber = createVideoScrubber(video);
     let frame: number | null = null;
     let disposed = false;
-
-    const tick = () => {
-      frame = null;
-      if (disposed) return;
-      const progress = sceneProgress(
+    const readProgress = () =>
+      sceneProgress(
         section.getBoundingClientRect().top,
         section.offsetHeight,
         window.innerHeight,
       );
-      scrubber.setProgress(progress);
-      setProgress(progress);
+    // Continue from the paused playhead when a drawer closes or a scene returns.
+    let current = clampProgress(
+      video.currentTime / progressToTime(1, video.duration),
+    );
+    let target = readProgress();
+    let previous = performance.now();
+    let dirty = true;
+
+    const tick = (now: number) => {
+      frame = null;
+      if (disposed) return;
+      if (dirty) {
+        target = readProgress();
+        dirty = false;
+      }
+      current = dampProgress(current, target, now - previous);
+      previous = now;
+      scrubber.setProgress(current);
+      // Hotspots and analytics follow the same eased timeline as the video.
+      setProgress(current);
+      if (current !== target) frame = window.requestAnimationFrame(tick);
     };
     const schedule = () => {
-      if (frame === null && !disposed)
+      dirty = true;
+      if (frame === null && !disposed) {
+        previous = performance.now();
         frame = window.requestAnimationFrame(tick);
+      }
     };
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });

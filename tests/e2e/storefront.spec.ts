@@ -226,6 +226,35 @@ test("scroll progress seeks forward and backward with a deterministic test media
       .locator("video")
       .evaluate((video: HTMLVideoElement) => video.currentTime),
   ).toBeLessThan(forwardTime);
+  await expect
+    .poll(() =>
+      entrance
+        .locator("video")
+        .evaluate((video: HTMLVideoElement) =>
+          Math.abs(video.currentTime - 7.96 * 0.2),
+        ),
+    )
+    .toBeLessThan(0.03);
+  // Force a single wheel-sized step; the video must render intermediate times
+  // even though the document itself moves immediately.
+  const step = await entrance.evaluate(async (scene: HTMLElement) => {
+    const video = scene.querySelector("video")!;
+    const before = video.currentTime;
+    const times = new Set<number>();
+    window.scrollBy({ top: 120, behavior: "instant" });
+    const started = performance.now();
+    await new Promise<void>((resolve) => {
+      const sample = (now: number) => {
+        times.add(video.currentTime);
+        if (now - started < 450) requestAnimationFrame(sample);
+        else resolve();
+      };
+      requestAnimationFrame(sample);
+    });
+    return { before, after: video.currentTime, updates: times.size };
+  });
+  expect(step.after).toBeGreaterThan(step.before);
+  expect(step.updates).toBeGreaterThan(3);
   const room = page.locator('[data-scene="winter-candle-room"]');
   await room.scrollIntoViewIfNeeded();
   await expect(room).toHaveAttribute("data-enhanced", "true");
@@ -240,6 +269,25 @@ test("scroll progress seeks forward and backward with a deterministic test media
   await expect(
     room.getByRole("button", { name: "Discover the winter candle" }),
   ).toBeVisible();
+  const hotspot = room.getByRole("button", {
+    name: "Discover the winter candle",
+  });
+  await hotspot.focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByRole("dialog", { name: "Winter Candle" }),
+  ).toBeVisible();
+  const frozenTime = await room
+    .locator("video")
+    .evaluate((video: HTMLVideoElement) => video.currentTime);
+  await page.waitForTimeout(200);
+  expect(
+    await room
+      .locator("video")
+      .evaluate((video: HTMLVideoElement) => video.currentTime),
+  ).toBe(frozenTime);
+  await page.keyboard.press("Escape");
+  await expect(hotspot).toBeFocused();
 });
 
 test("product variants, cart quantities and preview checkout work without optional consent", async ({

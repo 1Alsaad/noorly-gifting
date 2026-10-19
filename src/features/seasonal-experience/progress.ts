@@ -13,6 +13,21 @@ export function sceneProgress(
   return clampProgress(-top / Math.max(1, height - viewportHeight));
 }
 
+/** Smooth wheel steps consistently across refresh rates, without overshooting. */
+export function dampProgress(
+  current: number,
+  target: number,
+  elapsedMs: number,
+): number {
+  const end = clampProgress(target);
+  // Resume at the current scroll position after a suspended tab or long stall.
+  if (!Number.isFinite(elapsedMs) || elapsedMs >= 250) return end;
+  const next =
+    end +
+    (clampProgress(current) - end) * Math.exp(-Math.max(0, elapsedMs) / 100);
+  return Math.abs(end - next) < 0.001 ? end : next;
+}
+
 export function hotspotIsVisible(hotspot: Hotspot, progress: number): boolean {
   return (
     Number.isFinite(progress) &&

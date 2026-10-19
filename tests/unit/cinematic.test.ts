@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   clampProgress,
+  dampProgress,
   hotspotIsVisible,
   progressToTime,
   sceneProgress,
@@ -30,6 +31,41 @@ describe("cinematic progress and media", () => {
     expect(hotspotIsVisible(candle, 0.85)).toBe(true);
     expect(hotspotIsVisible(candle, 0.851)).toBe(false);
     expect(hotspotIsVisible(candle, Number.NaN)).toBe(false);
+  });
+
+  it("smooths wheel steps equally at 60Hz and 120Hz", () => {
+    const advance = (hz: number) => {
+      let current = 0.2;
+      for (let frame = 0; frame < hz / 5; frame++)
+        current = dampProgress(current, 0.6, 1000 / hz);
+      return current;
+    };
+    expect(advance(60)).toBeCloseTo(advance(120), 10);
+    expect(advance(60)).toBeGreaterThan(0.5);
+    expect(advance(60)).toBeLessThan(0.6);
+  });
+
+  it("retargets immediately on reversal without overshooting and settles exactly", () => {
+    let current = dampProgress(0.2, 0.8, 16);
+    expect(current).toBeGreaterThan(0.2);
+    const reversed = dampProgress(current, 0.1, 16);
+    expect(reversed).toBeLessThan(current);
+    expect(reversed).toBeGreaterThan(0.1);
+    current = reversed;
+    for (let frame = 0; frame < 60; frame++) {
+      const next = dampProgress(current, 0.1, 1000 / 60);
+      expect(next).toBeLessThanOrEqual(current);
+      expect(next).toBeGreaterThanOrEqual(0.1);
+      current = next;
+    }
+    expect(current).toBe(0.1);
+    expect(dampProgress(0.99, 1, 200)).toBeLessThan(1);
+    expect(dampProgress(0.9995, 1, 16)).toBe(1);
+    expect(dampProgress(0.0005, 0, 16)).toBe(0);
+  });
+
+  it("discards catch-up animation after a suspended tab", () => {
+    expect(dampProgress(0.2, 0.8, 1000)).toBe(0.8);
   });
 
   it("preserves the last decoded frame and rejects invalid duration", () => {
