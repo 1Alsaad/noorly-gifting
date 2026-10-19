@@ -18,6 +18,7 @@ import { trackEvent } from "@/lib/analytics/client";
 import type { Locale, Product } from "@/types/commerce";
 import { HotspotButton } from "./hotspot-button";
 import { ProductDrawer } from "./product-drawer";
+import { ShoppingOverlay } from "./shopping-overlay";
 import "./cinematic.css";
 
 interface Selection {
@@ -182,9 +183,11 @@ function Scene({
     presentation,
     canLoadVideo,
     hasFrame,
+    frameProgress,
     progress,
     reducedMotion,
     onMetadata,
+    onLoadStart,
     onFrame,
     onMediaError,
   } = useSceneMedia(frozen, mediaDisabled, index === 0);
@@ -206,7 +209,9 @@ function Scene({
     "--story-progress": progress,
   } as CSSProperties;
   const featured = products.find(
-    (product) => product.handle === scene.hotspots[0]?.productHandle,
+    (product) =>
+      product.handle ===
+      (scene.shopping?.productHandle ?? scene.hotspots[0]?.productHandle),
   );
 
   useEffect(() => {
@@ -348,6 +353,7 @@ function Scene({
             aria-hidden="true"
             tabIndex={-1}
             onLoadedMetadata={onMetadata}
+            onLoadStart={onLoadStart}
             onLoadedData={onFrame}
             onSeeked={onFrame}
             onError={onMediaError}
@@ -404,7 +410,7 @@ function Scene({
         {enhanced && scene.copy.beat && (
           <p className="cinema-story-beat">{scene.copy.beat[locale]}</p>
         )}
-        {enhanced && last && scene.copy.closing && (
+        {enhanced && last && scene.copy.closing && !scene.shopping && (
           <div className="cinema-closing" inert={choreography.closing < 0.1}>
             <p className="cinema-kicker">{scene.copy.eyebrow[locale]}</p>
             <p className="cinema-closing-title">{scene.copy.closing[locale]}</p>
@@ -413,6 +419,16 @@ function Scene({
               <span aria-hidden="true"> ↗</span>
             </a>
           </div>
+        )}
+
+        {enhanced && featured && scene.shopping && (
+          <ShoppingOverlay
+            product={featured}
+            locale={locale}
+            visible={hasFrame && frameProgress >= scene.shopping.visibleFrom}
+            onDetails={onSelect}
+            onSkip={onSkip}
+          />
         )}
 
         {enhanced &&

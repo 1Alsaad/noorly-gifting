@@ -20,7 +20,7 @@ All ingredient lists, material claims, weights, safety information, delivery pro
 4. Register the new season in a repository implementation and return it from `getSeasonBySlug` and `getSeasons`. Switch `getActiveSeason` intentionally after asset, translation and stock review. Dates are editorial metadata rather than an automatic scheduler.
 5. Update product seasonal tags, collection handles, active season settings and navigation. Verify both languages, small screens, reduced motion and the conventional shop route.
 
-Winter initially contains `winter-entrance` with no hotspot and `winter-candle-room` with a candle hotspot. Scene configuration lives in `src/features/seasonal-experience/winter-scenes.ts`. Seasonal content references those configurations rather than duplicating coordinates or media behavior in pages.
+Winter contains one continuous `winter-entrance` film with separately composed desktop/mobile media. It has no floating hotspot while the camera orbits; `shopping` configures the product handle and the decoded-progress threshold for its localized cart overlay during the final hold. Scene configuration lives in `src/features/seasonal-experience/winter-scenes.ts`. Seasonal content references those configurations rather than duplicating coordinates or media behavior in pages.
 
 ## Add a hotspot
 

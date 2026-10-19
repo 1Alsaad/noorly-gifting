@@ -42,9 +42,10 @@ export function sceneChoreography(
   const p = clampProgress(progress);
   return {
     poster: first ? 1 - reveal(0.005, 0.085, p) : 0,
-    intro: 1 - reveal(first ? 0.08 : 0.12, first ? 0.25 : 0.3, p),
+    intro: 1 - reveal(first ? 0.04 : 0.12, first ? 0.14 : 0.3, p),
     details: 1 - reveal(0.025, 0.15, p),
-    beat: reveal(0.3, 0.43, p) * (1 - reveal(0.64, 0.77, p)),
+    // The supplied film enters the room at 3s, then orbits until about 10s.
+    beat: reveal(0.15, 0.19, p) * (1 - reveal(0.23, 0.29, p)),
     closing: last ? reveal(0.85, 0.97, p) : 0,
     chrome: last ? 1 : 1 - reveal(0.94, 1, p),
   };

@@ -28,6 +28,7 @@ export function useSceneMedia(
   );
   const [progress, setProgress] = useState(0);
   const [hasFrame, setHasFrame] = useState(false);
+  const [frameProgress, setFrameProgress] = useState(0);
   const [presentation, setPresentation] = useState({
     floating: false,
     reveal: 1,
@@ -179,10 +180,23 @@ export function useSceneMedia(
     presentation,
     canLoadVideo,
     hasFrame,
+    frameProgress,
     progress,
     reducedMotion: !motionAllowed,
     onMetadata: () => setMediaState("ready"),
-    onFrame: () => setHasFrame(true),
+    onLoadStart: () => {
+      setMediaState("poster");
+      setHasFrame(false);
+      setFrameProgress(0);
+    },
+    onFrame: () => {
+      const video = videoRef.current;
+      if (!video || video.readyState < 2) return;
+      setHasFrame(true);
+      setFrameProgress(
+        clampProgress(video.currentTime / progressToTime(1, video.duration)),
+      );
+    },
     onMediaError: () => setMediaState("failed"),
   };
 }

@@ -33,6 +33,8 @@ export interface CinematicScene {
     closing?: LocalizedText;
   };
   hotspots: Hotspot[];
+  /** A real commerce card revealed once the filmed camera has settled. */
+  shopping?: { productHandle: string; visibleFrom: number };
 }
 
 /** The page depends on progress, not a specific rendering technique. */

@@ -75,7 +75,7 @@ for (const linkName of ["Skip experience", "Explore the collection"]) {
         .forEach((video) => video.dispatchEvent(new Event("loadedmetadata")));
     });
     await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
-    for (const scene of ["winter-entrance", "winter-candle-room"]) {
+    for (const scene of ["winter-entrance"]) {
       await expect(page.locator(`[data-scene="${scene}"]`)).toHaveAttribute(
         "data-enhanced",
         "false",
@@ -157,11 +157,12 @@ async function installTestSceneMedia(page: Page) {
     const setup = (video: HTMLVideoElement) => {
       if (video.dataset.testMedia) return;
       video.dataset.testMedia = "true";
+      video.dataset.testSource = video.getAttribute("src") ?? "";
       video.removeAttribute("src");
       let time = 0;
       Object.defineProperty(video, "duration", {
         configurable: true,
-        get: () => 8,
+        get: () => 15,
       });
       Object.defineProperty(video, "seeking", {
         configurable: true,
@@ -176,6 +177,8 @@ async function installTestSceneMedia(page: Page) {
         get: () => time,
         set: (value: number) => {
           time = value;
+          if (video.dataset.holdDecode !== "true")
+            queueMicrotask(() => video.dispatchEvent(new Event("seeked")));
         },
       });
       setTimeout(() => {
@@ -235,7 +238,7 @@ test("scroll progress seeks forward and backward with a deterministic test media
       entrance
         .locator("video")
         .evaluate((video: HTMLVideoElement) =>
-          Math.abs(video.currentTime - 7.96 * 0.2),
+          Math.abs(video.currentTime - 14.96 * 0.2),
         ),
     )
     .toBeLessThan(0.03);
@@ -259,103 +262,121 @@ test("scroll progress seeks forward and backward with a deterministic test media
   });
   expect(step.after).toBeGreaterThan(step.before);
   expect(step.updates).toBeGreaterThan(3);
-  const room = page.locator('[data-scene="winter-candle-room"]');
-  await room.scrollIntoViewIfNeeded();
-  await expect(room).toHaveAttribute("data-enhanced", "true");
-  await room.evaluate((scene: HTMLElement) =>
-    window.scrollTo(
-      0,
-      scene.getBoundingClientRect().top +
-        window.scrollY +
-        (scene.offsetHeight - window.innerHeight) * 0.5,
-    ),
+  await entrance.evaluate((scene: HTMLElement) =>
+    window.scrollTo({
+      top: scene.offsetTop + (scene.offsetHeight - innerHeight) * 0.8,
+      behavior: "instant",
+    }),
   );
-  await expect(
-    room.getByRole("button", { name: "Discover the winter candle" }),
-  ).toBeVisible();
-  const hotspot = room.getByRole("button", {
-    name: "Discover the winter candle",
+  const details = entrance.getByRole("button", {
+    name: "View product details",
   });
-  await hotspot.focus();
+  await expect(details).toBeVisible();
+  await details.focus();
   await page.keyboard.press("Enter");
   await expect(
     page.getByRole("dialog", { name: "Winter Candle" }),
   ).toBeVisible();
-  const frozenTime = await room
+  const frozenTime = await entrance
     .locator("video")
     .evaluate((video: HTMLVideoElement) => video.currentTime);
   await page.waitForTimeout(200);
   expect(
-    await room
+    await entrance
       .locator("video")
       .evaluate((video: HTMLVideoElement) => video.currentTime),
   ).toBe(frozenTime);
   await page.keyboard.press("Escape");
-  await expect(hotspot).toBeFocused();
+  await expect(details).toBeFocused();
 });
 
-test("the story dissolves between pinned scenes and hands off to the collection", async ({
+test("the continuous film clears copy for the orbit, shops during the hold, and hands off to the collection", async ({
   page,
 }) => {
   await installTestSceneMedia(page);
   await page.goto("/en");
   await rejectOptional(page);
-  const entrance = page.locator('[data-scene="winter-entrance"]');
-  const room = page.locator('[data-scene="winter-candle-room"]');
-  const seek = async (scene: typeof entrance, progress: number) => {
-    await scene.evaluate(
-      (element, p) =>
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  const seek = async (progress: number) =>
+    scene.evaluate(
+      (element: HTMLElement, p) =>
         window.scrollTo({
-          top:
-            (element as HTMLElement).offsetTop +
-            ((element as HTMLElement).offsetHeight - innerHeight) * p,
+          top: element.offsetTop + (element.offsetHeight - innerHeight) * p,
           behavior: "instant",
         }),
       progress,
     );
-  };
   const opacity = (selector: string) =>
-    entrance
+    scene
       .locator(selector)
       .evaluate((element) => Number(getComputedStyle(element).opacity));
-  await expect(entrance).toHaveAttribute("data-enhanced", "true");
-  await seek(entrance, 0.5);
+  await expect(scene).toHaveAttribute("data-enhanced", "true");
+  await expect(page.locator(".cinema-scene")).toHaveCount(1);
+  await seek(0.2);
   await expect.poll(() => opacity(".cinema-copy")).toBeLessThan(0.01);
   await expect.poll(() => opacity(".cinema-story-beat")).toBeGreaterThan(0.99);
-  await entrance.getByRole("link", { name: "Explore the collection" }).focus();
+  await scene
+    .locator(".cinema-actions")
+    .getByRole("link", { name: "Explore the collection" })
+    .focus();
   await expect.poll(() => opacity(".cinema-copy")).toBe(1);
-  await entrance.getByRole("link", { name: "Skip experience" }).focus();
 
-  // The next scene blends in over the outgoing last frame at the same viewport
-  // position. Neither camera slides vertically with its section boundary.
-  await room.evaluate((element) =>
-    window.scrollTo({
-      top: (element as HTMLElement).offsetTop - innerHeight * 0.5,
-      behavior: "instant",
-    }),
-  );
-  await expect(room).toHaveAttribute("data-enhanced", "true");
-  await expect(room).toHaveAttribute("data-floating", "true");
-  const overlap = await page.evaluate(() =>
-    [...document.querySelectorAll(".cinema-stage")].map((stage) => ({
-      top: stage.getBoundingClientRect().top,
-      opacity: Number(getComputedStyle(stage).opacity),
-    })),
-  );
-  expect(overlap[0].top).toBe(0);
-  expect(overlap[1].top).toBe(0);
-  expect(overlap[1].opacity).toBeGreaterThan(0);
-  expect(overlap[1].opacity).toBeLessThan(1);
-  await seek(entrance, 0.5);
-  await expect(room).toHaveAttribute("data-floating", "false");
+  await scene.getByRole("link", { name: "Skip experience" }).focus();
+  await seek(0.5);
+  await expect.poll(() => opacity(".cinema-story-beat")).toBe(0);
+  const shopping = scene.locator(".cinema-shopping");
+  await expect(shopping).toHaveAttribute("inert", "");
+  await expect(
+    shopping.getByRole("button", { name: "Add to cart" }),
+  ).toHaveCount(0);
+  // Requested time alone must not reveal commerce before a decoded hold frame.
+  await scene.locator("video").evaluate((video) => {
+    video.dataset.holdDecode = "true";
+  });
+  await seek(0.8);
+  await expect
+    .poll(() =>
+      scene
+        .locator("video")
+        .evaluate((video: HTMLVideoElement) => video.currentTime),
+    )
+    .toBeGreaterThan(11.9);
+  await expect(shopping).toHaveAttribute("inert", "");
+  await scene.locator("video").evaluate((video) => {
+    delete video.dataset.holdDecode;
+    video.dispatchEvent(new Event("seeked"));
+  });
+  await expect(shopping).toHaveAttribute("data-visible", "true");
+  const accessibility = await new AxeBuilder({ page })
+    .include(".cinema-shopping")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
 
+  await shopping.getByLabel("Variant").selectOption("winter-candle-large");
+  await expect(
+    shopping.getByRole("button", { name: "Add to cart" }),
+  ).toBeDisabled();
+  await shopping.getByLabel("Variant").selectOption("winter-candle-default");
+  await shopping
+    .getByRole("button", { name: "Add to cart", exact: true })
+    .click();
+  await expect(
+    shopping.getByRole("button", { name: "Added to cart", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Your bag (1)", exact: true }),
+  ).toBeVisible();
+  await scene.getByRole("link", { name: "Skip experience" }).focus();
+  await seek(0.4);
+  await expect(shopping).toHaveAttribute("inert", "");
   // The collection rises over a stationary final frame.
-  await seek(room, 1.12);
-  await expect(room).toHaveAttribute("data-floating", "true");
+  await seek(1.08);
+  await expect(scene).toHaveAttribute("data-floating", "true");
   expect(
-    await room
+    await scene
       .locator(".cinema-stage")
-      .evaluate((stage) => stage.getBoundingClientRect().top),
+      .evaluate((element) => element.getBoundingClientRect().top),
   ).toBe(0);
   const panel = await page
     .locator(".cinema-collection-handoff")
@@ -365,19 +386,15 @@ test("the story dissolves between pinned scenes and hands off to the collection"
     }));
   expect(panel.top).toBeGreaterThan(0);
   expect(panel.top).toBeLessThan(panel.viewport);
-  // Focusing a covered story control reveals its stage without replaying it.
   await page.keyboard.press("ArrowLeft");
-  await room.getByRole("link", { name: "Skip experience" }).focus();
+  await shopping.getByRole("button", { name: "View product details" }).focus();
   expect(
     await page
       .locator(".cinema-collection-handoff")
       .evaluate((element) => element.getBoundingClientRect().top - innerHeight),
   ).toBeGreaterThanOrEqual(-1);
-  await seek(room, 0.98);
-  await room
-    .locator(".cinema-closing")
-    .getByRole("link", { name: "Explore the collection" })
-    .click();
+  await seek(0.98);
+  await shopping.getByRole("link", { name: "Explore the collection" }).click();
   await expect(page).toHaveURL(/#gifts$/);
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(
@@ -719,7 +736,7 @@ test("unavailable cinematic videos restore posters and conventional product cont
   });
   await page.goto("/en");
   await rejectOptional(page);
-  const scene = page.locator('[data-scene="winter-candle-room"]');
+  const scene = page.locator('[data-scene="winter-entrance"]');
   await scene.scrollIntoViewIfNeeded();
   await expect.poll(() => attempted).toBeGreaterThan(0);
   await expect(scene).toHaveAttribute("data-enhanced", "false");
@@ -763,4 +780,87 @@ test("Save-Data suppresses video requests while keeping shopping available", asy
   ).toBeVisible();
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   expect(requests).toEqual([]);
+});
+
+test("portrait shopping uses its own film and Swedish commerce copy", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await installTestSceneMedia(page);
+  await page.goto("/sv");
+  const reject = page.getByRole("button", {
+    name: "Avvisa valfria",
+    exact: true,
+  });
+  if (await reject.isVisible()) await reject.click();
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  await expect(scene).toHaveAttribute("data-enhanced", "true");
+  await expect(scene.locator("video")).toHaveAttribute(
+    "data-test-source",
+    /0e98a61d-fd67-4fee-8c28-793ca27c6fce.mp4$/,
+  );
+  await scene.evaluate((element: HTMLElement) =>
+    window.scrollTo({
+      top: element.offsetTop + (element.offsetHeight - innerHeight) * 0.8,
+      behavior: "instant",
+    }),
+  );
+  const card = scene.locator(".cinema-shopping");
+  await expect(card).toHaveAttribute("data-visible", "true");
+  await expect(card.getByRole("heading", { name: "Vinterljus" })).toBeVisible();
+  await expect(card.getByLabel("Utförande")).toBeVisible();
+  await expect(card.getByText("295 kr", { exact: true })).toBeVisible();
+  const mutation = page.waitForResponse(
+    (response) =>
+      response.url().endsWith("/api/cart") &&
+      response.request().method() === "POST",
+  );
+  await card
+    .getByRole("button", { name: "Lägg i varukorgen", exact: true })
+    .click();
+  const response = await mutation;
+  expect(response.status()).toBe(200);
+  expect(response.request().postDataJSON()).toEqual({
+    type: "add",
+    lines: [{ merchandiseId: "winter-candle-default", quantity: 1 }],
+  });
+  expect((await response.json()).cart.totalQuantity).toBe(1);
+  await expect(
+    card.getByRole("button", { name: "Tillagd i varukorgen", exact: true }),
+  ).toBeVisible();
+  await card.getByRole("link", { name: "Upptäck kollektionen" }).click();
+  await expect(page).toHaveURL(/#gifts$/);
+  await expect(scene).toHaveAttribute("data-pinned", "false");
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+  await expect(page.locator("#gifts")).toBeInViewport();
+});
+
+test("short-screen static shopping stays below editorial copy", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 568 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/en");
+  await rejectOptional(page);
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  await expect(scene).toHaveAttribute("data-pinned", "false");
+  const geometry = await scene.evaluate((element) => {
+    const copy = element
+      .querySelector(".cinema-scene-content")!
+      .getBoundingClientRect();
+    const product = element
+      .querySelector(".cinema-static-product")!
+      .getBoundingClientRect();
+    return { copyBottom: copy.bottom, productTop: product.top };
+  });
+  expect(geometry.productTop).toBeGreaterThan(geometry.copyBottom + 20);
+  const trigger = scene.getByRole("button", { name: /Winter Candle.*295/ });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    page.getByRole("dialog", { name: "Winter Candle" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toBeFocused();
 });

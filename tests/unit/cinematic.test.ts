@@ -11,6 +11,18 @@ import {
 import { winterScenes } from "@/features/seasonal-experience/winter-scenes";
 import { createVideoScrubber } from "@/features/seasonal-experience/video-scrubber";
 
+import type { Hotspot } from "@/features/seasonal-experience/types";
+const candleHotspot: Hotspot = {
+  id: "candle",
+  sceneId: "test-room",
+  productHandle: "winter-candle",
+  visibleFrom: 0.2,
+  visibleTo: 0.85,
+  desktop: { x: 0.69, y: 0.61 },
+  mobile: { x: 0.62, y: 0.56 },
+  label: { sv: "Upptäck vinterljuset", en: "Discover the winter candle" },
+};
+
 describe("cinematic progress and media", () => {
   afterEach(() => vi.unstubAllGlobals());
 
@@ -26,13 +38,26 @@ describe("cinematic progress and media", () => {
 
   it("has no entrance hotspot and shows the candle throughout its stable interval", () => {
     expect(winterScenes[0].hotspots).toHaveLength(0);
-    const candle = winterScenes[1].hotspots[0];
+    const candle = candleHotspot;
     expect(hotspotIsVisible(candle, 0.199)).toBe(false);
     expect(hotspotIsVisible(candle, 0.2)).toBe(true);
     expect(hotspotIsVisible(candle, 0.6)).toBe(true);
     expect(hotspotIsVisible(candle, 0.85)).toBe(true);
     expect(hotspotIsVisible(candle, 0.851)).toBe(false);
     expect(hotspotIsVisible(candle, Number.NaN)).toBe(false);
+  });
+
+  it("uses one complete responsive film and waits for its shopping hold", () => {
+    expect(winterScenes).toHaveLength(1);
+    const scene = winterScenes[0];
+    expect(scene.media.desktop.video).toContain(
+      "46439a25-f450-49f4-b8b1-785e0d1bc834.mp4",
+    );
+    expect(scene.media.mobile.video).toContain(
+      "0e98a61d-fd67-4fee-8c28-793ca27c6fce.mp4",
+    );
+    expect(scene.shopping?.visibleFrom).toBeCloseTo(10 / 15);
+    expect(sceneChoreography(0.5, true, true).beat).toBe(0);
   });
 
   it("smooths wheel steps equally at 60Hz and 120Hz", () => {
@@ -74,7 +99,7 @@ describe("cinematic progress and media", () => {
     expect(sceneChoreography(0, true, false).intro).toBe(1);
     expect(sceneChoreography(0, true, false).poster).toBe(1);
     expect(sceneChoreography(0.1, true, false).poster).toBe(0);
-    const journey = sceneChoreography(0.5, true, false);
+    const journey = sceneChoreography(0.2, true, false);
     expect(journey.intro).toBe(0);
     expect(journey.details).toBe(0);
     expect(journey.beat).toBe(1);
