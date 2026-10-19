@@ -80,12 +80,40 @@ for (const linkName of ["Skip experience", "Explore the collection"]) {
         "data-enhanced",
         "false",
       );
+      await expect(page.locator(`[data-scene="${scene}"]`)).toHaveAttribute(
+        "data-pinned",
+        "false",
+      );
     }
     await expect(
       page.getByRole("heading", { name: "Thoughtfully brought together" }),
     ).toBeInViewport();
   });
 }
+
+test("late metadata preserves the reserved scene ranges and gifts position", async ({
+  page,
+}) => {
+  await page.route("**/*.mp4", () => {});
+  await page.goto("/en", { waitUntil: "domcontentloaded" });
+  const entrance = page.locator('[data-scene="winter-entrance"]');
+  await expect(entrance).toHaveAttribute("data-pinned", "true");
+  await expect(entrance).toHaveAttribute("data-enhanced", "false");
+  await expect(entrance.locator("video")).toHaveCount(1);
+  const geometry = () =>
+    page.evaluate(() => ({
+      heights: [...document.querySelectorAll<HTMLElement>("[data-scene]")].map(
+        (scene) => scene.offsetHeight,
+      ),
+      gifts:
+        document.getElementById("gifts")!.getBoundingClientRect().top +
+        window.scrollY,
+    }));
+  const before = await geometry();
+  await entrance.locator("video").dispatchEvent("loadedmetadata");
+  await expect(entrance).toHaveAttribute("data-enhanced", "true");
+  expect(await geometry()).toEqual(before);
+});
 
 test("a static scene product opens a keyboard-accessible drawer and preserves focus", async ({
   page,

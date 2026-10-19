@@ -26,7 +26,8 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
       .connection;
     const update = () => {
       setMotionAllowed(
-        !reduced.matches &&
+        "IntersectionObserver" in window &&
+          !reduced.matches &&
           !connection?.saveData &&
           !["slow-2g", "2g"].includes(connection?.effectiveType ?? ""),
       );
@@ -53,7 +54,7 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
           upcoming.disconnect();
         }
       },
-      { rootMargin: "200px 0px", threshold: 0 },
+      { rootMargin: `${window.innerHeight}px 0px`, threshold: 0 },
     );
     const visible = new IntersectionObserver(
       ([entry]) => setActive(entry.isIntersecting),
@@ -70,6 +71,9 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
   }, []);
 
   const enhanced = !disabled && motionAllowed && mediaState === "ready";
+  // Reserve both scene ranges before network metadata arrives. Loading the
+  // approaching video must not change the scroll geometry halfway through it.
+  const pinned = !disabled && motionAllowed && mediaState !== "failed";
   const canLoadVideo =
     !disabled && near && motionAllowed && mediaState !== "failed";
 
@@ -79,49 +83,31 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
     if (!enhanced || !active || frozen || !video || !section) return;
     const scrubber = createVideoScrubber(video);
     let frame: number | null = null;
-    let current = sceneProgress(
-      section.getBoundingClientRect().top,
-      section.offsetHeight,
-      window.innerHeight,
-    );
-    let target = current;
     let disposed = false;
 
     const tick = () => {
       frame = null;
       if (disposed) return;
-      current += (target - current) * 0.32;
-      if (Math.abs(target - current) < 0.001) current = target;
-      scrubber.setProgress(current);
-      setProgress(current);
-      if (current !== target) frame = window.requestAnimationFrame(tick);
+      const progress = sceneProgress(
+        section.getBoundingClientRect().top,
+        section.offsetHeight,
+        window.innerHeight,
+      );
+      scrubber.setProgress(progress);
+      setProgress(progress);
     };
     const schedule = () => {
       if (frame === null && !disposed)
         frame = window.requestAnimationFrame(tick);
     };
-    const update = () => {
-      target = sceneProgress(
-        section.getBoundingClientRect().top,
-        section.offsetHeight,
-        window.innerHeight,
-      );
-      schedule();
-    };
-    // A final seek may have been skipped while a previous seek was decoding.
-    const finishSeek = () => {
-      if (!disposed) scrubber.setProgress(current);
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    video.addEventListener("seeked", finishSeek);
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
     return () => {
       disposed = true;
       if (frame !== null) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      video.removeEventListener("seeked", finishSeek);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       scrubber.destroy();
     };
   }, [active, enhanced, frozen]);
@@ -132,6 +118,7 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
     mobile,
     active,
     enhanced,
+    pinned,
     canLoadVideo,
     hasFrame,
     progress,

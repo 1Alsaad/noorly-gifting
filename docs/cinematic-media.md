@@ -6,11 +6,12 @@ The winter experience is an enhancement over server-rendered editorial content. 
 
 `CinematicExperience` accepts `locale`, `products`, and optional `scenes`. Default scene configuration is in `src/features/seasonal-experience/winter-scenes.ts`; the content repository can supply another season's scenes. Every visible string lives in that configuration or `copy.ts`.
 
-- Each successfully loaded video enables a 230svh section with a sticky viewport. Normalized scroll progress seeks the video in either direction through the replaceable `MediaScrubber` interface.
-- Intersection observers load metadata only when the scene is current or within 200px. Scroll listeners and animation work exist only while the scene intersects the viewport. Animation frames run while scroll progress is changing and stop after interpolation settles.
+- Motion-capable visits reserve 400svh per scene as soon as the client checks preferences, giving each eight-second clip three viewports of scroll travel. Metadata arriving later does not expand the scene or change its progress geometry. Failed media and skip/explore links release the reserved range; static visits retain one viewport per scene.
+- Intersection observers load video only when the scene is current or within one viewport. Nearby videos use `preload="auto"` so small exports can buffer before seeking; this remains a browser hint, especially on mobile. Scroll listeners exist only while a ready scene intersects the viewport. One animation-frame callback reads the latest native scroll position per scroll/resize event; there is no easing loop or animation continuing after scrolling stops.
+- The `MediaScrubber` seeks directly to normalized scroll progress in either direction. It retains only the latest target while decoding, then gives the completed frame a paint opportunity before the next seek. This avoids replaying obsolete targets on fast direction changes. The supplied 24fps videos and the device decoder still limit the displayed frame cadence; this does not synthesize intermediate frames.
 - The first poster loads eagerly with high fetch priority. Later posters use native lazy loading. Art-directed mobile `<picture>` sources avoid downloading a desktop poster for mobile screens.
-- Videos have no audible playback and use `muted`, `playsInline`, and `preload="metadata"`. They never autoplay. Failed media keeps the poster and conventional product controls; it removes the failing video.
-- Reduced motion, Save-Data, and slow 2G connections suppress video sources altogether. Static scenes occupy one viewport each. No JavaScript still renders the editorial images and conventional product/shop/builder links.
+- Videos have no audible playback and use `muted` and `playsInline`. They never autoplay. The local poster fades away only after a video frame is available. Failed media keeps the poster and conventional product controls; it removes the failing video.
+- Reduced motion, Save-Data, slow 2G connections, and browsers without IntersectionObserver suppress video sources altogether. Static scenes occupy one viewport each. No JavaScript still renders the editorial images and conventional product/shop/builder links.
 - Drawers freeze seeking, trap focus, close on Escape, restore the opener without scrolling, and retain the document position. Hidden hotspots are removed from the accessibility tree. Hotspots are HTML buttons with 48px touch areas.
 - Ambient audio is absent. Add a visible, accessible opt-in sound control before introducing any audio; provide a meaningful text alternative.
 
@@ -23,7 +24,7 @@ The winter experience is an enhancement over server-rendered editorial content. 
 - Only `media-src` allows the exact CDN hostname. Images, scripts, frames and API connections retain their existing policy.
 - The supplied masters are landscape. Both viewport configurations currently use the same export with the existing CSS cover treatment; mobile is not a separately composed portrait video. Keep the mobile posters and verify cropping on target devices before replacing these with independently composed portrait exports.
 - Skip/explore links disable the scene enhancement synchronously before native anchor navigation, so late metadata cannot expand a scene and move the gifts section out of view. The story remains static for the rest of that page visit.
-- The existing hotspot interval/coordinates, scroll scrubber, drawer behavior, reduced motion, Save-Data/2G suppression and error fallback are preserved. No autoplay or audio is introduced.
+- The existing hotspot interval/coordinates, drawer behavior, reduced motion, Save-Data/2G suppression and error fallback are preserved. No autoplay or audio is introduced.
 - The CDN is an external runtime dependency. If an export is removed or unavailable, the existing error handler removes the video and restores the local poster and conventional product controls. To self-host, download these confirmed exports into the paths below and replace the scene URLs; remove the CDN permission when no longer used.
 
 Reproduce each optimized export from its original downloaded MP4:

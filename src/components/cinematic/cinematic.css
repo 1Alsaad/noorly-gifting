@@ -13,8 +13,8 @@
   min-height: 100svh;
   isolation: isolate;
 }
-.cinema-scene[data-enhanced="true"] {
-  height: 230svh;
+.cinema-scene[data-pinned="true"] {
+  height: 400svh;
 }
 .cinema-stage {
   position: sticky;
@@ -36,6 +36,7 @@
   z-index: 1;
   opacity: 1;
   pointer-events: none;
+  transition: opacity 240ms ease-out;
 }
 .cinema-poster img,
 .cinema-video {
@@ -526,7 +527,10 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .cinema-scene[data-enhanced="true"] {
+  .cinema-poster {
+    transition: none;
+  }
+  .cinema-scene[data-pinned="true"] {
     height: auto;
   }
   .cinema-hotspot-pulse .cinema-hotspot-symbol {

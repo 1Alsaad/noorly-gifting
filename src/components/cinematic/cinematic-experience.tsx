@@ -177,6 +177,7 @@ function Scene({
     mobile,
     active,
     enhanced,
+    pinned,
     canLoadVideo,
     hasFrame,
     progress,
@@ -276,6 +277,7 @@ function Scene({
       ref={sectionRef}
       className={`cinema-scene ${first ? "cinema-entrance" : "cinema-interior"}`}
       data-enhanced={enhanced}
+      data-pinned={pinned}
       data-scene={scene.id}
       data-progress={Math.round(progress * 100)}
       aria-labelledby={`${scene.id}-title`}
@@ -308,7 +310,7 @@ function Scene({
             poster={sceneAsset.poster}
             muted
             playsInline
-            preload="metadata"
+            preload="auto"
             disablePictureInPicture
             aria-hidden="true"
             tabIndex={-1}

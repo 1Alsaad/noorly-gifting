@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   clampProgress,
   hotspotIsVisible,
@@ -9,6 +9,8 @@ import { winterScenes } from "@/features/seasonal-experience/winter-scenes";
 import { createVideoScrubber } from "@/features/seasonal-experience/video-scrubber";
 
 describe("cinematic progress and media", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
   it("maps document geometry to bounded progress in either scroll direction", () => {
     expect(sceneProgress(100, 2300, 1000)).toBe(0);
     expect(sceneProgress(-650, 2300, 1000)).toBe(0.5);
@@ -38,13 +40,13 @@ describe("cinematic progress and media", () => {
   });
 
   it("seeks backwards, waits for decoding and stops working after disposal", () => {
-    const video = {
+    const video = Object.assign(new EventTarget(), {
       readyState: 1,
       seeking: false,
       currentTime: 0,
       duration: 8,
       pause: vi.fn(),
-    };
+    });
     const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement);
     scrubber.setProgress(0.75);
     expect(video.currentTime).toBeCloseTo(5.97);
@@ -58,5 +60,60 @@ describe("cinematic progress and media", () => {
     scrubber.setProgress(1);
     expect(video.currentTime).toBeCloseTo(1.99);
     expect(video.pause).toHaveBeenCalledOnce();
+  });
+
+  it("presents a decoded frame before seeking to the latest scroll position", () => {
+    let paint: FrameRequestCallback | undefined;
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+      paint = callback;
+      return 1;
+    });
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
+    const video = Object.assign(new EventTarget(), {
+      readyState: 4,
+      seeking: false,
+      currentTime: 0,
+      duration: 8,
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement);
+    scrubber.setProgress(0.75);
+    video.seeking = true;
+    scrubber.setProgress(1);
+    scrubber.setProgress(0.25);
+    expect(video.currentTime).toBeCloseTo(5.97);
+
+    video.seeking = false;
+    video.dispatchEvent(new Event("seeked"));
+    expect(video.currentTime).toBeCloseTo(5.97);
+    // Reverse again before paint: never replay the obsolete queued positions.
+    scrubber.setProgress(0.1);
+    paint?.(16);
+    expect(video.currentTime).toBeCloseTo(0.796);
+    scrubber.destroy();
+  });
+
+  it("cancels a queued seek when the scene freezes or unmounts", () => {
+    const request = vi.fn(() => 7);
+    const cancel = vi.fn();
+    vi.stubGlobal("requestAnimationFrame", request);
+    vi.stubGlobal("cancelAnimationFrame", cancel);
+    const video = Object.assign(new EventTarget(), {
+      readyState: 4,
+      seeking: true,
+      currentTime: 0,
+      duration: 8,
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement);
+    scrubber.setProgress(0.8);
+    video.seeking = false;
+    video.dispatchEvent(new Event("seeked"));
+    scrubber.destroy();
+    expect(cancel).toHaveBeenCalledWith(7);
+    video.dispatchEvent(new Event("seeked"));
+    scrubber.setProgress(1);
+    expect(request).toHaveBeenCalledOnce();
+    expect(video.currentTime).toBe(0);
   });
 });
