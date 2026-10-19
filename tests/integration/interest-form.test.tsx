@@ -35,37 +35,50 @@ describe("interest form acceptance is the conversion", () => {
   });
 
   it("counts a saved registration once and excludes contact details from events", async () => {
-    const fetcher = vi.spyOn(globalThis, "fetch")
+    const fetcher = vi
+      .spyOn(globalThis, "fetch")
       .mockResolvedValue(response({ ok: true, mock: false }));
     render(<InterestForm {...props} />);
     completeForm();
-    await waitFor(() => expect(screen.getByRole("status"))
-      .toHaveTextContent("Your interest has been registered"));
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Your interest has been registered",
+      ),
+    );
     expect(trackInterestLead).toHaveBeenCalledTimes(1);
     expect(trackEvent).toHaveBeenCalledTimes(1);
-    expect(JSON.stringify(vi.mocked(trackEvent).mock.calls))
-      .not.toContain("reader@example.com");
+    expect(JSON.stringify(vi.mocked(trackEvent).mock.calls)).not.toContain(
+      "reader@example.com",
+    );
     fireEvent.submit(screen.getByRole("button").closest("form")!);
     expect(fetcher).toHaveBeenCalledTimes(1);
   });
 
   it("rejects mock acceptance and failed persistence without counting leads", async () => {
-    const fetcher = vi.spyOn(globalThis, "fetch")
+    const fetcher = vi
+      .spyOn(globalThis, "fetch")
       .mockResolvedValueOnce(response({ ok: true, mock: true }))
       .mockResolvedValueOnce(response({ error: "UNAVAILABLE" }, 503))
-      .mockResolvedValueOnce(response({ ok: true, mock: false, duplicate: true }));
+      .mockResolvedValueOnce(
+        response({ ok: true, mock: false, duplicate: true }),
+      );
     render(<InterestForm {...props} />);
     completeForm();
-    await waitFor(() => expect(screen.getByRole("status"))
-      .toHaveTextContent("could not save"));
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent("could not save"),
+    );
     fireEvent.click(screen.getByRole("button"));
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
     await waitFor(() => expect(screen.getByRole("button")).toBeEnabled());
     fireEvent.click(screen.getByRole("button"));
-    await waitFor(() => expect(screen.getByRole("status"))
-      .toHaveTextContent("Your interest has been registered"));
-    const submissions = fetcher.mock.calls.map((call) =>
-      JSON.parse(call[1]!.body as string).submissionId);
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Your interest has been registered",
+      ),
+    );
+    const submissions = fetcher.mock.calls.map(
+      (call) => JSON.parse(call[1]!.body as string).submissionId,
+    );
     expect(new Set(submissions).size).toBe(1);
     expect(trackInterestLead).not.toHaveBeenCalled();
     expect(trackEvent).not.toHaveBeenCalled();

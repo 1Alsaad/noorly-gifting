@@ -67,22 +67,24 @@ export function ShoppingOverlay({
       <h2 className="cinema-shopping-title">{product.title[locale]}</h2>
       <div className="cinema-shopping-price">
         <span>
-          {isProductTestMode() ? productTestCopy[locale].price : new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
-            style: "currency",
-            currency: price.currencyCode,
-            maximumFractionDigits: 0,
-          }).format(Number(price.amount))}
+          {isProductTestMode()
+            ? productTestCopy[locale].price
+            : new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
+                style: "currency",
+                currency: price.currencyCode,
+                maximumFractionDigits: 0,
+              }).format(Number(price.amount))}
         </span>
         <span className="cinema-stock">
           {isProductTestMode()
             ? productTestCopy[locale].label
             : product.previewOnly
-            ? locale === "sv"
-              ? "Demopris"
-              : "Demo price"
-            : variant?.available
-              ? copy.available
-              : copy.unavailable}
+              ? locale === "sv"
+                ? "Demopris"
+                : "Demo price"
+              : variant?.available
+                ? copy.available
+                : copy.unavailable}
         </span>
       </div>
       <VariantPicker
@@ -103,18 +105,18 @@ export function ShoppingOverlay({
           {productTestCopy[locale].cta}
         </Link>
       ) : (
-      <button
-        type="button"
-        className="cinema-button cinema-button-dark"
-        disabled={!variant?.available || loading || status === "adding"}
-        onClick={add}
-      >
-        {status === "adding"
-          ? copy.adding
-          : status === "added"
-            ? copy.added
-            : copy.addToCart}
-      </button>
+        <button
+          type="button"
+          className="cinema-button cinema-button-dark"
+          disabled={!variant?.available || loading || status === "adding"}
+          onClick={add}
+        >
+          {status === "adding"
+            ? copy.adding
+            : status === "added"
+              ? copy.added
+              : copy.addToCart}
+        </button>
       )}
       <p className="cinema-add-status" role="status" aria-live="polite">
         {status === "error"

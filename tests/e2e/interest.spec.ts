@@ -7,12 +7,15 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
   request,
 }) => {
   await page.goto("/sv/products/candle-sand");
-  await expect(page.getByRole("link", { name: "Visa mitt intresse" }).last())
-    .toBeVisible();
-  await expect(page.getByText("Pris ej fastställt", { exact: true }))
-    .toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Visa mitt intresse" }).last(),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Pris ej fastställt", { exact: true }),
+  ).toBeVisible();
   await expect(page.getByRole("button", { name: /Lägg i/ })).toHaveCount(0);
-  const data = await page.locator('script[type="application/ld+json"]')
+  const data = await page
+    .locator('script[type="application/ld+json"]')
     .allTextContents();
   expect(data.join("")).not.toContain('"@type":"Offer"');
   const response = await request.post("/api/cart", {
@@ -22,9 +25,12 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
   expect(response.status()).toBe(403);
   await page.getByRole("link", { name: "Visa mitt intresse" }).last().click();
   await expect(page).toHaveURL(/\/sv\/interest\?product=candle-sand/);
-  await expect(page.getByRole("status")).toContainText("Intresselistan öppnar snart");
-  await expect(page.getByRole("textbox", { name: "E-postadress" }))
-    .toHaveCount(0);
+  await expect(page.getByRole("status")).toContainText(
+    "Intresselistan öppnar snart",
+  );
+  await expect(page.getByRole("textbox", { name: "E-postadress" })).toHaveCount(
+    0,
+  );
 });
 
 test("mobile product test keeps the filmed product separate from its CTA", async ({
@@ -49,8 +55,9 @@ test("mobile product test keeps the filmed product separate from its CTA", async
   expect(media).not.toBeNull();
   expect(shopping).not.toBeNull();
   expect(media!.y + media!.height).toBeLessThanOrEqual(shopping!.y + 2);
-  await expect(card.getByRole("link", { name: "Visa mitt intresse" }))
-    .toBeVisible();
+  await expect(
+    card.getByRole("link", { name: "Visa mitt intresse" }),
+  ).toBeVisible();
 });
 
 test("interest page is accessible and does not collect data without its backend", async ({
@@ -58,12 +65,15 @@ test("interest page is accessible and does not collect data without its backend"
 }) => {
   await page.goto("/en/interest?product=notebook-with-strap&variant=pnb-02");
   await page.getByRole("button", { name: "Reject optional" }).click();
-  await expect(page.getByRole("heading", { name: "Notebook with strap" }))
-    .toBeVisible();
-  await expect(page.getByText("Leaves on the same tree", { exact: true }))
-    .toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Notebook with strap" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Leaves on the same tree", { exact: true }),
+  ).toBeVisible();
   await expect(page.getByText(/The interest list opens soon/)).toBeVisible();
-  const audit = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"])
+  const audit = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa"])
     .analyze();
   expect(audit.violations).toEqual([]);
 });
@@ -74,11 +84,14 @@ test("without JavaScript the product remains available with honest test messagin
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto("/sv/products/candle-sand");
-  await expect(page.getByRole("heading", { name: "Ljussand", exact: true }))
-    .toBeVisible();
-  await expect(page.getByRole("link", { name: "Visa mitt intresse" }).last())
-    .toBeVisible();
-  await expect(page.getByText(/Ingen betalning, beställning eller reservation/).first())
-    .toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Ljussand", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Visa mitt intresse" }).last(),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/Ingen betalning, beställning eller reservation/).first(),
+  ).toBeVisible();
   await context.close();
 });

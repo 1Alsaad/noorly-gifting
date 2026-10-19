@@ -19,23 +19,30 @@ describe("marketing consent and genuine lead events", () => {
     meta.updateMetaConsent();
     expect(window.fbq).toBeUndefined();
     expect(document.querySelector("script[data-noorly-meta]")).toBeNull();
-    expect(meta.trackInterestLead(crypto.randomUUID(), "candle-sand")).toBe(false);
+    expect(meta.trackInterestLead(crypto.randomUUID(), "candle-sand")).toBe(
+      false,
+    );
   });
 
   it("allows marketing independently of analytics, deduplicates and honors revocation", async () => {
     const meta = await import("@/lib/analytics/meta");
     saveConsent({ analytics: false, marketing: true });
     meta.updateMetaConsent();
-    expect(document.querySelector("script[data-noorly-meta]"))
-      .toHaveAttribute("src", "https://connect.facebook.net/en_US/fbevents.js");
+    expect(document.querySelector("script[data-noorly-meta]")).toHaveAttribute(
+      "src",
+      "https://connect.facebook.net/en_US/fbevents.js",
+    );
     const eventId = crypto.randomUUID();
     expect(meta.trackInterestLead(eventId, "candle-sand")).toBe(true);
     expect(meta.trackInterestLead(eventId, "candle-sand")).toBe(false);
-    expect(window.fbq!.queue.filter((call) => call[1] === "Lead"))
-      .toHaveLength(1);
+    expect(window.fbq!.queue.filter((call) => call[1] === "Lead")).toHaveLength(
+      1,
+    );
     saveConsent({ analytics: false, marketing: false });
     meta.updateMetaConsent();
     expect(window.fbq!.queue).toEqual([["consent", "revoke"]]);
-    expect(meta.trackInterestLead(crypto.randomUUID(), "candle-sand")).toBe(false);
+    expect(meta.trackInterestLead(crypto.randomUUID(), "candle-sand")).toBe(
+      false,
+    );
   });
 });

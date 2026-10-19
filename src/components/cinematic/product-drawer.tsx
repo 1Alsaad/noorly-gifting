@@ -107,12 +107,12 @@ export function ProductDrawer({
                 {isProductTestMode()
                   ? productTestCopy[locale].label
                   : product.previewOnly
-                  ? locale === "sv"
-                    ? "Demopris"
-                    : "Demo price"
-                  : variant?.available
-                    ? copy.available
-                    : copy.unavailable}
+                    ? locale === "sv"
+                      ? "Demopris"
+                      : "Demo price"
+                    : variant?.available
+                      ? copy.available
+                      : copy.unavailable}
               </span>
             </div>
             <VariantPicker
@@ -142,18 +142,18 @@ export function ProductDrawer({
                 {productTestCopy[locale].cta}
               </Link>
             ) : (
-            <button
-              className="cinema-button cinema-button-dark"
-              type="button"
-              onClick={add}
-              disabled={!variant?.available || loading || status === "adding"}
-            >
-              {status === "adding"
-                ? copy.adding
-                : status === "added"
-                  ? copy.added
-                  : copy.addToCart}
-            </button>
+              <button
+                className="cinema-button cinema-button-dark"
+                type="button"
+                onClick={add}
+                disabled={!variant?.available || loading || status === "adding"}
+              >
+                {status === "adding"
+                  ? copy.adding
+                  : status === "added"
+                    ? copy.added
+                    : copy.addToCart}
+              </button>
             )}
             <div aria-live="polite" role="status" className="cinema-add-status">
               {status === "error" ? copy.addError : ""}
@@ -168,7 +168,9 @@ export function ProductDrawer({
               </Link>
             )}
             <p className="cinema-delivery">
-              {isProductTestMode() ? productTestCopy[locale].note : copy.delivery}
+              {isProductTestMode()
+                ? productTestCopy[locale].note
+                : copy.delivery}
             </p>
             <Link
               className="cinema-details-link"

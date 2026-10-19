@@ -57,13 +57,14 @@ export function EnquiryForm({
       const data = await response.json();
       if (!response.ok) throw new Error("form_failed");
       setState(data.mock ? "mock" : "success");
-      if (!data.mock && !data.duplicate) trackEvent({
-        name:
-          kind === "newsletter"
-            ? "newsletter_signup"
-            : "corporate_gifting_enquiry",
-        properties: { locale, source: "form" },
-      });
+      if (!data.mock && !data.duplicate)
+        trackEvent({
+          name:
+            kind === "newsletter"
+              ? "newsletter_signup"
+              : "corporate_gifting_enquiry",
+          properties: { locale, source: "form" },
+        });
       form.reset();
     } catch {
       setState("error");

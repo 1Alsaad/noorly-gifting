@@ -1,5 +1,7 @@
 "use client";
 
+import { formatMoney } from "@/lib/utils/money";
+
 /* Responsive first frames also cover loading and static-media fallbacks. */
 
 import Link from "next/link";
@@ -267,13 +269,7 @@ function Scene({
       );
   }, [enhanced, progress, locale, scene.id, scene.seasonId]);
 
-  const price = featured
-    ? new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
-        style: "currency",
-        currency: featured.price.currencyCode,
-        maximumFractionDigits: 0,
-      }).format(Number(featured.price.amount))
-    : "";
+  const price = featured ? formatMoney(featured.price, locale) : "";
   const skipLink = (
     <a
       className="cinema-skip cinema-skip-top"

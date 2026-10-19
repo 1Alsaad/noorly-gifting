@@ -73,7 +73,9 @@ describe("truthful product interest processing", () => {
       { variantId: "another-product-variant" },
       { boxContents: ["invented"] },
     ]) {
-      expect((await POST(request({ ...interest(), ...patch }))).status).toBe(400);
+      expect((await POST(request({ ...interest(), ...patch }))).status).toBe(
+        400,
+      );
     }
   });
 
@@ -81,7 +83,8 @@ describe("truthful product interest processing", () => {
     environment.PRODUCT_INTEREST_ENABLED = true;
     environment.FORM_DELIVERY_URL = "https://forms.example.test/receive";
     environment.FORM_DELIVERY_TOKEN = "private-token";
-    const receiver = vi.spyOn(globalThis, "fetch")
+    const receiver = vi
+      .spyOn(globalThis, "fetch")
       .mockResolvedValue(new Response("", { status: 200 }));
     const data = interest();
     const first = await (await POST(request(data))).json();
@@ -93,7 +96,9 @@ describe("truthful product interest processing", () => {
   });
 
   it("rejects direct checkout calls while product testing is enabled", async () => {
-    const response = await cartPost(request({ type: "checkout", locale: "sv" }));
+    const response = await cartPost(
+      request({ type: "checkout", locale: "sv" }),
+    );
     expect(response.status).toBe(403);
     expect(await response.json()).toMatchObject({
       error: "PRODUCT_TEST_NO_ORDERS",

@@ -1,3 +1,4 @@
+import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShieldCheck, ArrowLeft } from "lucide-react";
@@ -11,6 +12,7 @@ export default async function MockCheckout({
   const { locale } = await params;
   if (
     !isLocale(locale) ||
+    isProductTestMode() ||
     process.env.NEXT_PUBLIC_COMMERCE_PROVIDER === "shopify"
   )
     notFound();

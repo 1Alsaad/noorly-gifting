@@ -33,12 +33,12 @@ export function ProductPurchase({
         {isProductTestMode()
           ? productTestCopy[locale].note
           : product.previewOnly
-          ? locale === "sv"
-            ? "Demopris · ej till försäljning"
-            : "Demo price · not on sale"
-          : selected?.available
-            ? t.available
-            : t.unavailable}
+            ? locale === "sv"
+              ? "Demopris · ej till försäljning"
+              : "Demo price · not on sale"
+            : selected?.available
+              ? t.available
+              : t.unavailable}
       </p>
       {product.variants.some((variant) => variant.color) ? (
         <VariantPicker

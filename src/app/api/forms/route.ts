@@ -30,7 +30,9 @@ export async function POST(request: Request) {
       if (!env.PRODUCT_INTEREST_ENABLED)
         throw new HttpError(503, "INTEREST_LIST_CLOSED");
       const products = await getCommerceProvider().getProducts();
-      const product = products.find((item) => item.handle === data.productHandle);
+      const product = products.find(
+        (item) => item.handle === data.productHandle,
+      );
       if (
         !product ||
         (data.variantId &&
@@ -63,8 +65,7 @@ export async function POST(request: Request) {
       const response = await fetch(env.FORM_DELIVERY_URL!, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${env.FORM_DELIVERY_TOKEN}`,
-          "Content-Type": "application/json",
+          Authorization: `***          "Content-Type": "application/json",
           "Idempotency-Key": submissionKey,
         },
         body: JSON.stringify({ ...data, website: undefined }),

@@ -54,15 +54,19 @@ export default async function ProductDetail({ params }: Props) {
           description: product.description[locale],
           image: product.images.map((i) => new URL(i.url, brand.siteUrl).href),
           sku: product.id,
-          ...(!isProductTestMode() && !product.previewOnly ? { offers: {
-            "@type": "Offer",
-            price: product.price.amount,
-            priceCurrency: product.price.currencyCode,
-            url,
-            availability: product.available
-              ? "https://schema.org/InStock"
-              : "https://schema.org/OutOfStock",
-          } } : {}),
+          ...(!isProductTestMode() && !product.previewOnly
+            ? {
+                offers: {
+                  "@type": "Offer",
+                  price: product.price.amount,
+                  priceCurrency: product.price.currencyCode,
+                  url,
+                  availability: product.available
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/OutOfStock",
+                },
+              }
+            : {}),
         }}
       />
       <StructuredData

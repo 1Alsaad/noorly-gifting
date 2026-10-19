@@ -78,15 +78,15 @@ export function Header({ locale }: { locale: Locale }) {
               <span className="bag-label">{productTestCopy[locale].cta}</span>
             </Link>
           ) : (
-          <Link
-            href={`/${locale}/cart`}
-            className="bag-link"
-            aria-label={`${t.cart} (${cart?.totalQuantity ?? 0})`}
-          >
-            <ShoppingBag size={19} strokeWidth={1.4} />
-            <span className="bag-label">{t.cart}</span>
-            <span className="bag-count">{cart?.totalQuantity ?? 0}</span>
-          </Link>
+            <Link
+              href={`/${locale}/cart`}
+              className="bag-link"
+              aria-label={`${t.cart} (${cart?.totalQuantity ?? 0})`}
+            >
+              <ShoppingBag size={19} strokeWidth={1.4} />
+              <span className="bag-label">{t.cart}</span>
+              <span className="bag-count">{cart?.totalQuantity ?? 0}</span>
+            </Link>
           )}
           <details className="mobile-menu">
             <summary aria-label={t.menu}>

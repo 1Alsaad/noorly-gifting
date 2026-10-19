@@ -51,10 +51,10 @@ export default async function InterestPage({
   const env = getEnv();
   const enabled = Boolean(
     env.PRODUCT_INTEREST_ENABLED &&
-      env.RATE_LIMIT_PROVIDER_URL &&
-      env.RATE_LIMIT_PROVIDER_TOKEN &&
-      env.FORM_DELIVERY_URL &&
-      env.FORM_DELIVERY_TOKEN,
+    env.RATE_LIMIT_PROVIDER_URL &&
+    env.RATE_LIMIT_PROVIDER_TOKEN &&
+    env.FORM_DELIVERY_URL &&
+    env.FORM_DELIVERY_TOKEN,
   );
   const image = variant?.images?.[0] ?? product.images[0];
   return (
@@ -99,7 +99,8 @@ export default async function InterestPage({
             enabled={enabled}
           />
           <Link className="text-link" href={`/${locale}/shop`}>
-            {locale === "sv" ? "Utforska produkterna" : "Explore the products"} ↗
+            {locale === "sv" ? "Utforska produkterna" : "Explore the products"}{" "}
+            ↗
           </Link>
         </div>
       </div>

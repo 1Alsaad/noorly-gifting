@@ -77,13 +77,13 @@ export function trackInterestLead(eventId: string, productHandle: string) {
   try {
     updateMetaConsent();
     if (!window.fbq || !process.env.NEXT_PUBLIC_META_PIXEL_ID) return false;
-  window.fbq(
-    "track",
-    "Lead",
-    { content_name: productHandle, content_category: "product_interest" },
-    { eventID: eventId },
-  );
-  sent.add(eventId);
+    window.fbq(
+      "track",
+      "Lead",
+      { content_name: productHandle, content_category: "product_interest" },
+      { eventID: eventId },
+    );
+    sent.add(eventId);
     return true;
   } catch {
     return false;

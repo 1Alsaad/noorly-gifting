@@ -43,11 +43,12 @@ export function Footer({ locale }: { locale: Locale }) {
             {brand.name}
           </Link>
           <p>{t.footer.text}</p>
-          {(!isProductTestMode() || brand.supportEmail !== "hello@example.com") && (
-          <a className="footer-email" href={`mailto:${brand.supportEmail}`}>
-            {brand.supportEmail}
-            <ArrowUpRight size={15} />
-          </a>
+          {(!isProductTestMode() ||
+            brand.supportEmail !== "hello@example.com") && (
+            <a className="footer-email" href={`mailto:${brand.supportEmail}`}>
+              {brand.supportEmail}
+              <ArrowUpRight size={15} />
+            </a>
           )}
         </div>
         {groups.map((group) => (

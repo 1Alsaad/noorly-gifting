@@ -18,18 +18,18 @@ This is a demand test, not a shop launch or a pre-order offer. No payment, order
 
 Keep all entities PAUSED until the signup flow, privacy/contact information, pixel and billing have been verified. “DRAFT” in the entity name is an editorial label: Meta actually created PAUSED campaign/ad-set objects.
 
-| Setting | Saved value |
-| --- | --- |
-| Account | Noorly - Ad Account, 479891386519342, SEK |
-| Campaign | 120251945584240015, OUTCOME_LEADS, PAUSED |
-| Campaign lifetime budget | 4,000 SEK, with a 4,000 SEK campaign spend cap |
-| Ad set | 120251945599280015, configured PAUSED |
-| Conversion | Website, OFFSITE_CONVERSIONS, standard Lead event |
-| Dataset | 511816900240916; existing business dataset, last observed browser event in 2022 |
-| Audience | Sweden, adults, broad Advantage+ audience; no invented interests |
-| Placements | Advantage+ defaults; no Instagram identity is currently available through the connection |
-| Provisional window | 23 October 08:00 CEST – 27 October 08:00 CET; about four days, accounting for the clock change |
-| Assets | Two existing 800 × 800 supplier product photographs; no generated video or product imagery |
+| Setting                  | Saved value                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| Account                  | Noorly - Ad Account, 479891386519342, SEK                                                      |
+| Campaign                 | 120251945584240015, OUTCOME_LEADS, PAUSED                                                      |
+| Campaign lifetime budget | 4,000 SEK, with a 4,000 SEK campaign spend cap                                                 |
+| Ad set                   | 120251945599280015, configured PAUSED                                                          |
+| Conversion               | Website, OFFSITE_CONVERSIONS, standard Lead event                                              |
+| Dataset                  | 511816900240916; existing business dataset, last observed browser event in 2022                |
+| Audience                 | Sweden, adults, broad Advantage+ audience; no invented interests                               |
+| Placements               | Advantage+ defaults; no Instagram identity is currently available through the connection       |
+| Provisional window       | 23 October 08:00 CEST – 27 October 08:00 CET; about four days, accounting for the clock change |
+| Assets                   | Two existing 800 × 800 supplier product photographs; no generated video or product imagery     |
 
 The dates are a proposed short test window around the usual late-month buying period, not a claim that everyone is paid on the same date. A paused schedule does not launch itself. Revisit the dates if prerequisites are not ready.
 

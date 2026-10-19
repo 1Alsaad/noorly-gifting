@@ -2,7 +2,10 @@ import type { Dictionary } from "./translations";
 import type { Locale } from "@/types/commerce";
 import { productTestCopy } from "@/config/product-test";
 
-export function applyProductTestCopy(t: Dictionary, locale: Locale): Dictionary {
+export function applyProductTestCopy(
+  t: Dictionary,
+  locale: Locale,
+): Dictionary {
   const sv = locale === "sv";
   const copy = productTestCopy[locale];
   return {
@@ -17,7 +20,9 @@ export function applyProductTestCopy(t: Dictionary, locale: Locale): Dictionary 
     add: copy.cta,
     footer: {
       ...t.footer,
-      rights: sv ? "NOORLY · Produktutveckling" : "NOORLY · Product development",
+      rights: sv
+        ? "NOORLY · Produktutveckling"
+        : "NOORLY · Product development",
     },
     home: {
       ...t.home,
