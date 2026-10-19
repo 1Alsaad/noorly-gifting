@@ -27,6 +27,10 @@ export const winterScenes: CinematicScene[] = [
         sv: "Omtänksamma gåvor. Stilla stunder.\nEn vinter att dela.",
         en: "Thoughtful gifts. Quieter moments.\nA winter worth sharing.",
       },
+      beat: {
+        sv: "Från vinterkylan.\nTill en varmare stund.",
+        en: "In from the cold.\nInto something warmer.",
+      },
     },
     hotspots: [],
   },
@@ -58,6 +62,14 @@ export const winterScenes: CinematicScene[] = [
       description: {
         sv: "Doften av skog. Ett varmt sken. Något utvalt med omtanke.",
         en: "A trace of forest. A warm glow. Something chosen with care.",
+      },
+      beat: {
+        sv: "Små stunder.\nStor omtanke.",
+        en: "Small moments.\nThoughtfully chosen.",
+      },
+      closing: {
+        sv: "Ge något\nsom stannar kvar.",
+        en: "Give something\nthat stays.",
       },
     },
     hotspots: [

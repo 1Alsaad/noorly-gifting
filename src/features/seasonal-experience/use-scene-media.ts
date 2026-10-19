@@ -6,12 +6,17 @@ import {
   dampProgress,
   progressToTime,
   sceneProgress,
+  scenePresentation,
 } from "./progress";
 import { createVideoScrubber } from "./video-scrubber";
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 
-export function useSceneMedia(frozen: boolean, disabled = false) {
+export function useSceneMedia(
+  frozen: boolean,
+  disabled = false,
+  first = false,
+) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
@@ -23,6 +28,11 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
   );
   const [progress, setProgress] = useState(0);
   const [hasFrame, setHasFrame] = useState(false);
+  const [presentation, setPresentation] = useState({
+    floating: false,
+    reveal: 1,
+    exit: 0,
+  });
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -85,21 +95,30 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
   useEffect(() => {
     const video = videoRef.current;
     const section = sectionRef.current;
-    if (!enhanced || !active || frozen || !video || !section) return;
-    const scrubber = createVideoScrubber(video);
+    if (!pinned || !active || frozen || !section) return;
+    const scrubber = enhanced && video ? createVideoScrubber(video) : null;
     let frame: number | null = null;
     let disposed = false;
-    const readProgress = () =>
-      sceneProgress(
-        section.getBoundingClientRect().top,
-        section.offsetHeight,
-        window.innerHeight,
-      );
+    const readGeometry = () => {
+      const top = section.getBoundingClientRect().top;
+      return {
+        progress: sceneProgress(top, section.offsetHeight, window.innerHeight),
+        ...scenePresentation(
+          top,
+          section.offsetHeight,
+          window.innerHeight,
+          first,
+        ),
+      };
+    };
+    let geometry = readGeometry();
     // Continue from the paused playhead when a drawer closes or a scene returns.
-    let current = clampProgress(
-      video.currentTime / progressToTime(1, video.duration),
-    );
-    let target = readProgress();
+    let current =
+      enhanced && video
+        ? clampProgress(video.currentTime / progressToTime(1, video.duration))
+        : geometry.progress;
+    let target = geometry.progress;
+    let currentReveal = geometry.reveal;
     let previous = performance.now();
     let dirty = true;
 
@@ -107,15 +126,29 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
       frame = null;
       if (disposed) return;
       if (dirty) {
-        target = readProgress();
+        geometry = readGeometry();
+        target = geometry.progress;
         dirty = false;
       }
       current = dampProgress(current, target, now - previous);
+      currentReveal = dampProgress(
+        currentReveal,
+        geometry.reveal,
+        now - previous,
+      );
+      // The incoming scene is opaque before the outgoing section leaves view.
+      if (geometry.reveal === 1) currentReveal = 1;
       previous = now;
-      scrubber.setProgress(current);
+      scrubber?.setProgress(current);
       // Hotspots and analytics follow the same eased timeline as the video.
       setProgress(current);
-      if (current !== target) frame = window.requestAnimationFrame(tick);
+      setPresentation({
+        floating: geometry.floating,
+        reveal: currentReveal,
+        exit: geometry.exit,
+      });
+      if (current !== target || currentReveal !== geometry.reveal)
+        frame = window.requestAnimationFrame(tick);
     };
     const schedule = () => {
       dirty = true;
@@ -132,9 +165,9 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
       if (frame !== null) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      scrubber.destroy();
+      scrubber?.destroy();
     };
-  }, [active, enhanced, frozen]);
+  }, [active, enhanced, pinned, frozen, first]);
 
   return {
     sectionRef,
@@ -143,6 +176,7 @@ export function useSceneMedia(frozen: boolean, disabled = false) {
     active,
     enhanced,
     pinned,
+    presentation,
     canLoadVideo,
     hasFrame,
     progress,

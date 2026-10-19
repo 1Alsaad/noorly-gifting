@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   clampProgress,
   dampProgress,
+  sceneChoreography,
+  scenePresentation,
   hotspotIsVisible,
   progressToTime,
   sceneProgress,
@@ -66,6 +68,36 @@ describe("cinematic progress and media", () => {
 
   it("discards catch-up animation after a suspended tab", () => {
     expect(dampProgress(0.2, 0.8, 1000)).toBe(0.8);
+  });
+
+  it("clears the opening title for the camera and returns copy at distinct story beats", () => {
+    expect(sceneChoreography(0, true, false).intro).toBe(1);
+    expect(sceneChoreography(0, true, false).poster).toBe(1);
+    expect(sceneChoreography(0.1, true, false).poster).toBe(0);
+    const journey = sceneChoreography(0.5, true, false);
+    expect(journey.intro).toBe(0);
+    expect(journey.details).toBe(0);
+    expect(journey.beat).toBe(1);
+    expect(journey.closing).toBe(0);
+    expect(sceneChoreography(1, true, false).chrome).toBe(0);
+    const ending = sceneChoreography(1, false, true);
+    expect(ending.intro).toBe(0);
+    expect(ending.beat).toBe(0);
+    expect(ending.closing).toBe(1);
+    expect(ending.chrome).toBe(1);
+  });
+
+  it("overlaps incoming scenes in one viewport and holds the last frame behind the collection", () => {
+    expect(scenePresentation(100, 4000, 1000, true).floating).toBe(false);
+    const incoming = scenePresentation(500, 4000, 1000, false);
+    expect(incoming.floating).toBe(true);
+    expect(incoming.reveal).toBeGreaterThan(0);
+    expect(incoming.reveal).toBeLessThan(1);
+    expect(scenePresentation(0, 4000, 1000, false).reveal).toBe(1);
+    const handoff = scenePresentation(-3500, 4000, 1000, false);
+    expect(handoff.floating).toBe(true);
+    expect(handoff.exit).toBe(0.5);
+    expect(scenePresentation(-4000, 4000, 1000, false).floating).toBe(false);
   });
 
   it("preserves the last decoded frame and rejects invalid duration", () => {

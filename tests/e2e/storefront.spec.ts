@@ -152,11 +152,7 @@ test("a static scene product opens a keyboard-accessible drawer and preserves fo
   ).toBeVisible();
 });
 
-test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
-  page,
-}) => {
-  // This validates scroll/media integration independently of replaceable merchant video files.
-  // Real decoding, keyframes and bandwidth remain a media acceptance check before launch.
+async function installTestSceneMedia(page: Page) {
   await page.addInitScript(() => {
     const setup = (video: HTMLVideoElement) => {
       if (video.dataset.testMedia) return;
@@ -191,6 +187,14 @@ test("scroll progress seeks forward and backward with a deterministic test media
       document.querySelectorAll("video").forEach(setup),
     ).observe(document, { childList: true, subtree: true });
   });
+}
+
+test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
+  page,
+}) => {
+  // This validates scroll/media integration independently of replaceable merchant video files.
+  // Real decoding, keyframes and bandwidth remain a media acceptance check before launch.
+  await installTestSceneMedia(page);
   await page.goto("/en");
   await rejectOptional(page);
   const entrance = page.locator('[data-scene="winter-entrance"]');
@@ -288,6 +292,97 @@ test("scroll progress seeks forward and backward with a deterministic test media
   ).toBe(frozenTime);
   await page.keyboard.press("Escape");
   await expect(hotspot).toBeFocused();
+});
+
+test("the story dissolves between pinned scenes and hands off to the collection", async ({
+  page,
+}) => {
+  await installTestSceneMedia(page);
+  await page.goto("/en");
+  await rejectOptional(page);
+  const entrance = page.locator('[data-scene="winter-entrance"]');
+  const room = page.locator('[data-scene="winter-candle-room"]');
+  const seek = async (scene: typeof entrance, progress: number) => {
+    await scene.evaluate(
+      (element, p) =>
+        window.scrollTo({
+          top:
+            (element as HTMLElement).offsetTop +
+            ((element as HTMLElement).offsetHeight - innerHeight) * p,
+          behavior: "instant",
+        }),
+      progress,
+    );
+  };
+  const opacity = (selector: string) =>
+    entrance
+      .locator(selector)
+      .evaluate((element) => Number(getComputedStyle(element).opacity));
+  await expect(entrance).toHaveAttribute("data-enhanced", "true");
+  await seek(entrance, 0.5);
+  await expect.poll(() => opacity(".cinema-copy")).toBeLessThan(0.01);
+  await expect.poll(() => opacity(".cinema-story-beat")).toBeGreaterThan(0.99);
+  await entrance.getByRole("link", { name: "Explore the collection" }).focus();
+  await expect.poll(() => opacity(".cinema-copy")).toBe(1);
+  await entrance.getByRole("link", { name: "Skip experience" }).focus();
+
+  // The next scene blends in over the outgoing last frame at the same viewport
+  // position. Neither camera slides vertically with its section boundary.
+  await room.evaluate((element) =>
+    window.scrollTo({
+      top: (element as HTMLElement).offsetTop - innerHeight * 0.5,
+      behavior: "instant",
+    }),
+  );
+  await expect(room).toHaveAttribute("data-enhanced", "true");
+  await expect(room).toHaveAttribute("data-floating", "true");
+  const overlap = await page.evaluate(() =>
+    [...document.querySelectorAll(".cinema-stage")].map((stage) => ({
+      top: stage.getBoundingClientRect().top,
+      opacity: Number(getComputedStyle(stage).opacity),
+    })),
+  );
+  expect(overlap[0].top).toBe(0);
+  expect(overlap[1].top).toBe(0);
+  expect(overlap[1].opacity).toBeGreaterThan(0);
+  expect(overlap[1].opacity).toBeLessThan(1);
+  await seek(entrance, 0.5);
+  await expect(room).toHaveAttribute("data-floating", "false");
+
+  // The collection rises over a stationary final frame.
+  await seek(room, 1.12);
+  await expect(room).toHaveAttribute("data-floating", "true");
+  expect(
+    await room
+      .locator(".cinema-stage")
+      .evaluate((stage) => stage.getBoundingClientRect().top),
+  ).toBe(0);
+  const panel = await page
+    .locator(".cinema-collection-handoff")
+    .evaluate((element) => ({
+      top: element.getBoundingClientRect().top,
+      viewport: innerHeight,
+    }));
+  expect(panel.top).toBeGreaterThan(0);
+  expect(panel.top).toBeLessThan(panel.viewport);
+  // Focusing a covered story control reveals its stage without replaying it.
+  await page.keyboard.press("ArrowLeft");
+  await room.getByRole("link", { name: "Skip experience" }).focus();
+  expect(
+    await page
+      .locator(".cinema-collection-handoff")
+      .evaluate((element) => element.getBoundingClientRect().top - innerHeight),
+  ).toBeGreaterThanOrEqual(-1);
+  await seek(room, 0.98);
+  await room
+    .locator(".cinema-closing")
+    .getByRole("link", { name: "Explore the collection" })
+    .click();
+  await expect(page).toHaveURL(/#gifts$/);
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Thoughtfully brought together" }),
+  ).toBeInViewport();
 });
 
 test("product variants, cart quantities and preview checkout work without optional consent", async ({
@@ -562,6 +657,12 @@ test("the conventional catalogue remains useful without JavaScript", async ({
   });
   const page = await context.newPage();
   try {
+    await page.goto("/en");
+    await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+    await page.getByRole("link", { name: "Skip experience" }).first().click();
+    await expect(
+      page.getByRole("heading", { name: "Thoughtfully brought together" }),
+    ).toBeInViewport();
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(

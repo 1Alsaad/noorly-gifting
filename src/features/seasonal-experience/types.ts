@@ -29,6 +29,8 @@ export interface CinematicScene {
     eyebrow: LocalizedText;
     title: LocalizedText;
     description: LocalizedText;
+    beat?: LocalizedText;
+    closing?: LocalizedText;
   };
   hotspots: Hotspot[];
 }

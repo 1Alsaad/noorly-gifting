@@ -56,44 +56,46 @@ export default async function Home({
         products={products}
         scenes={season.scenes}
       />
-      <div className="trust-bar">
-        {t.home.trust.map((text, i) => {
-          const Icon = trustIcons[i];
-          return (
-            <div key={text}>
-              <Icon size={18} strokeWidth={1.2} />
-              <span>{text}</span>
+      <div className="cinema-collection-handoff">
+        <div className="trust-bar">
+          {t.home.trust.map((text, i) => {
+            const Icon = trustIcons[i];
+            return (
+              <div key={text}>
+                <Icon size={18} strokeWidth={1.2} />
+                <span>{text}</span>
+              </div>
+            );
+          })}
+        </div>
+        <section
+          className="section-wrap collection-section"
+          id="gifts"
+          tabIndex={-1}
+        >
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{t.home.curatedLabel}</p>
+              <h2>{t.home.curated}</h2>
+              <p className="section-intro">{t.home.curatedText}</p>
             </div>
-          );
-        })}
-      </div>
-      <section
-        className="section-wrap collection-section"
-        id="gifts"
-        tabIndex={-1}
-      >
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">{t.home.curatedLabel}</p>
-            <h2>{t.home.curated}</h2>
-            <p className="section-intro">{t.home.curatedText}</p>
+            <Link className="text-link" href={`/${locale}/shop`}>
+              {t.home.viewAll}
+              <ArrowUpRight size={17} />
+            </Link>
           </div>
-          <Link className="text-link" href={`/${locale}/shop`}>
-            {t.home.viewAll}
-            <ArrowUpRight size={17} />
-          </Link>
-        </div>
-        <div className="product-grid three">
-          {boxes.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              locale={locale}
-              index={index}
-            />
-          ))}
-        </div>
-      </section>
+          <div className="product-grid three">
+            {boxes.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                locale={locale}
+                index={index}
+              />
+            ))}
+          </div>
+        </section>
+      </div>
       <section className="builder-feature">
         <div className="builder-feature-image">
           <Image

@@ -3,11 +3,12 @@
 /* Native picture supports separate art-directed mobile posters without downloading both images. */
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { useCart } from "@/features/cart/cart-provider";
 import { useSceneMedia } from "@/features/seasonal-experience/use-scene-media";
+import { sceneChoreography } from "@/features/seasonal-experience/progress";
 import { winterScenes } from "@/features/seasonal-experience/winter-scenes";
 import type {
   CinematicScene,
@@ -178,6 +179,7 @@ function Scene({
     active,
     enhanced,
     pinned,
+    presentation,
     canLoadVideo,
     hasFrame,
     progress,
@@ -185,10 +187,24 @@ function Scene({
     onMetadata,
     onFrame,
     onMediaError,
-  } = useSceneMedia(frozen, mediaDisabled);
+  } = useSceneMedia(frozen, mediaDisabled, index === 0);
   const copy = cinematicCopy[locale];
   const sceneAsset = mobile ? scene.media.mobile : scene.media.desktop;
   const first = index === 0;
+  const last = index === total - 1;
+  const choreography = sceneChoreography(progress, first, last);
+  const sceneStyle = {
+    "--scene-reveal": presentation.reveal,
+    "--poster-opacity": choreography.poster,
+    "--intro-opacity": choreography.intro,
+    "--intro-lift": `${(1 - choreography.intro) * -28}px`,
+    "--detail-opacity": choreography.details,
+    "--beat-opacity": choreography.beat,
+    "--beat-lift": `${(1 - choreography.beat) * 24}px`,
+    "--closing-opacity": choreography.closing * (1 - presentation.exit),
+    "--chrome-opacity": choreography.chrome * (1 - presentation.exit),
+    "--story-progress": progress,
+  } as CSSProperties;
   const featured = products.find(
     (product) => product.handle === scene.hotspots[0]?.productHandle,
   );
@@ -251,7 +267,7 @@ function Scene({
     : "";
   const skipLink = (
     <a
-      className={`cinema-skip ${first ? "cinema-skip-top" : ""}`}
+      className="cinema-skip cinema-skip-top"
       href="#gifts"
       onClick={() => {
         // Collapse all scene ranges before native anchor navigation measures its target.
@@ -278,9 +294,27 @@ function Scene({
       className={`cinema-scene ${first ? "cinema-entrance" : "cinema-interior"}`}
       data-enhanced={enhanced}
       data-pinned={pinned}
+      data-floating={pinned && active && presentation.floating}
+      data-interactive={presentation.reveal >= 0.98}
       data-scene={scene.id}
       data-progress={Math.round(progress * 100)}
       aria-labelledby={`${scene.id}-title`}
+      style={sceneStyle}
+      onFocusCapture={(event) => {
+        const section = sectionRef.current;
+        if (!pinned || !section || !event.target.matches(":focus-visible"))
+          return;
+        const bounds = section.getBoundingClientRect();
+        // Keyboard navigation reveals the relevant scene before focusing its
+        // controls, including a scene partway through its incoming dissolve.
+        if (bounds.top > 0 || bounds.bottom <= 0)
+          section.scrollIntoView({ block: "start", behavior: "instant" });
+        else if (bounds.bottom < window.innerHeight)
+          window.scrollBy({
+            top: bounds.bottom - window.innerHeight,
+            behavior: "instant",
+          });
+      }}
     >
       <div className="cinema-stage">
         <picture
@@ -307,7 +341,6 @@ function Scene({
             ref={videoRef}
             className="cinema-video"
             src={sceneAsset.video}
-            poster={sceneAsset.poster}
             muted
             playsInline
             preload="auto"
@@ -321,7 +354,7 @@ function Scene({
           />
         )}
         <div className="cinema-shade" aria-hidden="true" />
-        {first && skipLink}
+        {skipLink}
         {canLoadVideo && !enhanced && (
           <span className="cinema-media-status" role="status">
             {copy.loading}
@@ -329,37 +362,58 @@ function Scene({
         )}
 
         <div className="cinema-scene-content">
-          <p className="cinema-kicker">{scene.copy.eyebrow[locale]}</p>
-          {first ? (
-            <h1 id={`${scene.id}-title`} className="cinema-title">
-              {scene.copy.title[locale]}
-            </h1>
-          ) : (
-            <h2 id={`${scene.id}-title`} className="cinema-title">
-              {scene.copy.title[locale]}
-            </h2>
-          )}
-          <p className="cinema-description">{scene.copy.description[locale]}</p>
-          {first && (
-            <div className="cinema-actions">
-              <a
-                className="cinema-button cinema-button-light"
-                href="#gifts"
-                onClick={onSkip}
+          <div className="cinema-copy">
+            <p className="cinema-kicker">{scene.copy.eyebrow[locale]}</p>
+            {first ? (
+              <h1 id={`${scene.id}-title`} className="cinema-title">
+                {scene.copy.title[locale]}
+              </h1>
+            ) : (
+              <h2 id={`${scene.id}-title`} className="cinema-title">
+                {scene.copy.title[locale]}
+              </h2>
+            )}
+            <p className="cinema-description">
+              {scene.copy.description[locale]}
+            </p>
+            {first && (
+              <div
+                className="cinema-actions"
+                data-muted={enhanced && choreography.details < 0.05}
               >
-                {copy.explore}
-                <span aria-hidden="true">↗</span>
-              </a>
-              <Link
-                className="cinema-text-link"
-                href={`/${locale}/build-a-box`}
-              >
-                {copy.build}
-                <span aria-hidden="true"> ↗</span>
-              </Link>
-            </div>
-          )}
+                <a
+                  className="cinema-button cinema-button-light"
+                  href="#gifts"
+                  onClick={onSkip}
+                >
+                  {copy.explore}
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <Link
+                  className="cinema-text-link"
+                  href={`/${locale}/build-a-box`}
+                >
+                  {copy.build}
+                  <span aria-hidden="true"> ↗</span>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
+
+        {enhanced && scene.copy.beat && (
+          <p className="cinema-story-beat">{scene.copy.beat[locale]}</p>
+        )}
+        {enhanced && last && scene.copy.closing && (
+          <div className="cinema-closing" inert={choreography.closing < 0.1}>
+            <p className="cinema-kicker">{scene.copy.eyebrow[locale]}</p>
+            <p className="cinema-closing-title">{scene.copy.closing[locale]}</p>
+            <a className="cinema-text-link" href="#gifts" onClick={onSkip}>
+              {copy.explore}
+              <span aria-hidden="true"> ↗</span>
+            </a>
+          </div>
+        )}
 
         {enhanced &&
           scene.hotspots.map((hotspot) => {
@@ -410,6 +464,11 @@ function Scene({
             {String(index + 1).padStart(2, "0")}{" "}
             <span aria-hidden="true">/</span> {String(total).padStart(2, "0")}
             <span className="cinema-index-name">{scene.name[locale]}</span>
+            {enhanced && (
+              <span className="cinema-timeline" aria-hidden="true">
+                <i />
+              </span>
+            )}
           </span>
           {first && (
             <span className="cinema-scroll-cue">
@@ -417,14 +476,13 @@ function Scene({
               {enhanced ? copy.scroll : copy.static}
             </span>
           )}
-          {!first && skipLink}
+          {!first && (
+            <Link className="cinema-shop-route" href={`/${locale}/shop`}>
+              {copy.shop}
+              <span aria-hidden="true"> ↗</span>
+            </Link>
+          )}
         </div>
-        {!first && (
-          <Link className="cinema-shop-route" href={`/${locale}/shop`}>
-            {copy.shop}
-            <span aria-hidden="true"> ↗</span>
-          </Link>
-        )}
       </div>
     </section>
   );
