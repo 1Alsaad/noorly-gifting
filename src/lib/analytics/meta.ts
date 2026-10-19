@@ -25,6 +25,7 @@ export function updateMetaConsent() {
   if (!pixelId || !/^\d+$/.test(pixelId)) return;
   if (!getConsent()?.marketing) {
     if (window.fbq) {
+      if (!window.fbq.callMethod) initialized = false;
       window.fbq.queue = [];
       window.fbq("consent", "revoke");
     }
@@ -69,6 +70,7 @@ export function trackInterestLead(eventId: string, productHandle: string) {
   if (
     typeof window === "undefined" ||
     !getConsent()?.marketing ||
+    !/^\d+$/.test(process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "") ||
     sent.has(eventId) ||
     !/^[0-9a-f-]{36}$/i.test(eventId) ||
     !/^[a-z0-9-]{1,100}$/.test(productHandle)
