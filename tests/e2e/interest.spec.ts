@@ -17,10 +17,11 @@ test("product test replaces purchasing and blocks direct cart mutations", async 
       .getByText("Pris ej fastställt", { exact: true }),
   ).toBeVisible();
   await expect(page.getByRole("button", { name: /Lägg i/ })).toHaveCount(0);
-  const data = await page
+  const productSchema = page
     .locator('script[type="application/ld+json"]')
-    .allTextContents();
-  expect(data.join("")).not.toContain('"@type":"Offer"');
+    .filter({ hasText: '"@type":"Product"' });
+  await expect(productSchema).toHaveCount(1);
+  await expect(productSchema).not.toContainText('"@type":"Offer"');
   const response = await request.post("/api/cart", {
     headers: { Origin: "http://127.0.0.1:3000" },
     data: { type: "checkout", locale: "sv" },
