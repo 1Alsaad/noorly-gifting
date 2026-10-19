@@ -15,6 +15,7 @@ interface Props {
   locale: Locale;
   open: boolean;
   trigger: HTMLElement | null;
+  initialVariantId?: string;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -23,11 +24,14 @@ export function ProductDrawer({
   locale,
   open,
   trigger,
+  initialVariantId,
   onOpenChange,
 }: Props) {
   const copy = cinematicCopy[locale];
   const { addLines, loading } = useCart();
-  const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
+  const [variantId, setVariantId] = useState(
+    initialVariantId ?? product.variants[0]?.id ?? "",
+  );
   const [status, setStatus] = useState<"idle" | "adding" | "added" | "error">(
     "idle",
   );

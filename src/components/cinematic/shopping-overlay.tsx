@@ -17,7 +17,11 @@ export function ShoppingOverlay({
   product: Product;
   locale: Locale;
   visible: boolean;
-  onDetails: (product: Product, trigger: HTMLButtonElement) => void;
+  onDetails: (
+    product: Product,
+    trigger: HTMLButtonElement,
+    variantId: string,
+  ) => void;
   onSkip: () => void;
 }) {
   const copy = cinematicCopy[locale];
@@ -113,7 +117,9 @@ export function ShoppingOverlay({
           type="button"
           className="cinema-details-link"
           aria-haspopup="dialog"
-          onClick={(event) => onDetails(product, event.currentTarget)}
+          onClick={(event) =>
+            onDetails(product, event.currentTarget, variantId)
+          }
         >
           {copy.details}
         </button>

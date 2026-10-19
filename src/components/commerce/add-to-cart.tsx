@@ -5,7 +5,6 @@ import { ArrowUpRight, Check } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { useCart } from "@/features/cart/cart-provider";
-import { trackEvent } from "@/lib/analytics/client";
 export function AddToCart({
   product,
   locale,
@@ -27,14 +26,6 @@ export function AddToCart({
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
       setState("added");
-      trackEvent({
-        name: "product_variant_selected",
-        properties: {
-          locale,
-          product_handle: product.handle,
-          variant_id: variant.id,
-        },
-      });
     } catch {
       setState("error");
     }

@@ -25,6 +25,7 @@ interface Selection {
   product: Product;
   trigger: HTMLElement;
   scene: CinematicScene;
+  variantId?: string;
 }
 
 interface Props {
@@ -59,6 +60,7 @@ export function CinematicExperience({
     trigger: HTMLElement,
     scene: CinematicScene,
     hotspot?: Hotspot,
+    variantId?: string,
   ) {
     if (hotspot)
       trackEvent({
@@ -94,7 +96,7 @@ export function CinematicExperience({
         source: hotspot ? "hotspot" : "static_scene",
       },
     });
-    setSelection({ product, trigger, scene });
+    setSelection({ product, trigger, scene, variantId });
     setDrawerOpen(true);
   }
 
@@ -127,17 +129,18 @@ export function CinematicExperience({
           frozen={drawerOpen}
           mediaDisabled={skipped}
           onSkip={() => flushSync(() => setSkipped(true))}
-          onSelect={(product, trigger, hotspot) =>
-            select(product, trigger, scene, hotspot)
+          onSelect={(product, trigger, hotspot, variantId) =>
+            select(product, trigger, scene, hotspot, variantId)
           }
         />
       ))}
       {selection && (
         <ProductDrawer
-          key={selection.product.id}
+          key={`${selection.product.id}:${selection.variantId ?? "default"}`}
           product={selection.product}
           locale={locale}
           trigger={selection.trigger}
+          initialVariantId={selection.variantId}
           open={drawerOpen}
           onOpenChange={changeDrawer}
         />
@@ -159,6 +162,7 @@ interface SceneProps {
     product: Product,
     trigger: HTMLButtonElement,
     hotspot?: Hotspot,
+    variantId?: string,
   ) => void;
 }
 
@@ -428,7 +432,9 @@ function Scene({
             product={featured}
             locale={locale}
             visible={hasFrame && frameProgress >= scene.shopping.visibleFrom}
-            onDetails={onSelect}
+            onDetails={(product, trigger, variantId) =>
+              onSelect(product, trigger, undefined, variantId)
+            }
             onSkip={onSkip}
           />
         )}

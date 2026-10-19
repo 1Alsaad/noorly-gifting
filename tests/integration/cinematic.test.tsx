@@ -234,6 +234,11 @@ describe("cinematic shopping accessibility", () => {
     expect(
       screen.getByRole("button", { name: "Lägg i varukorgen" }),
     ).toBeDisabled();
+    const details = screen.getByRole("button", {
+      name: "Läs mer om produkten",
+    });
+    await user.click(details);
+    expect(props.onDetails).toHaveBeenCalledWith(product, details, "sold");
   });
 
   it("keeps shopping errors retryable and collection navigation synchronous", async () => {
