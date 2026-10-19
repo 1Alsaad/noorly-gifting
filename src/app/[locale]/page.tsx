@@ -40,6 +40,9 @@ export default async function Home({
     getContentRepository().getActiveSeason(),
   ]);
   const boxes = products.filter((p) => p.category === "box");
+  const candleSand = products.find(
+    (product) => product.handle === "candle-sand",
+  );
   const trustIcons = [Gift, PenLine, ShieldCheck];
   return (
     <>
@@ -73,6 +76,60 @@ export default async function Home({
           id="gifts"
           tabIndex={-1}
         >
+          {candleSand && (
+            <div className="candle-sand-feature">
+              <Link
+                href={`/${locale}/products/candle-sand`}
+                className="candle-sand-feature-image"
+              >
+                <Image
+                  src={candleSand.images[0].url}
+                  alt={candleSand.images[0].alt}
+                  fill
+                  sizes="(max-width:760px) 90vw, 45vw"
+                />
+              </Link>
+              <div className="candle-sand-feature-copy">
+                <p className="eyebrow">
+                  {locale === "sv" ? "LJUSSAND · 300 G" : "CANDLE SAND · 300 G"}
+                </p>
+                <h2>
+                  {locale === "sv"
+                    ? "Samma stilla sken. Din egen nyans."
+                    : "The same quiet glow. Your own colour."}
+                </h2>
+                <p>
+                  {locale === "sv"
+                    ? "Tio doftande färgval och doftfri vit. Fyra vekar i varje påse. Upptäck ljussanden från filmen."
+                    : "Ten scented colour options and unscented white. Four wicks in every pouch. Discover the candle sand from the film."}
+                </p>
+                <div className="product-mini-swatches" aria-hidden="true">
+                  {candleSand.variants
+                    .filter((variant) => variant.sku !== "CSand-11")
+                    .map((variant) => (
+                      <i
+                        key={variant.id}
+                        style={{ backgroundColor: variant.color?.hex }}
+                      />
+                    ))}
+                </div>
+                <Link
+                  className="button button-dark"
+                  href={`/${locale}/products/candle-sand`}
+                >
+                  {locale === "sv"
+                    ? "Välj färg & doft"
+                    : "Choose colour & scent"}
+                  <ArrowUpRight size={17} />
+                </Link>
+                <p className="product-note">
+                  {locale === "sv"
+                    ? "Kärl ingår inte. Använd ett obrännbart, värmetåligt kärl avsett för ljus."
+                    : "Vessel not included. Use a non-combustible, heat-resistant candle vessel."}
+                </p>
+              </div>
+            </div>
+          )}
           <div className="section-heading">
             <div>
               <p className="eyebrow">{t.home.curatedLabel}</p>

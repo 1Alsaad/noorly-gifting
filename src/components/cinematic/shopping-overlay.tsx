@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { VariantPicker } from "@/components/product/variant-picker";
 import { useCart } from "@/features/cart/cart-provider";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import type { Locale, Product } from "@/types/commerce";
@@ -63,28 +65,25 @@ export function ShoppingOverlay({
           }).format(Number(price.amount))}
         </span>
         <span className="cinema-stock">
-          {variant?.available ? copy.available : copy.unavailable}
+          {product.previewOnly
+            ? locale === "sv"
+              ? "Demopris"
+              : "Demo price"
+            : variant?.available
+              ? copy.available
+              : copy.unavailable}
         </span>
       </div>
-      {product.variants.length > 1 && (
-        <label className="cinema-variant-label">
-          {copy.variant}
-          <select
-            value={variantId}
-            onChange={(event) => {
-              setVariantId(event.target.value);
-              setStatus("idle");
-            }}
-          >
-            {product.variants.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.title}
-                {!item.available ? ` — ${copy.unavailable}` : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-      )}
+      <VariantPicker
+        product={product}
+        locale={locale}
+        value={variantId}
+        compact
+        onChange={(id) => {
+          setVariantId(id);
+          setStatus("idle");
+        }}
+      />
       <button
         type="button"
         className="cinema-button cinema-button-dark"
@@ -105,6 +104,11 @@ export function ShoppingOverlay({
             : ""}
       </p>
       <div className="cinema-shopping-links">
+        {status === "added" && (
+          <Link href={`/${locale}/cart`} className="cinema-details-link">
+            {locale === "sv" ? "Till varukorgen" : "View cart"} ↗
+          </Link>
+        )}
         <button
           type="button"
           className="cinema-details-link"

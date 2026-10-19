@@ -33,6 +33,6 @@ export const winterScenes: CinematicScene[] = [
       },
     },
     hotspots: [],
-    shopping: { productHandle: "winter-candle", visibleFrom: 10 / 15 },
+    shopping: { productHandle: "candle-sand", visibleFrom: 10 / 15 },
   },
 ];

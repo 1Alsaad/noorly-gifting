@@ -6,6 +6,7 @@ import { getDictionary } from "@/content/translations";
 import type { CartLine, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { useCart } from "./cart-provider";
+import { variantLabel } from "@/components/product/variant-picker";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
@@ -80,8 +81,14 @@ export function CartView({ locale }: { locale: Locale }) {
                       className="cart-image"
                     >
                       <Image
-                        src={line.product.images[0].url}
-                        alt={line.product.images[0].alt}
+                        src={
+                          (line.variant.images?.[0] ?? line.product.images[0])
+                            .url
+                        }
+                        alt={
+                          (line.variant.images?.[0] ?? line.product.images[0])
+                            .alt
+                        }
                         fill
                         sizes="100px"
                       />
@@ -94,7 +101,7 @@ export function CartView({ locale }: { locale: Locale }) {
                           {line.product.title[locale]}
                         </Link>
                       </h3>
-                      <p>{line.variant.title}</p>
+                      <p>{variantLabel(line.variant, locale)}</p>
                       {!bundle && (
                         <div className="quantity-control">
                           <button

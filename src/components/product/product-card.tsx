@@ -46,6 +46,29 @@ export function ProductCard({
         <span>{formatMoney(product.price, locale)}</span>
       </div>
       <p>{product.description[locale]}</p>
+      {product.variants.some((variant) => variant.color) && (
+        <Link
+          className="product-colour-summary"
+          href={`/${locale}/products/${product.handle}`}
+        >
+          <span className="product-mini-swatches" aria-hidden="true">
+            {product.variants
+              .filter((variant) => variant.sku !== "CSand-11")
+              .map((variant) => (
+                <i
+                  key={variant.id}
+                  style={{ backgroundColor: variant.color?.hex }}
+                />
+              ))}
+          </span>
+          <span>
+            {locale === "sv"
+              ? "11 färg- & doftval"
+              : "11 colour & scent options"}{" "}
+            ↗
+          </span>
+        </Link>
+      )}
       {!product.available && (
         <span className="small-label">{t.unavailable}</span>
       )}

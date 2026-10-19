@@ -41,9 +41,7 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   await page.getByRole("link", { name: "Skip experience" }).first().click();
   await expect(page).toHaveURL(/\/en#gifts$/);
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
-  await expect(
-    page.getByRole("heading", { name: "Thoughtfully brought together" }),
-  ).toBeInViewport();
+  await expect(page.locator("#gifts")).toBeInViewport();
   for (const name of ["Winter Evening", "Quiet Morning", "New Home"]) {
     await expect(
       page.getByRole("heading", { name, exact: true }),
@@ -85,9 +83,7 @@ for (const linkName of ["Skip experience", "Explore the collection"]) {
         "false",
       );
     }
-    await expect(
-      page.getByRole("heading", { name: "Thoughtfully brought together" }),
-    ).toBeInViewport();
+    await expect(page.locator("#gifts")).toBeInViewport();
   });
 }
 
@@ -121,23 +117,17 @@ test("a static scene product opens a keyboard-accessible drawer and preserves fo
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
   await rejectOptional(page);
-  const trigger = page.getByRole("button", { name: /Winter Candle.*295/ });
+  const trigger = page.getByRole("button", { name: /Candle Sand.*295/ });
   await trigger.scrollIntoViewIfNeeded();
   await trigger.focus();
   await page.keyboard.press("Enter");
-  const drawer = page.getByRole("dialog", { name: "Winter Candle" });
+  const drawer = page.getByRole("dialog", { name: "Candle Sand" });
   await expect(drawer).toBeVisible();
   await expect(
-    drawer.getByRole("img", { name: "Winter Candle", exact: true }),
+    drawer.getByRole("img", { name: /Candle sand — White, Unscented/ }),
   ).toBeVisible();
-  await drawer.getByLabel("Variant").selectOption("winter-candle-large");
-  await expect(
-    drawer.getByText("Temporarily sold out", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    drawer.getByRole("button", { name: "Add to cart", exact: true }),
-  ).toBeDisabled();
-  await drawer.getByLabel("Variant").selectOption("winter-candle-default");
+  await drawer.getByLabel("Colour & scent").selectOption("candle-sand-07");
+  await expect(drawer.getByRole("img", { name: /Dusty Rose/ })).toBeVisible();
   await drawer
     .getByRole("button", { name: "Add to cart", exact: true })
     .click();
@@ -274,9 +264,7 @@ test("scroll progress seeks forward and backward with a deterministic test media
   await expect(details).toBeVisible();
   await details.focus();
   await page.keyboard.press("Enter");
-  await expect(
-    page.getByRole("dialog", { name: "Winter Candle" }),
-  ).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
   const frozenTime = await entrance
     .locator("video")
     .evaluate((video: HTMLVideoElement) => video.currentTime);
@@ -353,11 +341,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
     .analyze();
   expect(accessibility.violations).toEqual([]);
 
-  await shopping.getByLabel("Variant").selectOption("winter-candle-large");
-  await expect(
-    shopping.getByRole("button", { name: "Add to cart" }),
-  ).toBeDisabled();
-  await shopping.getByLabel("Variant").selectOption("winter-candle-default");
+  await shopping.getByLabel("Colour & scent").selectOption("candle-sand-09");
   await shopping
     .getByRole("button", { name: "Add to cart", exact: true })
     .click();
@@ -397,9 +381,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
   await shopping.getByRole("link", { name: "Explore the collection" }).click();
   await expect(page).toHaveURL(/#gifts$/);
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
-  await expect(
-    page.getByRole("heading", { name: "Thoughtfully brought together" }),
-  ).toBeInViewport();
+  await expect(page.locator("#gifts")).toBeInViewport();
 });
 
 test("product variants, cart quantities and preview checkout work without optional consent", async ({
@@ -624,9 +606,7 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
     "false",
   );
   await page.getByRole("link", { name: "Skip experience" }).first().click();
-  await expect(
-    page.getByRole("heading", { name: "Thoughtfully brought together" }),
-  ).toBeInViewport();
+  await expect(page.locator("#gifts")).toBeInViewport();
   await page.getByRole("link", { name: "Create your gift box" }).click();
   await expect(
     page.getByRole("heading", { name: "Make it theirs.", level: 1 }),
@@ -638,7 +618,13 @@ test("important shopping pages pass automated WCAG accessibility checks", async 
 }) => {
   test.setTimeout(180_000);
   await addCandle(page);
-  for (const path of ["/en", "/en/shop", "/en/build-a-box", "/en/cart"]) {
+  for (const path of [
+    "/en",
+    "/en/shop",
+    "/en/products/candle-sand",
+    "/en/build-a-box",
+    "/en/cart",
+  ]) {
     await test.step(`accessibility ${path}`, async () => {
       await page.goto(path);
       await expect(page.locator("main h1")).toBeVisible();
@@ -677,9 +663,7 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await page.goto("/en");
     await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
     await page.getByRole("link", { name: "Skip experience" }).first().click();
-    await expect(
-      page.getByRole("heading", { name: "Thoughtfully brought together" }),
-    ).toBeInViewport();
+    await expect(page.locator("#gifts")).toBeInViewport();
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
@@ -744,12 +728,10 @@ test("unavailable cinematic videos restore posters and conventional product cont
   await expect(scene.locator(".cinema-poster")).not.toHaveClass(
     /cinema-poster-hidden/,
   );
-  const trigger = scene.getByRole("button", { name: /Winter Candle.*295/ });
+  const trigger = scene.getByRole("button", { name: /Candle Sand.*295/ });
   await trigger.focus();
   await page.keyboard.press("Enter");
-  await expect(
-    page.getByRole("dialog", { name: "Winter Candle" }),
-  ).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
 });
@@ -772,12 +754,10 @@ test("Save-Data suppresses video requests while keeping shopping available", asy
   });
   await page.goto("/en");
   await rejectOptional(page);
-  const trigger = page.getByRole("button", { name: /Winter Candle.*295/ });
+  const trigger = page.getByRole("button", { name: /Candle Sand.*295/ });
   await trigger.scrollIntoViewIfNeeded();
   await trigger.click();
-  await expect(
-    page.getByRole("dialog", { name: "Winter Candle" }),
-  ).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   expect(requests).toEqual([]);
 });
@@ -807,9 +787,31 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   );
   const card = scene.locator(".cinema-shopping");
   await expect(card).toHaveAttribute("data-visible", "true");
-  await expect(card.getByRole("heading", { name: "Vinterljus" })).toBeVisible();
-  await expect(card.getByLabel("Utförande")).toBeVisible();
+  await expect(card.getByRole("heading", { name: "Ljussand" })).toBeVisible();
+  await expect(card.getByLabel("Färg & doft")).toBeVisible();
   await expect(card.getByText("295 kr", { exact: true })).toBeVisible();
+  const geometry = await scene.evaluate((element) => {
+    const video = element.querySelector("video")!;
+    const media = element
+      .querySelector(".cinema-media")!
+      .getBoundingClientRect();
+    const panel = element
+      .querySelector(".cinema-shopping")!
+      .getBoundingClientRect();
+    return {
+      mediaBottom: media.bottom,
+      mediaHeight: media.height,
+      panelTop: panel.top,
+      panelBottom: panel.bottom,
+      viewport: innerHeight,
+      fit: getComputedStyle(video).objectFit,
+    };
+  });
+  expect(geometry.mediaBottom).toBeLessThanOrEqual(geometry.panelTop + 1);
+  expect(geometry.mediaHeight).toBeGreaterThan(300);
+  expect(geometry.panelBottom).toBeLessThan(geometry.viewport - 30);
+  expect(geometry.fit).toBe("contain");
+
   const mutation = page.waitForResponse(
     (response) =>
       response.url().endsWith("/api/cart") &&
@@ -822,7 +824,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   expect(response.status()).toBe(200);
   expect(response.request().postDataJSON()).toEqual({
     type: "add",
-    lines: [{ merchandiseId: "winter-candle-default", quantity: 1 }],
+    lines: [{ merchandiseId: "candle-sand-11", quantity: 1 }],
   });
   expect((await response.json()).cart.totalQuantity).toBe(1);
   await expect(
@@ -854,13 +856,77 @@ test("short-screen static shopping stays below editorial copy", async ({
     return { copyBottom: copy.bottom, productTop: product.top };
   });
   expect(geometry.productTop).toBeGreaterThan(geometry.copyBottom + 20);
-  const trigger = scene.getByRole("button", { name: /Winter Candle.*295/ });
+  const trigger = scene.getByRole("button", { name: /Candle Sand.*295/ });
   await trigger.scrollIntoViewIfNeeded();
   await trigger.focus();
   await page.keyboard.press("Enter");
-  await expect(
-    page.getByRole("dialog", { name: "Winter Candle" }),
-  ).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(trigger).toBeFocused();
+});
+
+test("candle sand colour, gallery and cart stay matched on mobile", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/en/products/candle-sand");
+  await rejectOptional(page);
+  await expect(page.getByRole("radio")).toHaveCount(11);
+  await page
+    .getByRole("radio", { name: "Dusty Rose · Maison de Roses" })
+    .check();
+  await expect(page.locator(".gallery-main")).toHaveAttribute(
+    "href",
+    /csand-07-0.webp$/,
+  );
+  await page.getByRole("button", { name: /^Image 2:/ }).click();
+  await expect(page.locator(".gallery-main")).toHaveAttribute(
+    "href",
+    /csand-07-2.webp$/,
+  );
+  await page.getByRole("button", { name: "Add to bag", exact: true }).click();
+  await page.locator(".cart-next-step").click();
+  await expect(page.locator(".cart-line-description")).toContainText(
+    "Dusty Rose · Maison de Roses",
+  );
+  await expect(page.locator(".cart-image img")).toHaveAttribute(
+    "src",
+    /csand-07-0/,
+  );
+  await page.reload();
+  await expect(page.locator(".cart-line-description")).toContainText(
+    "Dusty Rose · Maison de Roses",
+  );
+  await expect(page.locator(".cart-image img")).toHaveAttribute(
+    "src",
+    /csand-07-0/,
+  );
+});
+
+test("candle sand photos and variants remain accessible without JavaScript", async ({
+  browser,
+  baseURL,
+}) => {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    baseURL,
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto("/en/products/candle-sand");
+    await expect(
+      page.getByRole("heading", { name: "Candle Sand", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", {
+        name: "Dusty Rose · Maison de Roses",
+        exact: true,
+      }),
+    ).toHaveAttribute("href", /csand-07-0.webp$/);
+    await expect(
+      page.getByRole("link", { name: "Image 2 ·", exact: true }),
+    ).toHaveAttribute("href", /csand-11-2.webp$/);
+  } finally {
+    await context.close();
+  }
 });

@@ -322,44 +322,46 @@ function Scene({
       }}
     >
       <div className="cinema-stage">
-        <picture
-          className={`cinema-poster ${enhanced && hasFrame ? "cinema-poster-hidden" : ""}`}
-        >
-          <source
-            media="(max-width: 767px)"
-            srcSet={scene.media.mobile.poster}
-          />
-          <img
-            src={scene.media.desktop.poster}
-            alt=""
-            width="1920"
-            height="1080"
-            fetchPriority={first ? "high" : "auto"}
-            loading={first ? "eager" : "lazy"}
-            onError={(event) => {
-              event.currentTarget.style.opacity = "0";
-            }}
-          />
-        </picture>
-        {canLoadVideo && (
-          <video
-            ref={videoRef}
-            className="cinema-video"
-            src={sceneAsset.video}
-            muted
-            playsInline
-            preload="auto"
-            disablePictureInPicture
-            aria-hidden="true"
-            tabIndex={-1}
-            onLoadedMetadata={onMetadata}
-            onLoadStart={onLoadStart}
-            onLoadedData={onFrame}
-            onSeeked={onFrame}
-            onError={onMediaError}
-          />
-        )}
-        <div className="cinema-shade" aria-hidden="true" />
+        <div className="cinema-media">
+          <picture
+            className={`cinema-poster ${enhanced && hasFrame ? "cinema-poster-hidden" : ""}`}
+          >
+            <source
+              media="(max-width: 767px)"
+              srcSet={scene.media.mobile.poster}
+            />
+            <img
+              src={scene.media.desktop.poster}
+              alt=""
+              width="1920"
+              height="1080"
+              fetchPriority={first ? "high" : "auto"}
+              loading={first ? "eager" : "lazy"}
+              onError={(event) => {
+                event.currentTarget.style.opacity = "0";
+              }}
+            />
+          </picture>
+          {canLoadVideo && (
+            <video
+              ref={videoRef}
+              className="cinema-video"
+              src={sceneAsset.video}
+              muted
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+              aria-hidden="true"
+              tabIndex={-1}
+              onLoadedMetadata={onMetadata}
+              onLoadStart={onLoadStart}
+              onLoadedData={onFrame}
+              onSeeked={onFrame}
+              onError={onMediaError}
+            />
+          )}
+          <div className="cinema-shade" aria-hidden="true" />
+        </div>
         {skipLink}
         {canLoadVideo && !enhanced && (
           <span className="cinema-media-status" role="status">

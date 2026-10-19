@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
@@ -59,11 +60,22 @@ export function AddToCart({
         )}
       </button>
       <span
-        className={state === "error" ? "field-error" : "sr-only"}
+        className={
+          state === "error"
+            ? "field-error"
+            : state === "added"
+              ? "add-confirmation"
+              : "sr-only"
+        }
         role="status"
       >
         {state === "error" ? t.error : state === "added" ? t.added : ""}
       </span>
+      {state === "added" && (
+        <Link className="text-link cart-next-step" href={`/${locale}/cart`}>
+          {t.cart} ↗
+        </Link>
+      )}
     </div>
   );
 }

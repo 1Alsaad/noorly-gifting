@@ -187,6 +187,11 @@
   transform: scaleX(var(--story-progress, 0));
   transform-origin: left;
 }
+.cinema-media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
 .cinema-poster,
 .cinema-video,
 .cinema-shade {
@@ -546,7 +551,7 @@
   background: #e9e3d8;
 }
 .cinema-drawer-image img {
-  object-fit: cover;
+  object-fit: contain;
 }
 .cinema-drawer-body {
   padding: 30px clamp(22px, 5vw, 42px) 40px;
@@ -619,14 +624,65 @@
   text-underline-offset: 4px;
 }
 @media (max-width: 767px) {
+  /* The film and purchase panel occupy separate rows, never overlapping.
+     Intrinsic panel height also accommodates translated text and text zoom. */
+  .cinema-stage:has(.cinema-shopping[data-visible="true"]) {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+  .cinema-stage:has(.cinema-shopping[data-visible="true"]) .cinema-media {
+    position: relative;
+    inset: auto;
+    grid-row: 1;
+    min-height: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .cinema-stage:has(.cinema-shopping[data-visible="true"]) .cinema-video,
+  .cinema-stage:has(.cinema-shopping[data-visible="true"]) .cinema-poster img {
+    object-fit: contain;
+  }
+  .cinema-stage:has(.cinema-shopping[data-visible="true"]) .cinema-shade {
+    background: none;
+  }
+  .cinema-stage:has(.cinema-shopping[data-visible="true"])
+    .cinema-scene-footer {
+    display: none;
+  }
   .cinema-shopping {
-    top: 92px;
-    bottom: auto;
-    padding: 18px;
-    max-height: calc(100dvh - 180px);
+    inset: auto 0 40px;
+    width: 100%;
+    padding: 12px 20px;
+    max-height: 44svh;
+  }
+  .cinema-shopping[data-visible="true"] {
+    position: relative;
+    inset: auto;
+    grid-row: 2;
+  }
+  .cinema-shopping .cinema-kicker {
+    display: none;
+  }
+  .cinema-shopping-price {
+    margin: 5px 0 9px;
+  }
+  .cinema-shopping .cinema-variant-label {
+    margin-bottom: 10px;
+    gap: 4px;
+  }
+  .cinema-shopping .cinema-button-dark {
+    width: 100%;
+    justify-content: center;
+  }
+  .cinema-shopping .cinema-add-status:empty {
+    display: none;
+  }
+  .cinema-shopping-links {
+    gap: 4px 16px;
   }
   .cinema-shopping-title {
-    font-size: 28px;
+    font-size: 23px;
   }
   .cinema-story-beat {
     font-size: clamp(30px, 8.2vw, 44px);

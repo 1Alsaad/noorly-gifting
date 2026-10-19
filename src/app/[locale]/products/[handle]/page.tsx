@@ -1,9 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import { getDictionary, isLocale } from "@/content/translations";
-import { ProductPurchase } from "@/components/product/product-purchase";
+import { ProductPresentation } from "@/components/product/product-presentation";
 import { ProductCard } from "@/components/product/product-card";
 import { StructuredData } from "@/components/ui/structured-data";
 import { TrackView } from "@/components/analytics/track-view";
@@ -90,36 +89,29 @@ export default async function ProductDetail({ params }: Props) {
         <span aria-hidden>/</span>
         <span>{product.title[locale]}</span>
       </nav>
-      <div className="product-detail">
-        <div className="product-detail-image">
-          <Image
-            src={product.images[0].url}
-            alt={product.images[0].alt}
-            fill
-            sizes="(max-width:760px) 90vw, 50vw"
-            priority
-          />
+      <ProductPresentation product={product} locale={locale}>
+        <div className="delivery-note">
+          <h2>{t.delivery}</h2>
+          <p>{t.deliveryText}</p>
+          <Link className="text-link" href={`/${locale}/shipping-returns`}>
+            {t.footer.shipping} ↗
+          </Link>
         </div>
-        <div className="product-detail-copy">
-          <p className="eyebrow">
-            {product.category === "box" ? t.boxes : t.edition}
-          </p>
-          <h1>{product.title[locale]}</h1>
-          <p>{product.description[locale]}</p>
-          <ProductPurchase product={product} locale={locale} />
-          <div className="delivery-note">
-            <h2>{t.delivery}</h2>
-            <p>{t.deliveryText}</p>
-            <Link className="text-link" href={`/${locale}/shipping-returns`}>
-              {t.footer.shipping} ↗
-            </Link>
-          </div>
+        <details className="product-materials">
+          <summary>{t.materials}</summary>
+          <p>{product.fulfilment?.materials[locale] ?? t.materialText}</p>
+        </details>
+        {product.care && (
           <details className="product-materials">
-            <summary>{t.materials}</summary>
-            <p>{product.fulfilment?.materials[locale] ?? t.materialText}</p>
+            <summary>
+              {locale === "sv"
+                ? "Så använder du ljussand"
+                : "How to use candle sand"}
+            </summary>
+            <p>{product.care[locale]}</p>
           </details>
-        </div>
-      </div>
+        )}
+      </ProductPresentation>
       <section className="related-products">
         <div className="section-heading">
           <h2>{t.related}</h2>
