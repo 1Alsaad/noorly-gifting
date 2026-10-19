@@ -65,7 +65,8 @@ export async function POST(request: Request) {
       const response = await fetch(env.FORM_DELIVERY_URL!, {
         method: "POST",
         headers: {
-          Authorization: `***          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.FORM_DELIVERY_TOKEN}`,
+          "Content-Type": "application/json",
           "Idempotency-Key": submissionKey,
         },
         body: JSON.stringify({ ...data, website: undefined }),
