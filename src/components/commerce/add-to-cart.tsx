@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
@@ -30,6 +35,15 @@ export function AddToCart({
       setState("error");
     }
   }
+  if (isProductTestMode())
+    return (
+      <Link
+        className={compact ? "text-button" : "button button-dark"}
+        href={interestHref(locale, product.handle, variant?.id)}
+      >
+        {productTestCopy[locale].cta} <ArrowUpRight size={17} aria-hidden />
+      </Link>
+    );
   return (
     <div className="add-control">
       <button

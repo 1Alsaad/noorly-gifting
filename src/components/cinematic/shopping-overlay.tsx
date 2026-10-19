@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import { useState } from "react";
 import Link from "next/link";
 import { VariantPicker } from "@/components/product/variant-picker";
@@ -62,14 +67,16 @@ export function ShoppingOverlay({
       <h2 className="cinema-shopping-title">{product.title[locale]}</h2>
       <div className="cinema-shopping-price">
         <span>
-          {new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
+          {isProductTestMode() ? productTestCopy[locale].price : new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
             style: "currency",
             currency: price.currencyCode,
             maximumFractionDigits: 0,
           }).format(Number(price.amount))}
         </span>
         <span className="cinema-stock">
-          {product.previewOnly
+          {isProductTestMode()
+            ? productTestCopy[locale].label
+            : product.previewOnly
             ? locale === "sv"
               ? "Demopris"
               : "Demo price"
@@ -88,6 +95,14 @@ export function ShoppingOverlay({
           setStatus("idle");
         }}
       />
+      {isProductTestMode() ? (
+        <Link
+          className="cinema-button cinema-button-dark"
+          href={interestHref(locale, product.handle, variantId)}
+        >
+          {productTestCopy[locale].cta}
+        </Link>
+      ) : (
       <button
         type="button"
         className="cinema-button cinema-button-dark"
@@ -100,6 +115,7 @@ export function ShoppingOverlay({
             ? copy.added
             : copy.addToCart}
       </button>
+      )}
       <p className="cinema-add-status" role="status" aria-live="polite">
         {status === "error"
           ? copy.addError

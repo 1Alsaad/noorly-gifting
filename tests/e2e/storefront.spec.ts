@@ -1,3 +1,4 @@
+import { installTestSceneMedia } from "./media-fixture";
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
@@ -141,46 +142,6 @@ test("a static scene product opens a keyboard-accessible drawer and preserves fo
     page.getByRole("link", { name: "Your bag (1)", exact: true }),
   ).toBeVisible();
 });
-
-async function installTestSceneMedia(page: Page) {
-  await page.addInitScript(() => {
-    const setup = (video: HTMLVideoElement) => {
-      if (video.dataset.testMedia) return;
-      video.dataset.testMedia = "true";
-      video.dataset.testSource = video.getAttribute("src") ?? "";
-      video.removeAttribute("src");
-      let time = 0;
-      Object.defineProperty(video, "duration", {
-        configurable: true,
-        get: () => 15,
-      });
-      Object.defineProperty(video, "seeking", {
-        configurable: true,
-        get: () => false,
-      });
-      Object.defineProperty(video, "readyState", {
-        configurable: true,
-        get: () => 4,
-      });
-      Object.defineProperty(video, "currentTime", {
-        configurable: true,
-        get: () => time,
-        set: (value: number) => {
-          time = value;
-          if (video.dataset.holdDecode !== "true")
-            queueMicrotask(() => video.dispatchEvent(new Event("seeked")));
-        },
-      });
-      setTimeout(() => {
-        video.dispatchEvent(new Event("loadedmetadata"));
-        video.dispatchEvent(new Event("loadeddata"));
-      }, 50);
-    };
-    new MutationObserver(() =>
-      document.querySelectorAll("video").forEach(setup),
-    ).observe(document, { childList: true, subtree: true });
-  });
-}
 
 test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
   page,

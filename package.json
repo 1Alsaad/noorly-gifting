@@ -13,10 +13,10 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check . || node scripts/format-diagnostics.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test && playwright test --config=playwright.interest.config.ts",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e"
   },
   "dependencies": {

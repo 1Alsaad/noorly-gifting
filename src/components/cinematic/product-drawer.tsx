@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,9 +98,15 @@ export function ProductDrawer({
               {product.description[locale]}
             </Dialog.Description>
             <div className="cinema-drawer-price">
-              <span>{formattedPrice}</span>
+              <span>
+                {isProductTestMode()
+                  ? productTestCopy[locale].price
+                  : formattedPrice}
+              </span>
               <span className="cinema-stock">
-                {product.previewOnly
+                {isProductTestMode()
+                  ? productTestCopy[locale].label
+                  : product.previewOnly
                   ? locale === "sv"
                     ? "Demopris"
                     : "Demo price"
@@ -123,6 +134,14 @@ export function ProductDrawer({
                 });
               }}
             />
+            {isProductTestMode() ? (
+              <Link
+                className="cinema-button cinema-button-dark"
+                href={interestHref(locale, product.handle, variantId)}
+              >
+                {productTestCopy[locale].cta}
+              </Link>
+            ) : (
             <button
               className="cinema-button cinema-button-dark"
               type="button"
@@ -135,6 +154,7 @@ export function ProductDrawer({
                   ? copy.added
                   : copy.addToCart}
             </button>
+            )}
             <div aria-live="polite" role="status" className="cinema-add-status">
               {status === "error" ? copy.addError : ""}
             </div>
@@ -147,7 +167,9 @@ export function ProductDrawer({
                 <span aria-hidden="true">↗</span>
               </Link>
             )}
-            <p className="cinema-delivery">{copy.delivery}</p>
+            <p className="cinema-delivery">
+              {isProductTestMode() ? productTestCopy[locale].note : copy.delivery}
+            </p>
             <Link
               className="cinema-details-link"
               href={`/${locale}/products/${product.handle}`}

@@ -31,6 +31,7 @@ export const eventNames = [
   "box_builder_validation_error",
   "box_builder_completed",
   "newsletter_signup",
+  "product_interest_registered",
   "corporate_gifting_enquiry",
   "seasonal_collection_viewed",
   "discount_code_applied",

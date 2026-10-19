@@ -39,6 +39,11 @@ export const envSchema = z
       z.string().min(32).optional(),
     ),
     NEXT_PUBLIC_GA4_MEASUREMENT_ID: optional,
+    NEXT_PUBLIC_META_PIXEL_ID: optional,
+    PRODUCT_INTEREST_ENABLED: z.preprocess(
+      (v) => v === "true" || v === true,
+      z.boolean(),
+    ),
     GA4_API_SECRET: optional,
     NEXT_PUBLIC_POSTHOG_KEY: optional,
     NEXT_PUBLIC_POSTHOG_HOST: optionalUrl,

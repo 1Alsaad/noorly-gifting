@@ -1,5 +1,6 @@
 "use client";
 
+import { updateMetaConsent } from "@/lib/analytics/meta";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { CONSENT_EVENT } from "@/lib/analytics/consent";
@@ -11,6 +12,7 @@ export function AnalyticsProvider({ locale }: { locale: "sv" | "en" }) {
     const update = () => {
       try {
         updateAnalyticsConsent();
+        updateMetaConsent();
         trackEvent(
           { name: "page_viewed", properties: { locale, path: pathname } },
           `page:${pathname}`,

@@ -1,3 +1,4 @@
+import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -46,6 +47,9 @@ export function ProductCard({
         <span>{formatMoney(product.price, locale)}</span>
       </div>
       <p>{product.description[locale]}</p>
+      {isProductTestMode() && product.category === "box" && (
+        <p className="product-note">{productTestCopy[locale].concept}</p>
+      )}
       {product.variants.some((variant) => variant.color) && (
         <Link
           className="product-colour-summary"

@@ -10,6 +10,16 @@ export const formSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("newsletter"), ...common }).strict(),
   z
     .object({
+      kind: z.literal("product_interest"),
+      ...common,
+      productHandle: z.string().regex(/^[a-z0-9-]{1,100}$/),
+      variantId: z.string().max(200).optional(),
+      boxContents: z.array(z.string().regex(/^[a-z0-9-]{1,100}$/)).max(6),
+      locale: z.enum(["sv", "en"]),
+    })
+    .strict(),
+  z
+    .object({
       kind: z.literal("corporate"),
       ...common,
       name: z.string().trim().min(2).max(100),

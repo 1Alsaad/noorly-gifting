@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Minus, Plus, ShoppingBag, X } from "lucide-react";
@@ -25,6 +30,15 @@ export function CartView({ locale }: { locale: Locale }) {
       /* Cart provider exposes an accessible error. */
     }
   }
+  if (isProductTestMode())
+    return (
+      <div>
+        <p>{productTestCopy[locale].note}</p>
+        <Link className="button button-dark" href={interestHref(locale)}>
+          {productTestCopy[locale].cta}
+        </Link>
+      </div>
+    );
   return (
     <div className="cart-layout">
       <div>

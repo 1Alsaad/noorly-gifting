@@ -1,3 +1,4 @@
+import { isProductTestMode } from "@/config/product-test";
 import type { LocalizedText, Product, ProductVariant } from "@/types/commerce";
 
 const text = (sv: string, en: string): LocalizedText => ({ sv, en });
@@ -88,7 +89,7 @@ export const candleSand: Product = {
   previewOnly: true,
   category: "signature",
   seasons: ["winter"],
-  boxEligible: false,
+  boxEligible: isProductTestMode(),
   highlights: [
     text("300 g ljussand", "300 g candle sand"),
     text("4 bomullsvekar ingår", "4 cotton wicks included"),

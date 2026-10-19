@@ -1,3 +1,4 @@
+import { isProductTestMode } from "@/config/product-test";
 import { notFound } from "next/navigation";
 import { isLocale, getDictionary } from "@/content/translations";
 import { Header } from "@/components/layout/header";
@@ -26,7 +27,7 @@ export default async function LocaleLayout({
       <main id="main-content">{children}</main>
       <Footer locale={locale} />
       <ConsentBanner locale={locale} />
-      {process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify" && (
+      {(isProductTestMode() || process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify") && (
         <div className="preview-ribbon">{t.preview}</div>
       )}
     </CartProvider>

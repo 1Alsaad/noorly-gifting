@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, ArrowUpRight, Menu } from "lucide-react";
@@ -63,6 +68,16 @@ export function Header({ locale }: { locale: Locale }) {
             {locale.toUpperCase()}
             <span aria-hidden> / {other.toUpperCase()}</span>
           </a>
+          {isProductTestMode() ? (
+            <Link
+              className="bag-link"
+              href={interestHref(locale)}
+              aria-label={productTestCopy[locale].cta}
+            >
+              <ArrowUpRight size={19} />
+              <span className="bag-label">{productTestCopy[locale].cta}</span>
+            </Link>
+          ) : (
           <Link
             href={`/${locale}/cart`}
             className="bag-link"
@@ -72,6 +87,7 @@ export function Header({ locale }: { locale: Locale }) {
             <span className="bag-label">{t.cart}</span>
             <span className="bag-count">{cart?.totalQuantity ?? 0}</span>
           </Link>
+          )}
           <details className="mobile-menu">
             <summary aria-label={t.menu}>
               <Menu size={23} />

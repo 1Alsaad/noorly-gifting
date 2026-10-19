@@ -1,4 +1,5 @@
 "use client";
+import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import Link from "next/link";
 import { useState } from "react";
 import type { Locale, Product } from "@/types/commerce";
@@ -29,7 +30,9 @@ export function ProductPurchase({
       </p>
       <p className="stock-label">
         <span aria-hidden>●</span>{" "}
-        {product.previewOnly
+        {isProductTestMode()
+          ? productTestCopy[locale].note
+          : product.previewOnly
           ? locale === "sv"
             ? "Demopris · ej till försäljning"
             : "Demo price · not on sale"
