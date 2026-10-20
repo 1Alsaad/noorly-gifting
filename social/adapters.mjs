@@ -37,7 +37,8 @@ export function redisStore(env, namespace) {
     const payload = await jsonRequest(url, {
       method: "POST",
       headers: {
-        Authorization: `***        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.RATE_LIMIT_PROVIDER_TOKEN}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(args),
     });
@@ -108,7 +109,8 @@ export function gatewayAgent(env) {
     const payload = await jsonRequest(`${endpoint}/chat/completions`, {
       method: "POST",
       headers: {
-        Authorization: `***        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.AI_GATEWAY_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         model: env.AI_GATEWAY_MODEL,
@@ -241,7 +243,7 @@ export function metaPublisher(env, config) {
   async function graph(path, params = null) {
     const result = await jsonRequest(`${base}/${path}`, {
       method: params ? "POST" : "GET",
-      headers: { Authorization: `*** },
+      headers: { Authorization: `Bearer ${env.META_PAGE_ACCESS_TOKEN}` },
       ...(params ? { body: new URLSearchParams(params) } : {}),
     });
     if (result.error) throw new Error("META_REQUEST_REJECTED");
