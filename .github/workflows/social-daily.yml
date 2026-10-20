@@ -1,0 +1,48 @@
+name: Noorly daily social posts
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+      timezone: Europe/Stockholm
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Preview captions or publish today's posts
+        type: choice
+        options: [dry-run, publish]
+        default: dry-run
+
+permissions:
+  contents: read
+
+concurrency:
+  group: noorly-daily-social
+  cancel-in-progress: false
+
+jobs:
+  post:
+    if: github.event_name == 'workflow_dispatch' || vars.NOORLY_SOCIAL_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify publishing recovery behavior
+        run: node --test social/agent.check.mjs
+      - name: Run daily content agent
+        run: node social/run.mjs
+        env:
+          SOCIAL_PUBLISH: ${{ github.event_name == 'schedule' || inputs.mode == 'publish' }}
+          NOORLY_SOCIAL_ENABLED: ${{ vars.NOORLY_SOCIAL_ENABLED }}
+          AI_GATEWAY_MODEL: ${{ vars.NOORLY_SOCIAL_MODEL }}
+          AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
+          META_GRAPH_VERSION: ${{ vars.META_GRAPH_VERSION }}
+          META_PAGE_ID: ${{ vars.META_PAGE_ID }}
+          META_INSTAGRAM_ACCOUNT_ID: ${{ vars.META_INSTAGRAM_ACCOUNT_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          RATE_LIMIT_PROVIDER_URL: ${{ secrets.RATE_LIMIT_PROVIDER_URL }}
+          RATE_LIMIT_PROVIDER_TOKEN: ${{ secrets.RATE_LIMIT_PROVIDER_TOKEN }}

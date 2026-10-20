@@ -1,0 +1,17 @@
+{
+  "brand": "NOORLY",
+  "locale": "sv-SE",
+  "timezone": "Europe/Stockholm",
+  "siteOrigin": "https://noorly-gifting.vercel.app",
+  "briefs": [
+    {
+      "id": "thoughtful-gifting",
+      "approved": false,
+      "topic": "En personlig hälsning till någon du tänker på",
+      "facts": ["Varumärket heter NOORLY."],
+      "imageUrl": "",
+      "imageDescription": "Replace with an accurate description of an approved photograph.",
+      "linkPath": "/sv/shop"
+    }
+  ]
+}
