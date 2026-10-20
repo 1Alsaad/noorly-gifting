@@ -37,12 +37,12 @@ export function redisStore(env, namespace) {
     const payload = await jsonRequest(url, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.RATE_LIMIT_PROVIDER_TOKEN}`,
-        "Content-Type": "application/json",
+        Authorization: `***        "Content-Type": "application/json",
       },
       body: JSON.stringify(args),
     });
-    if (payload.error || !("result" in payload)) throw new Error("DURABLE_STORE_FAILED");
+    if (payload.error || !("result" in payload))
+      throw new Error("DURABLE_STORE_FAILED");
     return payload.result;
   }
   async function fencedSet(key, value) {
@@ -63,7 +63,8 @@ export function redisStore(env, namespace) {
       return held;
     },
     async assertLease() {
-      if ((await command("GET", lockKey)) !== token) throw new Error("SOCIAL_LEASE_LOST");
+      if ((await command("GET", lockKey)) !== token)
+        throw new Error("SOCIAL_LEASE_LOST");
     },
     async release() {
       if (!held) return;
@@ -107,8 +108,7 @@ export function gatewayAgent(env) {
     const payload = await jsonRequest(`${endpoint}/chat/completions`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${env.AI_GATEWAY_API_KEY}`,
-        "Content-Type": "application/json",
+        Authorization: `***        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         model: env.AI_GATEWAY_MODEL,
@@ -133,7 +133,8 @@ export function gatewayAgent(env) {
       }),
     });
     const choice = payload.choices?.[0];
-    if (choice?.finish_reason !== "stop") throw new Error("MODEL_OUTPUT_INCOMPLETE");
+    if (choice?.finish_reason !== "stop")
+      throw new Error("MODEL_OUTPUT_INCOMPLETE");
     try {
       return JSON.parse(choice.message.content);
     } catch {
@@ -143,7 +144,9 @@ export function gatewayAgent(env) {
   return {
     async verifyModel() {
       const models = await jsonRequest(`${endpoint}/models`);
-      const model = models.data?.find((item) => item.id === env.AI_GATEWAY_MODEL);
+      const model = models.data?.find(
+        (item) => item.id === env.AI_GATEWAY_MODEL,
+      );
       if (!model || !model.tags?.includes("structured-output"))
         throw new Error("MODEL_REQUIRES_STRUCTURED_OUTPUT_SUPPORT");
     },
@@ -189,11 +192,17 @@ export function gatewayAgent(env) {
 export async function verifyImage(imageUrl) {
   let response;
   try {
-    response = await fetch(imageUrl, { redirect: "error", signal: AbortSignal.timeout(30000) });
+    response = await fetch(imageUrl, {
+      redirect: "error",
+      signal: AbortSignal.timeout(30000),
+    });
   } catch {
     throw new Error("IMAGE_UNAVAILABLE");
   }
-  if (!response.ok || !/^image\/jpeg(?:;|$)/i.test(response.headers.get("content-type") || ""))
+  if (
+    !response.ok ||
+    !/^image\/jpeg(?:;|$)/i.test(response.headers.get("content-type") || "")
+  )
     throw new Error("IMAGE_MUST_BE_PUBLIC_JPEG");
   const chunks = [];
   let length = 0;
@@ -203,8 +212,9 @@ export async function verifyImage(imageUrl) {
     chunks.push(Buffer.from(chunk));
   }
   const bytes = Buffer.concat(chunks);
-  if (bytes[0] !== 0xff || bytes[1] !== 0xd8) throw new Error("IMAGE_JPEG_INVALID");
-  for (let offset = 2; offset + 8 < bytes.length; ) {
+  if (bytes[0] !== 0xff || bytes[1] !== 0xd8)
+    throw new Error("IMAGE_JPEG_INVALID");
+  for (let offset = 2; offset + 8 < bytes.length;) {
     if (bytes[offset] !== 0xff) throw new Error("IMAGE_JPEG_INVALID");
     const marker = bytes[offset + 1];
     const size = bytes.readUInt16BE(offset + 2);
@@ -223,14 +233,15 @@ export async function verifyImage(imageUrl) {
 }
 
 export function metaPublisher(env, config) {
-  if (!/^v\d+\.0$/.test(env.META_GRAPH_VERSION)) throw new Error("META_VERSION_INVALID");
+  if (!/^v\d+\.0$/.test(env.META_GRAPH_VERSION))
+    throw new Error("META_VERSION_INVALID");
   for (const name of ["META_PAGE_ID", "META_INSTAGRAM_ACCOUNT_ID"])
     if (!/^\d+$/.test(env[name])) throw new Error("META_ACCOUNT_ID_INVALID");
   const base = `https://graph.facebook.com/${env.META_GRAPH_VERSION}`;
   async function graph(path, params = null) {
     const result = await jsonRequest(`${base}/${path}`, {
       method: params ? "POST" : "GET",
-      headers: { Authorization: `Bearer ${env.META_PAGE_ACCESS_TOKEN}` },
+      headers: { Authorization: `*** },
       ...(params ? { body: new URLSearchParams(params) } : {}),
     });
     if (result.error) throw new Error("META_REQUEST_REJECTED");
@@ -238,7 +249,9 @@ export function metaPublisher(env, config) {
   }
   return {
     async preflight() {
-      const page = await graph(`${env.META_PAGE_ID}?fields=id,name,instagram_business_account`);
+      const page = await graph(
+        `${env.META_PAGE_ID}?fields=id,name,instagram_business_account`,
+      );
       if (
         page.id !== env.META_PAGE_ID ||
         page.instagram_business_account?.id !== env.META_INSTAGRAM_ACCOUNT_ID

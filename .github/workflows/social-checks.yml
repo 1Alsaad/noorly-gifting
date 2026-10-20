@@ -27,12 +27,3 @@ jobs:
       - run: node --test social/agent.check.mjs
       - name: Check social formatting
         run: npm exec --yes --package=prettier@3.9.10 -- prettier --check social docs/daily-social-agent.md .github/workflows/social-checks.yml .github/workflows/social-daily.yml
-      - name: Report formatter output
-        if: failure()
-        run: |
-          npm exec --yes --package=prettier@3.9.10 -- prettier --write social docs/daily-social-agent.md .github/workflows/social-checks.yml .github/workflows/social-daily.yml
-          node --input-type=module <<'JS'
-          import { readFileSync, readdirSync } from 'node:fs';
-          const paths = [...readdirSync('social').map(name => `social/${name}`), 'docs/daily-social-agent.md', '.github/workflows/social-checks.yml', '.github/workflows/social-daily.yml'];
-          console.log('FORMATTED_FILES=' + JSON.stringify(paths.map(path => ({path, content: readFileSync(path, 'utf8')}))));
-          JS

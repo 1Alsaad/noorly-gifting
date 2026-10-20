@@ -37,12 +37,12 @@ it does not generate images, publish Reels or Stories, or handle comments.
 Add these repository Actions secrets under Settings then Secrets and variables
 then Actions. Use private secret fields rather than chat messages or source code.
 
-| Secret | Purpose |
-| --- | --- |
-| `AI_GATEWAY_API_KEY` | Vercel AI Gateway authentication for the external Actions runner |
-| `META_PAGE_ACCESS_TOKEN` | A Page token authorized for organic publishing and its linked Instagram account |
-| `RATE_LIMIT_PROVIDER_URL` | HTTPS Redis REST endpoint using the same command contract as the storefront |
-| `RATE_LIMIT_PROVIDER_TOKEN` | Redis REST authentication with GET SET EVAL and DEL access |
+| Secret                      | Purpose                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------- |
+| `AI_GATEWAY_API_KEY`        | Vercel AI Gateway authentication for the external Actions runner                |
+| `META_PAGE_ACCESS_TOKEN`    | A Page token authorized for organic publishing and its linked Instagram account |
+| `RATE_LIMIT_PROVIDER_URL`   | HTTPS Redis REST endpoint using the same command contract as the storefront     |
+| `RATE_LIMIT_PROVIDER_TOKEN` | Redis REST authentication with GET SET EVAL and DEL access                      |
 
 The existing storefront Redis service can be reused if available. Configure the
 same durable primary in every runner. GitHub Actions does not inherit the
@@ -52,13 +52,13 @@ for journal keys.
 
 Add these Actions variables.
 
-| Variable | Value |
-| --- | --- |
-| `NOORLY_SOCIAL_ENABLED` | Leave unset until the activation steps below pass; set to `true` to enable publishing |
-| `NOORLY_SOCIAL_MODEL` | An exact structured output model ID from the live AI Gateway model list |
-| `META_GRAPH_VERSION` | The supported Graph API version selected for your Meta application, such as `v26.0` |
-| `META_PAGE_ID` | `106073768227048` is the Noorly Page discovered during integration; verify it is the intended publishing Page |
-| `META_INSTAGRAM_ACCOUNT_ID` | The professional account ID linked to that Page, verified through the Meta API |
+| Variable                    | Value                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `NOORLY_SOCIAL_ENABLED`     | Leave unset until the activation steps below pass; set to `true` to enable publishing                         |
+| `NOORLY_SOCIAL_MODEL`       | An exact structured output model ID from the live AI Gateway model list                                       |
+| `META_GRAPH_VERSION`        | The supported Graph API version selected for your Meta application, such as `v26.0`                           |
+| `META_PAGE_ID`              | `106073768227048` is the Noorly Page discovered during integration; verify it is the intended publishing Page |
+| `META_INSTAGRAM_ACCOUNT_ID` | The professional account ID linked to that Page, verified through the Meta API                                |
 
 Use the Instagram API with Facebook Login flow for this adapter. Complete the
 appropriate Meta application setup and account authorization. Typical permissions

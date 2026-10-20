@@ -86,7 +86,11 @@ export async function planPost({ config, history, generate, review }) {
     try {
       const brief = validateDraft(draft, briefs, history);
       const verdict = await review({ config, brief, draft });
-      if (verdict?.approved === true && Array.isArray(verdict.issues) && !verdict.issues.length)
+      if (
+        verdict?.approved === true &&
+        Array.isArray(verdict.issues) &&
+        !verdict.issues.length
+      )
         return { draft, brief, hash: contentHash(draft) };
       feedback = Array.isArray(verdict?.issues)
         ? verdict.issues
@@ -100,7 +104,12 @@ export async function planPost({ config, history, generate, review }) {
 
 // Commit intent before any public mutation. An uncertain response is held for
 // reconciliation because Meta does not provide an exactly-once publish contract.
-export async function publishRecord({ record, save, publisher, beforePublish }) {
+export async function publishRecord({
+  record,
+  save,
+  publisher,
+  beforePublish,
+}) {
   const errors = [];
   for (const channel of CHANNELS) {
     const state = record.channels[channel];
@@ -169,7 +178,9 @@ export async function runDaily({
     }
     if (record.date !== date) throw new Error("JOURNAL_DATE_INVALID");
     // Removing approval or changing any approved media/facts also stops retries.
-    const brief = approvedBriefs(config).find((item) => item.id === record.brief.id);
+    const brief = approvedBriefs(config).find(
+      (item) => item.id === record.brief.id,
+    );
     if (JSON.stringify(brief) !== JSON.stringify(record.brief))
       throw new Error("SAVED_BRIEF_CHANGED_REVIEW_REQUIRED");
     validateDraft(record.draft, [brief]);
