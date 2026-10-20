@@ -2,9 +2,12 @@
 
 This checklist records work required before a real store launch. A passing local mock or CI run does not complete credential-dependent acceptance checks. Assign an owner and record evidence/date for each checked item.
 
+The [launch pricing and fulfilment record](launch-pricing-and-fulfilment.md) contains the current supplier findings and missing cost inputs. Do not mark payments, pricing or advertising ready from an isolated Stripe sandbox payment, a configured pixel or a passing mock checkout.
+
 ## Identity, content and legal
 
-- [x] Set the chosen brand to Noorly and intended canonical domain to noorly.se.
+- [x] Set the chosen brand to Noorly.
+- [ ] Choose and verify the actual public HTTPS host. `noorly.se` is an intended name, not a purchased domain; use the final host consistently for canonicals, callbacks and advertising destinations.
 - [ ] Replace legal company/address/support placeholders, social links and customer-service details in central configuration.
 - [ ] Replace fictional catalogue, product images/material descriptions, stock, prices, gift packaging and placeholder reviews. Remove unsupported claims.
 - [ ] Obtain appropriate rights for final artwork, fonts, product photography and video; review generated static placeholders before any marketing use.
@@ -14,6 +17,9 @@ This checklist records work required before a real store launch. A passing local
 
 ## Commerce and fulfilment
 
+- [ ] Obtain the actual supplier trade quote, SKU/pack quantities, VAT/currency basis, available stock and agreed dispatch window. Confirm direct shipping versus Noorly packing, gift presentation, returns and the final delivered costs with a sample order.
+- [ ] Approve each offer's cost floor, contribution after ads and maximum CPA. Create real one-/two-/three-pouch checkout offers before publishing monetary comparison; an interest selection does not reserve stock or create a purchasable bundle.
+- [ ] Confirm the payment architecture. The current adapter is Shopify; the separately tested Stripe Payment Link is not connected to the storefront.
 - [ ] Connect a real Shopify Storefront token/domain/API version and publish the intended SEK catalogue and Swedish/English content.
 - [ ] Verify product handles, category/season/box eligibility tags, variants, stock and curated-template references.
 - [ ] Test a single item and each curated box end to end, including refresh/persistence, quantity changes and removal.
@@ -45,6 +51,7 @@ This checklist records work required before a real store launch. A passing local
 - [ ] Validate optional GA4/PostHog project region, consent configuration, retention and event payloads.
 - [ ] Confirm `purchase` originates only from authenticated confirmed paid-order processing and no mock/browser thank-you route emits it.
 - [ ] Check worker retries and provider dedupe IDs; reconcile paid orders and documented checkout-consent snapshots.
+- [ ] Verify Meta Purchase separately before activating the sales campaign. The optional browser adapter currently sends Lead only, and the GA4/PostHog/relay outbox has no built-in Meta destination or marketing-consent snapshot.
 - [ ] Implement downstream deletion/suppression processes; cookie withdrawal does not promise retroactive deletion of historical paid events.
 
 ## Media, devices and accessibility

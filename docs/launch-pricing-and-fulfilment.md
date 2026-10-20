@@ -24,6 +24,24 @@ Sources: [AW Gifts delivery](https://www.awgifts.eu/shipping), [AW Dropship FAQ]
 
 Do not place a supplier order or assume stock is reserved on the strength of this research. Ask for permission to use supplier photographs commercially and obtain product safety/traceability documentation and Swedish warnings before sale.
 
+### Supplier quote request to complete
+
+Draft for the merchant to send after selecting the supplier contact. It has not been sent, and requests a quote rather than placing an order. Keep business registration, tax identifiers, account credentials and customer addresses in the supplier's secure account workflow.
+
+> We are preparing Noorly's Swedish candle-sand launch. Please quote CSand-11 (unscented white, 300 g pouch) separately from any scented/coloured variants. We are comparing wholesale delivery to Noorly with direct delivery to Swedish customers.
+>
+> 1. What is the trade price, currency, VAT treatment and number of sellable pouches per ordered unit? Please separate minimum quantity, tier discounts and any account/handling charges from the product price.
+> 2. Is the exact SKU available now? What dispatch lead time and replenishment date can you confirm, and does a quote reserve any stock?
+> 3. Can this SKU be dropshipped as one, two or three pouches in one parcel? Please quote the complete delivery/handling charge and packed weight for each quantity to Sweden, including postcode/island restrictions and surcharges.
+> 4. What packaging does the customer actually receive? Please provide a sample/photo and confirm manufacturer branding, paperwork and whether any gift wrapping or presentation box is included.
+> 5. Under a fulfilment arrangement, can you use our supplied Noorly box, insert, card and protective mailer? Please price receiving/storage, picking each pouch, assembly, printing/personal messages, packaging materials and postage separately, including minimum fees.
+> 6. Please quote wholesale inbound delivery separately, with its batch quantities, packing/administration fees and any free-freight threshold. We will not combine inbound freight with the direct-shipping route.
+> 7. What is the returns address and process for damaged, undelivered and customer-returned orders? Who pays each transport/handling charge, and when is the merchant credited?
+> 8. Please supply product traceability/manufacturer and applicable EU responsible-person details, safety/label documents and Swedish warnings, and confirm commercial use rights for the product photographs.
+> 9. How long is the quote valid, what are the payment terms and what does a representative sample order cost?
+
+Enter the verified quote in the pricing workbook; leave unanswered fields blank. Approve a sample's actual presentation and delivered cost before turning these quantities into checkout offers or ad claims.
+
 ## Cost-based pricing rule
 
 Use economic costs excluding recoverable VAT, including VAT that cannot be recovered. The calculator's 25% sales VAT assumption is for candle-sand offers and must match the merchant's actual tax treatment. It is not a tax-registration assertion. Mixed food gift boxes need separate treatment: Swedish food VAT is 6% from 1 April 2026; notebooks ordinarily have 25% VAT.
@@ -88,5 +106,7 @@ Sources: [Konsumentverket information requirements](https://www.konsumentverket.
 Read back from Meta on 19 October 2026: the intended SEK account 479891386519342 is ACTIVE and now reports a payment method present. This corrects the older recorded missing-payment-method blocker; it is not proof every ad can deliver. The Instagram account lookup returned none: either no eligible account is connected or this app lacks the relevant permission. Confirm a usable Page/Instagram identity for the intended placements.
 
 The current campaign 120251947281020015 was read back PAUSED with 50 SEK/day total and a 4,000 SEK cumulative campaign ceiling. Its candle-sand ad set 120251947284140015 is also PAUSED and configured for website PURCHASE with dataset 511816900240916. The held schedule is 23 October at 08:00 to 27 October at 08:00, Europe/Stockholm; refresh it if launch readiness misses that window. Do not create overlapping funded product tests. The first 200–250 SEK is a review allowance, not an enforced per-product spend cap. Review price/offer economics before choosing the allowable CPA.
+
+The same recorded readback found no ads attached to this ad set. Repository inspection confirms that the browser Meta adapter emits consent-gated Lead only; the paid-order outbox supports GA4, PostHog and a generic relay, with no built-in Meta Purchase destination. Its analytics-consent snapshot does not authorize marketing delivery. A supported checkout integration or reviewed relay, with the appropriate data/consent contract, is still required for the Purchase campaign.
 
 After checkout/fulfilment readiness, verify the final landing variant, consent-gated paid Purchase event, currency/value and deduplication. Then attach the approved sales creative, recheck destination and billing eligibility, refresh the ad schedule and review the exact activation settings. A paused or historical ad schedule does not establish readiness. This change does not activate advertising or live payments.

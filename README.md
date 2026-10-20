@@ -68,7 +68,7 @@ Checkout redirects to the provider's validated HTTPS URL. The browser never emit
 
 Leave provider variables empty to disable optional analytics. For GA4, set the public measurement ID and server API secret for paid-order delivery. For PostHog, set the project key and its ingestion host; choose the correct regional host. Add the outbox worker and monitor retries before depending on purchase reports.
 
-Providers load/send only after analytics consent. Marketing is a stored preference with no advertising integration. Events have an allowlisted schema that excludes personal details and gift-message text. See [event taxonomy and setup](docs/analytics.md), [privacy behavior](docs/privacy.md) and [security](docs/security.md). Sentry is a redacted error-reporting seam; its SDK is not installed.
+GA4/PostHog load/send only after analytics consent. Optional Meta tracking uses separate marketing consent and emits `Lead` only after durable, non-mock interest acceptance; it does not implement Meta `Purchase`. The paid-order outbox supports GA4, PostHog and a generic relay. A configured pixel ID or a successful Lead is not proof that a Purchase campaign can measure sales. Events have an allowlisted schema that excludes personal details and gift-message text. See [event taxonomy and setup](docs/analytics.md), [launch pricing and fulfilment](docs/launch-pricing-and-fulfilment.md), [privacy behavior](docs/privacy.md) and [security](docs/security.md). Sentry is a redacted error-reporting seam; its SDK is not installed.
 
 ## Replace media or extend content
 

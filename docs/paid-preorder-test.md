@@ -47,6 +47,7 @@ Keep refundable order funds separate from the advertising budget. Do not fund th
 - Keep all unsourced concept products and unpriced variants unavailable for purchase.
 - Test paid-order confirmation, cancellation, refund and duplicate webhook delivery before enabling ads. A sandbox transaction verifies wiring, not whether the live gateway is approved.
 - Emit Purchase only for an actual successfully paid, non-test order, with the correct value/currency and stable order event ID. Browser/server events must deduplicate. Do not emit Purchase when a user merely opens checkout or registers interest.
+- The current Meta browser code implements Lead only. The existing paid-order outbox targets GA4, PostHog and a generic relay, not Meta; its analytics-consent snapshot is not marketing consent. Implement and validate the selected checkout channel's sales integration or a reviewed relay before treating this campaign as measurable.
 - Respect marketing consent and disclose tracking. Reconcile ad reports with Shopify paid orders, cancellations and refunds; gross attributed purchases are not retained revenue.
 
 ## Meta setup saved, not launched
@@ -60,7 +61,7 @@ Keep refundable order funds separate from the advertising budget. Do not fund th
 - Previous Sales and Leads campaigns (120251946652050015 and 120251945584240015) and their ad sets are archived. Do not restore or activate the superseded plans.
 - No sales ad has been attached or activated. Existing free-interest copy must not be reused for a purchase offer.
 - Existing supplier-photo image hashes can be reused for final paid-offer creatives. Do not generate or upload duplicate media.
-- Meta previously rejected ad attachment for an invalid payment method. Fix billing before retrying. The existing dataset must also be verified on the final checkout/domain.
+- Meta previously rejected ad attachment for an invalid payment method. The latest recorded readback on 19 October 2026 reports a payment method present; the old billing blocker is no longer established. Recheck delivery eligibility when attaching the final ad. The existing dataset must also be verified on the final checkout/domain.
 
 Draft image-ad direction: show the actual pouch, clearly say “Kärl ingår inte”, explain the pre-order and verified delivery window, and send visitors to the matching product/variant. Use only the eventual approved price and terms; no invented discounts, reviews, stock urgency or payday claims.
 

@@ -1,6 +1,6 @@
 # Analytics contract
 
-All browser tracking uses `trackEvent({ name, properties }, optionalDedupeKey)` from `src/lib/analytics/client.ts`. `src/lib/analytics/schema.ts` is the typed taxonomy and Zod allowlist. Unknown properties are discarded; invalid allowed values cause the event to be dropped. All browser events require current analytics consent. No event is buffered or backfilled before consent. Provider errors are isolated from shopping.
+General browser analytics uses `trackEvent({ name, properties }, optionalDedupeKey)` from `src/lib/analytics/client.ts`. `src/lib/analytics/schema.ts` is the typed taxonomy and Zod allowlist. Unknown properties are discarded; invalid allowed values cause the event to be dropped. These events require current analytics consent. The separate Meta interest adapter described below requires marketing consent. No event is buffered or backfilled before consent. Provider errors are isolated from shopping.
 
 Common optional properties: `anonymous_session_id`, `locale`, `currency`, `season_id`, `scene_id`, `hotspot_id`, `product_id`, `product_handle`, `variant_id`, `quantity`, `value`, `cart_id`, `bundle_id`, `source`, `device_category`, `reduced_motion`, `first_touch`, `last_touch`. Never supply emails, names, addresses, checkout URLs, provider secret cart keys, gift-message content, card information or free-form customer text. Use an opaque cart identity when needed, not a provider cart URL containing an access key. Prices use decimal major currency units.
 
@@ -50,13 +50,21 @@ All names are implemented in the central schema. Events corresponding to future 
 
 ## Provider setup
 
-GA4 browser adapter: set `NEXT_PUBLIC_GA4_MEASUREMENT_ID`. The tag is injected only after analytics consent, automatic page views are disabled, Google signals and ad personalization are disabled, and the internal schema is dispatched to the [documented gtag queue](https://developers.google.com/tag-platform/devguides/datalayer). Ad storage/user data/personalization remain denied. Disable enhanced measurement features that would collect events outside this explicit taxonomy in the GA4 data-stream settings; review the actual provider privacy settings before enabling it. There is no marketing tag.
+GA4 browser adapter: set `NEXT_PUBLIC_GA4_MEASUREMENT_ID`. The tag is injected only after analytics consent, automatic page views are disabled, Google signals and ad personalization are disabled, and the internal schema is dispatched to the [documented gtag queue](https://developers.google.com/tag-platform/devguides/datalayer). Ad storage/user data/personalization remain denied. Disable enhanced measurement features that would collect events outside this explicit taxonomy in the GA4 data-stream settings; review the actual provider privacy settings before enabling it. This adapter does not send marketing events.
 
 PostHog browser adapter: set `NEXT_PUBLIC_POSTHOG_KEY` and `NEXT_PUBLIC_POSTHOG_HOST` (e.g. EU ingestion host). It posts explicitly allowlisted events to the ingestion capture endpoint without the full SDK, autocapture, replay, identification or person profiles. The nonce CSP connect allowlist derives the configured host. Event API reference: [PostHog API](https://posthog.com/docs/api).
 
 Debug output runs only in development and after analytics consent. It prints the sanitized event payload, never input form content. With all optional variables empty, no analytics provider is contacted.
 
 First- and last-touch UTM source/medium/campaign plus referrer **origin only** are captured only after consent. Values use a constrained character and length allowlist; query strings and referrer paths are not sent. Attribution lasts for the consented browser-tab session and is removed on withdrawal. This is intentionally a session attribution model, not cross-device identity. Never embed user identifiers in campaign names.
+
+## Meta interest tracking and the Purchase launch gate
+
+`src/lib/analytics/meta.ts` is a separate, optional marketing adapter enabled by `NEXT_PUBLIC_META_PIXEL_ID`. It loads the Meta script only after marketing consent, disables automatic configuration/matching, revokes consent and clears its known cookies when that preference is withdrawn. `trackInterestLead` emits `Lead` only after a durable, non-mock interest submission succeeds, with a validated event UUID and product handle. It sends no email, form contents or gift message. A click, failed submission or mock acceptance is not a lead.
+
+The adapter does not emit Meta `Purchase`. The paid-order outbox below delivers to GA4, PostHog and an optional generic relay; it has no built-in Meta destination. Its analytics-consent snapshot must not be treated as marketing consent. Merely setting a pixel ID or configuring an ad set for Purchase does not connect paid orders to Meta.
+
+Before releasing a Purchase campaign, choose the payment architecture and implement the provider's supported consent-aware sales integration or a reviewed relay. Prove paid status, required marketing consent, value/currency, stable event identity, deduplication, retries and reconciliation with cancellations/refunds. If a relay needs additional fields or a different consent basis, update and test the data contract first; do not forward the existing analytics envelope to Meta and assume it is sufficient. Keep the campaign paused until that evidence exists. See [paid pre-order acceptance](paid-preorder-test.md).
 
 ## Server purchase and retries
 
