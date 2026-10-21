@@ -11,7 +11,7 @@ const rawProduct = {
   id: "gid://shopify/Product/1",
   handle: "candle-sand",
   title: "Ljussand",
-  description: "F�rberedelse",
+  description: "Förberedelse",
   availableForSale: true,
   productType: "signature",
   tags: [],
@@ -28,9 +28,9 @@ const rawProduct = {
       price: { amount: i === 10 ? "199" : "249", currencyCode: "SEK" },
       image: {
         url: `https://cdn.shopify.com/variant-${i + 1}.jpg`,
-        altText: `P�se ${i + 1}`,
+        altText: `Påse ${i + 1}`,
       },
-      selectedOptions: [{ name: "F�rg & doft", value: `Variant ${i + 1}` }],
+      selectedOptions: [{ name: "Färg & doft", value: `Variant ${i + 1}` }],
     })),
   },
 };

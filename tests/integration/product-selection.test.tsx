@@ -31,7 +31,7 @@ const product: Product = {
     sku: `SKU-${i + 1}`,
     available: true,
     price: { amount: i === 10 ? 199 : 249, currencyCode: "SEK" },
-    image: { url: `https://cdn.shopify.com/${i}.jpg`, alt: `P�se ${i + 1}` },
+    image: { url: `https://cdn.shopify.com/${i}.jpg`, alt: `Påse ${i + 1}` },
   })),
 };
 describe("exact variant selection", () => {
@@ -76,7 +76,7 @@ describe("exact variant selection", () => {
     );
     expect(screen.getByRole("button")).toBeDisabled();
     expect(screen.getByRole("button")).toHaveTextContent(
-      "K�p �r inte �ppet �nnu.",
+      "Köp är inte öppet ännu.",
     );
   });
 });

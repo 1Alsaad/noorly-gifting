@@ -47,7 +47,7 @@ export function ProductPurchase({
             {formatMoney(selected?.price ?? product.price, locale)}
           </p>
           <p className="stock-label">
-            <span aria-hidden>?</span>{" "}
+            <span aria-hidden>●</span>{" "}
             {!purchaseReady
               ? purchasePendingCopy[locale]
               : product.available && selected?.available
@@ -74,7 +74,7 @@ export function ProductPurchase({
                 {product.variants.map((v) => (
                   <option key={v.id} value={v.id}>
                     {v.title}
-                    {!v.available ? ` � ${t.unavailable}` : ""}
+                    {!v.available ? ` · ${t.unavailable}` : ""}
                   </option>
                 ))}
               </select>

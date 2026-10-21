@@ -9,6 +9,6 @@ export function supportsStandardPurchase(product: Product): boolean {
 }
 
 export const purchasePendingCopy = {
-  sv: "K�p �r inte �ppet �nnu.",
+  sv: "Köp är inte öppet ännu.",
   en: "Orders are not open yet.",
 };

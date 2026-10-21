@@ -107,7 +107,7 @@ export default async function ProductDetail({ params }: Props) {
               <h2>{t.delivery}</h2>
               <p>{t.deliveryText}</p>
               <Link className="text-link" href={`/${locale}/shipping-returns`}>
-                {t.footer.shipping} ?
+                {t.footer.shipping} ↗
               </Link>
             </div>
             <details className="product-materials">

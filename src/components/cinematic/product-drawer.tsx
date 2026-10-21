@@ -77,7 +77,7 @@ export function ProductDrawer({
           }}
         >
           <Dialog.Close className="cinema-drawer-close" aria-label={copy.close}>
-            �
+            ×
           </Dialog.Close>
           {image && (
             <div className="cinema-drawer-image">
@@ -129,7 +129,7 @@ export function ProductDrawer({
                   {product.variants.map((item) => (
                     <option value={item.id} key={item.id}>
                       {item.title}
-                      {!item.available ? ` - ${copy.unavailable}` : ""}
+                      {!item.available ? ` — ${copy.unavailable}` : ""}
                     </option>
                   ))}
                 </select>
@@ -164,7 +164,7 @@ export function ProductDrawer({
                 href={`/${locale}/build-a-box?product=${encodeURIComponent(product.handle)}`}
               >
                 {copy.addToBox}
-                <span aria-hidden="true">?</span>
+                <span aria-hidden="true">↗</span>
               </Link>
             )}
             <p className="cinema-delivery">{copy.delivery}</p>
@@ -173,7 +173,7 @@ export function ProductDrawer({
               href={`/${locale}/products/${product.handle}`}
             >
               {copy.details}
-              <span aria-hidden="true"> ?</span>
+              <span aria-hidden="true"> ↗</span>
             </Link>
           </div>
         </Dialog.Content>

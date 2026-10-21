@@ -114,7 +114,7 @@ export function CartView({ locale }: { locale: Locale }) {
                         <div className="quantity-control">
                           <button
                             className="icon-button"
-                            aria-label={`${t.quantity} -: ${line.product.title[locale]}`}
+                            aria-label={`${t.quantity} −: ${line.product.title[locale]}`}
                             disabled={loading || line.quantity <= 1}
                             onClick={() => {
                               void updateLine(line.id, line.quantity - 1).catch(

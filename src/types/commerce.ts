@@ -1,6 +1,6 @@
 export type Locale = "sv" | "en";
 export type LocalizedText = Record<Locale, string>;
-/** Amounts are major currency units. Use integer �re for arithmetic. */
+/** Amounts are major currency units. Use integer öre for arithmetic. */
 export interface Money {
   amount: number;
   currencyCode: "SEK";
