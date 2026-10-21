@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -26,7 +31,7 @@ const storedSchema = z.object({
 });
 const initial: BoxSelection = {
   baseHandle: "small-box",
-  signatureHandle: "winter-candle",
+  signatureHandle: isProductTestMode() ? "candle-sand" : "winter-candle",
   extraHandles: [],
   giftMessage: "",
 };
@@ -432,6 +437,23 @@ export function BoxBuilder({
                   {t.next}
                   <ArrowRight size={16} />
                 </button>
+              ) : isProductTestMode() ? (
+                <Link
+                  className="button button-dark"
+                  href={interestHref(
+                    locale,
+                    selection.signatureHandle,
+                    undefined,
+                    chosen.map((product) => product.handle),
+                  )}
+                  aria-disabled={!result.valid || !restored}
+                  onClick={(event) => {
+                    if (!result.valid || !restored) event.preventDefault();
+                  }}
+                >
+                  {productTestCopy[locale].cta}
+                  <ArrowRight size={16} />
+                </Link>
               ) : (
                 <button
                   className="button button-dark"

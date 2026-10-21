@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Minus, Plus, ShoppingBag, X } from "lucide-react";
@@ -6,6 +11,7 @@ import { getDictionary } from "@/content/translations";
 import type { CartLine, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { useCart } from "./cart-provider";
+import { variantLabel } from "@/components/product/variant-picker";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
@@ -24,6 +30,15 @@ export function CartView({ locale }: { locale: Locale }) {
       /* Cart provider exposes an accessible error. */
     }
   }
+  if (isProductTestMode())
+    return (
+      <div>
+        <p>{productTestCopy[locale].note}</p>
+        <Link className="button button-dark" href={interestHref(locale)}>
+          {productTestCopy[locale].cta}
+        </Link>
+      </div>
+    );
   return (
     <div className="cart-layout">
       <div>
@@ -80,8 +95,14 @@ export function CartView({ locale }: { locale: Locale }) {
                       className="cart-image"
                     >
                       <Image
-                        src={line.product.images[0].url}
-                        alt={line.product.images[0].alt}
+                        src={
+                          (line.variant.images?.[0] ?? line.product.images[0])
+                            .url
+                        }
+                        alt={
+                          (line.variant.images?.[0] ?? line.product.images[0])
+                            .alt
+                        }
                         fill
                         sizes="100px"
                       />
@@ -94,7 +115,7 @@ export function CartView({ locale }: { locale: Locale }) {
                           {line.product.title[locale]}
                         </Link>
                       </h3>
-                      <p>{line.variant.title}</p>
+                      <p>{variantLabel(line.variant, locale)}</p>
                       {!bundle && (
                         <div className="quantity-control">
                           <button

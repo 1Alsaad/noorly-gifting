@@ -1,8 +1,9 @@
+import { isStorefrontOpen } from "@/lib/commerce/launch";
+import { isProductTestMode } from "@/config/product-test";
 import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getCommerceProvider } from "@/lib/commerce";
-import { isStorefrontOpen } from "@/lib/commerce/launch";
 import {
   signCartReference,
   verifyCartReference,
@@ -135,7 +136,9 @@ export async function GET() {
       { cart: null, storeClosed: true },
       { headers: { "Cache-Control": "no-store" } },
     );
+
   try {
+    if (isProductTestMode()) return NextResponse.json({ cart: null });
     const provider = getCommerceProvider();
     const cart = await load(provider);
     return NextResponse.json(
@@ -158,8 +161,10 @@ export async function POST(request: Request) {
       { error: "STOREFRONT_CLOSED" },
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
+
   try {
     assertSameOrigin(request);
+    if (isProductTestMode()) throw new HttpError(403, "PRODUCT_TEST_NO_ORDERS");
     await rateLimit(request, "cart", 45, 60);
     const raw = await readJson(request);
     // Accept the explicit action name, with `type` supported for typed client reducers.

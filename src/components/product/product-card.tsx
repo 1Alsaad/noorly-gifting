@@ -1,3 +1,4 @@
+import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -46,6 +47,32 @@ export function ProductCard({
         <span>{formatMoney(product.price, locale)}</span>
       </div>
       <p>{product.description[locale]}</p>
+      {isProductTestMode() && product.category === "box" && (
+        <p className="product-note">{productTestCopy[locale].concept}</p>
+      )}
+      {product.variants.some((variant) => variant.color) && (
+        <Link
+          className="product-colour-summary"
+          href={`/${locale}/products/${product.handle}`}
+        >
+          <span className="product-mini-swatches" aria-hidden="true">
+            {product.variants
+              .filter((variant) => variant.sku !== "CSand-11")
+              .map((variant) => (
+                <i
+                  key={variant.id}
+                  style={{ backgroundColor: variant.color?.hex }}
+                />
+              ))}
+          </span>
+          <span>
+            {locale === "sv"
+              ? "11 färg- & doftval"
+              : "11 colour & scent options"}{" "}
+            ↗
+          </span>
+        </Link>
+      )}
       {!product.available && (
         <span className="small-label">{t.unavailable}</span>
       )}

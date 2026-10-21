@@ -1,8 +1,21 @@
 import type { NextConfig } from "next";
 
+const previewHost =
+  process.env.NODE_ENV === "development"
+    ? process.env.NOORLY_DEV_PREVIEW_HOST?.trim()
+    : undefined;
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   devIndicators: false,
+  ...(previewHost
+    ? {
+        allowedDevOrigins: [previewHost],
+        // HTTP-only preview tunnels cannot carry React's debug WebSocket.
+        // Deliver development hydration data over HTTP for these previews.
+        experimental: { reactDebugChannel: false },
+      }
+    : {}),
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.shopify.com" }],
   },

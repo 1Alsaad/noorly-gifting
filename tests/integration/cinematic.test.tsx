@@ -5,7 +5,19 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { HotspotButton } from "@/components/cinematic/hotspot-button";
 import { ProductDrawer } from "@/components/cinematic/product-drawer";
-import { winterScenes } from "@/features/seasonal-experience/winter-scenes";
+import { ShoppingOverlay } from "@/components/cinematic/shopping-overlay";
+import type { Hotspot } from "@/features/seasonal-experience/types";
+const candleHotspot: Hotspot = {
+  id: "candle",
+  sceneId: "test-room",
+  productHandle: "winter-candle",
+  visibleFrom: 0.2,
+  visibleTo: 0.85,
+  desktop: { x: 0.69, y: 0.61 },
+  mobile: { x: 0.62, y: 0.56 },
+  label: { sv: "Upptäck vinterljuset", en: "Discover the winter candle" },
+};
+
 import type { Product } from "@/types/commerce";
 
 const { addLines, trackEvent } = vi.hoisted(() => ({
@@ -59,7 +71,7 @@ describe("cinematic shopping accessibility", () => {
   it("removes inactive hotspots from the accessibility tree and opens active ones by keyboard", async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
-    const hotspot = winterScenes[1].hotspots[0];
+    const hotspot = candleHotspot;
     const { rerender } = render(
       <HotspotButton
         hotspot={hotspot}
@@ -190,5 +202,70 @@ describe("cinematic shopping accessibility", () => {
     expect(
       screen.getByRole("link", { name: /Add to your gift box/ }),
     ).toHaveAttribute("href", "/en/build-a-box?product=winter-candle");
+  });
+  it("localizes the shopping overlay, adds the selected variant, and preserves focus on reversal", async () => {
+    const user = userEvent.setup();
+    const props = {
+      product,
+      locale: "sv" as const,
+      onDetails: vi.fn(),
+      onSkip: vi.fn(),
+    };
+    const { rerender } = render(<ShoppingOverlay {...props} visible={false} />);
+    expect(
+      screen.queryByRole("button", { name: "Lägg i varukorgen" }),
+    ).not.toBeInTheDocument();
+    rerender(<ShoppingOverlay {...props} visible />);
+    await user.selectOptions(screen.getByLabelText("Utförande"), "large");
+    await user.click(screen.getByRole("button", { name: "Lägg i varukorgen" }));
+    expect(addLines).toHaveBeenCalledWith([
+      { merchandiseId: "large", quantity: 1 },
+    ]);
+    const added = await screen.findByRole("button", {
+      name: "Tillagd i varukorgen",
+    });
+    rerender(<ShoppingOverlay {...props} visible={false} />);
+    expect(added).toHaveFocus();
+    expect(added.closest(".cinema-shopping")).toHaveAttribute(
+      "data-visible",
+      "true",
+    );
+    await user.selectOptions(screen.getByLabelText("Utförande"), "sold");
+    expect(
+      screen.getByRole("button", { name: "Lägg i varukorgen" }),
+    ).toBeDisabled();
+    const details = screen.getByRole("button", {
+      name: "Läs mer om produkten",
+    });
+    await user.click(details);
+    expect(props.onDetails).toHaveBeenCalledWith(product, details, "sold");
+  });
+
+  it("keeps shopping errors retryable and collection navigation synchronous", async () => {
+    const user = userEvent.setup();
+    addLines.mockRejectedValueOnce(new Error("Unavailable"));
+    const onSkip = vi.fn((event?: unknown) => event);
+    render(
+      <ShoppingOverlay
+        product={product}
+        locale="en"
+        visible
+        onDetails={vi.fn()}
+        onSkip={onSkip}
+      />,
+    );
+    await user.click(screen.getByRole("button", { name: "Add to cart" }));
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "The product could not be added. Please try again.",
+    );
+    expect(screen.getByRole("button", { name: "Add to cart" })).toBeEnabled();
+    await user.click(screen.getByRole("button", { name: "Add to cart" }));
+    expect(
+      await screen.findByRole("button", { name: "Added to cart" }),
+    ).toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("link", { name: "Explore the collection" }),
+    );
+    expect(onSkip).toHaveBeenCalledOnce();
   });
 });

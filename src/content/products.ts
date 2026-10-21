@@ -1,4 +1,7 @@
 import type { LocalizedText, Product, ProductCategory } from "@/types/commerce";
+import { isProductTestMode } from "@/config/product-test";
+import { notebook } from "./notebook";
+import { candleSand } from "./candle-sand";
 
 const text = (sv: string, en: string): LocalizedText => ({ sv, en });
 function product(
@@ -39,6 +42,8 @@ function product(
 
 /** Fictional development catalogue. Replace product claims and prices before launch. */
 export const mockProducts: Product[] = [
+  candleSand,
+  ...(isProductTestMode() ? [notebook] : []),
   product(
     "winter-evening",
     text("Vinterkväll", "Winter Evening"),
@@ -147,9 +152,11 @@ export const mockProducts: Product[] = [
     true,
   ),
 ];
-mockProducts[3].variants.push({
-  id: "winter-candle-large",
-  title: "Large · coming soon",
-  price: { amount: 395, currencyCode: "SEK" },
-  available: false,
-});
+mockProducts
+  .find((item) => item.handle === "winter-candle")!
+  .variants.push({
+    id: "winter-candle-large",
+    title: "Large · coming soon",
+    price: { amount: 395, currencyCode: "SEK" },
+    available: false,
+  });

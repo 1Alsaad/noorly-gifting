@@ -1,14 +1,12 @@
-import { notFound } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { isLocale, getDictionary } from "@/content/translations";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartProvider } from "@/features/cart/cart-provider";
 import { ConsentBanner } from "@/components/consent/consent-banner";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
-import { PresaleHold } from "@/components/layout/presale-hold";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
 import { hasAdminPreviewSession } from "@/lib/security/admin-preview";
-import Link from "next/link";
 import "@/styles/admin-preview.css";
 export const dynamic = "force-dynamic";
 export default async function LocaleLayout({
@@ -21,8 +19,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const adminPreview = !isStorefrontOpen() && (await hasAdminPreviewSession());
-  if (!isStorefrontOpen() && !adminPreview)
-    return <PresaleHold locale={locale} />;
+  if (!isStorefrontOpen() && !adminPreview) redirect("/admin-preview");
   const t = getDictionary(locale);
   return (
     <CartProvider>
@@ -35,7 +32,6 @@ export default async function LocaleLayout({
             Intern designvisning. Exempelprodukter och exempelpriser.
             Beställning och betalning är stängda.
           </span>
-          <Link href="/admin-preview/ads">Annonsutkast</Link>
           <form action="/api/admin-preview" method="post">
             <input type="hidden" name="action" value="logout" />
             <button type="submit">Logga ut</button>

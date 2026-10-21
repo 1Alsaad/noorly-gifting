@@ -1,6 +1,6 @@
 # Preview asset provenance
 
-The five WebP photographs in this repository are fictional static placeholders created for this project with the built-in image-generation tool. They are not photographs of actual supplier products, a real property, or a final brand campaign. No logo or video was generated. Ten catalogue SVG files are code-authored placeholder packaging illustrations.
+The five WebP photographs in this repository are fictional static placeholders created for this project with the built-in image-generation tool. They are not photographs of actual supplier products, a real property, or a final brand campaign. No logo was generated. The winter scenes now use separately supplied Higgsfield videos; their provenance and encoding are recorded in [cinematic-media.md](cinematic-media.md). Ten catalogue SVG files are code-authored placeholder packaging illustrations.
 
 | File                                                  | Purpose                                      |
 | ----------------------------------------------------- | -------------------------------------------- |
