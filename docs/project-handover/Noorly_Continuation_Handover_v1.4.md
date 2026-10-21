@@ -185,3 +185,22 @@ Read-only Meta account/dataset inspection found an active SEK Noorly advertising
 Shopify's current Customer Privacy documentation says checkout should share the storefront root domain to respect its consent cookies. Existing separate Vercel/Shopify surfaces are not proof of that synchronization. Domain work stays deferred; the cross-surface consent test remains a release gate. Owner payment verification, intended dataset confirmation, supported presale mechanism, final seller/returns facts, supplier terms/sample and actual no-charge end-to-end tests remain open.
 
 The 4,000 SEK total media cap and 2,000/2,000 split remain unchanged. No ads, paid presales, paid apps, samples, inventory, supplier orders, additional emails, domain or real-payment tests were activated.
+
+## Password-protected owner preview and ad gallery — 21 October 2026
+
+User explicitly requested a password for admin site viewing and to see the drafted ads. This authorises the scoped owner-preview deployment, not sales/advertising activation.
+
+[PR 11](https://github.com/1Alsaad/noorly-gifting/pull/11) was merged after successful [CI run 39642571983](https://github.com/1Alsaad/noorly-gifting/actions/runs/39642571983): formatting, lint, TypeScript, unit/integration tests, production build, all eleven browser/accessibility tests and dependency audit. Seven new local security tests pass. An initial formatting failure and a browser-origin login failure were corrected before merge; the regression test covers the framework's internal host differing from the validated public browser origin.
+
+Production code commit: 192c3328e877c4ccc916961e551c3963e8313ad2. Vercel deployment dpl_HdW4oAxcXVEBMjavGHPgyv3PRH9s reached READY and the canonical noorly-gifting.vercel.app alias was assigned. Existing draft PRs 9 and 10 remain unmerged.
+
+- Owner login: https://noorly-gifting.vercel.app/admin-preview
+- Internal ad-copy gallery: https://noorly-gifting.vercel.app/admin-preview/ads
+- A generated 32-character password is stored only in the production Vercel sensitive server variable ADMIN_PREVIEW_PASSWORD. Never copy the value into GitHub, source, screenshots, URLs or handovers. It was provided privately to the owner in the task response.
+- Sessions use signed HttpOnly/Secure/SameSite=Lax cookies, last eight hours, and are invalidated by password rotation. Logout clears this browser's session. Login has same-origin/body-size checks and bounded per-instance attempt throttling; this is not distributed throttling.
+- A valid owner session bypasses only the public layout hold. The internal view clearly labels example products/prices and closed ordering/payment. It does not open cart/checkout or change NOORLY_STOREFRONT_OPEN. Analytics initialization is omitted in the closed-store owner preview.
+- Preview/login pages have private/no-store and noindex controls. No paid hosting protection, app or new service was purchased.
+
+Live connected Chrome verification passed: unauthenticated gallery redirects to login; deployed password reveals the internal design and warning banner; both exact Swedish copy drafts display; logout restores the public preparation page; after signing in again, GET /api/cart still visibly returns cart:null/storeClosed:true. The gallery was left open for the owner. No browser console errors were observed on that gallery. This is browser/HTTP verification, not a complete order/payment/fulfilment/Meta test.
+
+The gallery contains TWO COPY DRAFTS from the preparation dossier: “Doft och levande ljus till hemmakvällen.” and “En presentidé för den som tycker om att skapa hemma.” It explicitly says image ads are not finished, scheduled or active; no generated imagery was added. Preview copy must not be mistaken for a purchase-validation campaign. No campaign, social queue, supplier order, paid presale, payment or domain setting changed.
