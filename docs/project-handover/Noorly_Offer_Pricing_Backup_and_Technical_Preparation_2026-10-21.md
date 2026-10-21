@@ -156,6 +156,7 @@ The existing generic purchase webhook/outbox was reviewed: it authenticates paid
 Read-only Meta inspection found one legacy-named dataset assigned to the intended Noorly SEK advertising account; its reported browser event timestamp was in 2022. This does not establish current Noorly storefront wiring. No dataset was selected, renamed, created or configured; no events were sent. Owner confirmation of intended dataset identity is required before wiring.
 
 Official implementation references checked:
+
 - [Meta's maintained SDK event definition](https://github.com/facebook/facebook-python-business-sdk/blob/main/facebook_business/adobjects/serverside/event.py) documents that event_id together with event_name identifies equivalent browser/server events, and event_time is actual occurrence time.
 - [Shopify Customer Privacy API](https://shopify.dev/docs/api/customer-privacy) distinguishes analytics and marketing and documents custom-storefront installation. Checkout should share the storefront root domain to read consent cookies. Current separate Vercel/Shopify surfaces therefore cannot be claimed as a verified cross-surface consent implementation; domain work remains deferred.
 - Meta documentation web requests returned rate limits; the primary maintained SDK was used for the identity contract. Final live CAPI configuration and test-event validation still require official deployment-specific checks.
@@ -165,6 +166,7 @@ Official implementation references checked:
 No complete live/no-charge Shopify test order, payment failure/refund, supplier release/tracking or Meta browser/server deduplication test passed. The local signed-webhook fixtures are not real Shopify checkout evidence.
 
 Blocked or dependent work:
+
 - Supplier replies/quote, exact weight/SKU, Swedish product/safety instructions and acceptable sample; sample spend requires separate approval.
 - Owner payment identity/bank completion, actual presale mechanism compatibility and seller/contact/returns facts.
 - Intended dataset confirmation; verified consent synchronization, real order adapter, durable marketing delivery worker and actual Test Events verification.
