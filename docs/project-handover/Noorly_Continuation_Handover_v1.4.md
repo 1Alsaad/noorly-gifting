@@ -43,6 +43,13 @@ Hertwill Nordic Lights 350 g page NOW opens directly (previous access failure su
 
 ## Next actions and genuine blockers
 
+### Additional verification after the initial save
+
+- Current PR head after formatting correction: b44adb42b8b71a48924101172d42ffe1090fa426.
+- Clean GitHub run [39614859809](https://github.com/1Alsaad/noorly-gifting/actions/runs/39614859809) passed formatting, lint, TypeScript, unit/component tests and production build. Browser/accessibility and dependency-audit steps were still pending/running at this observation. This supersedes the local-only verification limit, not the missing actual Shopify/payment/supplier/Meta tests. Keep PR #9 draft pending final check results.
+- Fresh Shopify shipping overview confirms the dedicated ljussand profile has eleven products and zero zones. No rate was added.
+- Windsor discovered the connected Noorly ad account. A read of campaign spend/status/account currency for 1 January–21 October 2026 returned done with zero rows. This is not evidence of zero lifetime spend or confirmation that 4,000 SEK remains available. Actual spend/remaining allocation stays unreconciled; verify directly in Meta before activation. No campaign/budget/status was changed.
+
 1. Obtain explicit sending approval for the TWO exact emails in the pack. They request indicative Sweden pricing without private address/VAT data. A final quote needs correct business/VAT facts and intended destination postcode; do not invent them or publish private data in GitHub.
 2. Obtain supplier responses/documentation and acceptable sample. Sample payment requires separate spending approval. Decide direct fulfilment versus batch-to-Noorly plus Swedish onward shipping using the full quote.
 3. Owner completes Shopify payment identity/business/bank verification through Shopify. Do not request passwords, bank details or identity documents in chat.
