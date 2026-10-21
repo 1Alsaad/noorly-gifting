@@ -102,3 +102,29 @@ No price, weight, supplier-SKU substitution, shipping rate or product publicatio
 ### PR check result now confirmed
 
 [Run 39616247297](https://github.com/1Alsaad/noorly-gifting/actions/runs/39616247297) completed successfully after the source-Unicode correction, including browser/accessibility checks and production dependency audit. This supersedes the earlier pending/failed-run status for the corrected PR head. PR #9 remains draft/unmerged; these are development checks, not a real Shopify payment, supplier fulfilment or Meta Purchase test.
+
+## November scenario at authenticated Hertwill rates — 21 October 2026
+
+Requested as a hypothetical revenue/margin exercise. No retail price, budget increase, supplier purchase or release is approved. Use 599 SEK delivered for a two-pouch basket, not the saved AW draft price. "100k" here means customer collections including VAT and delivery, consistent with v1.3; it is not 100k accounting revenue excluding VAT. Unfulfilled presale receipts are not earned profit.
+
+Inputs: two €5.88 refills plus one assumed shared €8.99 Swedish shipment = €20.75; existing planning FX 11.123 SEK/EUR = 230.80 SEK goods/shipping. Shipping for the exact mixed pair, packed weight, handling, FX spread and actual tax treatment remain unconfirmed. Assume recoverable input VAT, 25% output VAT and a 31 SEK/order payment/refund allowance. These are model assumptions.
+
+Per pair: 599 collected; 479.20 excluding assumed output VAT; 230.80 goods/shipping; 31 allowance; 217.40 contribution before ads and additional costs. No measured CAC or conversion rate exists.
+
+167 orders collect 100,033 SEK, equal to 80,026.40 SEK excluding assumed VAT, and require 334 pouches. Across all 30 November days, this averages 5.57 orders/day. A later launch raises the necessary daily pace.
+
+Sensitivity at 167 paid orders; figures below are rounded, and every CAC is hypothetical:
+
+- CAC 80: ads 13,360 SEK; contribution after ads 22,945 SEK; 28.7% of revenue excluding VAT before fixed/unconfirmed costs.
+- CAC 100: ads 16,700 SEK; contribution after ads 19,605 SEK; 24.5% before fixed/unconfirmed costs.
+- CAC 120: ads 20,040 SEK; contribution after ads 16,265 SEK; 20.3% before fixed/unconfirmed costs.
+- CAC 150: ads 25,050 SEK; contribution after ads 11,255 SEK; 14.1% before fixed/unconfirmed costs.
+- CAC 200: ads 33,400 SEK; contribution after ads 2,905 SEK; 3.6% before fixed/unconfirmed costs.
+
+These are contribution margins after paid acquisition, NOT net-profit margins. Subtract Shopify, presale app, hosting, Hertwill membership, samples/creative, extra FX/fulfilment charges, owner time where costed, and taxes as appropriate. Every extra 10 SEK/order removes 1,670 SEK at this volume. A 20% contribution margin before overhead permits at most 121.56 SEK CAC with the current incomplete cost model; a 25% margin permits 97.60 SEK. Unconfirmed costs lower those CAC ceilings.
+
+The [Hertwill pricing page](https://hertwill.com/pricing), rechecked 21 October, lists Free at 10 monthly orders and Standard monthly at €24.99 with unlimited monthly orders. At the planning FX, one Standard month is about 278 SEK; no membership was purchased. Other fixed costs are still unknown. [Shipping terms](https://hertwill.com/resources/shipping) confirm prices exclude VAT and shipping is usually once per order; they do not establish our final mixed-pair quote. [Skatteverket standard VAT guidance](https://www.skatteverket.se/foretag/moms/saljavarorochtjanster/momssatserochundantagfranmoms.4.58d555751259e4d66168000409.html) supports the general 25% assumption; actual Noorly registration/invoice treatment still requires verification.
+
+Budget constraint: if the full 4,000 SEK allocation were later assigned to this offer and available unspent, CAC 100/120/150/200 implies approximately 40/33/27/20 paid customers and roughly 24k/20k/16k/12k collections. This is sensitivity arithmetic, not a forecast or authorisation to use the reserve. The initial screen remains capped at 2,000 SEK. To obtain all 167 orders from 4,000 SEK would require approximately 23.95 SEK CAC, or substantial separately evidenced organic/other sales. Neither is supported yet.
+
+Assessment: 100k November collections with useful contribution is commercially possible under strong acquisition performance, sufficient stock, timely launch and working capital, but remains a stretch scenario with no observed demand proof. At CAC 100–120 it requires around 16.7k–20k cumulative ads plus fulfilment cash and reserves; no such expansion is approved. Sales receipts include VAT, fulfilment/refund liabilities and payout timing risk, so do not recycle all receipts into advertising. Validate the first offer's economics and conversion delay before considering a separately authorised scale-up. The current 4,000 SEK allocation alone does not support a defensible 100k paid-sales forecast.
