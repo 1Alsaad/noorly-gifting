@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/footer";
 import { CartProvider } from "@/features/cart/cart-provider";
 import { ConsentBanner } from "@/components/consent/consent-banner";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
+import { PresaleHold } from "@/components/layout/presale-hold";
+import { isStorefrontOpen } from "@/lib/commerce/launch";
 export const dynamic = "force-dynamic";
 export default async function LocaleLayout({
   children,
@@ -15,6 +17,7 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (!isStorefrontOpen()) return <PresaleHold locale={locale} />;
   const t = getDictionary(locale);
   return (
     <CartProvider>

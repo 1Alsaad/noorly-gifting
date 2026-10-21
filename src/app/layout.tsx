@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { brand } from "@/config/brand";
+import { isStorefrontOpen } from "@/lib/commerce/launch";
 import "@/styles/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(brand.siteUrl),
@@ -9,9 +10,11 @@ export const metadata: Metadata = {
     "Thoughtful gifts, curated for the season. A fictional preview collection.",
   robots: {
     index:
+      isStorefrontOpen() &&
       process.env.DEPLOYMENT_ENV === "production" &&
       process.env.NEXT_PUBLIC_COMMERCE_PROVIDER === "shopify",
     follow:
+      isStorefrontOpen() &&
       process.env.DEPLOYMENT_ENV === "production" &&
       process.env.NEXT_PUBLIC_COMMERCE_PROVIDER === "shopify",
   },

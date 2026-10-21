@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 import { brand } from "@/config/brand";
 import { getCommerceProvider } from "@/lib/commerce";
+import { isStorefrontOpen } from "@/lib/commerce/launch";
 export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (
+    !isStorefrontOpen() ||
     process.env.DEPLOYMENT_ENV !== "production" ||
     process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify"
   )

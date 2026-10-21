@@ -4,8 +4,9 @@ Start here when continuing Noorly in Codex. Documents were prepared on 21 Octobe
 
 ## Reading order
 
-1. [Noorly Objectives and Presale Handover](Noorly_Objectives_and_Presale_Handover.docx) — version 1.1; current operating decisions, pricing assumptions, supplier findings, presale requirements, remaining tasks and continuation context.
-2. [Noorly Meta Ads and CRO Research](Noorly_Meta_Ads_and_CRO_Research.docx) — supporting research and implementation priorities. Its earlier ten-day spending schedule is superseded by the current handover.
+1. [Noorly Presale State v1.2](Noorly_Presale_State_v1.2.md) - latest saved Shopify and supplier state, verified SKU mapping, storefront closure, test results, blockers and Friday setup sequence.
+2. [Noorly Objectives and Presale Handover](Noorly_Objectives_and_Presale_Handover.docx) - original version 1.1; operating decisions and supporting context, supplemented by v1.2.
+3. [Noorly Meta Ads and CRO Research](Noorly_Meta_Ads_and_CRO_Research.docx) - supporting research and implementation priorities. Its earlier ten-day spending schedule is superseded by the current handover.
 
 The latest explicit user instructions take precedence over both documents.
 
@@ -21,7 +22,7 @@ The latest explicit user instructions take precedence over both documents.
 
 ## Starting task for Codex
 
-Read the handover in full, inspect the current repository and actual Shopify configuration, then continue the product catalogue, pricing and presale implementation. Verify supplier availability, packaging and delivery before opening paid presales. The previous chat did not save website product or price changes because it could not control the user's signed-in Shopify tab. Recheck access rather than assuming the session carried over.
+Read v1.2 first and continue its unresolved launch gates. Connected Chrome access succeeded on 21 October: Swedish product copy and provisional prices were saved, all eleven variants were isolated in a shipping hold profile, and an AW Dropship manual preparation channel with eleven products was created. Supply remains at zero, and payments, presale checkout and Meta tracking are not verified. Recheck access and changing facts before continuing.
 
 Recheck all changing facts: supplier stock and terms, account configuration, tracking events, prices and remaining ad spend. The planned domain/setup date was Friday 23 October 2026; this was a target, not a verified launch date.
 

@@ -37,11 +37,57 @@ const selection: BoxSelection = {
 beforeEach(() => {
   jar.clear();
   vi.stubEnv("NODE_ENV", "test");
+  vi.stubEnv("NOORLY_STOREFRONT_OPEN", "");
   vi.stubEnv("NEXT_PUBLIC_SITE_URL", "http://localhost:3000");
   vi.stubEnv("NEXT_PUBLIC_COMMERCE_PROVIDER", "mock");
   vi.stubEnv("CART_COOKIE_SECRET", "test-secret-more-than-32-characters");
 });
 describe("cart API integration", () => {
+  it("blocks a previously populated cart and direct checkout when the store closes", async () => {
+    await post({
+      action: "add",
+      lines: [{ merchandiseId: "winter-candle-default", quantity: 1 }],
+    });
+    const original = jar.get("stilla_cart");
+    expect(original).toBeTruthy();
+    vi.stubEnv("NOORLY_STOREFRONT_OPEN", "false");
+    const read = await GET();
+    expect(await read.json()).toEqual({ cart: null, storeClosed: true });
+    expect(read.headers.get("cache-control")).toBe("no-store");
+    for (const action of [
+      { action: "checkout", locale: "sv" },
+      {
+        action: "add",
+        lines: [{ merchandiseId: "winter-candle-default", quantity: 1 }],
+      },
+    ]) {
+      const { response, data } = await post(action);
+      expect(response.status).toBe(503);
+      expect(data).toEqual({ error: "STOREFRONT_CLOSED" });
+      expect(response.headers.get("set-cookie")).toBeNull();
+      expect(response.headers.get("cache-control")).toBe("no-store");
+    }
+    expect(jar.get("stilla_cart")).toBe(original);
+  });
+  it("cannot expose mock checkout in a production build even with an open flag", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NOORLY_STOREFRONT_OPEN", "true");
+    const result = await post({ action: "checkout", locale: "sv" });
+    expect(result.response.status).toBe(503);
+    expect(result.data.url).toBeUndefined();
+    expect(jar.size).toBe(0);
+  });
+  it("defaults a production Shopify build to closed before any provider request", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("NEXT_PUBLIC_COMMERCE_PROVIDER", "shopify");
+    const result = await post({ action: "checkout", locale: "sv" });
+    expect(result.data).toEqual({ error: "STOREFRONT_CLOSED" });
+    expect(result.response.status).toBe(503);
+    expect(await (await GET()).json()).toEqual({
+      cart: null,
+      storeClosed: true,
+    });
+  });
   it("returns no cart until mutation and persists additions through the signed cookie", async () => {
     expect(await (await GET()).json()).toEqual({ cart: null });
     const { response, data } = await post({

@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
 import { brand } from "@/config/brand";
+import { isStorefrontOpen } from "@/lib/commerce/launch";
+export const dynamic = "force-dynamic";
 export default function robots(): MetadataRoute.Robots {
   const production =
+    isStorefrontOpen() &&
     process.env.DEPLOYMENT_ENV === "production" &&
     process.env.NEXT_PUBLIC_COMMERCE_PROVIDER === "shopify";
   return {

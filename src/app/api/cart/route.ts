@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getCommerceProvider } from "@/lib/commerce";
+import { isStorefrontOpen } from "@/lib/commerce/launch";
 import {
   signCartReference,
   verifyCartReference,
@@ -129,6 +130,11 @@ function projectedAdd(
   return projected;
 }
 export async function GET() {
+  if (!isStorefrontOpen())
+    return NextResponse.json(
+      { cart: null, storeClosed: true },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   try {
     const provider = getCommerceProvider();
     const cart = await load(provider);
@@ -147,6 +153,11 @@ export async function GET() {
   }
 }
 export async function POST(request: Request) {
+  if (!isStorefrontOpen())
+    return NextResponse.json(
+      { error: "STOREFRONT_CLOSED" },
+      { status: 503, headers: { "Cache-Control": "no-store" } },
+    );
   try {
     assertSameOrigin(request);
     await rateLimit(request, "cart", 45, 60);
