@@ -12,6 +12,7 @@ import type {
   Product,
 } from "@/types/commerce";
 import { CommerceError } from "./errors";
+import { supportsStandardPurchase } from "./purchase-options";
 
 export const MAX_CART_LINES = 24;
 export const MAX_CART_QUANTITY = 30;
@@ -25,14 +26,16 @@ const attributeSchema = z
       "locale",
       "_stilla_analytics_consent",
       "_stilla_analytics_session",
+      "_noorly_marketing_consent",
     ]),
     value: z.string().max(brand.giftMessageMaxLength),
   })
   .strict()
   .refine(
     ({ key, value }) =>
-      key !== "_stilla_analytics_consent" ||
-      ["granted", "denied"].includes(value),
+      !["_stilla_analytics_consent", "_noorly_marketing_consent"].includes(
+        key,
+      ) || ["granted", "denied"].includes(value),
     "invalid_consent",
   )
   .refine(
@@ -125,6 +128,8 @@ export function validateCart(cart: Cart, catalogue: Product[]): void {
     throw new CommerceError("cart_limit");
   const groups = new Map<string, Cart["lines"]>();
   for (const line of cart.lines) {
+    if (line.sellingPlanId || !supportsStandardPurchase(line.product))
+      throw new CommerceError("purchase_option_not_ready", 409);
     const attrs = Object.fromEntries(
       cleanAttributes(line.attributes).map(({ key, value }) => [key, value]),
     );

@@ -193,6 +193,7 @@ describe("cart API integration", () => {
       locale: "en",
       attributes: [
         { key: "_stilla_analytics_consent", value: "granted" },
+        { key: "_noorly_marketing_consent", value: "granted" },
         {
           key: "_stilla_analytics_session",
           value: "ff9007c8-90aa-456f-a41b-d295517b53da",
@@ -202,10 +203,18 @@ describe("cart API integration", () => {
     expect(checkout.response.status).toBe(200);
     expect(checkout.data.url).toBe("/en/mock-checkout");
     expect(checkout.data.cart.attributes).toContainEqual({
+      key: "_noorly_marketing_consent",
+      value: "granted",
+    });
+    expect(checkout.data.cart.attributes).toContainEqual({
       key: "_stilla_analytics_consent",
       value: "granted",
     });
     const denied = await post({ action: "checkout", locale: "sv" });
+    expect(denied.data.cart.attributes).toContainEqual({
+      key: "_noorly_marketing_consent",
+      value: "denied",
+    });
     expect(denied.data.cart.attributes).toContainEqual({
       key: "_stilla_analytics_consent",
       value: "denied",

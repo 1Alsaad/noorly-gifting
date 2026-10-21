@@ -14,6 +14,9 @@ export interface ProductVariant {
   title: string;
   price: Money;
   available: boolean;
+  sku?: string;
+  image?: ProductImage;
+  selectedOptions?: { name: string; value: string }[];
 }
 export type ProductCategory =
   "box" | "signature" | "extra" | "card" | "packaging";
@@ -27,6 +30,10 @@ export interface Product {
   images: ProductImage[];
   variants: ProductVariant[];
   available: boolean;
+  purchaseOptions?: {
+    requiresSellingPlan: boolean;
+    hasSellingPlans: boolean;
+  };
   category: ProductCategory;
   seasons: string[];
   boxEligible: boolean;
@@ -59,6 +66,8 @@ export interface CartLine {
   variant: ProductVariant;
   quantity: number;
   attributes: CartAttribute[];
+  /** Read from Shopify; purchase-plan checkout is blocked until integrated. */
+  sellingPlanId?: string;
 }
 export interface Cart {
   id: string;

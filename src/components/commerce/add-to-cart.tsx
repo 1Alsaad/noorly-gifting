@@ -5,6 +5,10 @@ import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { useCart } from "@/features/cart/cart-provider";
 import { trackEvent } from "@/lib/analytics/client";
+import {
+  supportsStandardPurchase,
+  purchasePendingCopy,
+} from "@/lib/commerce/purchase-options";
 export function AddToCart({
   product,
   locale,
@@ -20,9 +24,13 @@ export function AddToCart({
   const [state, setState] = useState<"idle" | "added" | "error">("idle");
   const t = getDictionary(locale);
   const variant =
-    product.variants.find((v) => v.id === variantId) ?? product.variants[0];
+    variantId === undefined
+      ? product.variants[0]
+      : product.variants.find((v) => v.id === variantId);
+  const purchaseReady = supportsStandardPurchase(product);
   async function add() {
-    if (!variant) return;
+    if (!purchaseReady || !product.available || !variant?.available || loading)
+      return;
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
       setState("added");
@@ -42,16 +50,20 @@ export function AddToCart({
     <div className="add-control">
       <button
         className={compact ? "text-button" : "button button-dark"}
-        disabled={loading || !variant?.available}
+        disabled={
+          loading || !product.available || !variant?.available || !purchaseReady
+        }
         onClick={add}
       >
-        {!variant?.available
-          ? t.unavailable
-          : loading
-            ? t.adding
-            : state === "added"
-              ? t.added
-              : t.add}
+        {!purchaseReady
+          ? purchasePendingCopy[locale]
+          : !product.available || !variant?.available
+            ? t.unavailable
+            : loading
+              ? t.adding
+              : state === "added"
+                ? t.added
+                : t.add}
         {state === "added" ? (
           <Check size={17} aria-hidden />
         ) : (

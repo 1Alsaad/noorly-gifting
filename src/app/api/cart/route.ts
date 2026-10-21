@@ -281,7 +281,11 @@ export async function POST(request: Request) {
       if (!cart.lines.length) throw new CommerceError("empty_cart");
       const checkoutAttributes = cleanAttributes(
         action.attributes ?? [],
-      ).filter(({ key }) => key.startsWith("_stilla_analytics_"));
+      ).filter(
+        ({ key }) =>
+          key.startsWith("_stilla_analytics_") ||
+          key === "_noorly_marketing_consent",
+      );
       // Missing consent explicitly clears any prior consent from this cart.
       if (
         !checkoutAttributes.some(
@@ -301,10 +305,21 @@ export async function POST(request: Request) {
           key: "_stilla_analytics_session",
           value: "",
         });
+      if (
+        !checkoutAttributes.some(
+          ({ key }) => key === "_noorly_marketing_consent",
+        )
+      )
+        checkoutAttributes.push({
+          key: "_noorly_marketing_consent",
+          value: "denied",
+        });
       const merged = [
         ...cart.attributes.filter(
           ({ key }) =>
-            !key.startsWith("_stilla_analytics_") && key !== "locale",
+            !key.startsWith("_stilla_analytics_") &&
+            key !== "_noorly_marketing_consent" &&
+            key !== "locale",
         ),
         ...checkoutAttributes,
         { key: "locale", value: action.locale },

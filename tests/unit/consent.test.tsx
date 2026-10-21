@@ -4,11 +4,32 @@ import {
   ConsentBanner,
   ConsentSettingsButton,
 } from "../../src/components/consent/consent-banner";
-import { getConsent } from "../../src/lib/analytics/consent";
+import { getConsent, saveConsent } from "../../src/lib/analytics/consent";
+import { getAnalyticsCheckoutAttributes } from "../../src/lib/analytics/client";
 
 describe("consent controls", () => {
   beforeEach(() => localStorage.clear());
   afterEach(cleanup);
+  it("keeps marketing independent from analytics and clears it after withdrawal", () => {
+    expect(getAnalyticsCheckoutAttributes()._noorly_marketing_consent).toBe(
+      "denied",
+    );
+    saveConsent({ analytics: true, marketing: false });
+    expect(getAnalyticsCheckoutAttributes()).toMatchObject({
+      _stilla_analytics_consent: "granted",
+      _noorly_marketing_consent: "denied",
+    });
+    saveConsent({ analytics: false, marketing: true });
+    expect(getAnalyticsCheckoutAttributes()).toMatchObject({
+      _stilla_analytics_consent: "denied",
+      _stilla_analytics_session: "",
+      _noorly_marketing_consent: "granted",
+    });
+    saveConsent({ analytics: false, marketing: false });
+    expect(getAnalyticsCheckoutAttributes()._noorly_marketing_consent).toBe(
+      "denied",
+    );
+  });
   it("offers equally accessible accept and reject actions and saves necessary-only consent", () => {
     render(<ConsentBanner locale="en" />);
     expect(screen.getByRole("button", { name: "Accept all" })).toBeDefined();

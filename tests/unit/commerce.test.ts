@@ -35,6 +35,8 @@ const rawProduct = {
   availableForSale: true,
   productType: "signature",
   tags: ["season:winter", "box-eligible"],
+  requiresSellingPlan: false,
+  sellingPlanGroups: { nodes: [] },
   priceRange: { minVariantPrice: { amount: "295.00", currencyCode: "SEK" } },
   compareAtPriceRange: {
     minVariantPrice: { amount: "0.00", currencyCode: "SEK" },
@@ -191,6 +193,7 @@ describe("Shopify mapping", () => {
             id: "line",
             quantity: 1,
             attributes: [{ key: "gift_message", value: "Plain text" }],
+            sellingPlanAllocation: null,
             merchandise: {
               ...rawProduct.variants.nodes[0],
               product: rawProduct,

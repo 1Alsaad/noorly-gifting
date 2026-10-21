@@ -1,16 +1,26 @@
 export const PRODUCT_FRAGMENT = `fragment ProductFields on Product {
-  id handle title description availableForSale productType tags
+  id handle title description availableForSale productType tags requiresSellingPlan
+  sellingPlanGroups(first: 1) { nodes { id } }
   priceRange { minVariantPrice { amount currencyCode } }
   compareAtPriceRange { minVariantPrice { amount currencyCode } }
-  images(first: 8) { nodes { url altText } }
-  variants(first: 100) { nodes { id title availableForSale price { amount currencyCode } } }
+  images(first: 100) { nodes { url altText } }
+  variants(first: 100) { nodes {
+    id title sku selectedOptions { name value } availableForSale
+    image { url altText }
+    price { amount currencyCode }
+  } }
 }`;
 export const CART_FRAGMENT = `${PRODUCT_FRAGMENT}
 fragment CartFields on Cart {
   id checkoutUrl totalQuantity attributes { key value }
   cost { subtotalAmount { amount currencyCode } }
   lines(first: 100) { nodes { id quantity attributes { key value }
-    merchandise { ... on ProductVariant { id title availableForSale price { amount currencyCode } product { ...ProductFields } } }
+    sellingPlanAllocation { sellingPlan { id } }
+    merchandise { ... on ProductVariant {
+      id title sku selectedOptions { name value } availableForSale
+      image { url altText }
+      price { amount currencyCode } product { ...ProductFields }
+    } }
   } }
 }`;
 export const PRODUCTS_QUERY = `${PRODUCT_FRAGMENT} query Products($after: String, $language: LanguageCode!) @inContext(country: SE, language: $language) { products(first: 100, after: $after) { nodes { ...ProductFields } pageInfo { hasNextPage endCursor } } }`;
