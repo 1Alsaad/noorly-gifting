@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.3
 
+> **Latest evidence:** Read [continuation handover v1.4](Noorly_Continuation_Handover_v1.4.md) first for working Chrome access, supplier rechecks, exact outreach drafts and draft PR #9. Standing decisions below remain in force.
+
 Updated 21 October 2026. **Read this first.** This consolidates the latest discussion and points to verified implementation evidence. It supersedes conflicting budget, schedule and planning assumptions in older documents; it does not overwrite their historical observations or turn proposals into approvals.
 
 ## Read order and evidence
@@ -47,6 +49,7 @@ Conditional ranking:
 Contacts and source URLs are in the focused shortlist. No new candidate was contacted, sampled, reserved or paid.
 
 Before commercial selection obtain:
+
 - Itemised small-pilot and repeat-order quotes, actual stock/reservation and supplier-supported dispatch window.
 - Correct business/VAT details and Swedish destination/postcode; never invent them.
 - One-, two- and five-pouch packed weights and mixed-variant parcel pricing. Compare supplier direct delivery with batch-to-Noorly plus local packing and onward shipping.
@@ -62,6 +65,7 @@ Before commercial selection obtain:
 **Actually saved in Shopify:** AW 300 g draft at 249 SEK scented / 199 SEK unscented. No approved final retail price or live bundle.
 
 Later discussion proposed:
+
 - Earlier draft ladder: single 299 + 99 shipping, pair 499 + 99, five-pouch collection 999 + 99. Not saved.
 - Latest modelling presentation: **599 SEK including delivery for a scented pair**. This replaces neither the saved draft price nor supplier-specific sizing without a deliberate verified edit.
 - A **1,099 SEK delivered five-pack** was modelled separately. Not created, quoted or approved.
@@ -78,6 +82,7 @@ The Candledust's own public retail pricing creates a real premium-price challeng
 All amounts below are planning assumptions, not quotes or measured CAC. Assume 25% output VAT, recoverable input VAT, and **31 SEK per pair for payment/refund allowance**. Actual fees, tax treatment, refunds, FX and fixed costs need verification.
 
 At **599 SEK delivered**:
+
 - Collected from customer: 599.
 - Revenue excluding assumed VAT: **479.20**.
 - Goods/fulfilment target: **220**.
@@ -104,14 +109,14 @@ For consistency the model interprets 100k as **customer collections including VA
 At 167 orders, 31/order fees/refund allowance:
 
 | Assumed delivered goods/fulfilment per pair | Hypothetical CAC | Total media spend | Contribution after media, before fixed costs |
-| ---: | ---: | ---: | ---: |
-| 200 | 120 | 20,040 | 21,409.40 |
-| 220 | 80 | 13,360 | 24,749.40 |
-| 220 | 120 | 20,040 | 18,069.40 |
-| 220 | 200 | 33,400 | 4,709.40 |
-| 245.82 (old AW indicative model) | 120 | 20,040 | about 13,757 |
-| 280 | 120 | 20,040 | 8,049.40 |
-| 300 | 120 | 20,040 | 4,709.40 |
+| ------------------------------------------: | ---------------: | ----------------: | -------------------------------------------: |
+|                                         200 |              120 |            20,040 |                                    21,409.40 |
+|                                         220 |               80 |            13,360 |                                    24,749.40 |
+|                                         220 |              120 |            20,040 |                                    18,069.40 |
+|                                         220 |              200 |            33,400 |                                     4,709.40 |
+|            245.82 (old AW indicative model) |              120 |            20,040 |                                 about 13,757 |
+|                                         280 |              120 |            20,040 |                                     8,049.40 |
+|                                         300 |              120 |            20,040 |                                     4,709.40 |
 
 These are sensitivities, **not worst/expected/best probabilities or supplier quotes**. The 18–21k conditional result at 100k collections needs roughly 20k cumulative ads at CAC 120 plus working capital; it is not the expected return from 4k of advertising. Demand, conversion and scale remain unproven.
 

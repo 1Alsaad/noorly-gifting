@@ -1,7 +1,9 @@
 # Noorly ROI assessment and launch readiness
+
 Updated 21 October 2026, Europe/Stockholm. This is a decision document, not permission to open presales, activate advertising, buy a domain, install paid apps or pay suppliers. Read alongside [the saved state handover](Noorly_Presale_State_v1.2.md).
 
 ## Assessment
+
 Continue inexpensive, reusable preparation. The present evidence does not establish good ROI or justify scaling. A controlled candle-sand test can be worthwhile after supply, real contribution and checkout are verified. At the proposed prices, a two-scented-pouch basket has substantially more acquisition headroom than a single pouch, conditional on both SKUs sharing one parcel at the quoted rate. It remains the same candle-sand offer, not a separate product test.
 
 Direct-to-customer shipping is the main known economic constraint. The supplier's public Sweden tariff was rechecked: EUR 9.60 for 0–2 kg. At the handover's reference exchange assumption this is SEK 106.78, while SEK 99 customer shipping yields SEK 79.20 after assumed 25% output VAT. The product margin therefore subsidizes postage by about SEK 27.58 per parcel. Free shipping at unchanged product prices would remove another SEK 79.20 of contribution: approximately SEK 1.90 scented single, minus SEK 24.20 unscented single and SEK 82.38 scented pair before ads.
@@ -9,7 +11,9 @@ Direct-to-customer shipping is the main known economic constraint. The supplier'
 No reply to the sent availability/cost inquiry was present in its Gmail thread when checked for this assessment. The public feed still reports zero stock for all eleven variants. The earlier AW registration email says accounts undergo manual review; full ordering approval still needs verification. The estimated 31 October wholesale return is not a confirmed AW Dropship allocation or dispatch date.
 
 ## Model and assumptions
+
 The following recalculates the existing model, not an executable quote or a forecast:
+
 - Product prices: SEK 249 scented; SEK 199 unscented; SEK 449 two scented pouches.
 - Customer shipping: SEK 99 per order.
 - Output VAT: assumed 25%; supplier input VAT assumed recoverable/excluded from cost. Confirm the actual business and invoice treatment.
@@ -19,20 +23,20 @@ The following recalculates the existing model, not an executable quote or a fore
 - Payment allowances: SEK 11 / 11 / 16. Returns/refund allowances: SEK 10 / 10 / 15. These are assumptions, not observed fees or a verified reserve.
 - Excludes additional handling, packaging, FX/payment spread, app fees, fixed overhead, sample cost and owner time.
 
-| Per order, SEK unless stated | Scented single | Unscented single | Two scented pouches |
-| --- | ---: | ---: | ---: |
-| Customer total, including shipping and assumed VAT | 348.00 | 298.00 | 548.00 |
-| Revenue excluding assumed VAT | 278.40 | 238.40 | 438.40 |
-| Goods plus supplier shipping | 176.30 | 162.40 | 245.82 |
-| Payment allowance plus refund reserve | 21.00 | 21.00 | 31.00 |
-| Contribution before advertising | 81.10 | 55.00 | 161.58 |
-| Variable-cost break-even acquisition cost | 81.10 | 55.00 | 161.58 |
-| Provisional planning CPA at 70% of contribution | 56.77 | 38.50 | 113.11 |
-| Contribution after SEK 80 acquisition cost | 1.10 | -25.00 | 81.58 |
-| Whole orders to cover SEK 2,000 ads, before fixed costs | 25 | 37 | 13 |
-| Break-even purchase conversion at hypothetical SEK 4/landing visit | 4.93% | 7.27% | 2.48% |
-| Purchase conversion for the 70% CPA target at that visit cost | 7.05% | 10.39% | 3.54% |
-| Contribution if FX is instead SEK 11.50/EUR | 75.13 | 49.50 | 153.25 |
+| Per order, SEK unless stated                                       | Scented single | Unscented single | Two scented pouches |
+| ------------------------------------------------------------------ | -------------: | ---------------: | ------------------: |
+| Customer total, including shipping and assumed VAT                 |         348.00 |           298.00 |              548.00 |
+| Revenue excluding assumed VAT                                      |         278.40 |           238.40 |              438.40 |
+| Goods plus supplier shipping                                       |         176.30 |           162.40 |              245.82 |
+| Payment allowance plus refund reserve                              |          21.00 |            21.00 |               31.00 |
+| Contribution before advertising                                    |          81.10 |            55.00 |              161.58 |
+| Variable-cost break-even acquisition cost                          |          81.10 |            55.00 |              161.58 |
+| Provisional planning CPA at 70% of contribution                    |          56.77 |            38.50 |              113.11 |
+| Contribution after SEK 80 acquisition cost                         |           1.10 |           -25.00 |               81.58 |
+| Whole orders to cover SEK 2,000 ads, before fixed costs            |             25 |               37 |                  13 |
+| Break-even purchase conversion at hypothetical SEK 4/landing visit |          4.93% |            7.27% |               2.48% |
+| Purchase conversion for the 70% CPA target at that visit cost      |          7.05% |           10.39% |               3.54% |
+| Contribution if FX is instead SEK 11.50/EUR                        |          75.13 |            49.50 |              153.25 |
 
 The order counts assume every order is the indicated basket, all relevant variable costs are covered by the assumptions, and orders are paid and ultimately fulfilled subject to the refund allowance. Mixed baskets require weighted actual contribution. These are variable-cost break-even counts, not counts for recovering the whole project investment.
 
@@ -41,6 +45,7 @@ At a hypothetical SEK 80 CPA, SEK 2,000 buys 25 orders. Twenty-five scented pair
 Full-project profit = contribution from fulfilled orders - advertising - additional fixed/setup costs - a chosen allowance for owner time. Maintain a separate ledger for Shopify, presale app, hosting, domain, sample, creative and other actual charges; record recurring versus one-off and incremental versus already incurred costs. The actual total is unknown, so a defensible full-project ROI percentage cannot yet be calculated. Do not treat assumed repeat purchases or uncollected presale balances as profit.
 
 ## How to improve the economics
+
 1. Evaluate the two-pouch basket as the main paid-acquisition presentation once mixed-SKU parcel pricing is confirmed. Keep a clear single-pouch choice. Validate customer willingness to pay; higher basket value alone does not guarantee more profit per visitor.
 2. Retain plain protective packaging for validation if its quality is acceptable. Do not add custom boxes/cards or gift-wrapping promises before costs and service are confirmed.
 3. Preserve explicit shipping charges and test the complete delivered price. A SEK 25 VAT-inclusive price increase adds about SEK 20 contribution before any change in payment fees or conversion; a SEK 20 reduction in actual fulfillment cost adds SEK 20 directly. Demand response is unknown.
@@ -49,25 +54,27 @@ Full-project profit = contribution from fulfilled orders - advertising - additio
 6. Inspect a representative sample and packaging before paid release. No sample purchase is authorized by this document. Separate samples, apps, stock and domain spending from the advertising allocation.
 
 ## Work we can prepare on our side
+
 All rows below are pending acceptance unless explicitly marked saved. Preparation can progress while the store remains closed. Supplier-dependent values must remain internal placeholders until verified.
 
-| Workstream | Work on our side | Evidence needed to call it ready | Dependency |
-| --- | --- | --- | --- |
-| Cost and spend ledger | Record actual goods, shipping, tax treatment, payment fees, FX, returns reserve and fixed costs; recalculate contribution/CPA per basket; reconcile all ad spend. | Source-backed costs, actual remaining allocation and a chosen minimum contribution after ads. | Supplier quote, merchant fee schedule and business tax facts. |
-| Product page and cart | Build Swedish presale layout with contents/exclusions, clear scent/colour choices, total delivered price, payment timing and dispatch range; remove mock items from every purchase path. | Mobile/desktop checks of all 11 SKUs, images, quantity changes, totals and no silent variant substitution. | Real draft catalogue already saved; final prices/window pending. |
-| Two-pouch basket | Preserve both component SKUs and quantities; validate discounts with the chosen presale setup. | Two different scents produce the correct charge, shipping, order lines and fulfillment instructions. | Parcel consolidation and app compatibility. |
-| Presale checkout | Choose a compatible app and payment schedule; retain the required selling-plan data across add/update/rebuild and checkout. | Checkout displays and records the correct presale terms and cannot silently purchase a presale-only variant as an ordinary order. | App selection/cost/permissions and payment timing decision. |
-| Merchant payments | Complete owner verification; confirm accepted methods, actual fees, capture timing, payouts and refund behavior. | Successful test-mode payment, failure, cancellation and refund; no false paid status. | Account-owner facts and provider verification. |
-| Seller information and terms | Prepare Swedish contact, payment, shipping, complaints, cancellation, returns, withdrawal and privacy copy; add a working online withdrawal function with durable acknowledgement. | No invented seller facts or brackets; terms consistent across page, checkout and confirmation; withdrawal/acknowledgement tested. | Real seller/contact/return details and supplier procedures. |
-| Operational process | Create a simple order ledger and manual release checklist: paid state, SKU, address, stock allocation, supplier order reference, tracking, cancellations and refunds. | Supplier-supported dry run proves no premature/duplicate orders and confirms tracking return. | Supplier approval and supported ordering route; no paid order placed without spending authorization. |
-| Meta and consent | Verify dataset/account ownership; select an owner for Purchase reporting; implement required storefront events and paid-order reporting; use stable event IDs for deduplication where browser/server overlap. | Correct SEK/value, exactly one Purchase for each test paid order; no Purchase on failures/leads; reload/retry and consent rejection/withdrawal tested through checkout. | Meta access, working checkout and verified consent setup. Windsor reporting is not proof. |
-| Creative and campaign preparation | Prepare a small Swedish faceless creative set showing accurate contents and usage; match offer copy to the landing page; keep campaigns paused. | Final asset/copy review, working URLs and attribution tags, actual spend reconciliation and bounded first-stage allowance read back. | Confirmed offer, product documentation and launch instruction. |
-| Domain — documented, deferred | Select/register the Noorly domain; confirm registrar and correct Vercel access; configure storefront and checkout DNS, TLS, redirects and sender authentication as applicable. | Secure intended URLs on mobile and desktop, intact checkout attribution, verified transactional email delivery. | User's domain purchase/access. Do not alter unrelated Erinra records without resolving their purpose. |
-| Final release rehearsal | Run successful and failed purchases, mixed variants, cancellation/refund, consent cases, tracking and supplier dry run together; repeat critical checks on final URLs. | Saved evidence of the complete path, stock/order cap, support owner and a pause/refund procedure. | All relevant rows above, including domain for final URL verification. |
+| Workstream                        | Work on our side                                                                                                                                                                                              | Evidence needed to call it ready                                                                                                                                        | Dependency                                                                                            |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Cost and spend ledger             | Record actual goods, shipping, tax treatment, payment fees, FX, returns reserve and fixed costs; recalculate contribution/CPA per basket; reconcile all ad spend.                                             | Source-backed costs, actual remaining allocation and a chosen minimum contribution after ads.                                                                           | Supplier quote, merchant fee schedule and business tax facts.                                         |
+| Product page and cart             | Build Swedish presale layout with contents/exclusions, clear scent/colour choices, total delivered price, payment timing and dispatch range; remove mock items from every purchase path.                      | Mobile/desktop checks of all 11 SKUs, images, quantity changes, totals and no silent variant substitution.                                                              | Real draft catalogue already saved; final prices/window pending.                                      |
+| Two-pouch basket                  | Preserve both component SKUs and quantities; validate discounts with the chosen presale setup.                                                                                                                | Two different scents produce the correct charge, shipping, order lines and fulfillment instructions.                                                                    | Parcel consolidation and app compatibility.                                                           |
+| Presale checkout                  | Choose a compatible app and payment schedule; retain the required selling-plan data across add/update/rebuild and checkout.                                                                                   | Checkout displays and records the correct presale terms and cannot silently purchase a presale-only variant as an ordinary order.                                       | App selection/cost/permissions and payment timing decision.                                           |
+| Merchant payments                 | Complete owner verification; confirm accepted methods, actual fees, capture timing, payouts and refund behavior.                                                                                              | Successful test-mode payment, failure, cancellation and refund; no false paid status.                                                                                   | Account-owner facts and provider verification.                                                        |
+| Seller information and terms      | Prepare Swedish contact, payment, shipping, complaints, cancellation, returns, withdrawal and privacy copy; add a working online withdrawal function with durable acknowledgement.                            | No invented seller facts or brackets; terms consistent across page, checkout and confirmation; withdrawal/acknowledgement tested.                                       | Real seller/contact/return details and supplier procedures.                                           |
+| Operational process               | Create a simple order ledger and manual release checklist: paid state, SKU, address, stock allocation, supplier order reference, tracking, cancellations and refunds.                                         | Supplier-supported dry run proves no premature/duplicate orders and confirms tracking return.                                                                           | Supplier approval and supported ordering route; no paid order placed without spending authorization.  |
+| Meta and consent                  | Verify dataset/account ownership; select an owner for Purchase reporting; implement required storefront events and paid-order reporting; use stable event IDs for deduplication where browser/server overlap. | Correct SEK/value, exactly one Purchase for each test paid order; no Purchase on failures/leads; reload/retry and consent rejection/withdrawal tested through checkout. | Meta access, working checkout and verified consent setup. Windsor reporting is not proof.             |
+| Creative and campaign preparation | Prepare a small Swedish faceless creative set showing accurate contents and usage; match offer copy to the landing page; keep campaigns paused.                                                               | Final asset/copy review, working URLs and attribution tags, actual spend reconciliation and bounded first-stage allowance read back.                                    | Confirmed offer, product documentation and launch instruction.                                        |
+| Domain — documented, deferred     | Select/register the Noorly domain; confirm registrar and correct Vercel access; configure storefront and checkout DNS, TLS, redirects and sender authentication as applicable.                                | Secure intended URLs on mobile and desktop, intact checkout attribution, verified transactional email delivery.                                                         | User's domain purchase/access. Do not alter unrelated Erinra records without resolving their purpose. |
+| Final release rehearsal           | Run successful and failed purchases, mixed variants, cancellation/refund, consent cases, tracking and supplier dry run together; repeat critical checks on final URLs.                                        | Saved evidence of the complete path, stock/order cap, support owner and a pause/refund procedure.                                                                       | All relevant rows above, including domain for final URL verification.                                 |
 
 We can finish architecture, code, copy drafts, creative drafts, ledgers and test procedures before the domain is purchased. We cannot truthfully mark merchant activation, real dispatch promises, final landed economics, domain checks or the supplier routing test complete without the relevant external evidence.
 
 ## Advertising decision and release conditions
+
 - Exactly SEK 4,000 is allocated across the testing sequence, not per product. No additional spending is approved.
 - First offer allowance is up to SEK 2,000 over an initial 4–5-day screen, review on day four. Keep SEK 2,000 reserved for justified continuation or a genuinely different offer.
 - Reconcile existing actual spend first. Use a bounded allowance and verify readback; platform daily pacing is not a guaranteed total-spend ceiling.
@@ -76,9 +83,11 @@ We can finish architecture, code, copy drafts, creative drafts, ledgers and test
 - Keep presales closed and ads off until those checks pass and the user instructs release. Friday 23 October is a setup checkpoint, not a fixed opening date.
 
 ## Follow-up: acquisition cost, geographic pricing and five-pouch occasion sets
+
 Added 21 October 2026. These are internal proposals; the live Shopify draft prices remain unchanged.
 
 ### Acquisition cost clarification
+
 SEK 4,000 is the total advertising allocation, not a measured acquisition cost or a claim of actual spend. SEK 80/100/200 acquisition costs used in scenarios are assumptions. No acquisition cost has been measured during this work.
 
 Paid media CAC = actual advertising spend / verified new paying customers attributed consistently to that advertising. Distinguish this from cost per order and fully loaded CAC including creative/agency costs. For an initial SEK 2,000 spend: 10 new customers means SEK 200 media CAC; 20 means SEK 100; 40 means SEK 50. Refunds, cancellations and delayed conversions must be reconciled.
@@ -86,11 +95,12 @@ Paid media CAC = actual advertising spend / verified new paying customers attrib
 More budget does not automatically reduce CAC; larger campaigns may have higher CAC. Better conversion, more effective creative, repeat orders and lower fulfillment costs can improve the business, but repeat purchases are unproven and must not subsidize the first-order model on paper.
 
 ### Proposed public price ladder — not saved to Shopify
-| Scented basket | Proposed product SEK | Proposed shipping SEK | Customer total SEK | Modelled contribution before ads SEK | After hypothetical SEK 100 media CAC |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| One pouch, 300 g | 299 | 99 | 398 | 121.10 | 21.10 |
-| Two pouches, 600 g | 499 | 99 | 598 | 201.58 | 101.58 |
-| Five-pouch occasion collection, 1.5 kg | 999 | 99 | 1,098 | 369.03 | 269.03 |
+
+| Scented basket                         | Proposed product SEK | Proposed shipping SEK | Customer total SEK | Modelled contribution before ads SEK | After hypothetical SEK 100 media CAC |
+| -------------------------------------- | -------------------: | --------------------: | -----------------: | -----------------------------------: | -----------------------------------: |
+| One pouch, 300 g                       |                  299 |                    99 |                398 |                               121.10 |                                21.10 |
+| Two pouches, 600 g                     |                  499 |                    99 |                598 |                               201.58 |                               101.58 |
+| Five-pouch occasion collection, 1.5 kg |                  999 |                    99 |              1,098 |                               369.03 |                               269.03 |
 
 This extends the same VAT/FX/goods/shared-parcel model above. Five-pouch payment fees of SEK 25 and a refund reserve of SEK 30 are NEW planning allowances, not verified costs. All figures exclude fixed overhead and owner time. No branded packaging, vessel or gift-wrapping cost is included or promised. The source feed still shows zero stock.
 
@@ -99,12 +109,15 @@ Five pouches weigh 1.5 kg before protective packaging. The packed parcel may exc
 A larger basket can convert less often: it asks a new buyer to spend SEK 1,098 on a product they have not tried. Under these assumptions and equal traffic costs, the five-pouch basket needs roughly 55% of the pair's purchase conversion rate merely to match contribution per visitor before fixed overhead. Higher profit per order is not proof of higher overall profit.
 
 ### Premium and comparative pricing
+
 The requested attractive higher-priced option is best specified as a genuine premium five-pouch tier that also provides a price anchor. A formal decoy is a deliberately weaker alternative intended to shift choice. A premium product may sell well in its own right; a three-tier ladder alone does not prove a decoy effect.
 
 Prepare one genuine premium bundle structure, preserve all five component SKUs, and show accurate product and delivered unit prices. Start with the pair as the main paid-traffic basket and offer the five-pouch tier for larger purchases. Do not add an artificial fourth tier solely to make comparisons harder. All tiers remain one candle-sand offer in the agreed two-offer testing plan.
 
 ### Mood/occasion concept specification
+
 Assume five-pack means five separate 300 g pouches, not five samples: 1.5 kg total.
+
 - Hemmakväll: a coordinated five-pouch selection presented around an evening at home.
 - Middag med vänner: a coordinated five-pouch selection presented around setting a table and hosting friends.
 - Nytt hem: a coordinated five-pouch selection presented around first-apartment styling or a housewarming purchase.
@@ -112,6 +125,7 @@ Assume five-pack means five separate 300 g pouches, not five samples: 1.5 kg tot
 Choose exact scent/SKU combinations after representative samples and current supplier documentation are reviewed. Use real scent names/colours; do not invent fragrance notes or promise sleep/stress benefits. Product-only or hands-only creative, no faces. Themes are curation and creative variants, not separate product tests. A housewarming angle does not establish gift wrapping, a vessel, a Noorly box or a card.
 
 ### Geographic pricing
+
 Country/market pricing is technically supported through Shopify Markets catalogs. Custom storefront prices and checkout must agree on the selected market, currency and delivery destination. This functionality has not been implemented or tested for Noorly.
 
 Recommend one transparent Swedish public price for the first test. Consider other country markets later using actual shipping/tax costs and local willingness to pay. Do not fragment the SEK 4,000 allocation across countries or use postcode wealth assumptions as a shortcut to profitability.
@@ -119,15 +133,19 @@ Recommend one transparent Swedish public price for the first test. Consider othe
 EU country pricing requires careful implementation: different website versions/offers can have different prices, but access and purchase conditions cannot simply discriminate by nationality/residence. Respect customer choice of country version and consent for redirects. Automated individually profiled prices require disclosure. These are separate from genuine delivery-cost differences. No geographic pricing setting was changed.
 
 Sources checked:
+
 - [Shopify market catalogs](https://help.shopify.com/en/manual/markets/customizations/catalogs)
 - [EU pricing and country-version guidance](https://europa.eu/youreurope/citizens/consumers/unfair-treatment/unfair-pricing/index_en.htm)
 - [AW Sweden shipping tariff](https://www.aw-dropship.eu/shipping)
 
 ### Continue or choose a different product?
+
 Continue only if supplier availability/dispatch, actual costs, acceptable quality and real customer purchase economics support the offer. Do not launch solely because preparation has already consumed time. If those conditions fail, compare a genuinely different product on total landed cost, achievable delivered price, margin at a realistic range of acquisition costs, shipping/returns burden and credible availability. The reserved SEK 2,000 remains within the original SEK 4,000 allocation. No alternative product is selected or additional budget approved by this note.
 
 ## Source and verification record
+
 Rechecked 21 October 2026:
+
 - [AW candle-sand public feed](https://www.aw-dropship.eu/catalogue/family/csand-dssk): eleven SKUs, zero stock; EUR 6.25 scented / EUR 5.00 unscented.
 - [AW Sweden shipping](https://www.aw-dropship.eu/shipping): EUR 9.60 0–2 kg indicative tariff; final packed quote still required.
 - [AW FAQ](https://www.aw-dropship.eu/faq): prices exclude VAT; no gift wrap; unmarked protective packaging; registration approval process; supplier payment at checkout.
