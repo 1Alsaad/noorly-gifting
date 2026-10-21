@@ -1,5 +1,7 @@
 # Noorly objectives and presale handover — v1.2
 
+> **Latest continuation:** Read [v1.3](Noorly_Continuation_Handover_v1.3.md) first for the subsequent supplier recommendation, price/November scenarios, authorisation limits and browser-access blocker. This v1.2 file remains the detailed historical implementation record.
+
 Updated 21 October 2026. Read this state update first, then the original v1.1 Word handover. It preserves the latest user decisions and records what was actually saved and tested. It does not authorize opening paid presales or advertising.
 
 ## Supplier and product choices for Friday
