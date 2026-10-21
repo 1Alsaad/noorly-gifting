@@ -13,6 +13,60 @@ export function sceneProgress(
   return clampProgress(-top / Math.max(1, height - viewportHeight));
 }
 
+/** Smooth wheel steps consistently across refresh rates, without overshooting. */
+export function dampProgress(
+  current: number,
+  target: number,
+  elapsedMs: number,
+): number {
+  const end = clampProgress(target);
+  // Resume at the current scroll position after a suspended tab or long stall.
+  if (!Number.isFinite(elapsedMs) || elapsedMs >= 250) return end;
+  const next =
+    end +
+    (clampProgress(current) - end) * Math.exp(-Math.max(0, elapsedMs) / 100);
+  return Math.abs(end - next) < 0.001 ? end : next;
+}
+
+function reveal(from: number, to: number, progress: number): number {
+  const value = clampProgress((progress - from) / (to - from));
+  return value * value * (3 - 2 * value);
+}
+
+/** Copy leaves room for the camera, then returns for the collection handoff. */
+export function sceneChoreography(
+  progress: number,
+  first: boolean,
+  last: boolean,
+) {
+  const p = clampProgress(progress);
+  return {
+    poster: first ? 1 - reveal(0.005, 0.085, p) : 0,
+    intro: 1 - reveal(first ? 0.04 : 0.12, first ? 0.14 : 0.3, p),
+    details: 1 - reveal(0.025, 0.15, p),
+    // The supplied film enters the room at 3s, then orbits until about 10s.
+    beat: reveal(0.15, 0.19, p) * (1 - reveal(0.23, 0.29, p)),
+    closing: last ? reveal(0.85, 0.97, p) : 0,
+    chrome: last ? 1 : 1 - reveal(0.94, 1, p),
+  };
+}
+
+/** Keep the camera in place while the next scene dissolves over its last frame. */
+export function scenePresentation(
+  top: number,
+  height: number,
+  viewportHeight: number,
+  first: boolean,
+) {
+  const viewport = Math.max(1, viewportHeight);
+  const bottom = top + height;
+  return {
+    floating: bottom > 0 && top < (first ? 0 : viewport),
+    reveal: first ? 1 : reveal(0, 0.8, 1 - top / viewport),
+    exit: clampProgress(1 - bottom / viewport),
+  };
+}
+
 export function hotspotIsVisible(hotspot: Hotspot, progress: number): boolean {
   return (
     Number.isFinite(progress) &&

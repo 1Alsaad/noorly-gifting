@@ -31,6 +31,6 @@ This records the delivered fictional preview foundation, not certification of li
 9. Server-rendered shop content with JavaScript disabled.
 10. Default Swedish redirect and Swedish/English navigation preserving the route and document language.
 
-Real final videos were intentionally not generated. The scroll test isolates seek/progress behavior from merchant media decoding; actual encoding, keyframes, mobile exports and bandwidth still need acceptance testing. Shopify, Redis, form delivery and analytics destinations require configured-service verification. Consult [the launch checklist](launch-checklist.md) before accepting real orders.
+At this foundation delivery, real final videos had not been supplied. The winter scenes now integrate completed Higgsfield exports; see [media provenance and mobile limitations](cinematic-media.md). The deterministic scroll test isolates seek/progress behavior from media decoding; actual mobile cropping and bandwidth still need target-device acceptance testing. Shopify, Redis, form delivery and analytics destinations require configured-service verification. Consult [the launch checklist](launch-checklist.md) before accepting real orders.
 
 The local checks used Windows, Node 26.10.0 and pnpm 11.25.0. Committed CI uses Linux and Node 24. The workflow must pass on GitHub as a separate environment check; re-run after dependency or service configuration changes. Documentation, source assets and dummy test values contain no live merchant credentials.

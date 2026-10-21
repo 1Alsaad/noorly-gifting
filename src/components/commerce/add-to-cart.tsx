@@ -1,10 +1,15 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { useCart } from "@/features/cart/cart-provider";
-import { trackEvent } from "@/lib/analytics/client";
 export function AddToCart({
   product,
   locale,
@@ -26,18 +31,19 @@ export function AddToCart({
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
       setState("added");
-      trackEvent({
-        name: "product_variant_selected",
-        properties: {
-          locale,
-          product_handle: product.handle,
-          variant_id: variant.id,
-        },
-      });
     } catch {
       setState("error");
     }
   }
+  if (isProductTestMode())
+    return (
+      <Link
+        className={compact ? "text-button" : "button button-dark"}
+        href={interestHref(locale, product.handle, variant?.id)}
+      >
+        {productTestCopy[locale].cta} <ArrowUpRight size={17} aria-hidden />
+      </Link>
+    );
   return (
     <div className="add-control">
       <button
@@ -59,11 +65,22 @@ export function AddToCart({
         )}
       </button>
       <span
-        className={state === "error" ? "field-error" : "sr-only"}
+        className={
+          state === "error"
+            ? "field-error"
+            : state === "added"
+              ? "add-confirmation"
+              : "sr-only"
+        }
         role="status"
       >
         {state === "error" ? t.error : state === "added" ? t.added : ""}
       </span>
+      {state === "added" && (
+        <Link className="text-link cart-next-step" href={`/${locale}/cart`}>
+          {t.cart} ↗
+        </Link>
+      )}
     </div>
   );
 }

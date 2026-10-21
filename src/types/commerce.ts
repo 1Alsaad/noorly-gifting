@@ -14,6 +14,11 @@ export interface ProductVariant {
   title: string;
   price: Money;
   available: boolean;
+  label?: LocalizedText;
+  color?: { name: LocalizedText; hex: string };
+  scent?: LocalizedText;
+  images?: ProductImage[];
+  sku?: string;
 }
 export type ProductCategory =
   "box" | "signature" | "extra" | "card" | "packaging";
@@ -30,6 +35,10 @@ export interface Product {
   category: ProductCategory;
   seasons: string[];
   boxEligible: boolean;
+  previewOnly?: boolean;
+  included?: LocalizedText;
+  care?: LocalizedText;
+  highlights?: LocalizedText[];
   fulfilment?: {
     materials: LocalizedText;
     dimensions?: string;

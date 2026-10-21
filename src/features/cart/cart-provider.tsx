@@ -1,5 +1,6 @@
 "use client";
 
+import { isProductTestMode } from "@/config/product-test";
 import {
   createContext,
   useCallback,
@@ -39,6 +40,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const busy = useRef(false);
   const revision = useRef(0);
   useEffect(() => {
+    if (isProductTestMode()) return;
     const abort = new AbortController();
     const startedAt = revision.current;
     fetch("/api/cart", { signal: abort.signal })

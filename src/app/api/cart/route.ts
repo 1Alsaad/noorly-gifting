@@ -1,3 +1,4 @@
+import { isProductTestMode } from "@/config/product-test";
 import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
@@ -130,6 +131,7 @@ function projectedAdd(
 }
 export async function GET() {
   try {
+    if (isProductTestMode()) return NextResponse.json({ cart: null });
     const provider = getCommerceProvider();
     const cart = await load(provider);
     return NextResponse.json(
@@ -149,6 +151,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     assertSameOrigin(request);
+    if (isProductTestMode()) throw new HttpError(403, "PRODUCT_TEST_NO_ORDERS");
     await rateLimit(request, "cart", 45, 60);
     const raw = await readJson(request);
     // Accept the explicit action name, with `type` supported for typed client reducers.

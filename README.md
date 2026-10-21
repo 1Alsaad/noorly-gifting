@@ -68,11 +68,11 @@ Checkout redirects to the provider's validated HTTPS URL. The browser never emit
 
 Leave provider variables empty to disable optional analytics. For GA4, set the public measurement ID and server API secret for paid-order delivery. For PostHog, set the project key and its ingestion host; choose the correct regional host. Add the outbox worker and monitor retries before depending on purchase reports.
 
-Providers load/send only after analytics consent. Marketing is a stored preference with no advertising integration. Events have an allowlisted schema that excludes personal details and gift-message text. See [event taxonomy and setup](docs/analytics.md), [privacy behavior](docs/privacy.md) and [security](docs/security.md). Sentry is a redacted error-reporting seam; its SDK is not installed.
+GA4/PostHog load/send only after analytics consent. Optional Meta tracking uses separate marketing consent and emits `Lead` only after durable, non-mock interest acceptance; it does not implement Meta `Purchase`. The paid-order outbox supports GA4, PostHog and a generic relay. A configured pixel ID or a successful Lead is not proof that a Purchase campaign can measure sales. Events have an allowlisted schema that excludes personal details and gift-message text. See [event taxonomy and setup](docs/analytics.md), [launch pricing and fulfilment](docs/launch-pricing-and-fulfilment.md), [privacy behavior](docs/privacy.md) and [security](docs/security.md). Sentry is a redacted error-reporting seam; its SDK is not installed.
 
 ## Replace media or extend content
 
-- **Cinematic media:** put the separate mobile/desktop MP4s and WebP posters at the paths in `winter-scenes.ts`. The video paths intentionally have no final video assets. See [media pipeline, budgets and replacement](docs/cinematic-media.md).
+- **Cinematic media:** one continuous 15-second winter journey uses separate landscape and portrait supplied exports through permanent CDN URLs in `winter-scenes.ts`, with existing local desktop/mobile posters and a real localized shopping overlay. See [media provenance, encoding, hosting and replacement](docs/cinematic-media.md).
 - **New season:** add a typed `Season` and `CinematicScene[]`, update `LocalContentRepository` to select it, and supply localized editorial copy, theme, products and curated boxes. See [content management](docs/content-management.md).
 - **New hotspot:** add a typed hotspot with its product handle, stable progress interval, responsive normalized coordinates and translated accessible label to a scene. The entrance scene intentionally has none.
 - **New product or curated box:** replace/extend mock catalogue content locally or publish the corresponding real Shopify product, then register its handle in the seasonal content and templates. Builder selection rules remain data-driven. See [commerce](docs/commerce.md) and [content management](docs/content-management.md).
@@ -94,7 +94,7 @@ On Linux CI, install browsers using `pnpm exec playwright install --with-deps ch
 
 ## Known limitations and launch gate
 
-Final winter videos are intentionally absent. Static artwork and catalogue data are placeholders; no real customer reviews or delivery claims should be inferred. Shopify checkout, fulfilment, stock and localization need a real-store acceptance pass. The local form mock acknowledges submissions without delivering them. Production form delivery, Redis, paid-order scheduling, monitoring, legal content, company identity and customer-service details must be supplied.
+The integrated winter videos depend on an external CDN and are 16.8MB desktop / 14.7MB mobile; verify bandwidth, framing, and decoding on target devices. Static artwork and catalogue data are placeholders; no real customer reviews or delivery claims should be inferred. Shopify checkout, fulfilment, stock and localization need a real-store acceptance pass. The local form mock acknowledges submissions without delivering them. Production form delivery, Redis, paid-order scheduling, monitoring, legal content, company identity and customer-service details must be supplied.
 
 The purchase outbox uses at-least-once delivery with stable provider IDs, not an exactly-once guarantee. Operations must monitor queue age, retry failures and reconcile paid orders. Sentry, CRM/email delivery, a CMS and fulfilment are integration seams, not installed third-party services. Automated accessibility checks support, but do not replace, manual keyboard/screen-reader and device testing.
 

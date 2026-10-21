@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +13,14 @@ import { useCart } from "@/features/cart/cart-provider";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { trackEvent } from "@/lib/analytics/client";
 import type { Locale, Product } from "@/types/commerce";
+import { VariantPicker } from "@/components/product/variant-picker";
 
 interface Props {
   product: Product;
   locale: Locale;
   open: boolean;
   trigger: HTMLElement | null;
+  initialVariantId?: string;
   onOpenChange: (open: boolean) => void;
 }
 
@@ -22,18 +29,21 @@ export function ProductDrawer({
   locale,
   open,
   trigger,
+  initialVariantId,
   onOpenChange,
 }: Props) {
   const copy = cinematicCopy[locale];
   const { addLines, loading } = useCart();
-  const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
+  const [variantId, setVariantId] = useState(
+    initialVariantId ?? product.variants[0]?.id ?? "",
+  );
   const [status, setStatus] = useState<"idle" | "adding" | "added" | "error">(
     "idle",
   );
   const variant =
     product.variants.find((item) => item.id === variantId) ??
     product.variants[0];
-  const image = product.images[0];
+  const image = variant?.images?.[0] ?? product.images[0];
   const price = variant?.price ?? product.price;
   const formattedPrice = new Intl.NumberFormat(
     locale === "sv" ? "sv-SE" : "en-SE",
@@ -88,51 +98,63 @@ export function ProductDrawer({
               {product.description[locale]}
             </Dialog.Description>
             <div className="cinema-drawer-price">
-              <span>{formattedPrice}</span>
+              <span>
+                {isProductTestMode()
+                  ? productTestCopy[locale].price
+                  : formattedPrice}
+              </span>
               <span className="cinema-stock">
-                {variant?.available ? copy.available : copy.unavailable}
+                {isProductTestMode()
+                  ? productTestCopy[locale].label
+                  : product.previewOnly
+                    ? locale === "sv"
+                      ? "Demopris"
+                      : "Demo price"
+                    : variant?.available
+                      ? copy.available
+                      : copy.unavailable}
               </span>
             </div>
-            {product.variants.length > 1 && (
-              <label className="cinema-variant-label">
-                {copy.variant}
-                <select
-                  value={variantId}
-                  onChange={(event) => {
-                    setVariantId(event.target.value);
-                    setStatus("idle");
-                    trackEvent({
-                      name: "product_variant_selected",
-                      properties: {
-                        product_id: product.id,
-                        variant_id: event.target.value,
-                        locale,
-                        source: "cinematic_drawer",
-                      },
-                    });
-                  }}
-                >
-                  {product.variants.map((item) => (
-                    <option value={item.id} key={item.id}>
-                      {item.title}
-                      {!item.available ? ` — ${copy.unavailable}` : ""}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <VariantPicker
+              product={product}
+              locale={locale}
+              value={variantId}
+              compact
+              onChange={(id) => {
+                setVariantId(id);
+                setStatus("idle");
+                trackEvent({
+                  name: "product_variant_selected",
+                  properties: {
+                    product_id: product.id,
+                    variant_id: id,
+                    locale,
+                    source: "cinematic_drawer",
+                  },
+                });
+              }}
+            />
+            {isProductTestMode() ? (
+              <Link
+                className="cinema-button cinema-button-dark"
+                href={interestHref(locale, product.handle, variantId)}
+              >
+                {productTestCopy[locale].cta}
+              </Link>
+            ) : (
+              <button
+                className="cinema-button cinema-button-dark"
+                type="button"
+                onClick={add}
+                disabled={!variant?.available || loading || status === "adding"}
+              >
+                {status === "adding"
+                  ? copy.adding
+                  : status === "added"
+                    ? copy.added
+                    : copy.addToCart}
+              </button>
             )}
-            <button
-              className="cinema-button cinema-button-dark"
-              type="button"
-              onClick={add}
-              disabled={!variant?.available || loading || status === "adding"}
-            >
-              {status === "adding"
-                ? copy.adding
-                : status === "added"
-                  ? copy.added
-                  : copy.addToCart}
-            </button>
             <div aria-live="polite" role="status" className="cinema-add-status">
               {status === "error" ? copy.addError : ""}
             </div>
@@ -145,7 +167,11 @@ export function ProductDrawer({
                 <span aria-hidden="true">↗</span>
               </Link>
             )}
-            <p className="cinema-delivery">{copy.delivery}</p>
+            <p className="cinema-delivery">
+              {isProductTestMode()
+                ? productTestCopy[locale].note
+                : copy.delivery}
+            </p>
             <Link
               className="cinema-details-link"
               href={`/${locale}/products/${product.handle}`}

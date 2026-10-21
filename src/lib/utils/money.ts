@@ -1,6 +1,8 @@
+import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import type { Locale, Money } from "@/types/commerce";
 
 export function formatMoney(money: Money, locale: Locale = "sv"): string {
+  if (isProductTestMode()) return productTestCopy[locale].price;
   return new Intl.NumberFormat(locale === "sv" ? "sv-SE" : "en-SE", {
     style: "currency",
     currency: money.currencyCode,
