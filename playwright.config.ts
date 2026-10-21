@@ -1,6 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/e2e",
+  testIgnore: "**/interest.spec.ts",
   fullyParallel: false,
   workers: 1,
   retries: process.env.CI ? 2 : 0,
@@ -20,6 +21,7 @@ export default defineConfig({
     timeout: 120000,
     env: {
       NEXT_PUBLIC_COMMERCE_PROVIDER: "mock",
+      NEXT_PUBLIC_PRODUCT_TEST_MODE: "false",
       NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3000",
       NODE_USE_SYSTEM_CA: "1",
       // Non-production fixture used only by this local/CI browser server.

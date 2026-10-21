@@ -1,4 +1,9 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -52,13 +57,14 @@ export function EnquiryForm({
       const data = await response.json();
       if (!response.ok) throw new Error("form_failed");
       setState(data.mock ? "mock" : "success");
-      trackEvent({
-        name:
-          kind === "newsletter"
-            ? "newsletter_signup"
-            : "corporate_gifting_enquiry",
-        properties: { locale, source: "form" },
-      });
+      if (!data.mock && !data.duplicate)
+        trackEvent({
+          name:
+            kind === "newsletter"
+              ? "newsletter_signup"
+              : "corporate_gifting_enquiry",
+          properties: { locale, source: "form" },
+        });
       form.reset();
     } catch {
       setState("error");
@@ -66,6 +72,15 @@ export function EnquiryForm({
       busy.current = false;
     }
   }
+  if (isProductTestMode())
+    return (
+      <div>
+        <p>{productTestCopy[locale].note}</p>
+        <Link className="button button-dark" href={interestHref(locale)}>
+          {productTestCopy[locale].cta}
+        </Link>
+      </div>
+    );
   return (
     <form
       className={`enquiry-form ${kind === "newsletter" ? "newsletter-form" : ""}`}

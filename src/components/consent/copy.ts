@@ -17,7 +17,7 @@ export const consentCopy = {
       "Hjälper oss förstå hur butiken används, utan kontaktuppgifter.",
     marketing: "Marknadsföring",
     marketingDescription:
-      "Reserverat för framtida marknadsföring. Inga sådana leverantörer är aktiverade.",
+      "Om Meta är konfigurerat kan ditt val tillåta annonsmätning efter en sparad intresseanmälan. Avslag påverkar inte din anmälan.",
     privacy: "Läs om cookies",
     updated: "Dina cookieval har sparats.",
   },
@@ -39,7 +39,7 @@ export const consentCopy = {
       "Helps us understand how the shop is used, without contact details.",
     marketing: "Marketing",
     marketingDescription:
-      "Reserved for future marketing. No marketing providers are enabled.",
+      "When Meta is configured, your choice can allow ad measurement after a saved interest registration. Rejecting does not affect your registration.",
     privacy: "Read about cookies",
     updated: "Your cookie choices have been saved.",
   },

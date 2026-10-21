@@ -1,3 +1,5 @@
+import { isProductTestMode } from "@/config/product-test";
+import { applyProductTestCopy } from "@/content/product-test-copy";
 import { brand } from "@/config/brand";
 import type { Locale } from "@/types/commerce";
 
@@ -532,7 +534,10 @@ const sv: Dictionary = {
   collectionLabel: "SÄSONGENS BERÄTTELSER / VINTER 2026",
 };
 export function getDictionary(locale: Locale): Dictionary {
-  return locale === "sv" ? sv : en;
+  const dictionary = locale === "sv" ? sv : en;
+  return isProductTestMode()
+    ? applyProductTestCopy(dictionary, locale)
+    : dictionary;
 }
 export function isLocale(value: string): value is Locale {
   return value === "sv" || value === "en";

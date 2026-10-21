@@ -1,6 +1,11 @@
 "use client";
+import {
+  isProductTestMode,
+  productTestCopy,
+  interestHref,
+} from "@/config/product-test";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ShoppingBag, ArrowUpRight, Menu } from "lucide-react";
 import { brand } from "@/config/brand";
 import { getDictionary } from "@/content/translations";
@@ -11,8 +16,11 @@ export function Header({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart } = useCart();
   const path = usePathname();
+  const query = useSearchParams().toString();
   const other = locale === "sv" ? "en" : "sv";
-  const otherPath = path.replace(/^\/(sv|en)(?=\/|$)/, `/${other}`);
+  const otherPath =
+    path.replace(/^\/(sv|en)(?=\/|$)/, `/${other}`) +
+    (query ? `?${query}` : "");
   const nav = [
     { href: `/${locale}/shop`, label: t.shop },
     { href: `/${locale}/build-a-box`, label: t.builder },
@@ -63,15 +71,26 @@ export function Header({ locale }: { locale: Locale }) {
             {locale.toUpperCase()}
             <span aria-hidden> / {other.toUpperCase()}</span>
           </a>
-          <Link
-            href={`/${locale}/cart`}
-            className="bag-link"
-            aria-label={`${t.cart} (${cart?.totalQuantity ?? 0})`}
-          >
-            <ShoppingBag size={19} strokeWidth={1.4} />
-            <span className="bag-label">{t.cart}</span>
-            <span className="bag-count">{cart?.totalQuantity ?? 0}</span>
-          </Link>
+          {isProductTestMode() ? (
+            <Link
+              className="bag-link"
+              href={interestHref(locale)}
+              aria-label={productTestCopy[locale].cta}
+            >
+              <ArrowUpRight size={19} />
+              <span className="bag-label">{productTestCopy[locale].cta}</span>
+            </Link>
+          ) : (
+            <Link
+              href={`/${locale}/cart`}
+              className="bag-link"
+              aria-label={`${t.cart} (${cart?.totalQuantity ?? 0})`}
+            >
+              <ShoppingBag size={19} strokeWidth={1.4} />
+              <span className="bag-label">{t.cart}</span>
+              <span className="bag-count">{cart?.totalQuantity ?? 0}</span>
+            </Link>
+          )}
           <details className="mobile-menu">
             <summary aria-label={t.menu}>
               <Menu size={23} />
