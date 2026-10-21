@@ -17,7 +17,15 @@ function request(body: string, headers: Record<string, string> = {}) {
   });
 }
 describe("admin preview login boundary", () => {
-  beforeEach(() => vi.stubEnv("ADMIN_PREVIEW_PASSWORD", fixture));
+  beforeEach(() => {
+    vi.stubEnv("ADMIN_PREVIEW_PASSWORD", fixture);
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://noorly.example");
+    vi.stubEnv("ALLOW_MOCK_COMMERCE", "true");
+    vi.stubEnv(
+      "CART_COOKIE_SECRET",
+      "test-only-cookie-secret-1234567890abcdef",
+    );
+  });
   afterEach(() => vi.unstubAllEnvs());
 
   it("redirects successful login with a secure HttpOnly cookie without exposing the password", async () => {
@@ -47,6 +55,21 @@ describe("admin preview login boundary", () => {
     );
     vi.stubEnv("ADMIN_PREVIEW_PASSWORD", "");
     expect((await POST(request(`password=${fixture}`))).status).toBe(503);
+  });
+  it("validates the public origin despite an internal framework request hostname", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const response = await POST(
+      new Request("http://localhost:3000/api/admin-preview", {
+        method: "POST",
+        headers: {
+          origin: "https://noorly.example",
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: `password=${fixture}`,
+      }),
+    );
+    expect(response.status).toBe(303);
+    expect(response.headers.get("location")).toBe("https://noorly.example/sv");
   });
   it("expires the cookie on logout and throttles repeated attempts in one instance", async () => {
     const response = await POST(request("action=logout"));

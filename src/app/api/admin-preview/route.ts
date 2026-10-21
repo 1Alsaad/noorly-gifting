@@ -7,19 +7,21 @@ import {
   isAdminPreviewConfigured,
   verifyAdminPreviewPassword,
 } from "@/lib/security/admin-preview";
-import { HttpError, readBody, safeError } from "@/lib/security/request";
+import {
+  assertSameOrigin,
+  HttpError,
+  readBody,
+  safeError,
+} from "@/lib/security/request";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
   try {
-    const origin = new URL(request.url).origin;
-    if (
-      request.headers.get("origin") !== origin ||
-      request.headers.get("sec-fetch-site") === "cross-site"
-    )
-      throw new HttpError(403, "INVALID_ORIGIN");
+    assertSameOrigin(request);
+    // The framework can use an internal host; redirect to the validated browser origin.
+    const origin = request.headers.get("origin")!;
     if (
       !request.headers
         .get("content-type")
