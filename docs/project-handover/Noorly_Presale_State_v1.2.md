@@ -2,6 +2,14 @@
 
 Updated 21 October 2026. Read this state update first, then the original v1.1 Word handover. It preserves the latest user decisions and records what was actually saved and tested. It does not authorize opening paid presales or advertising.
 
+## Supplier and product choices for Friday
+
+A [supplier and product research report dated 21 October](Noorly_Supplier_and_Product_Research_2026-10-21.md) adds public-source comparisons of white-label candle makers, low-inventory personalised products and adult activity kits for late October–December. Its procurement cost ceilings are scenarios, not accepted supplier quotes or approved retail prices.
+
+Rechecked for that report: all eleven AW candle-sand SKUs still show zero public stock; the existing supplier email thread still contains only the sent inquiry. The five-pouch quote was not requested in that original email. No new supplier enquiry, account, app, sample or order was submitted by the research.
+
+The Candledust is an alternative candle-sand lead, but its published finished-white-label minimums/timings need written reconciliation. Its public 350 g scented retail price also creates meaningful competition for Noorly's proposed premium prices. The report prioritises qualifying an adult activity kit and an original Swedish guided journal as genuinely different fallback concepts. None is commercially or technically cleared for paid launch. Friday remains a setup/decision checkpoint, with the existing 4,000 SEK total advertising allocation and release gates unchanged.
+
 ## ROI and remaining launch work
 
 A [21 October ROI assessment and launch-readiness checklist](Noorly_ROI_and_Launch_Readiness_2026-10-21.md) records the recalculated acquisition limits, fixed-cost gaps, work we can prepare ourselves and external release dependencies, including the deferred domain. This is an assessment and pending-work checklist, not a claim that those launch tasks are completed. The supplier inquiry thread still contained no reply when checked. The AW registration email describes manual application review; full ordering approval remains to be verified.
