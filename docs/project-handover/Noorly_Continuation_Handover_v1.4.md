@@ -149,3 +149,17 @@ The [Shopify Sweden payout guidance](https://help.shopify.com/en/manual/payments
 The 4,000 SEK is advertising capital, not demonstrated total cash needed. At CAC 150, the first approximately 27 orders imply roughly 6,155 SEK supplier goods/shipping charges; timing determines how much must be financed before customer payouts. No supplier credit terms or working-capital facility is confirmed. If 4,000 SEK is the entire available cash rather than media-only funding, the example overstates what can be funded.
 
 Planning assessment: aim for a profitable 30–40k first month conditional on the screen passing; 50–60k would require a stronger acquisition/cash-cycle result; 100k is an upside goal with several favourable dependencies. None can be called probable without actual purchase/conversion, payout and fulfilment evidence. The initial first-offer screen and all release gates remain unchanged.
+
+## Swedish demand research and forecast qualification — 21 October 2026
+
+Saved [demand evidence and cash-cycle sensitivity](Noorly_Swedish_Candle_Sand_Demand_2026-10-21.md). Read this before using the earlier November/reinvestment scenarios.
+
+Live Chrome Google Trends inspection (Sweden, five years, search terms ljussand/sandljus/candle sand) showed sparse normalized data and a late-2024 sandljus spike, without evidence of sustained current growth. Low-volume zeros do not mean no searches. Swedish retailer reviews, including verified-interaction labels on Sandig's 18-review Trustpilot profile, support customer interest but do not quantify the addressable market.
+
+Read-only Meta Ads Library keyword searches returned estimated active-ad totals of 15 for sandljus and one for ljussand. All ten returned sandljus results were AuraCandles: these are NOT 15 competitors or evidence of profitable ads.
+
+Material price finding: Candledust publicly advertises the same Nordic Lights/Midnight 350 g refills at €16.90 each, alongside a free-EU-shipping-from-€25 banner. Two product prices total €33.80/about 376 SEK at the old planning FX, versus Noorly's unsaved 599 SEK hypothesis. Swedish checkout VAT/shipping/promotion eligibility was not verified. Reassess the premium/value proposition and resulting allowable CAC before spending; do not imply extra kit contents.
+
+Forecast qualification: 30–40k first-month collections is a conditional working scenario if paid purchases validate and capital can be recycled, NOT the most likely result established by research. At hypothetical CAC 150 and two complete cash waves, arithmetic gives about 39.1k collections and 4.4k contribution after about 9.8k cumulative media, before overhead/extras. That cumulative spend exceeds the current cap and remains unauthorised. 50–60k needs stronger acquisition/cash timing; 100k remains an upside scenario. Failure/near-zero sales remains possible. Fulfilment working capital is separate from the 4,000 SEK media allocation.
+
+Only research/documentation was saved in this step. No ads, presales, retail prices, store settings, additional outreach, subscriptions or orders changed.
