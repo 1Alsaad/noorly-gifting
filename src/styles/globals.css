@@ -1,5 +1,44 @@
 @import "tailwindcss";
 
+.presale-hold {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(32px, 8vw, 100px) 24px;
+}
+.presale-hold__content {
+  width: min(100%, 760px);
+}
+.presale-hold__brand {
+  font-size: 16px;
+  letter-spacing: 0.3em;
+  margin-bottom: 64px;
+}
+.presale-hold h1 {
+  font-size: clamp(42px, 8vw, 76px);
+  margin-bottom: 20px;
+}
+.presale-hold__intro {
+  font-size: 20px;
+  color: var(--muted);
+}
+.presale-hold__notice {
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  max-width: 600px;
+}
+.presale-hold__notice h2 {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+.presale-hold__notice p {
+  font-size: 16px;
+}
+
 :root {
   --ivory: #f7f4ee;
   --paper: #efeae1;
