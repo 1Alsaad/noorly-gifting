@@ -4,6 +4,12 @@ Updated 21 October 2026. Read this state update first, then the original v1.1 Wo
 
 ## Supplier and product choices for Friday
 
+A [focused supplier shortlist and quote brief](Noorly_Supplier_Shortlist_and_Quote_Brief_2026-10-21.md) now prioritises The Candledust's small existing-product/bulk route, Hertwill's resale route and Devillebard's potential finished own-brand route. New LEDOM and Candlera evidence concerns **unscented** sand, not equivalent pre-scented pouches. The Friendly Home adds a Swedish finished-candle private-label lead. All priorities are conditional; no supplier was selected or commercially cleared.
+
+New first-party evidence confirms that **Creativ Company publicly offers API/dropshipping**. Account eligibility, fees, exact kit contents, white-label permission and Noorly integration remain unverified. Hertwill search listings for Nordic Lights/Midnight 350 g say in stock, but direct page access failed; no authenticated availability or landed quote was verified.
+
+Rechecked in this follow-up: AW's public stock remains zero across all eleven SKUs and its existing inquiry thread still has no reply. The brief records the proposed 200–220 SEK delivered-pair cost target and exact quote requirements. No new supplier message, account, sample, purchase, price change, app or campaign activation was made. Existing advertising and launch gates remain unchanged.
+
 A [supplier and product research report dated 21 October](Noorly_Supplier_and_Product_Research_2026-10-21.md) adds public-source comparisons of white-label candle makers, low-inventory personalised products and adult activity kits for late October–December. Its procurement cost ceilings are scenarios, not accepted supplier quotes or approved retail prices.
 
 Rechecked for that report: all eleven AW candle-sand SKUs still show zero public stock; the existing supplier email thread still contains only the sent inquiry. The five-pouch quote was not requested in that original email. No new supplier enquiry, account, app, sample or order was submitted by the research.
