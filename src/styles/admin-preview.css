@@ -1,0 +1,88 @@
+.admin-preview-page {
+  min-height: 100vh;
+  padding: 80px 7vw;
+  background: #f7f2ea;
+  color: #382d28;
+  display: grid;
+  place-items: center;
+}
+.admin-preview-card {
+  width: 100%;
+  max-width: 620px;
+  padding: clamp(24px, 5vw, 52px);
+  background: #fffdf9;
+  border: 1px solid #d9c7b6;
+}
+.admin-preview-page h1 {
+  font-size: clamp(38px, 5vw, 64px);
+  margin: 18px 0;
+}
+.admin-preview-page h2 {
+  font-size: 32px;
+  margin: 22px 0;
+}
+.admin-preview-page p {
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.admin-preview-form,
+.admin-preview-actions {
+  display: grid;
+  gap: 20px;
+  margin: 32px 0;
+}
+.admin-preview-form input {
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #8b7868;
+  background: white;
+}
+.admin-preview-drafts {
+  max-width: 1120px;
+  width: 100%;
+}
+.admin-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+.admin-preview-status {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 8px 10px;
+  background: #e8eddf;
+}
+.admin-preview-image-note {
+  border-top: 1px solid #d9c7b6;
+  padding-top: 20px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.admin-preview-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 12px 4vw;
+  background: #382d28;
+  color: #fffdf9;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  font-size: 12px;
+}
+.admin-preview-bar a,
+.admin-preview-bar button {
+  text-decoration: underline;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+@media (max-width: 700px) {
+  .admin-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}

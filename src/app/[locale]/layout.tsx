@@ -7,6 +7,9 @@ import { ConsentBanner } from "@/components/consent/consent-banner";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
 import { PresaleHold } from "@/components/layout/presale-hold";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
+import { hasAdminPreviewSession } from "@/lib/security/admin-preview";
+import Link from "next/link";
+import "@/styles/admin-preview.css";
 export const dynamic = "force-dynamic";
 export default async function LocaleLayout({
   children,
@@ -17,18 +20,36 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  if (!isStorefrontOpen()) return <PresaleHold locale={locale} />;
+  const adminPreview = !isStorefrontOpen() && (await hasAdminPreviewSession());
+  if (!isStorefrontOpen() && !adminPreview)
+    return <PresaleHold locale={locale} />;
   const t = getDictionary(locale);
   return (
     <CartProvider>
+      {adminPreview && (
+        <aside
+          className="admin-preview-bar"
+          aria-label="Intern förhandsvisning"
+        >
+          <span>
+            Intern designvisning. Exempelprodukter och exempelpriser.
+            Beställning och betalning är stängda.
+          </span>
+          <Link href="/admin-preview/ads">Annonsutkast</Link>
+          <form action="/api/admin-preview" method="post">
+            <input type="hidden" name="action" value="logout" />
+            <button type="submit">Logga ut</button>
+          </form>
+        </aside>
+      )}
       <a className="skip-link" href="#main-content">
         {t.skip}
       </a>
-      <AnalyticsProvider locale={locale} />
+      {!adminPreview && <AnalyticsProvider locale={locale} />}
       <Header locale={locale} />
       <main id="main-content">{children}</main>
       <Footer locale={locale} />
-      <ConsentBanner locale={locale} />
+      {!adminPreview && <ConsentBanner locale={locale} />}
       {process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify" && (
         <div className="preview-ribbon">{t.preview}</div>
       )}
