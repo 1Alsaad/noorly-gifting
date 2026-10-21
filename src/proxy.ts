@@ -17,6 +17,14 @@ export function proxy(request: NextRequest) {
   );
   headers.set("Content-Security-Policy", csp);
   const response = NextResponse.next({ request: { headers } });
+  if (
+    request.nextUrl.pathname.startsWith("/admin-preview") ||
+    request.cookies.has("noorly_admin_preview")
+  ) {
+    response.headers.set("Cache-Control", "private, no-store");
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    response.headers.append("Vary", "Cookie");
+  }
   response.headers.set("Content-Security-Policy", csp);
   response.headers.set("X-Request-ID", crypto.randomUUID());
   return response;

@@ -22,6 +22,8 @@ export default defineConfig({
       NEXT_PUBLIC_COMMERCE_PROVIDER: "mock",
       NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3000",
       NODE_USE_SYSTEM_CA: "1",
+      // Non-production fixture used only by this local/CI browser server.
+      ADMIN_PREVIEW_PASSWORD: "test-only-generated-password-1234567890",
     },
   },
 });
