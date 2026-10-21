@@ -2,6 +2,10 @@
 
 Updated 21 October 2026. Read this state update first, then the original v1.1 Word handover. It preserves the latest user decisions and records what was actually saved and tested. It does not authorize opening paid presales or advertising.
 
+## ROI and remaining launch work
+
+A [21 October ROI assessment and launch-readiness checklist](Noorly_ROI_and_Launch_Readiness_2026-10-21.md) records the recalculated acquisition limits, fixed-cost gaps, work we can prepare ourselves and external release dependencies, including the deferred domain. This is an assessment and pending-work checklist, not a claim that those launch tasks are completed. The supplier inquiry thread still contained no reply when checked. The AW registration email describes manual application review; full ordering approval remains to be verified.
+
 ## Operating decisions
 
 - Exactly **4,000 SEK total advertising allocation across the whole testing sequence**. This is an allocation, not a claim that the ad account has been reconciled or that all funds remain unspent.
