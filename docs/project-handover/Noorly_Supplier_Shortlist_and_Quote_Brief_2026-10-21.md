@@ -127,10 +127,10 @@ Contacts: **hi@prodigi.com** for product enquiries; **sales@prodigi.com** for ba
 All figures below are internal assumptions, not approved retail prices. Model: 25% output VAT, recoverable input VAT where applicable, 31 SEK payment/refund allowance and 120 SEK CAC for a two-pouch order at 599 SEK including delivery.
 
 | All-in goods and fulfillment cost | Left after assumed advertising, before fixed costs |
-| ---: | ---: |
-| 200 SEK | 128.20 SEK |
-| 220 SEK | 108.20 SEK |
-| 228.20 SEK | 100.00 SEK |
+| --------------------------------: | -------------------------------------------------: |
+|                           200 SEK |                                         128.20 SEK |
+|                           220 SEK |                                         108.20 SEK |
+|                        228.20 SEK |                                         100.00 SEK |
 
 “All-in” covers goods, inbound freight allocation, retail packaging, handling/packing labour, customer delivery, currency spread and unrecoverable tax/duties. Do not count payment/refund costs twice. Actual tax treatment, processor fees and return losses still need verification.
 
