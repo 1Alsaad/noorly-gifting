@@ -149,7 +149,7 @@ Proposed mixed-pair routing specification, disabled until verified:
 
 No caller, network delivery, Meta matching identifiers, persistent retry storage or consent synchronization was added. The helper cannot authenticate caller assertions and must sit behind verified order/consent adapters. It alone neither sends nor deduplicates events at Meta.
 
-Local targeted suite: 37 tests pass in five files (19 new contract cases, purchase readiness, analytics, consent and signed webhook ingestion). New files pass Prettier and ESLint. PR 10 has its own CI; do not transfer PR 9's result to it.
+Local targeted suite: 37 tests pass in five files (19 new contract cases, purchase readiness, analytics, consent and signed webhook ingestion). New files pass Prettier and ESLint. [PR 10 run 39638665538](https://github.com/1Alsaad/noorly-gifting/actions/runs/39638665538) completed successfully for head 394ea3666e5cc9f3e161da4e77be00c8e97beb0c, including formatting, lint, TypeScript, unit/component tests, production build, browser/accessibility checks and dependency audit. These checks do not verify external Shopify/Meta integration.
 
 The existing generic purchase webhook/outbox was reviewed: it authenticates paid-order webhooks and durably queues analytics, but uses analytics/session consent. Do not route that generic relay to Meta and assume it is marketing-consent-aware.
 
