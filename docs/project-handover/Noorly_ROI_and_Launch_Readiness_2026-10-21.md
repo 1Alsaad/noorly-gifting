@@ -75,6 +75,57 @@ We can finish architecture, code, copy drafts, creative drafts, ledgers and test
 - Before launch: credible stock/dispatch support, acceptable sample/packaging, positive verified contribution, tested checkout/payments/refunds, complete disclosures and consent, correct Purchase reporting, reliable routing and final domain verification.
 - Keep presales closed and ads off until those checks pass and the user instructs release. Friday 23 October is a setup checkpoint, not a fixed opening date.
 
+## Follow-up: acquisition cost, geographic pricing and five-pouch occasion sets
+Added 21 October 2026. These are internal proposals; the live Shopify draft prices remain unchanged.
+
+### Acquisition cost clarification
+SEK 4,000 is the total advertising allocation, not a measured acquisition cost or a claim of actual spend. SEK 80/100/200 acquisition costs used in scenarios are assumptions. No acquisition cost has been measured during this work.
+
+Paid media CAC = actual advertising spend / verified new paying customers attributed consistently to that advertising. Distinguish this from cost per order and fully loaded CAC including creative/agency costs. For an initial SEK 2,000 spend: 10 new customers means SEK 200 media CAC; 20 means SEK 100; 40 means SEK 50. Refunds, cancellations and delayed conversions must be reconciled.
+
+More budget does not automatically reduce CAC; larger campaigns may have higher CAC. Better conversion, more effective creative, repeat orders and lower fulfillment costs can improve the business, but repeat purchases are unproven and must not subsidize the first-order model on paper.
+
+### Proposed public price ladder — not saved to Shopify
+| Scented basket | Proposed product SEK | Proposed shipping SEK | Customer total SEK | Modelled contribution before ads SEK | After hypothetical SEK 100 media CAC |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| One pouch, 300 g | 299 | 99 | 398 | 121.10 | 21.10 |
+| Two pouches, 600 g | 499 | 99 | 598 | 201.58 | 101.58 |
+| Five-pouch occasion collection, 1.5 kg | 999 | 99 | 1,098 | 369.03 | 269.03 |
+
+This extends the same VAT/FX/goods/shared-parcel model above. Five-pouch payment fees of SEK 25 and a refund reserve of SEK 30 are NEW planning allowances, not verified costs. All figures exclude fixed overhead and owner time. No branded packaging, vessel or gift-wrapping cost is included or promised. The source feed still shows zero stock.
+
+Five pouches weigh 1.5 kg before protective packaging. The packed parcel may exceed the 2 kg band; the supplier's public 2–5 kg Sweden tariff is EUR 15.10 rather than EUR 9.60. Under that higher band, five-pouch contribution drops by SEK 61.18 to SEK 307.85 before ads, or SEK 207.85 after the example SEK 100 CAC. Mixed-SKU consolidation and packed quote are unconfirmed. Separate parcels would require a different model.
+
+A larger basket can convert less often: it asks a new buyer to spend SEK 1,098 on a product they have not tried. Under these assumptions and equal traffic costs, the five-pouch basket needs roughly 55% of the pair's purchase conversion rate merely to match contribution per visitor before fixed overhead. Higher profit per order is not proof of higher overall profit.
+
+### Premium and comparative pricing
+The requested attractive higher-priced option is best specified as a genuine premium five-pouch tier that also provides a price anchor. A formal decoy is a deliberately weaker alternative intended to shift choice. A premium product may sell well in its own right; a three-tier ladder alone does not prove a decoy effect.
+
+Prepare one genuine premium bundle structure, preserve all five component SKUs, and show accurate product and delivered unit prices. Start with the pair as the main paid-traffic basket and offer the five-pouch tier for larger purchases. Do not add an artificial fourth tier solely to make comparisons harder. All tiers remain one candle-sand offer in the agreed two-offer testing plan.
+
+### Mood/occasion concept specification
+Assume five-pack means five separate 300 g pouches, not five samples: 1.5 kg total.
+- Hemmakväll: a coordinated five-pouch selection presented around an evening at home.
+- Middag med vänner: a coordinated five-pouch selection presented around setting a table and hosting friends.
+- Nytt hem: a coordinated five-pouch selection presented around first-apartment styling or a housewarming purchase.
+
+Choose exact scent/SKU combinations after representative samples and current supplier documentation are reviewed. Use real scent names/colours; do not invent fragrance notes or promise sleep/stress benefits. Product-only or hands-only creative, no faces. Themes are curation and creative variants, not separate product tests. A housewarming angle does not establish gift wrapping, a vessel, a Noorly box or a card.
+
+### Geographic pricing
+Country/market pricing is technically supported through Shopify Markets catalogs. Custom storefront prices and checkout must agree on the selected market, currency and delivery destination. This functionality has not been implemented or tested for Noorly.
+
+Recommend one transparent Swedish public price for the first test. Consider other country markets later using actual shipping/tax costs and local willingness to pay. Do not fragment the SEK 4,000 allocation across countries or use postcode wealth assumptions as a shortcut to profitability.
+
+EU country pricing requires careful implementation: different website versions/offers can have different prices, but access and purchase conditions cannot simply discriminate by nationality/residence. Respect customer choice of country version and consent for redirects. Automated individually profiled prices require disclosure. These are separate from genuine delivery-cost differences. No geographic pricing setting was changed.
+
+Sources checked:
+- [Shopify market catalogs](https://help.shopify.com/en/manual/markets/customizations/catalogs)
+- [EU pricing and country-version guidance](https://europa.eu/youreurope/citizens/consumers/unfair-treatment/unfair-pricing/index_en.htm)
+- [AW Sweden shipping tariff](https://www.aw-dropship.eu/shipping)
+
+### Continue or choose a different product?
+Continue only if supplier availability/dispatch, actual costs, acceptable quality and real customer purchase economics support the offer. Do not launch solely because preparation has already consumed time. If those conditions fail, compare a genuinely different product on total landed cost, achievable delivered price, margin at a realistic range of acquisition costs, shipping/returns burden and credible availability. The reserved SEK 2,000 remains within the original SEK 4,000 allocation. No alternative product is selected or additional budget approved by this note.
+
 ## Source and verification record
 Rechecked 21 October 2026:
 - [AW candle-sand public feed](https://www.aw-dropship.eu/catalogue/family/csand-dssk): eleven SKUs, zero stock; EUR 6.25 scented / EUR 5.00 unscented.
