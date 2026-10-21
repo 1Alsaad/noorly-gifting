@@ -1,6 +1,6 @@
 # Noorly supplier qualification and rehearsal pack — 21 October 2026
 
-Internal preparation. No outreach below has been sent. No order, sample, account registration, subscription, stock reservation or release is authorised by this file. Latest decisions: [handover v1.3](Noorly_Continuation_Handover_v1.3.md). Swedish customer copy remains unpublished.
+Internal preparation and outreach record. The two enquiries below were approved by the user and sent on 21 October 2026. No order, sample, account registration, subscription, stock reservation or release is authorised by this file. Latest decisions: [handover v1.3](Noorly_Continuation_Handover_v1.3.md). Swedish customer copy remains unpublished.
 
 ## Fresh observations from connected Chrome
 
@@ -13,11 +13,20 @@ Internal preparation. No outreach below has been sent. No order, sample, account
 - That wholesale page also contains conflicting multiple-wick spacing statements (8 cm and 5 cm). Obtain product-specific written instructions; do not select the more permissive statement or reuse AW instructions.
 - [Hertwill Nordic Lights 350 g](https://hertwill.com/product/nordic-lights-scented-candle-sand-refill-350g) now opens directly. Public page says IN STOCK, 350 g, five wicks, container separate. Wholesale price is behind login. Expanded shipping table includes Sweden but displays no price. This is a public listing, not allocated stock or a delivered quote. No account/app connected.
 
-## Exact outreach for approval
+## Exact outreach — approved and sent
 
-Update during this continuation: the user registered with The Candledust and reports manual approval pending. A supplier account-created email was found. Trade approval and prices are not yet verified; do not submit a duplicate registration. The initial logged-out observation above predates the user's registration. No supplier outreach below has been sent.
+Update during this continuation: the user registered with The Candledust and reports manual approval pending. A supplier account-created email was found. Trade approval and prices are not yet verified; do not submit a duplicate registration. The initial logged-out observation above predates the user's registration. The two enquiries below have now been approved and sent; this does not establish a supplier reply or commercial approval.
 
-Send only after the user explicitly approves recipient and message. These initial enquiries omit private address/VAT data and ask for indicative Sweden pricing; a final quote needs the correct business/VAT status and destination postcode. No volume below is a purchase commitment.
+The user explicitly approved both recipients and the exact messages in this conversation. These initial enquiries omit private address/VAT data and ask for indicative Sweden pricing; a final quote needs the correct business/VAT status and destination postcode. No volume below is a purchase commitment.
+
+## Sending evidence
+
+Sent from the connected Gmail account on 21 October 2026 at 16:19 Europe/Stockholm, after explicit user approval. A pre-send search found no matching Noorly inquiries to these recipients. Readback verified the SENT label, exact recipient, subject and HTML body for each message:
+
+- The Candledust: hello@thecandledust.com; Gmail thread 1a15ed50a9649ab2.
+- Hertwill: hello@hertwill.com; Gmail thread 1a15ed5361a22cbd.
+
+Both threads contained only the sent inquiry at immediate verification. No reply, quote, reservation, order or purchase is confirmed. Registration with The Candledust remains pending manual trade approval.
 
 ### 1. The Candledust
 
