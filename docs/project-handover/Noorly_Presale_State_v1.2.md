@@ -56,11 +56,11 @@ The user signed into AW Dropship during this session. No further supplier sign-i
 - Created **Noorly – presale preparation**, a **Manual/API** channel, and added all eleven SKUs to its portfolio. Verified after reload: 11 products, zero clients, zero orders, zero baskets. No top-up, payment, stock reservation or supplier order was made.
 - Shopify connection is offered by AW Dropship, but is **not connected**. A manual channel is preparation for a possible routing workflow, not automatic fulfillment and not an end-to-end fulfillment test. No API credential was retrieved.
 
-### Supplier message — prepared, not sent
+### Supplier message — sent 21 October 2026
 
-Recipient: **hello@aw-dropship.eu**, or their authenticated support channel. Sending requires the user's approval; there is no supplier reply yet.
+Recipient: **hello@aw-dropship.eu**. Sent on 21 October 2026 at 10:35 Europe/Stockholm from the user-authorized Gmail account after explicit approval. The authenticated sender matched the requested account. A pre-send check found no matching sent inquiry; a post-send Gmail check confirmed this message in Sent with the intended recipient and subject. Supplier confirmation is still pending. This email does not reserve stock or authorize a supplier order.
 
-Subject: Noorly Sweden — candle-sand availability, landed quote and presale dispatch
+Subject: Noorly Sweden - candle-sand availability, landed quote and presale dispatch
 
 Hello,
 
@@ -148,4 +148,4 @@ Observed 21 October 2026 in the user's connected Chrome unless noted. Dynamic pa
 - [Konsumentverket distance-selling requirements](https://www.konsumentverket.se/marknadsratt-foretag/informationskrav-vid-distansavtal-regler-for-foretag/), checked via official page: pre-contract disclosures, ordinary 14-day withdrawal and the online withdrawal function introduced 19 June 2026, including durable acknowledgement.
 - [Meta event deduplication reference](https://developers.facebook.com/docs/marketing-api/conversions-api/deduplicate-pixel-and-server-events/): retrieval rate-limited in this session; implementation and live deduplication remain to be verified.
 
-No ad campaign was activated or changed, no paid presale was opened, no supplier payment was made and no supplier inquiry was sent.
+No ad campaign was activated or changed, no paid presale was opened and no supplier payment was made. The approved supplier inquiry above was sent and verified in Gmail Sent on 21 October 2026; no supplier availability, dispatch or final landed-cost commitment has yet been confirmed.
