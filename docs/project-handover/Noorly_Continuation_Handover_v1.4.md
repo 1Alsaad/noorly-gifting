@@ -73,3 +73,32 @@ The user explicitly approved sending both exact messages in the supplier pack. S
 No matching sent messages were found immediately before sending. The immediate readback showed only the outbound inquiry in each thread. No quote, stock reservation, sample purchase, supplier order or commercial acceptance followed from sending.
 
 PR #9 run 39614859809 finished with 9 browser checks passing and 1 failing. The failure was a quantity-decrease accessible-label mismatch: the source transfer changed the Unicode minus to a hyphen. The exact local source Unicode was restored using a base64 transfer, with blob hashes verified against local source. Corrected PR head: 8801b05e0094528c794f147352ebe07042d327cc. A new CI run must pass before marking the PR ready; no code was merged or released. The dependency audit was skipped after the failed browser step. Earlier lint, TypeScript, unit tests and production-build passes remain scoped to that earlier run.
+
+## Hertwill authenticated access and prices — 21 October 2026
+
+The user reported Hertwill access; verified in their connected Chrome session. Wholesale prices, variation SKUs and shipping prices are now visible. This supersedes earlier logged-out price/shipping observations. The page still says "Connect your store to start selling"; no store connection, import, sync, app permission, subscription or order was initiated.
+
+Observed products:
+
+- [Nordic Lights refill](https://hertwill.com/product/nordic-lights-scented-candle-sand-refill-350g): title/body 350 g, five wicks, vessel separate; authenticated wholesale price €5.88 excluding VAT; variation SKU `nordic-lights-330g-refill-pearled-candle`; "In stock" with no numeric quantity; Sweden shipping €8.99.
+- [Midnight refill](https://hertwill.com/product/midnight-scented-candle-sand-refill-350g): title/body 350 g, five wicks, vessel separate; authenticated wholesale price €5.88 excluding VAT; variation SKU `midnight-330g-refill-pearled-candle`; "In stock" with no numeric quantity. The expanded shipping panel did not produce a visible table in that inspection; the Candledust brand table separately confirms €8.99 for Sweden.
+- User's existing [Breeze glass candle page](https://hertwill.com/product/powdered-candle-in-glass-breeze-160g): 160 g glass candle, €6.25 excluding VAT, OUT OF STOCK, Sweden shipping €8.99. It is a different format from the refill; do not price or describe it as 350 g.
+- [Candledust brand page](https://hertwill.com/brand/candledust): Sweden shipping €8.99; GPSR contact Candledust OÜ, hello@thecandledust.com, Punane 42, 13619 Tallinn, Estonia. This identifies the manufacturer/contact but does not replace product-specific Swedish labelling, hazard or wick/vessel documents.
+
+The two 350 g refill pages use "330g" in their variation SKUs. Resolve the actual current pack weight and the exact SKU/contents before creating final Shopify listings or supplier routing. A legacy identifier is possible but NOT confirmed. Separate older 330 g refill-kit cards on the brand page show different prices/out-of-stock status; do not silently merge these products.
+
+[Published shipping terms](https://hertwill.com/resources/shipping) say shipping is usually charged once per order, different brands ship separately, shipping prices exclude VAT, remote/large orders can add fees and tracking syncs to Shopify. Sweden generally uses pickup points in the overview; do not promise home delivery. The general 3–8-business-day EU transit estimate is not our confirmed dispatch/delivery promise. A mixed pair and five-pack still need exact packed-quote/parcel confirmation.
+
+Conditional pair model, using the EXISTING planning FX of 11.123 SEK/EUR (not a refreshed live rate):
+
+- Two goods: 2 × €5.88 = €11.76.
+- One displayed Sweden shipping charge: €8.99.
+- Goods + assumed shared shipping: €20.75 = 230.80 SEK, excluding recoverable VAT.
+- This is 10.80 SEK above the 220 SEK target before currency spread, any app allocation, handling and unrecoverable tax. It is not a verified all-in delivered quote.
+- At the internal 599 SEK delivered hypothesis, assumed 25% output VAT and 31 SEK fee/refund allowance, contribution before ads would be 217.40 SEK; after hypothetical CAC 120, 97.40 SEK remains before fixed costs/extras. CAC, retail demand and tax treatment remain unverified.
+
+No price, weight, supplier-SKU substitution, shipping rate or product publication was saved in Shopify. Existing AW draft mapping and closure remain unchanged. The already-sent Hertwill enquiry covers price, shipping and holds; the new pack-weight/SKU discrepancy needs written clarification. No new message was sent in this inspection.
+
+### PR check result now confirmed
+
+[Run 39616247297](https://github.com/1Alsaad/noorly-gifting/actions/runs/39616247297) completed successfully after the source-Unicode correction, including browser/accessibility checks and production dependency audit. This supersedes the earlier pending/failed-run status for the corrected PR head. PR #9 remains draft/unmerged; these are development checks, not a real Shopify payment, supplier fulfilment or Meta Purchase test.
