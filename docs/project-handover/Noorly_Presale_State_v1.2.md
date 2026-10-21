@@ -92,7 +92,7 @@ Break-even acquisition cost is verified contribution before ads, not gross reven
 
 Base inspected: `main` at `d12fc23c667e08ccc616b89f12a8345c150b34ac`. Existing PRs #6 and #7 were not merged or overwritten. The live site initially showed the fictional gifting demo.
 
-Prepared change on `codex/presale-readiness-2026-10-21`:
+Change merged through [PR #8](https://github.com/1Alsaad/noorly-gifting/pull/8), production commit `dab6d763b9e06e0ff46e7d7b9c43d6b7a23c0b43`:
 
 - Public production builds default to a Swedish/English preparation page. It displays no product catalogue, cart controls or checkout and does not mount the storefront analytics or consent components.
 - Every locale route is gated, including direct product, shop, cart, gift-builder and mock-checkout paths. Existing demo assets remain available for local development.
@@ -102,7 +102,9 @@ Prepared change on `codex/presale-readiness-2026-10-21`:
 
 Verified locally: TypeScript, changed-file ESLint, all **67 tests across 13 files**, production Next.js build; connected Chrome inspection of the Swedish holding page and a direct old product URL; HTTP checks of cart, builder, mock checkout, English shop, robots and sitemap; direct POST checkout blocked with 503. This is **not a Shopify payment, presale, fulfillment or Meta Purchase test**.
 
-Deployment status must be recorded after publication and live verification. Vercel project metadata is readable, but deployment API access returned 403/404 and the connected Chrome account sees 404 for the existing deployment dashboard. GitHub reports that the current main commit was deployed successfully. Do not claim the closure is live until the public URL is checked after the new release.
+**Deployed and verified live:** [noorly-gifting.vercel.app/sv](https://noorly-gifting.vercel.app/sv) now shows the preparation page. GitHub reported successful production deployment `8iNqrqJE9k1ihLwyKVrBSN7egEDN` for the merge commit. Connected Chrome confirmed the live Swedish page. Live HTTP checks confirmed the hold on the old product, cart, builder, mock-checkout and English shop routes; cart GET returned the closed state, checkout POST returned HTTP 503, robots disallowed crawling and sitemap contained no products. [Live screenshot](evidence/presale-hold-live.jpg).
+
+GitHub's complete PR verification job passed, including formatting, lint, TypeScript, unit/component tests, production build, browser/accessibility tests and production dependency audit. The protected preview could not be opened with the connected Vercel identity; no protection settings were changed. Vercel deployment API access returned 403/404, and its dashboard showed no project access for that Chrome account. The existing GitHub integration successfully deployed the reviewed change. Correct Vercel account access is still needed for domain/environment administration.
 
 ## Shopify, domain, payments and tracking state
 
@@ -110,6 +112,8 @@ Deployment status must be recorded after publication and live verification. Verc
 - Shopify Payments shows **Complete setup**; PayPal shows **Setup incomplete**. Current payment capture setting is **automatically at checkout**, unchanged. This does not establish a working payment method or presale payment schedule.
 - Installed apps list shows Shopify ChatGPT MCP App and Messaging. No presale or AW fulfillment app is installed. No app permission grant was made.
 - Shopify Customer events is empty: no app/custom pixel integrations displayed. Windsor's reporting connection does not create a Pixel integration.
+- Shopify Customer privacy shows an automated cookie banner visible in Sweden and an automated published privacy policy. Shopify Network Intelligence is enabled, unchanged. This does not establish consent coverage on the custom storefront or checkout; inspect actual behavior and data-sharing choices before release.
+- Shopify Policies has no saved return/refund policy, terms of service, shipping policy, contact information or legal notice. The default self-serve rules display 14-day returns and cancellation until fulfilled; those controls do not replace complete customer-facing terms or the required withdrawal flow. No legal/contact facts were invented.
 - Code has analytics and marketing consent choices and GA4/PostHog infrastructure, but no Meta adapter. No complete checkout-consent test or deduplicated Meta Purchase test has passed.
 - Existing Meta dataset ID `511816900240916` is carried forward from v1.1, **not reverified in this session**. Reuse only after checking business/dataset ownership; do not create a duplicate dataset casually.
 - Current custom Shopify adapter does not query or preserve selling-plan allocations/IDs, SKU or per-variant image selection. Existing product images query is limited to eight images. The Shopify draft having eleven correct variants does not make the custom storefront presale-compatible.

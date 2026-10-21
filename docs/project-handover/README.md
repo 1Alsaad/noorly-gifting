@@ -10,6 +10,8 @@ Start here when continuing Noorly in Codex. Documents were prepared on 21 Octobe
 
 The latest explicit user instructions take precedence over both documents.
 
+Current public state: the preparation page and cart closure were deployed through PR #8 and verified live on 21 October. Paid presales and advertising remain closed. See v1.2 for exact saves, tests and unresolved launch requirements.
+
 ## Decisions to preserve
 
 - Total advertising allocation: **4,000 SEK across the entire sequence**.
