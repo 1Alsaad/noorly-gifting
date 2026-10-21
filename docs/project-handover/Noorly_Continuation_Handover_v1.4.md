@@ -10,7 +10,7 @@ The Candledust existing scented products are the preferred qualification route; 
 
 ## Meaningful progress saved
 
-- [Supplier qualification and rehearsal pack](Noorly_Supplier_Qualification_and_Rehearsal_2026-10-21.md): exact Candledust and Hertwill emails ready for review, supplier-specific listing draft, quote worksheet, manual release/idempotency ledger and test acceptance procedure. Neither email has been sent.
+- [Supplier qualification and rehearsal pack](Noorly_Supplier_Qualification_and_Rehearsal_2026-10-21.md): exact Candledust and Hertwill emails approved and sent, supplier-specific listing draft, quote worksheet, manual release/idempotency ledger and test acceptance procedure. Both were sent and verified in Gmail Sent on 21 October 2026 at 16:19 Europe/Stockholm.
 - [Draft PR #9](https://github.com/1Alsaad/noorly-gifting/pull/9), code commit db2db2bf845f971f1f52c207d4086d93d27a5e95: reviewed/recovered unfinished local source edits; preserves variant SKU, image and selected options; variant image follows selection; refuses unknown explicit selections; detects mandatory/optional selling-plan products and blocks ordinary checkout until integrated. Existing cart plan identity is retained on reads and blocked at checkout. New plan selection, mutations and payment schedule support are NOT implemented.
 - PR also carries marketing consent separately from analytics into checkout attributes and denies it when omitted. Added tests for independent consent, withdrawal and clearing stale server checkout consent. This is NOT Shopify Customer Privacy API integration, real checkout consent proof or a Meta Purchase implementation.
 - Removed fallbacks that could substitute a different variant or an unrelated demo cart image.
@@ -50,7 +50,7 @@ Hertwill Nordic Lights 350 g page NOW opens directly (previous access failure su
 - Fresh Shopify shipping overview confirms the dedicated ljussand profile has eleven products and zero zones. No rate was added.
 - Windsor discovered the connected Noorly ad account. A read of campaign spend/status/account currency for 1 January–21 October 2026 returned done with zero rows. This is not evidence of zero lifetime spend or confirmation that 4,000 SEK remains available. Actual spend/remaining allocation stays unreconciled; verify directly in Meta before activation. No campaign/budget/status was changed.
 
-1. Obtain explicit sending approval for the TWO exact emails in the pack. They request indicative Sweden pricing without private address/VAT data. A final quote needs correct business/VAT facts and intended destination postcode; do not invent them or publish private data in GitHub.
+1. Await replies to the TWO approved emails now sent and verified. They request indicative Sweden pricing without private address/VAT data. A final quote needs correct business/VAT facts and intended destination postcode; do not invent them or publish private data in GitHub.
 2. Obtain supplier responses/documentation and acceptable sample. Sample payment requires separate spending approval. Decide direct fulfilment versus batch-to-Noorly plus Swedish onward shipping using the full quote.
 3. Owner completes Shopify payment identity/business/bank verification through Shopify. Do not request passwords, bank details or identity documents in chat.
 4. Review PR #9 CI; fix real failures and complete browser verification before merging. Keep it draft while checks remain unresolved.
@@ -62,3 +62,14 @@ Hertwill Nordic Lights 350 g page NOW opens directly (previous access failure su
 ## Local workspace continuity
 
 The workspace contains an existing checkout at noorly-gifting with unfinished source changes on local main based on 64e80a5. These were preserved and reviewed, not blindly discarded. Terminal git fetch failed with a DNS/thread error. Remote main at inspection was 4d0437b052c293c06159b4a2963596d38d096174; source base blobs were compared through GitHub before draft upload. GitHub connector is the saved source of truth; do not assume local tracking refs include later documentation commits. A pre-existing local v1.2 documentation diff must not overwrite the newer GitHub version.
+
+## Approved outreach and latest verification update
+
+The user explicitly approved sending both exact messages in the supplier pack. Sent and read back on 21 October 2026 at 16:19 Europe/Stockholm:
+
+- Candledust: hello@thecandledust.com; thread 1a15ed50a9649ab2; approved subject and complete body verified in Sent.
+- Hertwill: hello@hertwill.com; thread 1a15ed5361a22cbd; approved subject and complete body verified in Sent.
+
+No matching sent messages were found immediately before sending. The immediate readback showed only the outbound inquiry in each thread. No quote, stock reservation, sample purchase, supplier order or commercial acceptance followed from sending.
+
+PR #9 run 39614859809 finished with 9 browser checks passing and 1 failing. The failure was a quantity-decrease accessible-label mismatch: the source transfer changed the Unicode minus to a hyphen. The exact local source Unicode was restored using a base64 transfer, with blob hashes verified against local source. Corrected PR head: 8801b05e0094528c794f147352ebe07042d327cc. A new CI run must pass before marking the PR ready; no code was merged or released. The dependency audit was skipped after the failed browser step. Earlier lint, TypeScript, unit tests and production-build passes remain scoped to that earlier run.
