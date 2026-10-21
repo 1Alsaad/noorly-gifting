@@ -7,6 +7,10 @@ import { useState } from "react";
 import { useCart } from "@/features/cart/cart-provider";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { trackEvent } from "@/lib/analytics/client";
+import {
+  supportsStandardPurchase,
+  purchasePendingCopy,
+} from "@/lib/commerce/purchase-options";
 import type { Locale, Product } from "@/types/commerce";
 
 interface Props {
@@ -30,10 +34,9 @@ export function ProductDrawer({
   const [status, setStatus] = useState<"idle" | "adding" | "added" | "error">(
     "idle",
   );
-  const variant =
-    product.variants.find((item) => item.id === variantId) ??
-    product.variants[0];
-  const image = product.images[0];
+  const variant = product.variants.find((item) => item.id === variantId);
+  const image = variant?.image ?? product.images[0];
+  const purchaseReady = supportsStandardPurchase(product);
   const price = variant?.price ?? product.price;
   const formattedPrice = new Intl.NumberFormat(
     locale === "sv" ? "sv-SE" : "en-SE",
@@ -45,7 +48,14 @@ export function ProductDrawer({
   ).format(Number(price.amount));
 
   async function add() {
-    if (!variant?.available || status === "adding") return;
+    if (
+      !purchaseReady ||
+      !product.available ||
+      !variant?.available ||
+      loading ||
+      status === "adding"
+    )
+      return;
     setStatus("adding");
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
@@ -67,7 +77,7 @@ export function ProductDrawer({
           }}
         >
           <Dialog.Close className="cinema-drawer-close" aria-label={copy.close}>
-            ×
+            �
           </Dialog.Close>
           {image && (
             <div className="cinema-drawer-image">
@@ -90,7 +100,11 @@ export function ProductDrawer({
             <div className="cinema-drawer-price">
               <span>{formattedPrice}</span>
               <span className="cinema-stock">
-                {variant?.available ? copy.available : copy.unavailable}
+                {!purchaseReady
+                  ? purchasePendingCopy[locale]
+                  : product.available && variant?.available
+                    ? copy.available
+                    : copy.unavailable}
               </span>
             </div>
             {product.variants.length > 1 && (
@@ -115,7 +129,7 @@ export function ProductDrawer({
                   {product.variants.map((item) => (
                     <option value={item.id} key={item.id}>
                       {item.title}
-                      {!item.available ? ` — ${copy.unavailable}` : ""}
+                      {!item.available ? ` - ${copy.unavailable}` : ""}
                     </option>
                   ))}
                 </select>
@@ -125,24 +139,32 @@ export function ProductDrawer({
               className="cinema-button cinema-button-dark"
               type="button"
               onClick={add}
-              disabled={!variant?.available || loading || status === "adding"}
+              disabled={
+                !purchaseReady ||
+                !product.available ||
+                !variant?.available ||
+                loading ||
+                status === "adding"
+              }
             >
-              {status === "adding"
-                ? copy.adding
-                : status === "added"
-                  ? copy.added
-                  : copy.addToCart}
+              {!purchaseReady
+                ? purchasePendingCopy[locale]
+                : status === "adding"
+                  ? copy.adding
+                  : status === "added"
+                    ? copy.added
+                    : copy.addToCart}
             </button>
             <div aria-live="polite" role="status" className="cinema-add-status">
               {status === "error" ? copy.addError : ""}
             </div>
-            {product.boxEligible && (
+            {purchaseReady && product.boxEligible && (
               <Link
                 className="cinema-button cinema-button-outline"
                 href={`/${locale}/build-a-box?product=${encodeURIComponent(product.handle)}`}
               >
                 {copy.addToBox}
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true">?</span>
               </Link>
             )}
             <p className="cinema-delivery">{copy.delivery}</p>
@@ -151,7 +173,7 @@ export function ProductDrawer({
               href={`/${locale}/products/${product.handle}`}
             >
               {copy.details}
-              <span aria-hidden="true"> ↗</span>
+              <span aria-hidden="true"> ?</span>
             </Link>
           </div>
         </Dialog.Content>

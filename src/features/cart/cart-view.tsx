@@ -5,10 +5,17 @@ import { ArrowRight, Minus, Plus, ShoppingBag, X } from "lucide-react";
 import { getDictionary } from "@/content/translations";
 import type { CartLine, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
+import {
+  supportsStandardPurchase,
+  purchasePendingCopy,
+} from "@/lib/commerce/purchase-options";
 import { useCart } from "./cart-provider";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
+  const purchasePending = cart?.lines.some(
+    (line) => line.sellingPlanId || !supportsStandardPurchase(line.product),
+  );
   const groups = new Map<string, CartLine[]>();
   for (const line of cart?.lines ?? []) {
     const id =
@@ -79,12 +86,20 @@ export function CartView({ locale }: { locale: Locale }) {
                       href={`/${locale}/products/${line.product.handle}`}
                       className="cart-image"
                     >
-                      <Image
-                        src={line.product.images[0].url}
-                        alt={line.product.images[0].alt}
-                        fill
-                        sizes="100px"
-                      />
+                      {(line.variant.image ?? line.product.images[0]) && (
+                        <Image
+                          src={
+                            (line.variant.image ?? line.product.images[0])
+                              ?.url || ""
+                          }
+                          alt={
+                            (line.variant.image ?? line.product.images[0])
+                              ?.alt || line.variant.title
+                          }
+                          fill
+                          sizes="100px"
+                        />
+                      )}
                     </Link>
                     <div className="cart-line-description">
                       <h3>
@@ -99,7 +114,7 @@ export function CartView({ locale }: { locale: Locale }) {
                         <div className="quantity-control">
                           <button
                             className="icon-button"
-                            aria-label={`${t.quantity} −: ${line.product.title[locale]}`}
+                            aria-label={`${t.quantity} -: ${line.product.title[locale]}`}
                             disabled={loading || line.quantity <= 1}
                             onClick={() => {
                               void updateLine(line.id, line.quantity - 1).catch(
@@ -174,10 +189,14 @@ export function CartView({ locale }: { locale: Locale }) {
         <p>{t.tax}</p>
         <button
           className="button button-dark"
-          disabled={loading || !cart?.lines.length}
+          disabled={loading || !cart?.lines.length || purchasePending}
           onClick={pay}
         >
-          {loading ? t.checking : t.checkout}
+          {purchasePending
+            ? purchasePendingCopy[locale]
+            : loading
+              ? t.checking
+              : t.checkout}
           <ArrowRight size={16} />
         </button>
         {error && (

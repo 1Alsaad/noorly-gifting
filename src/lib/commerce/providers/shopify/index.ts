@@ -174,9 +174,12 @@ export class ShopifyCommerceProvider implements CommerceProvider {
     return result.cart ? mapShopifyCart(result.cart) : null;
   }
   async addCartLines(cartId: string, lines: CartLineInput[]) {
+    const validLines = validateIncomingLines(lines);
+    if (!(await this.validateAvailability(validLines)).available)
+      throw new CommerceError("unavailable_product", 409);
     return this.mutation(queries.CART_ADD, "cartLinesAdd", {
       cartId,
-      lines: validateIncomingLines(lines),
+      lines: validLines,
     });
   }
   async updateCartLines(
@@ -203,6 +206,8 @@ export class ShopifyCommerceProvider implements CommerceProvider {
   async getCheckoutUrl(cartId: string, locale: Locale = "sv") {
     const cart = await this.getCart(cartId);
     if (!cart?.lines.length) throw new CommerceError("empty_cart");
+    if (cart.lines.some((line) => line.sellingPlanId))
+      throw new CommerceError("purchase_option_not_ready", 409);
     const availability = await this.validateAvailability(cart.lines);
     if (!availability.available)
       throw new CommerceError("unavailable_product", 409);
@@ -227,11 +232,29 @@ export class ShopifyCommerceProvider implements CommerceProvider {
         id: string;
         availableForSale: boolean;
         quantityAvailable: number | null;
+        product: {
+          requiresSellingPlan: boolean;
+          sellingPlanGroups: { nodes: { id: string }[] };
+        };
       } | null)[];
     }>(
-      "query Availability($ids:[ID!]!) { nodes(ids:$ids) { ... on ProductVariant { id availableForSale quantityAvailable } } }",
+      "query Availability($ids:[ID!]!) { nodes(ids:$ids) { ... on ProductVariant { id availableForSale quantityAvailable product { requiresSellingPlan sellingPlanGroups(first:1) { nodes { id } } } } } }",
       { ids },
     );
+    for (const variant of result.nodes) {
+      if (!variant) continue;
+      if (
+        !variant.product ||
+        typeof variant.product.requiresSellingPlan !== "boolean" ||
+        !Array.isArray(variant.product.sellingPlanGroups?.nodes)
+      )
+        throw new CommerceError("invalid_provider_response", 502);
+      if (
+        variant.product.requiresSellingPlan ||
+        variant.product.sellingPlanGroups.nodes.length > 0
+      )
+        throw new CommerceError("purchase_option_not_ready", 409);
+    }
     const unavailableVariantIds = ids.filter((id) => {
       const variant = result.nodes.find((item) => item?.id === id);
       const quantity = lines

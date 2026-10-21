@@ -215,11 +215,13 @@ export function getAnalyticsCheckoutAttributes(): Record<string, string> {
     return {
       _stilla_analytics_consent: id ? "granted" : "denied",
       _stilla_analytics_session: id ?? "",
+      _noorly_marketing_consent: getConsent()?.marketing ? "granted" : "denied",
     };
   } catch {
     return {
       _stilla_analytics_consent: "denied",
       _stilla_analytics_session: "",
+      _noorly_marketing_consent: "denied",
     };
   }
 }
