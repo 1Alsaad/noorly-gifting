@@ -240,3 +240,18 @@ Alternative sourcing enquiry: Terrible Twins Natur unscented linen wheat warmer,
 Baltland merino socks are lower priority owing to unverified wholesale economics, sizes and supplier-return exclusions. The inspected AW wheat-bag products are EMPTY and excluded as ready-to-use products. Prior Trends/Amazon findings remain dated 21 October; today's fresh requests failed and connected Chrome/local runtime were unavailable. No fresh ranks, charts or authenticated prices were obtained.
 
 The dossier contains a Hertwill human/technical clarification and a Swedish Terrible Twins enquiry, both NOT SENT. Explicit exact-message approval is required before sending. No paid plan, app, order, sample, advertising, real payment, website/Shopify setting or domain change occurred. Total media cap and 2,000/2,000 decision gates remain unchanged.
+
+
+## AliExpress Q4 product research — 22 October 2026
+
+Read [AliExpress Q4 product research](Noorly_AliExpress_Q4_Product_Research_2026-10-22.md) for six candidate categories, exact item links, historical source-price dates, Swedish retail comparisons, current Meta Ad Library results and illustrative delivered-cost limits.
+
+Provisional qualification order: a complete adult craft kit, then a quality adult blanket hoodie, with a pet-hair cleaning bundle as an evergreen alternative. Book nooks have relevant Swedish ad activity but researched sourcing prices are high. Generic rechargeable hand warmers face low Swedish retail competition; candle-warmer lamps need exact-model qualification given current model-specific recalls. None is a verified winner or approved replacement for the prior fallback.
+
+Etsy's October 2026 seasonal report supports the craft-category hypothesis using U.S. Etsy data; it does not establish Swedish demand or exact AliExpress sales. Public active-ad counts likewise do not establish profitability. Live Swedish Google Trends/Amazon bestseller verification was not obtained.
+
+Chrome/Computer were retried after the owner's requests and Browser tag, but startup failed. No authenticated AliExpress price, seller quality, full-variant contents, Swedish shipping quote or delivery ETA was verified. Archived USD prices are research leads, not landed costs.
+
+At a hypothetical 100 SEK CAC, 30 SEK payment/refund allowance, assumed 25% VAT and desired 20% contribution on ex-VAT revenue, the delivered-cost ceiling is 125.36 SEK for a 399 SEK craft kit, 189.36 for a 499 SEK hoodie, and 93.36 for a 349 SEK pet bundle. These are sourcing constraints, not quotes or final prices.
+
+Only research documentation was saved. No supplier contacted, sample bought, product changed or ad activated. The 4,000 SEK total media cap and standing 2,000/2,000 gates remain unchanged.
