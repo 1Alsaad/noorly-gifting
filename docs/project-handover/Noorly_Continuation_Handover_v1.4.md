@@ -255,3 +255,18 @@ Chrome/Computer were retried after the owner's requests and Browser tag, but sta
 At a hypothetical 100 SEK CAC, 30 SEK payment/refund allowance, assumed 25% VAT and desired 20% contribution on ex-VAT revenue, the delivered-cost ceiling is 125.36 SEK for a 399 SEK craft kit, 189.36 for a 499 SEK hoodie, and 93.36 for a 349 SEK pet bundle. These are sourcing constraints, not quotes or final prices.
 
 Only research documentation was saved. No supplier contacted, sample bought, product changed or ad activated. The 4,000 SEK total media cap and standing 2,000/2,000 gates remain unchanged.
+
+
+## Swedish batch presales and vessel sourcing — 23 October 2026
+
+Read [batch presale and vessel sourcing assessment](Noorly_Swedish_Batch_Presale_and_Vessel_Sourcing_2026-10-23.md). The owner asked to reassess AW's EUR 6.25 pouch price, source a bowl/vase, and evaluate taking presales before ordering a batch for dispatch from Sweden. This is research/preparation, not an activation or purchase instruction.
+
+AW's public FAQ confirms ex-VAT, freight-exclusive pricing. Its family catalogue still shows zero stock for all eleven variants. The Sweden tariff shows EUR 9.60 for 0–2 kg and EUR 17 for 10–30 kg; fifty 300 g pouches would imply EUR 0.34 inbound freight each if the actual shipment fits one parcel. Domestic delivery, packing, handling and returns still apply. No stock or dispatch commitment was obtained.
+
+Preferred separate-source vessel lead: Candle Shack BV clear 50cl Lotti bowl GLAS0501, EUR 3.07 ex VAT for 1–59, EUR 2.77 for 60–119, internal diameter 11.6 cm. Page displayed 314 available, unreserved. Frosted GLAS0500 was out of stock. Candledust's own 8 x 9 cm glass is an alternative at public EUR 4.80, with actual B2B pricing pending. A normal wooden bowl is not qualified by the storefront image; use a suitable non-flammable, heat-resistant component and confirm the exact sand/wick/vessel configuration.
+
+**New supplier correspondence, superseding the earlier no-reply state:** Candledust replied and approved the reseller account on 22 October around 21:18 Stockholm time. Reply message 1a1650c9ae177a65 in thread 1a15ed50a9649ab2 explicitly describes batch-to-Noorly fulfilment and no direct dropshipping for new accounts. It states stock allocation occurs on ordering, not reservation, and still owes wick-spacing clarification. Approval message 1a1650d2a1eee439 states a EUR 100 wholesale minimum and extra basket discounts at EUR 200 / 800 / 1,500. The personal reply's no-minimum wording conflicts; plan EUR 100 until clarified. Exact trade prices, stock quantities and Swedish freight are not authenticated or quoted.
+
+Recommendation: qualify a one-pouch/one-vessel complete kit and a small, clearly dated presale followed promptly by Swedish batch dispatch. No final retail price is selected. The report gives the markup arithmetic, logistics comparison, a 10–20-order pilot proposal and two unsent supplier clarification briefs. Preorder payment, delivery/cancellation information, sample/product checks and cash timing remain necessary. The current payment/custom-storefront flow was not freshly reverified and no paid end-to-end test passed here.
+
+Only documentation was saved. No supplier contacted, sample/order purchased, live product/website/payment setting changed, or advertising/presale activated. The 4,000 SEK total media allocation and standing 2,000/2,000 gates remain unchanged; inventory/fulfilment working capital is separate.
