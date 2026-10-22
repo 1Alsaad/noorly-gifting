@@ -222,3 +222,21 @@ Validation: [CI run 39644969526](https://github.com/1Alsaad/noorly-gifting/actio
 Live connected Chrome confirmed the restored film's portrait CDN source and 15-second duration, currentTime advancing to 4.782913 after scrolling, and a visibly decoded original candle/pouch frame. Logout followed by direct /sv navigation redirected to the password form; the unchanged password successfully reopened /sv. The copy-gallery link was absent. A later reverse-scroll/cart follow-up was interrupted by browser transport closure and is not claimed as verified. The previous build's live cart-closed result and current automated closed-store tests remain evidence; no complete order, payment, supplier or Meta conversion test occurred.
 
 No ads, paid presales, supplier orders, paid services, payments, outreach or domain changes were activated. Total media allocation remains 4,000 SEK with the standing 2,000/2,000 gates.
+
+## Supplier reply and alternative-product assessment — 22 October 2026
+
+Read [the current assessment and two exact unsent enquiries](Noorly_Supplier_Reply_and_Product_Assessment_2026-10-22.md) before acting on earlier assumptions.
+
+Gmail: Hertwill responded at 08:25 Europe/Stockholm, message 1a162497d06eb77a in thread 1a15ed5361a22cbd. Its email explicitly says it was written by AI. No direct Candledust or AW reply was found in the original threads or the broader supplier search, including in:anywhere.
+
+Hertwill says manual fulfilment requests trigger card charging/processing; mixed same-brand refills normally share shipping. These controls have not been tested in Noorly. It supplies no numerical final quote, stock quantity or packing calculation. It calls the refills 330 g and supplies different identifiers from the previously observed 350 g variation rows; do not silently remap them. Swedish labels are unavailable, custom gift packaging is not standard, no complete no-charge test is offered and duplicate/retry handling needs technical review. The Free-plan eleventh-order handling remains unanswered.
+
+Public terms confirm the Standard monthly EUR 24.99/free ten-order limits and reveal that SOCKS ARE EXCLUDED from supplier returns; generic email wording about 30-day returns must not be applied to socks. The supplier return window starts at original order, and the office address is not the returns warehouse. Required Swedish physical product labelling/classification remains a release gate for the scented refills. No blanket claim that every scent has the same classification.
+
+Assessment: keep the 599 SEK plain pair on HOLD; direct Candledust remains a conditional preferred qualification route, pending its existing-product quote. Public retail still lists the two refills at EUR 16.90 each/free EU shipping threshold EUR 25. Do not transfer the manufacturer's printed private-label MOQ/lead time to finished branded refills.
+
+Alternative sourcing enquiry: Terrible Twins Natur unscented linen wheat warmer, 50 x 18 cm, public retail 325 SEK, official retailer contact Sara/info@terribletwins.se. Wholesale price, stock, SKU, washable-cover construction and individual fulfilment are unconfirmed. Jula's 99.90 SEK washable-cover wheat cushion weakens a generic premium offer. At 325 delivered/CAC 75/31 allowance/assumed 25% VAT/20% contribution, maximum delivered goods/fulfilment cost is 102 SEK before overhead. At CAC 100 it is 77 SEK. These are sourcing limits, not quotes or approved prices. No replacement winner or launch date is established.
+
+Baltland merino socks are lower priority owing to unverified wholesale economics, sizes and supplier-return exclusions. The inspected AW wheat-bag products are EMPTY and excluded as ready-to-use products. Prior Trends/Amazon findings remain dated 21 October; today's fresh requests failed and connected Chrome/local runtime were unavailable. No fresh ranks, charts or authenticated prices were obtained.
+
+The dossier contains a Hertwill human/technical clarification and a Swedish Terrible Twins enquiry, both NOT SENT. Explicit exact-message approval is required before sending. No paid plan, app, order, sample, advertising, real payment, website/Shopify setting or domain change occurred. Total media cap and 2,000/2,000 decision gates remain unchanged.
