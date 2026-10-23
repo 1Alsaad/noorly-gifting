@@ -73,7 +73,7 @@ The validated environment list is `.env.example` and `src/lib/env/schema.ts`. In
 
 Follow [commerce setup](commerce.md) to publish products and set category/season/eligibility tags and matching handles. The adapter queries Swedish and English presentation, paginates products/collections and validates provider payloads. Confirm real storefront access for each queried field and the configured Storefront API version (`2026-07` by default).
 
-Test availability, variant selection, cart creation/persistence, bundle attributes, editing, shipping/tax presentation and the provider checkout URL with the actual store. Final pricing and stock are Shopify's authority. The checkout allowlist preserves Shopify hosts and accepts the exact HTTPS origins `https://checkout.noorly.se` and `https://checkout.noorlynordic.com`, without user credentials or nondefault ports on those custom origins. It does not permit other subdomains or arbitrary redirect hosts. Adding an origin does not configure Shopify, DNS or TLS.
+Test availability, variant selection, cart creation/persistence, bundle attributes, editing, shipping/tax presentation and the provider checkout URL with the actual store. Final pricing and stock are Shopify's authority. The checkout allowlist preserves Shopify hosts and accepts only `https://checkout.noorlynordic.com` as Noorly's custom HTTPS checkout origin, without user credentials or nondefault ports. Retired custom domains, other subdomains and arbitrary redirect hosts are rejected. Adding an origin does not configure Shopify, DNS or TLS.
 
 ### Webhooks and purchase outbox
 

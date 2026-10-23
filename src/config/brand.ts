@@ -5,7 +5,7 @@ export const brand = {
   legalCompanyName: "[Legal company name — replace before launch]",
   domain: "noorlynordic.com",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://noorlynordic.com",
-  supportEmail: "hello@example.com",
+  supportEmail: "support@noorlynordic.com",
   defaultLocale: "sv" as Locale,
   supportedLocales: ["sv", "en"] as const,
   currency: "SEK" as const,
@@ -33,7 +33,7 @@ export const brand = {
   },
   customerService: {
     hours: { sv: "Vardagar 09–16", en: "Weekdays 09:00–16:00" },
-    email: "hello@example.com",
+    email: "support@noorlynordic.com",
   },
   seasonalSettings: { activeSeasonId: "winter", timezone: "Europe/Stockholm" },
   giftMessageMaxLength: 280,

@@ -1,10 +1,10 @@
 # NOORLY · seasonal gifting
 
-A typed Next.js foundation for a small Scandinavian gifting brand: a cinematic seasonal storefront, three curated boxes, a guided gift-box builder, Swedish and English content, a persistent cart, and provider-hosted checkout. **NOORLY is the chosen brand for noorly.se. Products, artwork, reviews, company details and legal copy are fictional launch placeholders.**
+A typed Next.js foundation for a small Scandinavian gifting brand: a cinematic seasonal storefront, three curated boxes, a guided gift-box builder, Swedish and English content, a persistent cart, and provider-hosted checkout. **NOORLY uses noorlynordic.com. Products, artwork, reviews, company details and legal copy remain launch placeholders until reviewed.**
 
 The local mock shopping flow works without external credentials. The Shopify adapter and operational interfaces are implemented, but a real launch still requires live integration verification, production services, final content and legal review. No card details are collected by this application.
 
-The intended domain is **noorly.se**. See [Noorly setup status](docs/noorly-setup.md) and `.env.production.example` for the domain-specific connection steps and the account access still needed.
+The connected storefront domain is **noorlynordic.com**, with Shopify checkout at **checkout.noorlynordic.com**. See [Noorly setup status](docs/noorly-setup.md) and `.env.production.example` for configuration and remaining launch requirements.
 
 ## Run locally
 
