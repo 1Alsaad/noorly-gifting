@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Chrome domain checkout and wooden-kit qualification — 23 October 2026](Noorly_Domain_Checkout_and_Wooden_Kit_Qualification_2026-10-23.md). Read the final checkpoint below before acting on older browser-access, domain or supplier-price statements.
+> Latest verified continuation: [Offer and presale decision — 23 October 2026](Noorly_Offer_and_Presale_Decision_2026-10-23.md). **Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older unpaid-domain, tax, price or access statements.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -354,3 +354,39 @@ The two verified supplier baskets alone require about SEK 6,248 cash; inserts, p
 No bowl is qualified for direct candle-sand use. A suitable insert must be checked as part of the whole wooden assembly. Usable internal dimensions, required fill, thermal behaviour, stable fit and final packed weight remain open. Manufacturer calculator examples (12 cm × 5 cm = 0.57 kg; 20 cm × 5 cm = 1.57 kg) are hypothetical fills, not measured kit requirements. Current central instructions and some product-page spacing/minimum-diameter text still conflict. Exact instructions, scent documents and Swedish labelling remain gates.
 
 Next work: obtain sample/purchase or supplier-contact authorization only when the owner chooses that next step; then settle the actual assembly, insert freight, measured parcel, stock/dispatch and full payment/refund flow before any paid pilot. Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales, DNS, store settings, payments or supplier contact were activated in this continuation.
+
+
+## Latest continuation: domain paid, VAT status and offer decision — 23 October 2026
+
+Read [the offer and presale decision](Noorly_Offer_and_Presale_Decision_2026-10-23.md) first. This is the newest checkpoint and overrides older statements about an unpaid domain or unknown VAT-registration status.
+
+### Owner updates and verified completion
+
+- The owner reports noorly.se purchased. The existing Loopia page in connected Chrome showed successful payment / transaction completed. Record purchased/paid by owner. Registry activation and Shopify connection were not independently verified; no DNS was changed. No further domain checkout preparation is needed.
+- The owner confirms Noorly is **not yet VAT-registered in Sweden**. Small-business VAT exemption eligibility and foreign-service purchase obligations remain to resolve. Do not automatically subtract 25% output VAT from an eligible exempt pilot, or assume input tax can be reclaimed.
+- Chrome access worked. The owner's Chrome-only instruction remains; no native Computer window was used. Signed-in supplier access was reused without another login request.
+- A new actual Candledust quote was verified for 20 Midnight 1 kg sealed packs (17 wicks each) plus the owner's original black 250 g sample: EUR 275.10 subtotal; EUR 37.20 FedEx Sweden delivery; EUR 0.86 accessories and EUR 26.66 value-pack discounts; **EUR 284.78 total including EUR 55.12 VAT**. Numeric available stock/allocation and dispatch date remain unconfirmed. All 20 added packs were removed and the original one sample verified remaining. No order or payment was submitted.
+- Bulk-by-kilogram prices were not demonstrably cheaper than sealed kilogram packs at the observed account prices. No loose-powder repacking/private-label cost saving is established.
+- Read official Skatteverket small-business/registration guidance and Fraktjakt weight/volume pricing guidance. No tax registration or shipping account was created.
+
+### Commercial recommendation, not launch authorization
+
+Qualify a single sculptural wooden complete kit, then consider a capped presale followed by consolidated supplier batches into Sweden and one domestic customer parcel. Refills are better suited to add-ons/repeat purchases than separate paid-acquisition orders.
+
+Preferred value concept to qualify: AWGifts TeakB-31 + suitable insert + one sealed Midnight 1 kg pack; **SEK 1,149 delivered is a price hypothesis to validate**. A 650 g version around SEK 1,099 is the alternative if adequate fill/appearance are established. Do not silently change products or divide the small test budget among many variants.
+
+Using actual supplier cash quotes plus stated allowances, the 1 kg kit costs approximately SEK 581.13 before customer payment fee/advertising, including a provisional >3–5 kg domestic parcel at SEK 129. At SEK 1,149 and SEK 100 all-in CAC, contribution is approximately SEK 430.40 for an eligible VAT-exempt pilot, or SEK 200.60 under the conservative 25% output-VAT/no-input-recovery stress model. The latter is a planning floor, not Noorly's current tax status or a final registered-business calculation. Neither number includes fixed overhead or income tax. Actual insert freight, packing, merchant fees, VAT invoices and packed parcel remain open.
+
+The one-kilogram kit costs about SEK 16.58 more than the 650 g configuration before any difference in domestic postage, including FX. A single 350 g refill at SEK 249 + 49 shipping leaves only about SEK 7 after CAC 100 in the exempt scenario, and loses money in the VAT stress case. Use the complete model, not a 3–4× sand purchase-price markup.
+
+Approximate pre-dispatch working cash for 20 one-kilogram kits is SEK 8,343 using the provisional allowances, before domestic postage, labour/damage provision, sample/testing, fixed costs and unreconciled packaging costs. Presale payouts are not assumed immediately available for supplier payment. Costing is for twenty units; a smaller batch must be requoted.
+
+### Remaining product and release gates
+
+No wooden bowl is qualified for direct candle-sand burning. The actual wood/insert/sand/wick assembly needs representative samples, internal fit/appearance, heat/stability qualification, measured fill and packed dimensions/weight. A small glass may materially change the broad sculptural appearance; do not market the reference image as the actual product. Large TBL10/Dareels alternatives still lack a verified landed wholesale quote and qualified candle assembly.
+
+Before any paid presale: settle these product gates, stock/dispatch, tax and invoice treatment, carrier quote, real fees/payout/refund flow and existing Shopify/custom-storefront release checks. Foreign advertising VAT may increase all-in CAC even when sales qualify for small-business exemption. Keep the SEK 4,000 media allocation unchanged (2,000 initial / 2,000 reserve), and reconcile historical spend before activation.
+
+Suggested pilot is maximum twenty orders over the standing 4–5-day screen after authorization, with honest dispatch/refund terms. Do not buy twenty against ten orders automatically; reprice the smaller supplier basket or apply the agreed refund procedure. Reserve release needs actual retained paid orders, delivered quality and positive contribution.
+
+Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales activated, supplier contacted, supplier order/payment submitted, DNS changed, product published or store settings changed during this continuation. Trademark clearance remains unverified.
