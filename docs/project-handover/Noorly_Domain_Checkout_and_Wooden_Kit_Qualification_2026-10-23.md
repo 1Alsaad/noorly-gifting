@@ -1,5 +1,7 @@
 # Noorly domain checkout and wooden complete-kit qualification
 
+> Later same-day update: **the owner has purchased/paid for noorly.se**, and the owner confirms Noorly is not yet VAT-registered. The successful Loopia payment page was inspected in Chrome. Read [the newer offer and presale decision](Noorly_Offer_and_Presale_Decision_2026-10-23.md) for the current domain state, corrected VAT scenarios and newly quoted 1 kg option. The checkout and economics below are the earlier dated checkpoint, not the latest status.
+
 Verified 23 October 2026, Europe/Stockholm. This is research and reversible preparation, not an order, presale or launch approval.
 
 ## Current conclusion
