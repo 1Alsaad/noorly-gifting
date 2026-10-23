@@ -10,6 +10,8 @@ The mock cart is persisted in an HMAC-SHA256 signed, httpOnly, SameSite=Lax cook
 
 Production requires a random `CART_COOKIE_SECRET` of at least 32 characters. A fixed development key is used only outside production. Explicit `ALLOW_MOCK_COMMERCE=true` is required for a production-mode demonstration; there is no fallback from a failed Shopify configuration. A durable rate-limit store is also required for production mutations.
 
+For the durable store, configure `RATE_LIMIT_PROVIDER_URL` and `RATE_LIMIT_PROVIDER_TOKEN` together. When both are blank or unset, the native Vercel integration's matched `KV_REST_API_URL` and `KV_REST_API_TOKEN` pair is accepted instead. Any partial explicit override is rejected rather than combined with or replaced by the fallback pair. Production requires HTTPS for the selected REST endpoint. `KV_URL`, `REDIS_URL` and the read-only REST token are not substitutes. Missing configuration and provider failures still prevent production mutations; there is no production in-memory fallback. Keep production database credentials scoped to Production.
+
 ## Connect Shopify
 
 1. Create a Shopify store and install/configure its Headless sales channel or a Storefront API integration. Publish the launch products and winter collection to that storefront.

@@ -60,6 +60,16 @@ export const envSchema = z
   .superRefine((env, ctx) => {
     const issue = (path: string, message: string) =>
       ctx.addIssue({ code: "custom", path: [path], message });
+    if (
+      Boolean(env.RATE_LIMIT_PROVIDER_URL) !==
+      Boolean(env.RATE_LIMIT_PROVIDER_TOKEN)
+    )
+      issue(
+        env.RATE_LIMIT_PROVIDER_URL
+          ? "RATE_LIMIT_PROVIDER_TOKEN"
+          : "RATE_LIMIT_PROVIDER_URL",
+        "Configure the durable-store URL and token together",
+      );
     if (env.NEXT_PUBLIC_COMMERCE_PROVIDER === "shopify") {
       if (
         !env.SHOPIFY_STORE_DOMAIN ||
@@ -101,7 +111,22 @@ export const envSchema = z
 export type Environment = z.infer<typeof envSchema>;
 
 export function parseEnv(values: Record<string, unknown>): Environment {
-  const result = envSchema.safeParse(values);
+  // Vercel's native Upstash integration supplies a matched REST pair. Explicit
+  // configuration takes priority even when incomplete: never mix credentials
+  // from different providers or silently rescue a partial explicit override.
+  const hasExplicitStore = [
+    values.RATE_LIMIT_PROVIDER_URL,
+    values.RATE_LIMIT_PROVIDER_TOKEN,
+  ].some((value) => value !== undefined && value !== "");
+  const result = envSchema.safeParse(
+    hasExplicitStore
+      ? values
+      : {
+          ...values,
+          RATE_LIMIT_PROVIDER_URL: values.KV_REST_API_URL,
+          RATE_LIMIT_PROVIDER_TOKEN: values.KV_REST_API_TOKEN,
+        },
+  );
   if (!result.success) {
     // Only field names are disclosed. Values can contain credentials.
     throw new Error(
