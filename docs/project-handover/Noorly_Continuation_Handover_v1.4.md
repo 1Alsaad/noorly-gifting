@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Private-label candle sand and full-kit economics — 23 October 2026](Noorly_Private_Label_Sourcing_and_Economics_2026-10-23.md). **Own-brand bulk is explicitly permitted, but small-batch packing can erase savings. Three nearby quote requests are prepared and UNSENT. No cheaper finished Swedish private-label sand quote is verified.** Read the final checkpoint before relying on older decisions.
+> Latest verified continuation: [Private-label requests SENT and first-month projections — 23 October 2026](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md). **PJ Nordic, M1 and Devillebard were contacted with explicit owner approval; three sends verified. Plan cautiously around break-even or a small first-month loss; the optimistic margin requires better sourcing and conversion.** Read the final checkpoint before relying on older decisions.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -488,3 +488,50 @@ Read [the private-label sourcing and economics report](Noorly_Private_Label_Sour
 Three exact supplier quote requests are saved in the report for **info@pjnordic.com, info@m1candles.be and info@devillebard.com**. They request 20/50/100 packs with all price components, numerical MOQ, scent and composition, documents, stock/lead time, tax and Sweden freight. **All remain UNSENT**, as do earlier Mitt/Expresspack drafts. The owner must explicitly authorize contact.
 
 Chrome-only research; existing Candledust account worked. Research-added bulk sand and wicks were removed and cart restoration verified: original black 250 g sample / three wicks, quantity one; subtotal EUR 8.50 + freight 14.88 = EUR 23.38 incl EUR 4.53 VAT. No supplier message/request submission, order/payment/reservation, signup, business registration, contract, ads/presales, DNS or store change. Domain paid by owner. Preserve Shopify tzwngp-h1, password protection and the original 15-second winter video. Standing media release budget remains SEK 4,000 split SEK 2,000 initial / SEK 2,000 reserve; monthly SEK 3,000 sensitivity does not activate spending.
+
+
+## Latest continuation: approved supplier outreach sent and first-month projections — 23 October 2026
+
+Read [the outreach record and first-month projections](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md) for exact verified sent bodies, demand/cost assumptions, VAT arithmetic, forecast judgment and cash exposure. This checkpoint overrides earlier UNSENT status for these three suppliers only.
+
+### Contact authorization and actual completed sends
+
+The owner explicitly said to send the quote requests to PJ Nordic, M1 and Devillebard and ask for the best small-batch Noorly price, ideally below SEK 100 per finished pack delivered to Sweden. Authorization was used without asking again.
+
+Sent separately through the existing Gmail account in Chrome and verified in Sent plus full Gmail connector readback:
+- **PJ Nordic — info@pjnordic.com**, 23 October **16:32:03 Europe/Stockholm**. Message ID `1a1692d11ed35bf8`, thread `1a1692ce86216946`.
+- **M1 Candles — info@m1candles.be**, **16:32:48**. Message ID `1a1692dbf9a1d5cc`, thread `1a1692da3295d517`.
+- **Devillebard — info@devillebard.com**, **16:33:22**. Message ID `1a1692e43db9e529`, thread `1a1692e1f7960435`.
+
+All have SENT labels, correct recipients and verified below-SEK-100 wording. Requests cover 20/50/100 finished 650 g white pre-scented plant-based packs, seventeen suitable wicks, plain sealed Noorly-labelled pouch, all mandatory tax/fees/freight, numerical minimums, best packaging option, availability/lead time, documents, country/composition, carton details and glass-insert/wick requirements. They explicitly request information only, not an order. No attachments or owner street address were sent. SENT is dispatch evidence, not a supplier receipt/read acknowledgment.
+
+The earlier sourcing report now has a prominent sent-status notice. **Mitt Logistik and Expresspack remain UNSENT**. No follow-up scheduler, supplier order/payment or contract was created.
+
+### Forecast and judgment
+
+These are **the first full selling month after qualification and authorized launch**, not a forecast of the currently protected offer or the remaining October days. All sales counts are completed retained orders. No fake statistical probabilities or measured ad benchmarks.
+
+Common inputs: SEK 1,099 delivered customer price; 3% + SEK 3 payment fee; SEK 3,000 total ads; SEK 2,000 total recurring overhead; **new explicit SEK 1,000 first-month setup/testing allowance**. The latter is an unquoted buffer, not a spend authorization or cap on necessary testing. All results are before income/corporation tax and further unquoted extras. No salary/withdrawal. Ads/ChatGPT are not counted twice.
+
+- **Pessimistic:** 5 orders; assumed SEK 6 per paid landing-page visit × 500 visits × 1% retained conversion; CAC 600. Gross variable cost SEK 610, including higher tiny-batch/handling/returns allowances. Collections **SEK 5,495**. First-month result **−3,735 exempt / −4,244 registered-model**.
+- **Middle planning case:** 12 orders; SEK 5 per paid visit × 600 × 2%; CAC 250. Uses existing own-brand twenty-kit cost SEK 557.71, including SEK 167.26 finished sand and provisional paid fulfilment/postage, without assuming the new SEK 100 target is achieved. Collections **SEK 13,188**. First-month result **+64 exempt / −1,282 registered-model**.
+- **Optimistic within twenty-kit cap:** 20 orders; SEK 3.75 per visit × 800 × 2.5%; CAC 150. Assumes unquoted finished-pack target SEK 100 and customer-delivery target SEK 80; gross variable cost SEK 461.46. Collections **SEK 21,980**. First-month result **+6,031 exempt / +3,421 registered-model**.
+- A later identical month without repeating the SEK 1,000 allowance improves every result by SEK 1,000.
+- Planning judgment: closer to middle than optimistic, low confidence. Budget around break-even or a modest loss. A provisional 10–15 sale budgeting range gives **−947 to +1,580 exempt / −2,068 to −102 registered** after setup at middle costs. This is not a measured confidence interval. New-brand trust, price/presale friction, untested conversion, unconfirmed pack price and fragile fulfilment justify caution.
+- Zero sales remains possible: spending all stated monthly costs and setup creates **−SEK 6,000 before inventory write-downs/extras**. Five sales is not the worst-case bound.
+- At middle costs, first-month break-even is **12 exempt / 16 registered**, versus **10 / 13** without startup. The prior seventeen-order VAT stress figure was from a deliberately no-input-recovery stress test and is not the new registered-case estimate.
+- Thirty sales at optimistic costs is a separately labelled upside sensitivity only: collections SEK 32,970, result **+12,047 exempt / +8,132 registered** after startup, requiring CAC 100 and additional authorized supply. No pilot cap was raised.
+
+### VAT and cash clarification
+
+The owner remains not business- or VAT-registered; exemption eligibility is unresolved. Official Skatteverket exemption, purchasing and EU-goods guidance was rechecked in Chrome.
+
+The **new registered planning model** uses net sales SEK 879.20/order and eligible net variable costs SEK 492 / 450.04 / 372.17. It assumes proper taxable-business invoices, future valid B2B treatment and unchanged supplier net prices. The middle Candledust bulk cost is converted from its 24%-inclusive basket to underlying net cost; it is NOT a claim that existing Estonian VAT can be deducted on a Swedish return. Other eligible forecast product/service costs use 25% gross-to-net; reserves/fees remain unreduced. Mixed ads/overhead/startup allowances remain full cost without speculative tax recovery. Actual invoices can change results. Do not present either tax scenario as established Noorly status or post-tax money.
+
+At twelve sales after buying twenty sets, roughly **SEK 3,143** remains tied up in eight unsold bowl/insert/sand equivalents. Against the exempt SEK 64 first-month operating result, an illustrative cash bridge is **about −SEK 3,079**, before payout timing, fixed warehouse fees and other differences. Cash tied in stock is not the same as a permanent loss or a second expense. Presale deposits are delivery/refund obligations, not earned profit before fulfilment.
+
+### Preserved controls
+
+No store/checkout, ads/presales, business registration, DNS, inventory order/payment or contract was activated. Original 15-second winter video, password protection and Shopify tzwngp-h1 preserved; domain noorly.se remains owner-paid. Standing media release allocation remains SEK 4,000 total / SEK 2,000 initial test + SEK 2,000 reserve with historical spend unreconciled; modelling SEK 3,000 ads does not authorize activation.
+
+The three-send proof is saved locally as `outputs/noorly-supplier-requests-sent-2026-10-23.png`; Sent view left open in Chrome. GitHub contains the sent-message audit and full model, without publishing the owner's sender address or unrelated inbox content.
