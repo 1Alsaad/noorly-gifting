@@ -42,6 +42,29 @@
 .cinema-shopping .cinema-kicker {
   margin-bottom: 10px;
 }
+.cinema-media-note {
+  position: absolute;
+  z-index: 5;
+  top: 72px;
+  right: clamp(24px, 5vw, 96px);
+  max-width: 34ch;
+  margin: 0;
+  padding: 8px 12px;
+  background: rgb(36 41 36 / 88%);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+.cinema-planned-price {
+  margin: 16px 0;
+  line-height: 1.5;
+}
+.cinema-planned-note {
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
 .cinema-shopping-title {
   font: 400 34px/1.1 var(--font-display, Georgia, serif);
   letter-spacing: -0.03em;

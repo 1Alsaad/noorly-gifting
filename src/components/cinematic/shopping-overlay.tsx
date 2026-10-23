@@ -5,6 +5,11 @@ import {
   productTestCopy,
   interestHref,
 } from "@/config/product-test";
+import {
+  launchBundleCopy,
+  launchBundleHandle,
+  launchBundleHref,
+} from "@/content/launch-bundle";
 import { useState } from "react";
 import Link from "next/link";
 import { VariantPicker } from "@/components/product/variant-picker";
@@ -49,6 +54,41 @@ export function ShoppingOverlay({
     } catch {
       setStatus("error");
     }
+  }
+
+  if (product.handle === launchBundleHandle) {
+    const bundle = launchBundleCopy[locale];
+    return (
+      <div
+        className="cinema-shopping"
+        data-visible={shown}
+        inert={!shown}
+        aria-hidden={!shown}
+        onFocusCapture={() => setFocused(true)}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setFocused(false);
+        }}
+      >
+        <p className="cinema-kicker">{bundle.label}</p>
+        <h2 className="cinema-shopping-title">{bundle.title}</h2>
+        <p className="cinema-planned-price">{bundle.price}</p>
+        <Link
+          className="cinema-button cinema-button-dark"
+          href={launchBundleHref(locale)}
+        >
+          {bundle.cta}
+        </Link>
+        <p className="cinema-planned-note">
+          {locale === "sv"
+            ? "Ingen beställning eller förbeställning ännu."
+            : "Orders and pre-orders are not open yet."}
+        </p>
+        <a className="cinema-details-link" href="#gifts" onClick={onSkip}>
+          {copy.explore}
+        </a>
+      </div>
+    );
   }
 
   return (

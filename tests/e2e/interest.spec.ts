@@ -59,7 +59,7 @@ test("mobile product test keeps the filmed product separate from its CTA", async
   expect(shopping).not.toBeNull();
   expect(media!.y + media!.height).toBeLessThanOrEqual(shopping!.y + 2);
   await expect(
-    card.getByRole("link", { name: "Visa mitt intresse" }),
+    card.getByRole("link", { name: "Utforska presentsetet" }),
   ).toBeVisible();
 });
 
