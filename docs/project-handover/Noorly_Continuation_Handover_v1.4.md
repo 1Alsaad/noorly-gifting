@@ -270,3 +270,20 @@ Preferred separate-source vessel lead: Candle Shack BV clear 50cl Lotti bowl GLA
 Recommendation: qualify a one-pouch/one-vessel complete kit and a small, clearly dated presale followed promptly by Swedish batch dispatch. No final retail price is selected. The report gives the markup arithmetic, logistics comparison, a 10–20-order pilot proposal and two unsent supplier clarification briefs. Preorder payment, delivery/cancellation information, sample/product checks and cash timing remain necessary. The current payment/custom-storefront flow was not freshly reverified and no paid end-to-end test passed here.
 
 Only documentation was saved. No supplier contacted, sample/order purchased, live product/website/payment setting changed, or advertising/presale activated. The 4,000 SEK total media allocation and standing 2,000/2,000 gates remain unchanged; inventory/fulfilment working capital is separate.
+
+
+## Carved bowls, Noorly name and domain preparation — 23 October 2026
+
+Read [carved bowl sourcing, brand assessment and domain handoff](Noorly_Carved_Bowls_Brand_and_Domain_2026-10-23.md). The owner clarified the desired vessel is a large sculptural carved wooden bowl. This supersedes the plain-glass vessel as the preferred aesthetic, while exact candle-use qualification remains open.
+
+AW's public EU catalogue lists rough organic TeakB-31 (31 x 22 x 8 cm) at EUR 14.80 / stock 91; snake-shaped TeakB-29 (55 cm) EUR 12.50 / stock 92; leaf-shaped TeakB-34 (40 x 24 x 5 cm) EUR 19.50 / stock zero. Prices exclude VAT/freight, are unreserved and are not a confirmed AWGifts batch quote. Indonesian Wholesaler TBL10 offers larger 40/55 cm organic teak-root bowls, MOQ ten, pre-order, login-gated ex-works pricing. No landed quote or lead time was established. Ordinary fruit/decor bowls are not a verified candle system; an appropriate insert or validated exact-use evidence remains necessary.
+
+The 31 cm bowl + EUR 6.25 pouch already costs EUR 21.05 ex VAT before insert, packing, shipping, fees and ads. Bowl plus 300 g pouch weighs at least 1.6 kg before packaging; previous 1 kg delivery and EUR 3 glass-vessel assumptions do not carry across. Required fill quantity is unverified.
+
+Commercial name recommendation: keep Noorly for the Swedish home-and-gifting pilot. It is short and flexible but is not globally unique; Noorly.in sells laundry/fragrance-related goods and other Noorly apps/software exist. No completed PRV/EUIPO/WIPO clearance or legal availability claim. Noorly.com was unavailable through checked tools.
+
+**New scoped owner authorisation:** assess the name and, if good, prepare domain purchase until registration/payment for the owner to complete. This supersedes earlier deferred domain preparation, but not the owner's control of actual registration/payment. Two individual Vercel registry lookups reported noorly.se available; an earlier false batch result was inconclusive. No reservation.
+
+Chosen handoff: https://www.loopia.se/bestall/ for noorly.se, one year, free LoopiaDomän/domain-only account. Public first year SEK 11.25 incl. VAT; annual renewal SEK 361.25 incl. VAT; final basket remains to be checked. Paid hosting, email and LoopiaDNS are optional. Interactive Browser/Chrome control was unavailable and opening the Codex browser panel failed, so no filled checkout or registration/payment screen was left open. The owner receives the direct order link, target and transparent costs. Do not claim the domain was bought or checkout completed.
+
+Only research/documentation was saved. No registration/payment/customer information was submitted, account created, DNS changed, supplier contacted, product/store changed, order purchased or ads/presales activated. Existing media cap and gates remain unchanged.
