@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Monthly break-even model — 23 October 2026](Noorly_Monthly_Breakeven_2026-10-23.md). **Owner confirms business not yet registered; overhead SEK 2,000/month and ads SEK 3,000/month are new planning inputs. Domain paid. Fulfilment requests remain unsent.** Read the final checkpoint before relying on older decisions.
+> Latest verified continuation: [Offer health and Swedish candle-sand options — 23 October 2026](Noorly_Swedish_Candle_Sand_and_Health_Assessment_2026-10-23.md). **Sandig is a new Swedish scented wholesale lead; no equivalent cheaper quote or combined fulfilment arrangement is verified. Business not yet registered; domain paid; all outreach remains unsent.** Read the final checkpoint before relying on older decisions.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -447,3 +447,20 @@ Read the [monthly break-even model](Noorly_Monthly_Breakeven_2026-10-23.md) firs
 - The owner has NOT approved the two provider quote emails in the intervening VAT/margin questions. Keep them unsent until clear approval. No supplier contacted or service contracted.
 
 No ads/presales, supplier order/payment, registration, DNS or store change occurred. The new SEK 3,000 monthly advertising sensitivity does not silently replace the prior SEK 4,000 allocation / SEK 2,000 initial and reserve release gates. Preserve the winter video, password protection and Shopify tzwngp-h1; domain paid by owner.
+
+
+## Latest continuation: offer health and Swedish candle-sand sourcing — 23 October 2026
+
+Read [Swedish candle-sand options and health assessment](Noorly_Swedish_Candle_Sand_and_Health_Assessment_2026-10-23.md) for the current evidence. No supplier replacement or launch has been selected.
+
+- Verdict: promising for qualification/small pilot; not yet a proven healthy business. At twenty orders with the requested SEK 2,000 overhead and SEK 3,000 total ads, the prior model leaves SEK 5,552 exempt / SEK 1,156 pessimistic VAT stress before income tax, testing and unquoted extras. Twenty requires SEK 150 ad spend per retained customer; thirty requires SEK 100. Neither acquisition outcome is observed. The stress model omits input-tax recovery and is not a final registered-business calculation.
+- **Sandig is the strongest new Swedish scented reseller lead**: public reseller programme, dispatch claimed from Timrå, 500 g plant-based sand / 30 wicks. Product selector showed Tallskog with low-stock wording; three other options sold out. Regular retail SEK 399; displayed two-paid/four-received promotion SEK 798 for four 500 g packs. No B2B tariff, MOQ, sufficient stock or business freight quote verified.
+- Sandig identifies Mhem AB at Plåtslagarvägen 19, Timrå—the same street address previously shown by Mitt Logistik, which identifies Swedish Treats AB. This is an address match only, not verified common ownership, partnership, combined supply/fulfilment or free stock transfer. Worth asking about an itemised combined quote after outreach authorization.
+- **K. Lundqvist Stockholm**: actual reseller programme explicitly has no minimum order value. SAND-250 is 250 ml unscented plant-origin sand / fifteen wicks, SEK 149 public retail. Weight and wholesale price unknown; do not treat ml as grams or assume pre-scented/Swedish-manufactured.
+- **Kristinas Scrapbooking / KeraSnow**: actual ready-to-burn powder, displayed SEK 138/kg; 20 kg SEK 2,280 (SEK 114/kg), in-stock wording. But product specifications say paraffin/mineral wax, origin England, non-vegetable, wicks separate and sold by weight in bags. Repacking, bags/labels, wicks and labour need costing. Exact inclusive/exclusive VAT display mode was not independently confirmed; verify final cash basis. Delivery terms mention Ängelholm AND a Denmark warehouse, so stock's actual dispatch location remains open.
+- Twenty kits × 650 g require thirteen kg. Buying twenty kg leaves seven kg unused: first-purchase cash allocation is SEK 114/kit before extras, not the SEK 74.10 consumed wax cost. Public 10 kg + 3 kg listings total SEK 1,648 before unquoted combined freight/tax/extras. This is a different unscented/paraffin offer, not an approved replacement.
+- Villa Blomstergren: SEK 249 incl tax for 1 kg/ten wicks, claims hand-packing in Skåne; no B2B or freight quote. Eld & Design: SEK 179 retail for unscented 650 g/ten wicks/100% stearin; no wholesale or manufacturing/dispatch qualification.
+- No cheaper equivalent Swedish pre-scented, plant-based, sealed wholesale pack was established. Keep the prior Candledust 650 g allocated delivered cash SEK 142.13 as the quoted baseline. Proposed sourcing target SEK 100–110 for a genuinely comparable finished pack delivered incl nonrecoverable tax is a negotiation target only. SEK 40 saved per kit improves a twenty-order month by SEK 800.
+- Swedish storefront/company, Swedish fulfilment/packing and Swedish manufacture are distinct. None of the new leads establishes all three.
+
+Research used connected Chrome. No supplier message, registration/application, basket submission, order/payment, reservation, business setup, ad/presale activation, DNS or Shopify change. Earlier exact Mitt/Expresspack quote emails remain UNSENT pending clear approval. Preserve store tzwngp-h1, password protection and winter video. Domain paid; business and VAT registration not yet complete; tax eligibility unresolved.
