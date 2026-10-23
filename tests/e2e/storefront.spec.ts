@@ -1,3 +1,4 @@
+import { launchBundleHandle } from "../../src/content/launch-bundle";
 import { installTestSceneMedia } from "./media-fixture";
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
@@ -43,14 +44,14 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   await expect(page).toHaveURL(/\/en#gifts$/);
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(page.locator("#gifts")).toBeInViewport();
-  for (const name of ["Winter Evening", "Quiet Morning", "New Home"]) {
-    await expect(
-      page.getByRole("heading", { name, exact: true }),
-    ).toBeVisible();
-  }
   await expect(
-    page.getByRole("link", { name: "Create your gift box" }),
-  ).toHaveAttribute("href", "/en/build-a-box");
+    page.locator("#gifts").getByRole("heading", { name: "Noorly Ljusstund" }),
+  ).toBeVisible();
+  await expect(page.locator('a[href*="build-a-box"]')).toHaveCount(0);
+  await expect(page.locator('a[href*="products/candle-sand"]')).toHaveCount(0);
+  await expect(
+    page.locator("#gifts").getByText(/Planned price: SEK 799/),
+  ).toBeVisible();
 });
 
 for (const linkName of ["Skip experience", "Explore the collection"]) {
@@ -112,35 +113,34 @@ test("late metadata preserves the reserved scene ranges and gifts position", asy
   expect(await geometry()).toEqual(before);
 });
 
-test("a static scene product opens a keyboard-accessible drawer and preserves focus", async ({
+test("the planned bundle is keyboard accessible and cannot be purchased", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
   await rejectOptional(page);
-  const trigger = page.getByRole("button", { name: /Candle Sand.*295/ });
-  await trigger.scrollIntoViewIfNeeded();
-  await trigger.focus();
+  const link = page.locator(".cinema-static-product-button");
+  await link.scrollIntoViewIfNeeded();
+  await link.focus();
   await page.keyboard.press("Enter");
-  const drawer = page.getByRole("dialog", { name: "Candle Sand" });
-  await expect(drawer).toBeVisible();
+  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
   await expect(
-    drawer.getByRole("img", { name: /Candle sand — White, Unscented/ }),
+    page.getByRole("heading", { name: "Noorly Ljusstund", level: 1 }),
   ).toBeVisible();
-  await drawer.getByLabel("Colour & scent").selectOption("candle-sand-07");
-  await expect(drawer.getByRole("img", { name: /Dusty Rose/ })).toBeVisible();
-  await drawer
-    .getByRole("button", { name: "Add to cart", exact: true })
-    .click();
   await expect(
-    drawer.getByRole("button", { name: "Added to cart", exact: true }),
+    page.getByText(/not accepting orders or pre-orders/),
   ).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(drawer).not.toBeVisible();
-  await expect(trigger).toBeFocused();
+  await expect(page.getByText(/Nordic Lights, 350 g/)).toBeVisible();
+  await expect(page.getByText(/Dark Honey, 350 g/)).toBeVisible();
+  await expect(page.getByText("One ELYSIA glass bowl")).toBeVisible();
+  await expect(page.locator("main img")).toHaveCount(0);
   await expect(
-    page.getByRole("link", { name: "Your bag (1)", exact: true }),
-  ).toBeVisible();
+    page.getByRole("button", { name: /Add to|checkout/i }),
+  ).toHaveCount(0);
+  const json = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents();
+  expect(json.join("")).not.toContain('"@type":"Offer"');
 });
 
 test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
@@ -219,24 +219,15 @@ test("scroll progress seeks forward and backward with a deterministic test media
       behavior: "instant",
     }),
   );
-  const details = entrance.getByRole("button", {
-    name: "View product details",
-  });
+  const details = entrance
+    .locator(".cinema-shopping")
+    .getByRole("link", { name: "Explore the gift set" });
   await expect(details).toBeVisible();
-  await details.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
-  const frozenTime = await entrance
-    .locator("video")
-    .evaluate((video: HTMLVideoElement) => video.currentTime);
-  await page.waitForTimeout(200);
-  expect(
-    await entrance
-      .locator("video")
-      .evaluate((video: HTMLVideoElement) => video.currentTime),
-  ).toBe(frozenTime);
-  await page.keyboard.press("Escape");
-  await expect(details).toBeFocused();
+  await expect(details).toHaveAttribute(
+    "href",
+    "/en/products/" + launchBundleHandle,
+  );
+  await expect(entrance.locator(".cinema-shopping button")).toHaveCount(0);
 });
 
 test("the continuous film clears copy for the orbit, shops during the hold, and hands off to the collection", async ({
@@ -302,16 +293,9 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
     .analyze();
   expect(accessibility.violations).toEqual([]);
 
-  await shopping.getByLabel("Colour & scent").selectOption("candle-sand-09");
-  await shopping
-    .getByRole("button", { name: "Add to cart", exact: true })
-    .click();
-  await expect(
-    shopping.getByRole("button", { name: "Added to cart", exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Your bag (1)", exact: true }),
-  ).toBeVisible();
+  await expect(shopping.getByText(/Planned price: SEK 799/)).toBeVisible();
+  await expect(shopping.getByText(/not open yet/)).toBeVisible();
+  await expect(shopping.getByRole("button")).toHaveCount(0);
   await scene.getByRole("link", { name: "Skip experience" }).focus();
   await seek(0.4);
   await expect(shopping).toHaveAttribute("inert", "");
@@ -332,7 +316,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
   expect(panel.top).toBeGreaterThan(0);
   expect(panel.top).toBeLessThan(panel.viewport);
   await page.keyboard.press("ArrowLeft");
-  await shopping.getByRole("button", { name: "View product details" }).focus();
+  await shopping.getByRole("link", { name: "Explore the gift set" }).focus();
   expect(
     await page
       .locator(".cinema-collection-handoff")
@@ -568,9 +552,12 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
   );
   await page.getByRole("link", { name: "Skip experience" }).first().click();
   await expect(page.locator("#gifts")).toBeInViewport();
-  await page.getByRole("link", { name: "Create your gift box" }).click();
+  await page
+    .locator("#gifts")
+    .getByRole("link", { name: "Explore the gift set" })
+    .click();
   await expect(
-    page.getByRole("heading", { name: "Make it theirs.", level: 1 }),
+    page.getByRole("heading", { name: "Noorly Ljusstund", level: 1 }),
   ).toBeVisible();
 });
 
@@ -582,8 +569,8 @@ test("important shopping pages pass automated WCAG accessibility checks", async 
   for (const path of [
     "/en",
     "/en/shop",
-    "/en/products/candle-sand",
-    "/en/build-a-box",
+    "/en/products/" + launchBundleHandle,
+    "/en/collections/winter",
     "/en/cart",
   ]) {
     await test.step(`accessibility ${path}`, async () => {
@@ -628,22 +615,13 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Winter Candle", exact: true }),
+      page.getByRole("heading", { name: "Noorly Ljusstund", exact: true }),
     ).toBeVisible();
-    const product = page
-      .locator('a[href="/en/products/winter-candle"]')
-      .first();
-    await product.click();
-    await expect(page).toHaveURL("/en/products/winter-candle");
+    await page.getByRole("link", { name: "Explore the gift set" }).click();
+    await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+    await expect(page.getByText("One ELYSIA glass bowl")).toBeVisible();
     await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "Winter Candle",
-        exact: true,
-      }),
-    ).toBeVisible();
-    await expect(
-      page.getByText("A soft light for long evenings.", { exact: false }),
+      page.getByText(/Product photographs will follow/),
     ).toBeVisible();
   } finally {
     await context.close();
@@ -689,12 +667,10 @@ test("unavailable cinematic videos restore posters and conventional product cont
   await expect(scene.locator(".cinema-poster")).not.toHaveClass(
     /cinema-poster-hidden/,
   );
-  const trigger = scene.getByRole("button", { name: /Candle Sand.*295/ });
-  await trigger.focus();
+  const link = scene.locator(".cinema-static-product-button");
+  await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(trigger).toBeFocused();
+  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
 });
 
 test("Save-Data suppresses video requests while keeping shopping available", async ({
@@ -715,10 +691,12 @@ test("Save-Data suppresses video requests while keeping shopping available", asy
   });
   await page.goto("/en");
   await rejectOptional(page);
-  const trigger = page.getByRole("button", { name: /Candle Sand.*295/ });
-  await trigger.scrollIntoViewIfNeeded();
-  await trigger.click();
-  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
+  const link = page.locator(".cinema-static-product-button");
+  await link.scrollIntoViewIfNeeded();
+  await expect(link).toHaveAttribute(
+    "href",
+    "/en/products/" + launchBundleHandle,
+  );
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   expect(requests).toEqual([]);
 });
@@ -748,9 +726,11 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   );
   const card = scene.locator(".cinema-shopping");
   await expect(card).toHaveAttribute("data-visible", "true");
-  await expect(card.getByRole("heading", { name: "Ljussand" })).toBeVisible();
-  await expect(card.getByLabel("Färg & doft")).toBeVisible();
-  await expect(card.getByText("295 kr", { exact: true })).toBeVisible();
+  await expect(
+    card.getByRole("heading", { name: "Noorly Ljusstund" }),
+  ).toBeVisible();
+  await expect(card.getByText(/Planerat pris: 799 kr/)).toBeVisible();
+  await expect(card.getByRole("button")).toHaveCount(0);
   const geometry = await scene.evaluate((element) => {
     const video = element.querySelector("video")!;
     const media = element
@@ -773,24 +753,9 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   expect(geometry.panelBottom).toBeLessThan(geometry.viewport - 30);
   expect(geometry.fit).toBe("contain");
 
-  const mutation = page.waitForResponse(
-    (response) =>
-      response.url().endsWith("/api/cart") &&
-      response.request().method() === "POST",
-  );
-  await card
-    .getByRole("button", { name: "Lägg i varukorgen", exact: true })
-    .click();
-  const response = await mutation;
-  expect(response.status()).toBe(200);
-  expect(response.request().postDataJSON()).toEqual({
-    type: "add",
-    lines: [{ merchandiseId: "candle-sand-11", quantity: 1 }],
-  });
-  expect((await response.json()).cart.totalQuantity).toBe(1);
   await expect(
-    card.getByRole("button", { name: "Tillagd i varukorgen", exact: true }),
-  ).toBeVisible();
+    card.getByRole("link", { name: "Utforska presentsetet" }),
+  ).toHaveAttribute("href", "/sv/products/" + launchBundleHandle);
   await card.getByRole("link", { name: "Upptäck kollektionen" }).click();
   await expect(page).toHaveURL(/#gifts$/);
   await expect(scene).toHaveAttribute("data-pinned", "false");
@@ -817,13 +782,11 @@ test("short-screen static shopping stays below editorial copy", async ({
     return { copyBottom: copy.bottom, productTop: product.top };
   });
   expect(geometry.productTop).toBeGreaterThan(geometry.copyBottom + 20);
-  const trigger = scene.getByRole("button", { name: /Candle Sand.*295/ });
-  await trigger.scrollIntoViewIfNeeded();
-  await trigger.focus();
+  const link = scene.locator(".cinema-static-product-button");
+  await link.scrollIntoViewIfNeeded();
+  await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("dialog", { name: "Candle Sand" })).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(trigger).toBeFocused();
+  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
 });
 
 test("candle sand colour, gallery and cart stay matched on mobile", async ({

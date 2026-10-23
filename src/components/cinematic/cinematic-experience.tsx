@@ -1,6 +1,11 @@
 "use client";
 
 import { formatMoney } from "@/lib/utils/money";
+import {
+  launchBundleHandle,
+  launchBundleHref,
+  launchBundleCopy,
+} from "@/content/launch-bundle";
 
 /* Responsive first frames also cover loading and static-media fallbacks. */
 
@@ -364,6 +369,9 @@ function Scene({
           <div className="cinema-shade" aria-hidden="true" />
         </div>
         {skipLink}
+        {scene.mediaNote && (
+          <p className="cinema-media-note">{scene.mediaNote[locale]}</p>
+        )}
         {canLoadVideo && !enhanced && (
           <span className="cinema-media-status" role="status">
             {copy.loading}
@@ -400,9 +408,9 @@ function Scene({
                 </a>
                 <Link
                   className="cinema-text-link"
-                  href={`/${locale}/build-a-box`}
+                  href={launchBundleHref(locale)}
                 >
-                  {copy.build}
+                  {launchBundleCopy[locale].cta}
                   <span aria-hidden="true"> ↗</span>
                 </Link>
               </div>
@@ -456,20 +464,33 @@ function Scene({
         {featured && !enhanced && (
           <div className="cinema-static-product">
             <p className="cinema-kicker">{copy.product}</p>
-            <button
-              type="button"
-              onClick={(event) => onSelect(featured, event.currentTarget)}
-              aria-haspopup="dialog"
-              className="cinema-static-product-button"
-            >
-              <span>
-                <strong>{featured.title[locale]}</strong>
-                <span>{price}</span>
-              </span>
-              <span className="cinema-product-plus" aria-hidden="true">
-                +
-              </span>
-            </button>
+            {featured.handle === launchBundleHandle ? (
+              <Link
+                className="cinema-static-product-button"
+                href={launchBundleHref(locale)}
+              >
+                <span>
+                  <strong>{featured.title[locale]}</strong>
+                  <span>{launchBundleCopy[locale].price}</span>
+                </span>
+                <span aria-hidden="true">↗</span>
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={(event) => onSelect(featured, event.currentTarget)}
+                aria-haspopup="dialog"
+                className="cinema-static-product-button"
+              >
+                <span>
+                  <strong>{featured.title[locale]}</strong>
+                  <span>{price}</span>
+                </span>
+                <span className="cinema-product-plus" aria-hidden="true">
+                  +
+                </span>
+              </button>
+            )}
             <Link
               href={`/${locale}/products/${featured.handle}`}
               className="cinema-static-product-link"

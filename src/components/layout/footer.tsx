@@ -13,7 +13,6 @@ export function Footer({ locale }: { locale: Locale }) {
       links: [
         ["shop", t.shop],
         ["collections/winter", t.collection],
-        ["build-a-box", t.builder],
         ["corporate-gifting", t.corporate],
       ],
     },

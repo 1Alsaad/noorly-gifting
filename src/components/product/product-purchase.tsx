@@ -97,14 +97,6 @@ export function ProductPurchase({
         locale={locale}
         variantId={variantId}
       />
-      {product.boxEligible && product.category !== "packaging" && (
-        <Link
-          className="button button-outline"
-          href={`/${locale}/build-a-box?product=${product.handle}`}
-        >
-          {t.builder}
-        </Link>
-      )}
     </div>
   );
 }

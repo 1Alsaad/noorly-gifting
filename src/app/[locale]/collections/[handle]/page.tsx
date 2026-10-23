@@ -2,8 +2,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { getContentRepository } from "@/lib/content";
-import { getCommerceProvider } from "@/lib/commerce";
-import { ProductCard } from "@/components/product/product-card";
+import { PlannedBundleCard } from "@/components/product/planned-bundle";
+import { launchBundleCopy } from "@/content/launch-bundle";
 import { TrackView } from "@/components/analytics/track-view";
 import { pageMetadata } from "@/lib/seo/metadata";
 export async function generateMetadata({
@@ -31,9 +31,6 @@ export default async function CollectionPage({
   const season = await getContentRepository().getSeasonBySlug(handle);
   if (!season) notFound();
   const t = getDictionary(locale);
-  const products = (await getCommerceProvider().getProducts()).filter(
-    (p) => p.category !== "packaging" && p.seasons.includes(season.id),
-  );
   return (
     <>
       <TrackView
@@ -51,18 +48,15 @@ export default async function CollectionPage({
         <div>
           <p className="eyebrow">{t.collectionLabel}</p>
           <h1>{t.collectionTitle}</h1>
-          <p>{t.collectionText}</p>
+          <p>{launchBundleCopy[locale].description}</p>
+          <p>{launchBundleCopy[locale].imageNote}</p>
         </div>
       </div>
       <section className="section-wrap page-content">
         <div className="section-heading">
           <h2>{t.collection}</h2>
         </div>
-        <div className="product-grid three">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} locale={locale} />
-          ))}
-        </div>
+        <PlannedBundleCard locale={locale} />
       </section>
     </>
   );

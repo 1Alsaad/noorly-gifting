@@ -32,6 +32,7 @@ export interface CinematicScene {
     beat?: LocalizedText;
     closing?: LocalizedText;
   };
+  mediaNote?: LocalizedText;
   hotspots: Hotspot[];
   /** A real commerce card revealed once the filmed camera has settled. */
   shopping?: { productHandle: string; visibleFrom: number };

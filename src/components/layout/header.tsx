@@ -1,9 +1,6 @@
 "use client";
-import {
-  isProductTestMode,
-  productTestCopy,
-  interestHref,
-} from "@/config/product-test";
+import { launchBundleCopy, launchBundleHref } from "@/content/launch-bundle";
+import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ShoppingBag, ArrowUpRight, Menu } from "lucide-react";
@@ -23,7 +20,6 @@ export function Header({ locale }: { locale: Locale }) {
     (query ? `?${query}` : "");
   const nav = [
     { href: `/${locale}/shop`, label: t.shop },
-    { href: `/${locale}/build-a-box`, label: t.builder },
     { href: `/${locale}/about`, label: t.about },
   ];
   return (
@@ -74,11 +70,11 @@ export function Header({ locale }: { locale: Locale }) {
           {isProductTestMode() ? (
             <Link
               className="bag-link"
-              href={interestHref(locale)}
-              aria-label={productTestCopy[locale].cta}
+              href={launchBundleHref(locale)}
+              aria-label={launchBundleCopy[locale].cta}
             >
               <ArrowUpRight size={19} />
-              <span className="bag-label">{productTestCopy[locale].cta}</span>
+              <span className="bag-label">{launchBundleCopy[locale].cta}</span>
             </Link>
           ) : (
             <Link

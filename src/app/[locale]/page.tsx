@@ -1,19 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  Gift,
-  PenLine,
-  ShieldCheck,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowUpRight, Gift, Package, Clock3, ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
-import { getCommerceProvider } from "@/lib/commerce";
 import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
-import { ProductCard } from "@/components/product/product-card";
+import { PlannedBundleCard } from "@/components/product/planned-bundle";
+import { launchBundleCopy, plannedLaunchBundle } from "@/content/launch-bundle";
 import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
-import { EnquiryForm } from "@/components/forms/enquiry-form";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -25,7 +17,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
-  return pageMetadata(locale, "", t.home.title.replace("\n", " "), t.home.text);
+  return pageMetadata(
+    locale,
+    "",
+    t.home.title.replace("\n", " "),
+    launchBundleCopy[locale].description,
+  );
 }
 export default async function Home({
   params,
@@ -35,15 +32,9 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
-  const [products, season] = await Promise.all([
-    getCommerceProvider().getProducts(),
-    getContentRepository().getActiveSeason(),
-  ]);
-  const boxes = products.filter((p) => p.category === "box");
-  const candleSand = products.find(
-    (product) => product.handle === "candle-sand",
-  );
-  const trustIcons = [Gift, PenLine, ShieldCheck];
+  const season = await getContentRepository().getActiveSeason();
+  const products = [plannedLaunchBundle];
+  const trustIcons = [Gift, Package, Clock3];
   return (
     <>
       <StructuredData
@@ -61,7 +52,7 @@ export default async function Home({
       />
       <div className="cinema-collection-handoff">
         <div className="trust-bar">
-          {t.home.trust.map((text, i) => {
+          {launchBundleCopy[locale].trust.map((text, i) => {
             const Icon = trustIcons[i];
             return (
               <div key={text}>
@@ -76,104 +67,9 @@ export default async function Home({
           id="gifts"
           tabIndex={-1}
         >
-          {candleSand && (
-            <div className="candle-sand-feature">
-              <Link
-                href={`/${locale}/products/candle-sand`}
-                className="candle-sand-feature-image"
-              >
-                <Image
-                  src={candleSand.images[0].url}
-                  alt={candleSand.images[0].alt}
-                  fill
-                  sizes="(max-width:760px) 90vw, 45vw"
-                />
-              </Link>
-              <div className="candle-sand-feature-copy">
-                <p className="eyebrow">
-                  {locale === "sv" ? "LJUSSAND · 300 G" : "CANDLE SAND · 300 G"}
-                </p>
-                <h2>
-                  {locale === "sv"
-                    ? "Samma stilla sken. Din egen nyans."
-                    : "The same quiet glow. Your own colour."}
-                </h2>
-                <p>
-                  {locale === "sv"
-                    ? "Tio doftande färgval och doftfri vit. Fyra vekar i varje påse. Upptäck ljussanden från filmen."
-                    : "Ten scented colour options and unscented white. Four wicks in every pouch. Discover the candle sand from the film."}
-                </p>
-                <div className="product-mini-swatches" aria-hidden="true">
-                  {candleSand.variants
-                    .filter((variant) => variant.sku !== "CSand-11")
-                    .map((variant) => (
-                      <i
-                        key={variant.id}
-                        style={{ backgroundColor: variant.color?.hex }}
-                      />
-                    ))}
-                </div>
-                <Link
-                  className="button button-dark"
-                  href={`/${locale}/products/candle-sand`}
-                >
-                  {locale === "sv"
-                    ? "Välj färg & doft"
-                    : "Choose colour & scent"}
-                  <ArrowUpRight size={17} />
-                </Link>
-                <p className="product-note">
-                  {locale === "sv"
-                    ? "Kärl ingår inte. Använd ett obrännbart, värmetåligt kärl avsett för ljus."
-                    : "Vessel not included. Use a non-combustible, heat-resistant candle vessel."}
-                </p>
-              </div>
-            </div>
-          )}
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{t.home.curatedLabel}</p>
-              <h2>{t.home.curated}</h2>
-              <p className="section-intro">{t.home.curatedText}</p>
-            </div>
-            <Link className="text-link" href={`/${locale}/shop`}>
-              {t.home.viewAll}
-              <ArrowUpRight size={17} />
-            </Link>
-          </div>
-          <div className="product-grid three">
-            {boxes.map((product, index) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                locale={locale}
-                index={index}
-              />
-            ))}
-          </div>
+          <PlannedBundleCard locale={locale} />
         </section>
       </div>
-      <section className="builder-feature">
-        <div className="builder-feature-image">
-          <Image
-            src="/media/products/gift-box-editorial.webp"
-            alt={t.builder}
-            fill
-            sizes="(max-width:760px) 100vw, 50vw"
-          />
-          <span className="image-note">{t.edition}</span>
-        </div>
-        <div className="builder-feature-copy">
-          <p className="eyebrow">{t.home.buildLabel}</p>
-          <h2>{t.home.buildTitle}</h2>
-          <p>{t.home.buildText}</p>
-          <Link className="button button-dark" href={`/${locale}/build-a-box`}>
-            {t.home.buildCta}
-            <ArrowUpRight size={17} />
-          </Link>
-          <span className="build-footnote">{t.delivery}</span>
-        </div>
-      </section>
       <section className="story-section section-wrap">
         <p className="eyebrow">{t.home.storyLabel}</p>
         <h2>{t.home.storyTitle}</h2>
@@ -203,16 +99,6 @@ export default async function Home({
         <span className="eyebrow">{t.home.reviewsLabel}</span>
         <p className="review-quote">{t.home.reviews}</p>
         <p>{t.home.reviewsText}</p>
-      </section>
-      <section className="newsletter section-wrap">
-        <div>
-          <p className="eyebrow">
-            {brand.name} / {t.edition}
-          </p>
-          <h2>{t.home.newsletterTitle}</h2>
-          <p>{t.home.newsletterText}</p>
-        </div>
-        <EnquiryForm locale={locale} kind="newsletter" />
       </section>
     </>
   );

@@ -1,3 +1,5 @@
+import { launchBundleHandle, launchBundleCopy } from "@/content/launch-bundle";
+import { PlannedBundleDetails } from "@/components/product/planned-bundle";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -13,6 +15,15 @@ type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
+  if (handle === launchBundleHandle) {
+    const copy = launchBundleCopy[locale];
+    return pageMetadata(
+      locale,
+      `/products/${handle}`,
+      copy.title,
+      copy.description,
+    );
+  }
   const p = await getCommerceProvider().getProductByHandle(handle);
   return p
     ? pageMetadata(
@@ -26,6 +37,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
+  if (handle === launchBundleHandle)
+    return <PlannedBundleDetails locale={locale} />;
   const provider = getCommerceProvider();
   const product = await provider.getProductByHandle(handle);
   if (!product) notFound();
