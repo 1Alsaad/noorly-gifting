@@ -1,10 +1,10 @@
 # Noorly project handover
 
-Start here when continuing Noorly in Codex. Latest evidence update: 23 October 2026, Europe/Stockholm.
+Start here when continuing Noorly in Codex. Latest evidence update: 24 October 2026, Europe/Stockholm.
 
 ## Reading order
 
-Read the [23 October domain and integration checkpoint](Noorly_Nordic_Domain_and_Integration_2026-10-23.md) first for the new domain, verified connections and closed launch gates. Then read [Continuation Handover v1.4](Noorly_Continuation_Handover_v1.4.md) for the commercial history. Later dated evidence supersedes conflicting historical status. The [22 October supplier reply and product assessment](Noorly_Supplier_Reply_and_Product_Assessment_2026-10-22.md) records the Hertwill reply, alternative-product decisions and exact unsent outreach.
+Read the [24 October domain cleanup checkpoint](Noorly_Domain_Cleanup_2026-10-24.md) first for the connected domain, legacy-domain removal, support email and closed launch gates. The [23 October integration checkpoint](Noorly_Nordic_Domain_and_Integration_2026-10-23.md) and [Continuation Handover v1.4](Noorly_Continuation_Handover_v1.4.md) preserve the earlier technical and commercial history. Later dated evidence supersedes conflicting historical status. The [22 October supplier reply and product assessment](Noorly_Supplier_Reply_and_Product_Assessment_2026-10-22.md) records the Hertwill reply, alternative-product decisions and exact unsent outreach.
 
 1. [Noorly Presale State v1.2](Noorly_Presale_State_v1.2.md) - latest saved Shopify and supplier state, verified SKU mapping, storefront closure, test results, blockers and Friday setup sequence.
 2. [Noorly Objectives and Presale Handover](Noorly_Objectives_and_Presale_Handover.docx) - original version 1.1; operating decisions and supporting context, supplemented by v1.2.
@@ -12,7 +12,7 @@ Read the [23 October domain and integration checkpoint](Noorly_Nordic_Domain_and
 
 The latest explicit user instructions take precedence over both documents.
 
-Current public state: the responsive film storefront and planned Ljusstund bundle remain behind owner password access. Production Shopify catalogue reads and Redis rate limiting were verified on 23 October; the bundle remains draft and non-purchasable. Ordering and paid presales remain closed. The owner reports purchasing noorlynordic.com; connection and HTTPS require separate verification.
+Current public state: the responsive film storefront and planned Ljusstund bundle remain behind owner password access. Production Shopify catalogue reads and Redis rate limiting were verified; the bundle remains draft and non-purchasable. Ordering and paid presales remain closed. The new domain has verified HTTPS, `www` redirects to the apex, and Shopify uses checkout.noorlynordic.com as its connected primary domain.
 
 ## Decisions to preserve
 

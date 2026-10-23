@@ -1,15 +1,15 @@
 # Noorly setup status
 
-The storefront brand remains **Noorly**, displayed as **NOORLY**. The owner reports purchasing **noorlynordic.com** through Squarespace. The intended canonical origin is **https://noorlynordic.com** and the intended Shopify checkout is **https://checkout.noorlynordic.com**. Code configuration does not establish domain connection or HTTPS.
+The storefront brand remains **Noorly**, displayed as **NOORLY**. The canonical origin is **https://noorlynordic.com** and Shopify's connected primary checkout domain is **https://checkout.noorlynordic.com**. Squarespace manages registration and DNS; the apex and `www` redirect have verified Vercel HTTPS.
 
-The [23 October domain and integration checkpoint](project-handover/Noorly_Nordic_Domain_and_Integration_2026-10-23.md) records the current state and supersedes earlier setup notes. Production Shopify catalogue reads and Redis rate limiting were verified on the existing Vercel alias. The planned bundle remains a draft; ordering and paid presales remain closed.
+The [24 October domain cleanup checkpoint](project-handover/Noorly_Domain_Cleanup_2026-10-24.md) supersedes earlier setup notes. Production Shopify catalogue reads and Redis rate limiting were verified, including the new production origin after cutover. The planned bundle remains a draft; ordering and paid presales remain closed.
 
 ## Prepared in the repository
 
 - Central brand identity, Swedish/English copy and package identity use Noorly. The domain change does not rename the brand.
-- `.env.production.example` uses the intended final domain without credentials. Change the actual Production origin only after DNS and HTTPS verification, then rebuild; public environment variables are embedded at build time.
+- `.env.production.example` and actual Production `NEXT_PUBLIC_SITE_URL` use the final domain. Public environment variables are embedded at build time; origin changes require a rebuild.
 - Local development and the hosted Preview environment retain mock settings. Production uses Shopify and never falls back to mock commerce.
-- The Shopify adapter accepts the exact new HTTPS checkout origin alongside existing legitimate hosts. DNS, TLS and Shopify primary-domain configuration remain separate account work.
+- The Shopify adapter accepts only the exact new custom HTTPS checkout origin alongside Shopify's legitimate hosts. Retired custom checkout hosts are rejected, with regression coverage.
 - The first-launch pages present the planned Ljusstund bundle without purchase controls; see [launch-bundle-preview.md](launch-bundle-preview.md).
 
 ## Preserve closed launch gates
@@ -20,9 +20,9 @@ Shopify Headless supplies a public Storefront token to the server adapter via `S
 
 ## Domain and support setup
 
-Connect `noorlynordic.com` and the `www.noorlynordic.com` redirect to the existing Vercel project using its exact project-specific records. Connect `checkout.noorlynordic.com` through Shopify's domain setup. Preserve existing email records. Verify public DNS, HTTPS and redirects before updating Production `NEXT_PUBLIC_SITE_URL=https://noorlynordic.com`; rebuild and check closure and same-origin behavior afterward.
+`noorlynordic.com` serves the existing Vercel project; `www.noorlynordic.com` redirects to it. `checkout.noorlynordic.com` is primary in Shopify. The internal `tzwngp-h1.myshopify.com` API identifier and Vercel deployment alias remain necessary provider settings. Preserve the new email and website DNS records when making future changes.
 
-The support email remains an explicit placeholder in `src/config/brand.ts`. Domain ownership and editing a contact string do not create a mailbox. Confirm a working address before replacing the placeholder or opening sales.
+`support@noorlynordic.com` has a free Squarespace forwarding rule to the owner's approved inbox, and the recipient verification completed on 24 October. It is used in central website configuration and Shopify's store/sender contact fields. Squarespace allows 24–48 hours for activation; recipient verification alone does not prove message delivery. Finish Shopify sender verification/domain authentication and verify incoming delivery before opening sales. Forwarding does not provide a mailbox for sending replies as the support address.
 
 ## Remaining operational setup
 

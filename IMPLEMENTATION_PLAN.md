@@ -1,6 +1,6 @@
 # Implementation plan
 
-Brand update, 18 October 2026: the owner selected **Noorly** with intended domain **noorly.se**. Shopify and domain account connection are deferred at the owner's request; the original working-name assumptions below remain as implementation history.
+Current brand and domain, 24 October 2026: **Noorly** uses **noorlynordic.com**, with Shopify checkout at **checkout.noorlynordic.com**. Both domains are connected. The original working-name assumptions below remain as implementation history; see `docs/noorly-setup.md` for current operational status.
 
 The workspace was inspected before editing. It contains no existing application or Git repository, so no code needs preserving.
 

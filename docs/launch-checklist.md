@@ -4,7 +4,9 @@ This checklist records work required before a real store launch. A passing local
 
 ## Identity, content and legal
 
-- [x] Set the chosen brand to Noorly and intended canonical domain to noorlynordic.com. Domain connection and HTTPS still need deployment evidence.
+- [x] Set the chosen brand to Noorly and canonical domain to noorlynordic.com; Vercel apex/www and Shopify checkout connection/HTTPS verified 24 October 2026. See the domain cleanup handover.
+- [x] Configure support@noorlynordic.com forwarding and verify its recipient; replace website and Shopify contact references (24 October 2026).
+- [ ] Verify incoming support delivery, Shopify sender authentication and the outgoing customer-service reply workflow.
 - [ ] Replace legal company/address/support placeholders, social links and customer-service details in central configuration.
 - [ ] Replace fictional catalogue, product images/material descriptions, stock, prices, gift packaging and placeholder reviews. Remove unsupported claims.
 - [ ] Obtain appropriate rights for final artwork, fonts, product photography and video; review generated static placeholders before any marketing use.
@@ -20,7 +22,7 @@ This checklist records work required before a real store launch. A passing local
 - [ ] Build small/large custom boxes, exercise minimum/maximum limits, unavailable products, optional card/message, editing and grouped bundle removal.
 - [ ] Confirm gift messages and bundle attributes arrive in Shopify and can be consumed by the actual fulfilment process.
 - [ ] Verify hosted checkout with real store shipping/tax settings, discounts, payment methods, failure cases and inventory races.
-- [ ] Review checkout URL allowlists for the chosen store domain. Confirm no application page collects card details.
+- [x] Restrict the custom checkout origin to checkout.noorlynordic.com; retired-domain rejection tests pass. Card collection remains in Shopify checkout.
 - [ ] Conduct an operational order/fulfilment/refund rehearsal using Shopify's supported test workflow; separately validate the paid-event integration without treating ignored test orders as missing analytics.
 
 ## Services, security and operations
