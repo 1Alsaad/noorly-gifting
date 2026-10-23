@@ -1,4 +1,7 @@
 # Noorly: private-label candle sand and complete-kit economics
+
+> **Status update, 23 October 2026, 16:33 Europe/Stockholm:** The owner subsequently authorized outreach. The three PJ Nordic, M1 and Devillebard requests have now been **SENT and verified**, with the best-price target strengthened to ideally below SEK 100 delivered per finished pack. [Sent-message record and first-month projections](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md). Original UNSENT wording below records the earlier research state; it no longer describes these three requests. Mitt/Expresspack remain unsent.
+
 Verified 23 October 2026, Europe/Stockholm. Research in the owner's connected Chrome session; no supplier contacted and no purchase made.
 
 ## Decision
