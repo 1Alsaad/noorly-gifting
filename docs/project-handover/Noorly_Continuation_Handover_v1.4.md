@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Offer and presale decision — 23 October 2026](Noorly_Offer_and_Presale_Decision_2026-10-23.md). **Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older unpaid-domain, tax, price or access statements.
+> Latest verified continuation: [Cost reduction assessment — 23 October 2026](Noorly_Cost_Reduction_Assessment_2026-10-23.md). **Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older domain, tax, cost or access statements.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -390,3 +390,24 @@ Before any paid presale: settle these product gates, stock/dispatch, tax and inv
 Suggested pilot is maximum twenty orders over the standing 4–5-day screen after authorization, with honest dispatch/refund terms. Do not buy twenty against ten orders automatically; reprice the smaller supplier basket or apply the agreed refund procedure. Reserve release needs actual retained paid orders, delivered quality and positive contribution.
 
 Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales activated, supplier contacted, supplier order/payment submitted, DNS changed, product published or store settings changed during this continuation. Trademark clearance remains unverified.
+
+
+## Latest continuation: cost reduction and compact packing — 23 October 2026
+
+Read the [cost reduction assessment](Noorly_Cost_Reduction_Assessment_2026-10-23.md) first for the newest product/packing/delivery/handling recommendation. The preceding offer-decision checkpoint still supplies domain, tax and supplier-basket evidence.
+
+- Owner remains not yet VAT-registered; noorly.se was paid for by the owner. No repeat domain checkout preparation is required. Registry activation, connection and trademark clearance remain unverified.
+- Preserve the organic AW TeakB-31 wooden concept with a qualified insert and sealed scented sand. Prototype 1 kg in a compact protected parcel first; retain it if it qualifies for the lower postage band. Use 650 g if that is what achieves the lower band and physical fill/appearance are adequate. The actual quotes are Midnight 1 kg and Rhubarb Sparkle 650 g, different scents. No configuration is selected or qualified by this desk research.
+- Actual sand saving is about SEK 16.58 per kit including the 2% FX allowance. If domestic delivery also falls from the provisional SEK 129 to 109, saving is SEK 36.58. Loose repacking and cheaper narrow/tall glass do not have an established suitable landed-cost advantage.
+- Fresh Packoplock research identified standard box 795316 (390 × 290 × 150 mm internal, SEK 9.26 ex VAT, pack 25) and quick-assembly 795772 (400 × 300 × 150 mm internal, SEK 11.90 ex VAT, pack ten). For twenty kits the quick option costs only SEK 0.41 more per kit because twenty can be bought instead of twenty-five. Protective fit and finished external dimensions remain untested.
+- Packoplock delivery below SEK 2,500 ex VAT is SEK 99 ex VAT, or SEK 123.75 cash for an ordinary parcel. With that allocated, boxes alone cost SEK 20.66–21.06 per kit. Do not claim a further packing saving against the existing SEK 30 allowance.
+- A concrete small-pack materials proposal totals SEK 600.85 / twenty = SEK 30.04 per kit: twenty quick boxes, box freight, two Biltema 10 × 0.5 m bubble-wrap rolls at SEK 44.90 each, one SEK 29.90 tape roll, one SEK 39.90 kraft-paper roll, and SEK 20 printing allowance. Cushioning adequacy, local stock and collection practicality remain unverified. A dedicated pickup trip, extra protection, tools or printing costs must be added. No materials were bought.
+- Fresh Candle Shack Lotti stock display was 214, superseding the earlier 314; price tiers unchanged. Its freight remains destination/weight/parcel-dependent and unquoted, so the SEK 15 allowance remains. No stock reserved.
+- Fraktjakt business quotation flow reached an empty login page. No actual cheaper carrier quote was obtained and no account created. Business prices exclude VAT; model targets must include nonrecoverable tax and surcharges. SEK 80 all-in is only a sensitivity target.
+- Full cost before customer payment fees/ads: original heavier 1 kg SEK 581.13; compact 1 kg with SEK 109 postage SEK 561.13; compact 650 g SEK 544.55. Achieving four rather than six minutes of complete allocated handling at SEK 200/hour would reduce these last two to SEK 554.46 / 537.89. Adding an actual SEK 80 carrier rate would take the 650 g scenario to SEK 508.89. Parcel qualification and time savings have not been measured.
+- Keep the rounded SEK 30 packing allowance and SEK 15 damage/returns reserve pending physical testing. First-order AW discount loss adds roughly SEK 16 on later kits. No guaranteed SEK 500 cost or zero-cost owner labour is established.
+- Price hypotheses stay SEK 1,149 delivered for 1 kg and SEK 1,099 for 650 g. At SEK 1,099, cost SEK 537.89, assumed fee 3% + SEK 3 and all-in CAC 100, contribution is about SEK 425 for an eligible exempt case or SEK 205 in the conservative VAT stress case, before fixed costs and income tax. Tax eligibility, merchant fees and acquisition performance remain unresolved.
+
+The next useful step is a representative assembly and packing trial after separate sample-spend authorization: settle safe assembly/appearance and required fill, measure both protected formats, obtain the exact carrier quote, and time all handling including inspection and dispatch allocation. Do not remove cushioning to reach a weight threshold. Presales remain a proposed way to limit speculative stock, not a substitute for payout timing/working capital and refund planning.
+
+Research used Chrome only. No supplier contacted, account registered, order/payment submitted, ads/presales activated, DNS changed or Shopify setting/product changed. Preserve store tzwngp-h1, original 15-second winter film and password protection. Media remains SEK 4,000 total / SEK 2,000 initial and SEK 2,000 reserve; remaining spend unreconciled.
