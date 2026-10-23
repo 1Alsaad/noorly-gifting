@@ -36,6 +36,8 @@ jobs:
         run: pnpm typecheck
       - name: Unit and component tests
         run: pnpm test
+      - name: Daily social agent tests
+        run: pnpm test:social
       - name: Production preview build
         run: pnpm build
         env:

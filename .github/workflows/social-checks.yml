@@ -1,0 +1,29 @@
+name: Social agent checks
+
+on:
+  pull_request:
+    paths:
+      - "social/**"
+      - "docs/daily-social-agent.md"
+      - ".github/workflows/social-*.yml"
+  push:
+    branches: [main]
+    paths:
+      - "social/**"
+      - ".github/workflows/social-*.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  social:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node --test social/agent.check.mjs
+      - name: Check social formatting
+        run: npm exec --yes --package=prettier@3.9.10 -- prettier --check social docs/daily-social-agent.md .github/workflows/social-checks.yml .github/workflows/social-daily.yml
