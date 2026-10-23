@@ -59,7 +59,7 @@ Use the actual host URL; production mutation checks match it exactly. A local pr
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | Identity           | Final brand/company/contact/address values in `brand.ts`; HTTPS `NEXT_PUBLIC_SITE_URL` equal to the public canonical origin                 |
 | Commerce           | `NEXT_PUBLIC_COMMERCE_PROVIDER=shopify`, `ALLOW_MOCK_COMMERCE=false`, valid domain/token/version, published catalogue and SEK market        |
-| Indexing           | `DEPLOYMENT_ENV=production` only after the real Shopify storefront, canonical URLs and legal/content review are ready                       |
+| Indexing           | Keep `NOORLY_STOREFRONT_OPEN=false` during preparation; indexing also requires `DEPLOYMENT_ENV=production` and the Shopify provider         |
 | Cart integrity     | Unique random `CART_COOKIE_SECRET` of at least 32 characters, stored server-side                                                            |
 | Durable security   | HTTPS `RATE_LIMIT_PROVIDER_URL` and `RATE_LIMIT_PROVIDER_TOKEN` for a compatible Redis REST service supporting the implemented commands/Lua |
 | Forms              | HTTPS `FORM_DELIVERY_URL`, server-only `FORM_DELIVERY_TOKEN`, and a receiver honoring `Idempotency-Key`                                     |
@@ -73,7 +73,7 @@ The validated environment list is `.env.example` and `src/lib/env/schema.ts`. In
 
 Follow [commerce setup](commerce.md) to publish products and set category/season/eligibility tags and matching handles. The adapter queries Swedish and English presentation, paginates products/collections and validates provider payloads. Confirm real storefront access for each queried field and the configured Storefront API version (`2026-07` by default).
 
-Test availability, variant selection, cart creation/persistence, bundle attributes, editing, shipping/tax presentation and the provider checkout URL with the actual store. Final pricing and stock are Shopify's authority. The checkout allowlist currently expects Shopify domains; review it if your shop uses a custom checkout domain. Never work around it by permitting arbitrary redirect hosts.
+Test availability, variant selection, cart creation/persistence, bundle attributes, editing, shipping/tax presentation and the provider checkout URL with the actual store. Final pricing and stock are Shopify's authority. The checkout allowlist preserves Shopify hosts and accepts the exact HTTPS origins `https://checkout.noorly.se` and `https://checkout.noorlynordic.com`, without user credentials or nondefault ports on those custom origins. It does not permit other subdomains or arbitrary redirect hosts. Adding an origin does not configure Shopify, DNS or TLS.
 
 ### Webhooks and purchase outbox
 

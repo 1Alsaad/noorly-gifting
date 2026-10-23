@@ -214,7 +214,8 @@ export class ShopifyCommerceProvider implements CommerceProvider {
         url.hostname.endsWith(".myshopify.com") ||
         url.hostname.endsWith(".shopify.com") ||
         url.hostname === "checkout.shopify.com" ||
-        (url.origin === "https://checkout.noorly.se" &&
+        ((url.origin === "https://checkout.noorly.se" ||
+          url.origin === "https://checkout.noorlynordic.com") &&
           !url.username &&
           !url.password)
       )

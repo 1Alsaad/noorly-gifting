@@ -1,48 +1,36 @@
 # Noorly setup status
 
-The chosen storefront brand is **Noorly**, displayed as **NOORLY**, with intended canonical origin **https://noorly.se**. This configures application metadata; it does not register the domain, change DNS or establish a live Shopify connection.
+The storefront brand remains **Noorly**, displayed as **NOORLY**. The owner reports purchasing **noorlynordic.com** through Squarespace. The intended canonical origin is **https://noorlynordic.com** and the intended Shopify checkout is **https://checkout.noorlynordic.com**. Code configuration does not establish domain connection or HTTPS.
 
-On 18 October 2026, the owner chose to manage Shopify and domain connection later. The delivered storefront therefore remains in mock mode; the following steps are retained for that future setup.
+The [23 October domain and integration checkpoint](project-handover/Noorly_Nordic_Domain_and_Integration_2026-10-23.md) records the current state and supersedes earlier setup notes. Production Shopify catalogue reads and Redis rate limiting were verified on the existing Vercel alias. The planned bundle remains a draft; ordering and paid presales remain closed.
 
 ## Prepared in the repository
 
-- Central brand identity, Swedish/English copy, winter SEO copy and package identity use Noorly.
-- `.env.production.example` defines the intended domain, Swedish default, SEK commerce adapter and production service fields without credentials.
-- Local development remains an explicit mock store. Existing internal cookie/storage identifiers are retained so the branding change does not discard local carts or consent choices.
-- The server-only Shopify adapter, hosted checkout, verified `orders/paid` endpoint, durable purchase outbox, rate limits and form-delivery interfaces are implemented.
-- Keep `DEPLOYMENT_ENV=preview` until the real integrations, approved catalogue, company details and legal content are verified. Production Shopify mode never falls back to mock commerce.
+- Central brand identity, Swedish/English copy and package identity use Noorly. The domain change does not rename the brand.
+- `.env.production.example` uses the intended final domain without credentials. Change the actual Production origin only after DNS and HTTPS verification, then rebuild; public environment variables are embedded at build time.
+- Local development and the hosted Preview environment retain mock settings. Production uses Shopify and never falls back to mock commerce.
+- The Shopify adapter accepts the exact new HTTPS checkout origin alongside existing legitimate hosts. DNS, TLS and Shopify primary-domain configuration remain separate account work.
+- The first-launch pages present the planned Ljusstund bundle without purchase controls; see [launch-bundle-preview.md](launch-bundle-preview.md).
 
-## Account details still needed
+## Preserve closed launch gates
 
-1. Shopify store's actual `shop-name.myshopify.com` address and access to its Headless channel.
-2. Confirmation of ownership of `noorly.se` and access to the registrar/DNS provider.
-3. Access to the hosting account, a Redis REST service, and the chosen contact/newsletter delivery destination.
+Keep `NOORLY_STOREFRONT_OPEN=false` and `NEXT_PUBLIC_PRODUCT_TEST_MODE=true` during domain and supplier preparation. `DEPLOYMENT_ENV=production` is already configured for the live backend; it does not open or index the storefront by itself. Do not publish fictional samples or the draft bundle as an inventory commitment.
 
-Shopify and Vercel connectors were reported as administratively disabled in this session. No merchant credentials or hosting login were available. GitHub access does not grant access to these services. Put API credentials in an ignored local environment file or the hosting provider's secret settings, not in chat or Git commits.
+Shopify Headless supplies a public Storefront token to the server adapter via `SHOPIFY_STOREFRONT_ACCESS_TOKEN`; its private token uses a different authentication header and must not be substituted. Vercel's native Upstash integration supplies a matched `KV_REST_API_URL` and `KV_REST_API_TOKEN` pair. Credentials stay in hosting secrets, never in chat or Git.
 
-## Shopify connection
+## Domain and support setup
 
-Create or select the official Headless storefront in Shopify. Supply its **public Storefront access token** in `SHOPIFY_STOREFRONT_ACCESS_TOKEN`; the existing adapter sends the `X-Shopify-Storefront-Access-Token` header. The Headless channel's private token uses a different authentication header and should not be substituted into this field.
+Connect `noorlynordic.com` and the `www.noorlynordic.com` redirect to the existing Vercel project using its exact project-specific records. Connect `checkout.noorlynordic.com` through Shopify's domain setup. Preserve existing email records. Verify public DNS, HTTPS and redirects before updating Production `NEXT_PUBLIC_SITE_URL=https://noorlynordic.com`; rebuild and check closure and same-origin behavior afterward.
 
-Publish the reviewed products and winter collection to the storefront, configure Swedish/English translations and the Sweden/SEK market, then apply the handles and tags in [commerce.md](commerce.md). Do not publish fictional sample products as a real inventory commitment. Confirm actual prices, stock, shipping, tax, payments and fulfilment in the merchant account.
+The support email remains an explicit placeholder in `src/config/brand.ts`. Domain ownership and editing a contact string do not create a mailbox. Confirm a working address before replacing the placeholder or opening sales.
 
-After the host and signing secret are configured, register:
+## Remaining operational setup
 
-- Paid-order webhook: `https://noorly.se/api/webhooks/shopify`
-- Authenticated outbox worker: `POST https://noorly.se/api/webhooks/drain`
+Finalize the supplier-backed product, inventory/presale policy, shipping, taxes, payment/payout setup, legal identity, contact details and consumer policies. Replace the planned presentation with a reviewed real-product integration only when the launch requirements are met. Verify the full order and fulfilment flow; successful empty-catalogue reads are not checkout validation.
 
-Schedule the worker using the secret-bearing POST request in [deployment.md](deployment.md). A browser checkout return never creates a purchase analytics event.
+When the final domain and webhook secrets are ready, the intended endpoints are:
 
-## Hosting and DNS
+- Paid-order webhook: `https://noorlynordic.com/api/webhooks/shopify`
+- Authenticated outbox worker: `POST https://noorlynordic.com/api/webhooks/drain`
 
-Import the existing GitHub repository as a Next.js project and supply the real environment values from `.env.production.example`. Provision the durable rate-limit/outbox store and form receiver before testing mutations in production mode. Without these services, browsing may work while mutations fail safely.
-
-Add `noorly.se` to the hosting project and choose the intended `www.noorly.se` redirect. Use the **exact project-specific DNS records provided by the host**. No A, CNAME or TXT target can be finalized before that project exists. Preserve existing MX and email-verification records. DNS for the main site should serve the Next.js frontend; Shopify supplies the hosted checkout destination.
-
-The current support email remains an explicit placeholder until a real support mailbox is configured in `src/config/brand.ts`. Setting a domain or editing the contact string does not create an email account.
-
-## Completion evidence
-
-Run the full local checks, then verify the actual hosted site: HTTPS, domain verification, bilingual product data, stock, persistent cart, custom boxes, gift attributes, Shopify test checkout, webhook signatures/retries, outbox delivery, form delivery and consent. See [launch-checklist.md](launch-checklist.md). Switch `DEPLOYMENT_ENV=production` only when those checks and content/legal review are complete.
-
-Official setup references: [Shopify Headless channel](https://shopify.dev/docs/storefronts/headless/building-with-the-storefront-api/manage-headless-channels) and [Vercel custom domains](https://vercel.com/docs/domains/working-with-domains/add-a-domain).
+Neither endpoint is configured by this documentation change. Follow [deployment.md](deployment.md) for secrets, scheduling and acceptance checks. Complete form delivery, webhook/outbox validation, consent and the relevant [launch checklist](launch-checklist.md) before releasing sales or advertising.

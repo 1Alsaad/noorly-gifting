@@ -3,8 +3,8 @@ import type { Locale } from "@/types/commerce";
 export const brand = {
   name: process.env.NEXT_PUBLIC_BRAND_NAME || "NOORLY",
   legalCompanyName: "[Legal company name — replace before launch]",
-  domain: "noorly.se",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://noorly.se",
+  domain: "noorlynordic.com",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://noorlynordic.com",
   supportEmail: "hello@example.com",
   defaultLocale: "sv" as Locale,
   supportedLocales: ["sv", "en"] as const,

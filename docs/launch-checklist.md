@@ -4,7 +4,7 @@ This checklist records work required before a real store launch. A passing local
 
 ## Identity, content and legal
 
-- [x] Set the chosen brand to Noorly and intended canonical domain to noorly.se.
+- [x] Set the chosen brand to Noorly and intended canonical domain to noorlynordic.com. Domain connection and HTTPS still need deployment evidence.
 - [ ] Replace legal company/address/support placeholders, social links and customer-service details in central configuration.
 - [ ] Replace fictional catalogue, product images/material descriptions, stock, prices, gift packaging and placeholder reviews. Remove unsupported claims.
 - [ ] Obtain appropriate rights for final artwork, fonts, product photography and video; review generated static placeholders before any marketing use.
@@ -63,7 +63,7 @@ This checklist records work required before a real store launch. A passing local
 - [ ] Run locked install, format check, lint, typecheck, unit/component tests, production build, Playwright and dependency audit.
 - [ ] Validate live critical routes and real-provider smoke tests after deployment; attach the run evidence to the release.
 - [ ] Confirm canonical/alternate metadata, structured data, sitemap/robots and social previews use the final HTTPS domain.
-- [ ] Keep mocks, staging, previews and incomplete content unindexable. Enable `DEPLOYMENT_ENV=production` only for the approved Shopify launch.
+- [ ] Keep mocks, staging, previews and incomplete content unindexable. Keep `NOORLY_STOREFRONT_OPEN=false` and `NEXT_PUBLIC_PRODUCT_TEST_MODE=true` until the reviewed sales release; `DEPLOYMENT_ENV=production` alone does not open or index the store.
 - [ ] Confirm support and fulfilment owners can handle the first real orders, corporate enquiries, delivery failures and refunds.
 
 See [deployment](deployment.md), [commerce](commerce.md), [analytics](analytics.md), [privacy](privacy.md), [security](security.md) and [media](cinematic-media.md) for implementation-specific instructions.

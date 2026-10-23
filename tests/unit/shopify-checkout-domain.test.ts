@@ -41,6 +41,7 @@ describe("Shopify checkout destinations", () => {
     "https://checkout.shopify.com",
     "https://other.myshopify.com",
     "https://checkout.noorly.se",
+    "https://checkout.noorlynordic.com",
   ])(
     "preserves a valid checkout at %s and applies the chosen locale",
     async (origin) => {
@@ -65,6 +66,15 @@ describe("Shopify checkout destinations", () => {
     "https://noorly.se/checkouts/test",
     "https://checkout.noorly.se@evil.test/checkouts/test",
     "https://user:password@checkout.noorly.se/checkouts/test",
+    "http://checkout.noorlynordic.com/checkouts/test",
+    "https://checkout.noorlynordic.com:8443/checkouts/test",
+    "https://checkout.noorlynordic.com.evil.test/checkouts/test",
+    "https://checkout-noorlynordic.com/checkouts/test",
+    "https://other.noorlynordic.com/checkouts/test",
+    "https://noorlynordic.com/checkouts/test",
+    "https://checkout.noorlynordic.com@evil.test/checkouts/test",
+    "https://user:password@checkout.noorlynordic.com/checkouts/test",
+    "https://user@checkout.noorlynordic.com/checkouts/test",
   ])("rejects an unapproved checkout destination: %s", async (url) => {
     const { provider } = availableCheckout(url);
     await expect(provider.getCheckoutUrl("cart")).rejects.toMatchObject({
@@ -73,17 +83,20 @@ describe("Shopify checkout destinations", () => {
     });
   });
 
-  it("does not bypass availability when the checkout uses the custom domain", async () => {
-    const { provider, availability } = availableCheckout(
-      "https://checkout.noorly.se/checkouts/test",
-    );
-    availability.mockResolvedValue({
-      available: false,
-      unavailableVariantIds: ["unavailable"],
-    });
-    await expect(provider.getCheckoutUrl("cart")).rejects.toMatchObject({
-      code: "unavailable_product",
-      status: 409,
-    });
-  });
+  it.each(["https://checkout.noorly.se", "https://checkout.noorlynordic.com"])(
+    "does not bypass availability for the custom checkout at %s",
+    async (origin) => {
+      const { provider, availability } = availableCheckout(
+        origin + "/checkouts/test",
+      );
+      availability.mockResolvedValue({
+        available: false,
+        unavailableVariantIds: ["unavailable"],
+      });
+      await expect(provider.getCheckoutUrl("cart")).rejects.toMatchObject({
+        code: "unavailable_product",
+        status: 409,
+      });
+    },
+  );
 });
