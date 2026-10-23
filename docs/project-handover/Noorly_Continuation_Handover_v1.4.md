@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Outsourced fulfilment assessment — 23 October 2026](Noorly_Outsourced_Fulfilment_Assessment_2026-10-23.md). **Mitt Logistik is the first quote candidate; no provider contacted or chosen. Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older decisions.
+> Latest verified continuation: [Monthly break-even model — 23 October 2026](Noorly_Monthly_Breakeven_2026-10-23.md). **Owner confirms business not yet registered; overhead SEK 2,000/month and ads SEK 3,000/month are new planning inputs. Domain paid. Fulfilment requests remain unsent.** Read the final checkpoint before relying on older decisions.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -430,3 +430,20 @@ Read [outsourced fulfilment assessment and exact quote requests](Noorly_Outsourc
 - Two exact Swedish email requests are saved in the report: kontakt@mittlogistik.se and kenneth@expresspack.se. **Neither was sent.** They request 20-order all-in first-month prices, 10/50-order and zero-order-month exposure, fragile handling, delivery, return and contract terms. Owner's earlier no-supplier-contact instruction requires clear further authorization before sending; research/comparison is complete within that boundary.
 
 No supplier contact, signup, order/payment, contract, store/ads/presale activation or DNS changes occurred. Chrome only; original 15-second winter film, password protection and store tzwngp-h1 preserved. Domain paid by owner; not yet VAT-registered; exemption eligibility unresolved. Media remains SEK 4,000 split SEK 2,000 initial / SEK 2,000 reserve with prior spend unreconciled.
+
+
+## Latest continuation: monthly break-even and owner registration status — 23 October 2026
+
+Read the [monthly break-even model](Noorly_Monthly_Breakeven_2026-10-23.md) first for this calculation. The outsourced fulfilment report still contains the supplier shortlist and exact UNSENT quote requests.
+
+- Owner now explicitly confirms **not yet registered as a business**, in addition to the earlier not-VAT-registered status. Neither establishes exemption eligibility or a tax-free operation. No business form or after-tax rate has been chosen.
+- Owner intends to reinvest rather than withdraw funds. Requested monthly planning budget: **SEK 2,000 total recurring overhead**, including ChatGPT/miscellaneous, plus **SEK 3,000 total advertising**. These are unreconciled inputs, not proven deductible invoices, actual campaign spend or permission to activate ads. Do not add ChatGPT twice.
+- At the 650 g SEK 1,099 delivered hypothesis, variable cost SEK 535.43 plus assumed fee SEK 35.97 leaves SEK 527.60 before ads/overhead in an eligible exempt case. VAT stress leaves SEK 307.80, with no purchase-tax recovery. Deduct monthly SEK 5,000 once; do NOT also deduct a per-customer SEK 100 CAC.
+- Modelled break-even: **10 orders exempt** or **17 in the pessimistic VAT stress case**. These are illustrative at the existing 20-unit supplier cost basis, not quoted smaller batch costs.
+- At 20 orders: SEK 21,980 collected; approximately **SEK 5,552 surplus exempt / SEK 1,156 stress**, before income/corporation tax, testing and unquoted extras. At 30 orders: SEK 10,828 / SEK 4,234. At 50: SEK 21,380 / SEK 10,390. Volumes beyond twenty are sensitivities, not an expanded pilot.
+- A SEK 5,000 monthly surplus needs 19 orders exempt / 33 stress; SEK 10,000 needs 29 / 49. At fixed SEK 3,000 ads, twenty customers requires SEK 150 media cost/order and thirty requires SEK 100; neither is observed.
+- Monthly budget assumes all applicable nonrecoverable ad tax is included. If recurring store/domain/apps/bookkeeping etc. exceed or sit outside the SEK 2,000 total, add the missing amount. Exact provider fees, parcel and actual business-tax treatment remain unverified.
+- The table is modelled operating surplus, not a literal bank balance. Unsold stock and prepayments tie up cash; ten profitable orders do not finance a twenty-kit batch automatically. Payout timing, reserves and tax still matter. Skatteverket sole-trader guidance checked in Chrome confirms taxation is based on surplus irrespective of withdrawals if that structure is chosen.
+- The owner has NOT approved the two provider quote emails in the intervening VAT/margin questions. Keep them unsent until clear approval. No supplier contacted or service contracted.
+
+No ads/presales, supplier order/payment, registration, DNS or store change occurred. The new SEK 3,000 monthly advertising sensitivity does not silently replace the prior SEK 4,000 allocation / SEK 2,000 initial and reserve release gates. Preserve the winter video, password protection and Shopify tzwngp-h1; domain paid by owner.
