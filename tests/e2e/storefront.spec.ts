@@ -731,6 +731,9 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   ).toBeVisible();
   await expect(card.getByText(/Planerat pris: 799 kr/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);
+  // Visibility changes before the 240ms entrance transition finishes. Measure
+  // the settled layout while preserving the original viewport-clearance check.
+  await expect(card).toHaveCSS("transform", "none");
   const geometry = await scene.evaluate((element) => {
     const video = element.querySelector("video")!;
     const media = element
