@@ -213,7 +213,10 @@ export class ShopifyCommerceProvider implements CommerceProvider {
         url.hostname === this.config.domain ||
         url.hostname.endsWith(".myshopify.com") ||
         url.hostname.endsWith(".shopify.com") ||
-        url.hostname === "checkout.shopify.com"
+        url.hostname === "checkout.shopify.com" ||
+        (url.origin === "https://checkout.noorly.se" &&
+          !url.username &&
+          !url.password)
       )
     )
       throw new CommerceError("invalid_checkout_url", 502);
