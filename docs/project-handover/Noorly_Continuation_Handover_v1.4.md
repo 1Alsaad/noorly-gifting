@@ -243,7 +243,6 @@ Baltland merino socks are lower priority owing to unverified wholesale economics
 
 The dossier contains a Hertwill human/technical clarification and a Swedish Terrible Twins enquiry, both NOT SENT. Explicit exact-message approval is required before sending. No paid plan, app, order, sample, advertising, real payment, website/Shopify setting or domain change occurred. Total media cap and 2,000/2,000 decision gates remain unchanged.
 
-
 ## AliExpress Q4 product research — 22 October 2026
 
 Read [AliExpress Q4 product research](Noorly_AliExpress_Q4_Product_Research_2026-10-22.md) for six candidate categories, exact item links, historical source-price dates, Swedish retail comparisons, current Meta Ad Library results and illustrative delivered-cost limits.
@@ -258,7 +257,6 @@ At a hypothetical 100 SEK CAC, 30 SEK payment/refund allowance, assumed 25% VAT 
 
 Only research documentation was saved. No supplier contacted, sample bought, product changed or ad activated. The 4,000 SEK total media cap and standing 2,000/2,000 gates remain unchanged.
 
-
 ## Swedish batch presales and vessel sourcing — 23 October 2026
 
 Read [batch presale and vessel sourcing assessment](Noorly_Swedish_Batch_Presale_and_Vessel_Sourcing_2026-10-23.md). The owner asked to reassess AW's EUR 6.25 pouch price, source a bowl/vase, and evaluate taking presales before ordering a batch for dispatch from Sweden. This is research/preparation, not an activation or purchase instruction.
@@ -272,7 +270,6 @@ Preferred separate-source vessel lead: Candle Shack BV clear 50cl Lotti bowl GLA
 Recommendation: qualify a one-pouch/one-vessel complete kit and a small, clearly dated presale followed promptly by Swedish batch dispatch. No final retail price is selected. The report gives the markup arithmetic, logistics comparison, a 10–20-order pilot proposal and two unsent supplier clarification briefs. Preorder payment, delivery/cancellation information, sample/product checks and cash timing remain necessary. The current payment/custom-storefront flow was not freshly reverified and no paid end-to-end test passed here.
 
 Only documentation was saved. No supplier contacted, sample/order purchased, live product/website/payment setting changed, or advertising/presale activated. The 4,000 SEK total media allocation and standing 2,000/2,000 gates remain unchanged; inventory/fulfilment working capital is separate.
-
 
 ## Carved bowls, Noorly name and domain preparation — 23 October 2026
 
@@ -290,23 +287,25 @@ Chosen handoff: https://www.loopia.se/bestall/ for noorly.se, one year, free Loo
 
 Only research/documentation was saved. No registration/payment/customer information was submitted, account created, DNS changed, supplier contacted, product/store changed, order purchased or ads/presales activated. Existing media cap and gates remain unchanged.
 
-
 ## New-chat continuation checkpoint — 23 October 2026
 
 The owner is starting a new chat and explicitly requested that this GitHub handover be updated. Read this checkpoint together with [carved bowls, brand and domain research](Noorly_Carved_Bowls_Brand_and_Domain_2026-10-23.md) and [Swedish batch presales and vessel sourcing](Noorly_Swedish_Batch_Presale_and_Vessel_Sourcing_2026-10-23.md). Latest owner decisions override older plans, in particular the earlier deferral of domain preparation and the earlier preference for a plain glass vessel.
 
 ### What the owner wants next
+
 1. Use the owner's actual connected Chrome tabs/Computer window, inspecting access before asking for any sign-in.
 2. Finish the noorly.se registration/purchase preparation and stop where the owner needs to register and pay. The prior commercial assessment recommends retaining Noorly for the Swedish pilot; trademark clearance is not completed. Recheck domain availability and the actual basket before relying on the dated public quote.
 3. Continue sourcing large, organic, sculptural hand-carved bowls like the reference/storefront, rather than treating an ordinary glass jar as the chosen visual product. Prioritise the best-matching AW 31 cm rough bowl and larger 40–55 cm alternatives. Verify exact wholesale cost, actual usable size, stock, packed weight, batch freight to Sweden and a suitable candle-use configuration. Supplier outreach, samples and inventory orders have not been newly authorised.
 4. Assess a small dated presale followed by bulk inbound stock and dispatch from Sweden using the real kit costs. This remains preparation, not permission to enable paid orders or advertising.
 
 ### Browser/Computer retry evidence
+
 After the domain report was saved, the owner explicitly requested Chrome tabs and tagged Computer twice, including “try again.” Fresh tool discovery still exposed no Computer screen-control or Browser/Chrome tab-control tools. Executor skill discovery reported failed inspections of local capability roots for browser, unified-computer-use, chrome and computer-use at bundled version 26.1016.51333: “The system cannot find the file specified. (os error 2).” This is a local capability-loading diagnostic, not evidence that the owner's Chrome is signed out or that a particular web page refused access.
 
 No actual Chrome tabs/window could be inspected or controlled in these retries. No plugin was repaired/reinstalled and no browser settings were changed. A restart/new chat may have different capabilities, so inspect the new session afresh; do not assert that the old error still applies without checking. Do not repeatedly ask the owner to tag an app that is already tagged or sign in without an observed sign-in block. Read and follow the currently available browser/computer skill before using its tools.
 
 ### Confirmed state to preserve
+
 - Domain NOT registered, purchased, reserved or connected. No Loopia account or verified filled checkout exists from this work. The earlier attempt to open the Loopia page in the Codex browser panel failed. The actual pending handoff is https://www.loopia.se/bestall/ for noorly.se, one year, domain only/free LoopiaDomän account; public first year SEK 11.25 incl. VAT and renewal SEK 361.25 incl. VAT were checked on 23 October. These prices and availability need fresh basket verification. The owner will supply registration/payment information and complete the purchase. Paid hosting, email and LoopiaDNS are optional, not selected.
 - AW TeakB-31 public price EUR 14.80 ex VAT, stock 91; TeakB-29 EUR 12.50, stock 92; TeakB-34 EUR 19.50, stock zero. These are dated public catalogue observations, not reserved stock or authenticated batch quotes. TeakB-31 plus EUR 6.25 pouch already totals EUR 21.05 ex VAT and weighs at least 1.6 kg before packaging. Required sand fill, suitable insert, complete kit cost and final retail price remain open.
 - Candledust has replied and approved the reseller account. It offers batch-to-Noorly fulfilment, not direct dropshipping for new accounts. The approval's EUR 100 minimum conflicts with the personal reply's no-minimum wording; assume EUR 100 pending clarification. Authenticated prices, stock, Sweden freight and wick-spacing clarification remain open. Do not revert to the superseded no-reply state or treat different suppliers' 300/330/350 g products as the same SKU.
@@ -315,7 +314,6 @@ No actual Chrome tabs/window could be inspected or controlled in these retries. 
 - No supplier contacted, sample/inventory order placed, paid app added, payment submitted, campaign launched, DNS changed or store activated during these retries.
 
 Repository: 1Alsaad/noorly-gifting. Existing Shopify: https://admin.shopify.com/store/tzwngp-h1?country=SE. Storefront: https://noorly-gifting.vercel.app/sv. Continue keeping GitHub as the source of truth and record only work actually performed. Do not place credentials, owner-preview password, tokens or payment details in the repository.
-
 
 ## Chrome checkout and authenticated wooden-kit checkpoint — 23 October 2026
 
@@ -355,7 +353,6 @@ No bowl is qualified for direct candle-sand use. A suitable insert must be check
 
 Next work: obtain sample/purchase or supplier-contact authorization only when the owner chooses that next step; then settle the actual assembly, insert freight, measured parcel, stock/dispatch and full payment/refund flow before any paid pilot. Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales, DNS, store settings, payments or supplier contact were activated in this continuation.
 
-
 ## Latest continuation: domain paid, VAT status and offer decision — 23 October 2026
 
 Read [the offer and presale decision](Noorly_Offer_and_Presale_Decision_2026-10-23.md) first. This is the newest checkpoint and overrides older statements about an unpaid domain or unknown VAT-registration status.
@@ -391,7 +388,6 @@ Suggested pilot is maximum twenty orders over the standing 4–5-day screen afte
 
 Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales activated, supplier contacted, supplier order/payment submitted, DNS changed, product published or store settings changed during this continuation. Trademark clearance remains unverified.
 
-
 ## Latest continuation: cost reduction and compact packing — 23 October 2026
 
 Read the [cost reduction assessment](Noorly_Cost_Reduction_Assessment_2026-10-23.md) first for the newest product/packing/delivery/handling recommendation. The preceding offer-decision checkpoint still supplies domain, tax and supplier-basket evidence.
@@ -412,7 +408,6 @@ The next useful step is a representative assembly and packing trial after separa
 
 Research used Chrome only. No supplier contacted, account registered, order/payment submitted, ads/presales activated, DNS changed or Shopify setting/product changed. Preserve store tzwngp-h1, original 15-second winter film and password protection. Media remains SEK 4,000 total / SEK 2,000 initial and SEK 2,000 reserve; remaining spend unreconciled.
 
-
 ## Latest continuation: outsourced fulfilment comparison — 23 October 2026
 
 Read [outsourced fulfilment assessment and exact quote requests](Noorly_Outsourced_Fulfilment_Assessment_2026-10-23.md) first. Owner queried the prior manual-packing assumption and requested a comparison to determine the best option. Manual fulfilment is a costing baseline, not a settled operational choice.
@@ -431,7 +426,6 @@ Read [outsourced fulfilment assessment and exact quote requests](Noorly_Outsourc
 
 No supplier contact, signup, order/payment, contract, store/ads/presale activation or DNS changes occurred. Chrome only; original 15-second winter film, password protection and store tzwngp-h1 preserved. Domain paid by owner; not yet VAT-registered; exemption eligibility unresolved. Media remains SEK 4,000 split SEK 2,000 initial / SEK 2,000 reserve with prior spend unreconciled.
 
-
 ## Latest continuation: monthly break-even and owner registration status — 23 October 2026
 
 Read the [monthly break-even model](Noorly_Monthly_Breakeven_2026-10-23.md) first for this calculation. The outsourced fulfilment report still contains the supplier shortlist and exact UNSENT quote requests.
@@ -448,7 +442,6 @@ Read the [monthly break-even model](Noorly_Monthly_Breakeven_2026-10-23.md) firs
 
 No ads/presales, supplier order/payment, registration, DNS or store change occurred. The new SEK 3,000 monthly advertising sensitivity does not silently replace the prior SEK 4,000 allocation / SEK 2,000 initial and reserve release gates. Preserve the winter video, password protection and Shopify tzwngp-h1; domain paid by owner.
 
-
 ## Latest continuation: offer health and Swedish candle-sand sourcing — 23 October 2026
 
 Read [Swedish candle-sand options and health assessment](Noorly_Swedish_Candle_Sand_and_Health_Assessment_2026-10-23.md) for the current evidence. No supplier replacement or launch has been selected.
@@ -464,7 +457,6 @@ Read [Swedish candle-sand options and health assessment](Noorly_Swedish_Candle_S
 - Swedish storefront/company, Swedish fulfilment/packing and Swedish manufacture are distinct. None of the new leads establishes all three.
 
 Research used connected Chrome. No supplier message, registration/application, basket submission, order/payment, reservation, business setup, ad/presale activation, DNS or Shopify change. Earlier exact Mitt/Expresspack quote emails remain UNSENT pending clear approval. Preserve store tzwngp-h1, password protection and winter video. Domain paid; business and VAT registration not yet complete; tax eligibility unresolved.
-
 
 ## Latest continuation: private-label candle sand and full-kit economics — 23 October 2026
 
@@ -489,7 +481,6 @@ Three exact supplier quote requests are saved in the report for **info@pjnordic.
 
 Chrome-only research; existing Candledust account worked. Research-added bulk sand and wicks were removed and cart restoration verified: original black 250 g sample / three wicks, quantity one; subtotal EUR 8.50 + freight 14.88 = EUR 23.38 incl EUR 4.53 VAT. No supplier message/request submission, order/payment/reservation, signup, business registration, contract, ads/presales, DNS or store change. Domain paid by owner. Preserve Shopify tzwngp-h1, password protection and the original 15-second winter video. Standing media release budget remains SEK 4,000 split SEK 2,000 initial / SEK 2,000 reserve; monthly SEK 3,000 sensitivity does not activate spending.
 
-
 ## Latest continuation: approved supplier outreach sent and first-month projections — 23 October 2026
 
 Read [the outreach record and first-month projections](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md) for exact verified sent bodies, demand/cost assumptions, VAT arithmetic, forecast judgment and cash exposure. This checkpoint overrides earlier UNSENT status for these three suppliers only.
@@ -499,6 +490,7 @@ Read [the outreach record and first-month projections](Noorly_Private_Label_Outr
 The owner explicitly said to send the quote requests to PJ Nordic, M1 and Devillebard and ask for the best small-batch Noorly price, ideally below SEK 100 per finished pack delivered to Sweden. Authorization was used without asking again.
 
 Sent separately through the existing Gmail account in Chrome and verified in Sent plus full Gmail connector readback:
+
 - **PJ Nordic — info@pjnordic.com**, 23 October **16:32:03 Europe/Stockholm**. Message ID `1a1692d11ed35bf8`, thread `1a1692ce86216946`.
 - **M1 Candles — info@m1candles.be**, **16:32:48**. Message ID `1a1692dbf9a1d5cc`, thread `1a1692da3295d517`.
 - **Devillebard — info@devillebard.com**, **16:33:22**. Message ID `1a1692e43db9e529`, thread `1a1692e1f7960435`.
@@ -536,7 +528,6 @@ No store/checkout, ads/presales, business registration, DNS, inventory order/pay
 
 The three-send proof is saved locally as `outputs/noorly-supplier-requests-sent-2026-10-23.png`; Sent view left open in Chrome. GitHub contains the sent-message audit and full model, without publishing the owner's sender address or unrelated inbox content.
 
-
 ## Latest continuation: product go/no-go recommendation — 23 October 2026
 
 The owner asked whether this product is worth pursuing or whether to pursue another product. **This is an assistant recommendation, not an owner-approved pivot, cancellation or launch decision.**
@@ -544,6 +535,7 @@ The owner asked whether this product is worth pursuing or whether to pursue anot
 Recommendation: retain the Noorly brand/domain, keep the sculptural wooden-bowl kit at the quote/qualification stage, and favour researching a simpler first product unless the pending quotes materially improve the complete-kit economics. Do not purchase stock or activate the current offer on the basis of the earlier forecast.
 
 Reasons:
+
 - Current twenty-kit own-brand model has approximately SEK 557.71 gross variable delivered cost before payment fees, or SEK 450.04 under the prospective registered-business assumptions, with unquoted service elements still present.
 - The optimistic model requires both cheaper finished sand and delivery AND better conversion; the improved supplier price alone does not prove demand.
 - A wooden bowl, separately sourced glass insert, sand, repacking and fragile fulfilment add coordination and qualification work that is unattractive for a small first launch.
@@ -552,6 +544,7 @@ Reasons:
 - Existing SEK 2,000 recurring overhead and acquisition costs will also apply to a replacement; changing products is not itself evidence of better economics.
 
 Proposed commercial screen (a recommendation, not a new approved budget):
+
 - Evaluate the business using ordinary VAT-registered economics as well as any legitimately eligible exempt pilot.
 - Aim for complete variable product/packing/handling/customer-delivery cost around **SEK 350 or less excluding recoverable VAT**, before payment fees and advertising; reserve included.
 - At SEK 1,099 consumer price, assumed 3% + SEK 3 fee, twenty retained sales, SEK 3,000 total ads and SEK 2,000 overhead, SEK 350 net variable cost would leave about **SEK 4,865** before income tax, or **SEK 3,865** after the additional SEK 1,000 first-month allowance. This is a decision threshold, not a supplier offer or guaranteed result.

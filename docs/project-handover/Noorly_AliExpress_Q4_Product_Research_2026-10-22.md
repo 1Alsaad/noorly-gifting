@@ -23,16 +23,17 @@ The standing total media allocation is 4,000 SEK across the test sequence, initi
 
 ## Ranked candidates
 
-| Rank | Candidate and AliExpress lead | Archived price / source date | Reason to investigate | Commercial decision |
-|---|---|---|---|---|
-| 1 | Adult beginner punch-needle/embroidery kit; mushroom 20 x 20 cm lead, item 1005012749168324 | USD 9.56; 12 September 2026 | Demonstrable making process and finished result; fits Noorly's creative gift direction; craft category has current seasonal support | Qualify one complete adult kit first; Swedish guide and a genuine two-person option are possible differentiation, not existing contents |
-| 2 | Adult extra-long wearable blanket hoodie, item 1005009947726273 | USD 9.28; 15 October 2026 | Clear winter use and visible Swedish advertiser activity | Shortlist only after verifying fabric weight, adult dimensions, washing, stitching, packed size and delivery; the cheap variant is not established as premium quality |
-| 3 | Manual self-cleaning pet-hair roller, item 1005006861870207 | USD 9.45; AliDeals updated 26 September 2026 | Clear before/after demonstration, no charging, repeat household problem | A bundle needs added utility and low delivered cost; a basic roller alone faces low Swedish prices; no Q4 surge is established for this exact product |
-| 4 | DIY bookshop book nook, item 1005009381227013; comparison Rolife lead 1005007799462619 | USD 26.22 on 21 September; USD 44.49 on 27 September 2026 | Visually strong gift and relevant Swedish book-nook ad titles | Hold pending cheaper genuine sourcing or evidence supporting a higher retail price; delicate pieces, missing parts, assembly support and lighting matter |
-| 5 | Rechargeable hand-warmer two-pack, item 1005008032168506 | USD 21.32; 1 July 2026 | Strong functional winter fit | Deprioritise: Swedish established retail has a single hand-warmer/powerbank at 199.90 SEK; compare exact features/quantity before any claim of equivalence |
-| 6 | Adjustable candle-warmer lamp, item 1005012214959996 | USD 19.93; 12 July 2026 | Fits home-fragrance gifting and visual demonstrations | Exclude from first small-budget test without a qualified exact model; 2026 official recalls/reports show real category risks, not proof this listing is recalled |
+| Rank | Candidate and AliExpress lead                                                               | Archived price / source date                              | Reason to investigate                                                                                                               | Commercial decision                                                                                                                                                   |
+| ---- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Adult beginner punch-needle/embroidery kit; mushroom 20 x 20 cm lead, item 1005012749168324 | USD 9.56; 12 September 2026                               | Demonstrable making process and finished result; fits Noorly's creative gift direction; craft category has current seasonal support | Qualify one complete adult kit first; Swedish guide and a genuine two-person option are possible differentiation, not existing contents                               |
+| 2    | Adult extra-long wearable blanket hoodie, item 1005009947726273                             | USD 9.28; 15 October 2026                                 | Clear winter use and visible Swedish advertiser activity                                                                            | Shortlist only after verifying fabric weight, adult dimensions, washing, stitching, packed size and delivery; the cheap variant is not established as premium quality |
+| 3    | Manual self-cleaning pet-hair roller, item 1005006861870207                                 | USD 9.45; AliDeals updated 26 September 2026              | Clear before/after demonstration, no charging, repeat household problem                                                             | A bundle needs added utility and low delivered cost; a basic roller alone faces low Swedish prices; no Q4 surge is established for this exact product                 |
+| 4    | DIY bookshop book nook, item 1005009381227013; comparison Rolife lead 1005007799462619      | USD 26.22 on 21 September; USD 44.49 on 27 September 2026 | Visually strong gift and relevant Swedish book-nook ad titles                                                                       | Hold pending cheaper genuine sourcing or evidence supporting a higher retail price; delicate pieces, missing parts, assembly support and lighting matter              |
+| 5    | Rechargeable hand-warmer two-pack, item 1005008032168506                                    | USD 21.32; 1 July 2026                                    | Strong functional winter fit                                                                                                        | Deprioritise: Swedish established retail has a single hand-warmer/powerbank at 199.90 SEK; compare exact features/quantity before any claim of equivalence            |
+| 6    | Adjustable candle-warmer lamp, item 1005012214959996                                        | USD 19.93; 12 July 2026                                   | Fits home-fragrance gifting and visual demonstrations                                                                               | Exclude from first small-budget test without a qualified exact model; 2026 official recalls/reports show real category risks, not proof this listing is recalled      |
 
 Other checked leads:
+
 - Heart punch-needle kit 1005008405324782: indexed USD 9.79, current validity and complete contents unverified.
 - Embroidery kit with case 1005012899416407: indexed USD 5.90; not verified as a complete equivalent to the mushroom kit.
 - Book nook Christmas lead 1005009288414064: USD 41.39 on 15 September 2026.
@@ -40,6 +41,7 @@ Other checked leads:
 - These higher book-nook prices weaken a low-price impulse offer. No cheap listing was accepted simply because its title or photo looks equivalent.
 
 Direct product leads:
+
 - https://www.aliexpress.com/item/1005012749168324.html
 - https://www.aliexpress.com/item/1005009947726273.html
 - https://www.aliexpress.com/item/1005006861870207.html
@@ -68,15 +70,16 @@ A GOV.UK September 2026 notice recalled a specific TikTok candle warmer for seri
 
 All searches requested ACTIVE ads reaching Sweden on 22 October 2026. Counts are estimates for keyword searches, not unique competitors, market size or purchase results.
 
-| Search | Estimated total | Returned sample and interpretation |
-|---|---:|---|
-| punch needle | 337 | Four returned records were unrelated entertainment/generic pages; discard as a craft-market signal |
-| broderikit | 2 | Tant Hulda and Sebutik.se; titles alone do not establish exact kit type or profitability |
-| hoodie filt | 46 | Four returned ads were all Hoodly; do not interpret as 46 competitors |
-| pälsborttagare | 2 | Djursällskapet and Klartochsmidigt; titles alone provide limited product detail |
-| book nook | 368 | Thewarmworkshop had two relevant Swedish miniature-building titles, plus Cherishous and Broadnetcast; count may include broad matches |
+| Search         | Estimated total | Returned sample and interpretation                                                                                                    |
+| -------------- | --------------: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| punch needle   |             337 | Four returned records were unrelated entertainment/generic pages; discard as a craft-market signal                                    |
+| broderikit     |               2 | Tant Hulda and Sebutik.se; titles alone do not establish exact kit type or profitability                                              |
+| hoodie filt    |              46 | Four returned ads were all Hoodly; do not interpret as 46 competitors                                                                 |
+| pälsborttagare |               2 | Djursällskapet and Klartochsmidigt; titles alone provide limited product detail                                                       |
+| book nook      |             368 | Thewarmworkshop had two relevant Swedish miniature-building titles, plus Cherishous and Broadnetcast; count may include broad matches |
 
 Reviewable examples:
+
 - Hoodly, created 21 October Stockholm time: “Hoodien du ställer in planerna för. Nu upp till 50 % rabatt.” https://www.facebook.com/ads/library/?id=1608116461052441
 - Thewarmworkshop, created 22 October: “Bygg en liten konditori”. https://www.facebook.com/ads/library/?id=1481874347087455
 - Thewarmworkshop, created 22 October: “Bygg ett magiskt apotek”. https://www.facebook.com/ads/library/?id=1619751612955432
@@ -92,13 +95,13 @@ Illustrative model only: 25% output VAT, recoverable input VAT where actually ap
 
 Maximum delivered product/fulfilment cost = (delivered retail price / 1.25) x 0.80 - 100 - 30.
 
-| Offer hypothesis | Customer total incl. delivery | Maximum delivered product/fulfilment cost |
-|---|---:|---:|
-| Single complete adult craft kit | 399 SEK | 125.36 SEK |
-| Genuine two-person craft offer | 599 SEK | 253.36 SEK |
-| Quality adult blanket hoodie | 499 SEK | 189.36 SEK |
-| Useful pet-hair cleaning bundle | 349 SEK | 93.36 SEK |
-| Book nook at a 599 SEK hypothesis | 599 SEK | 253.36 SEK |
+| Offer hypothesis                  | Customer total incl. delivery | Maximum delivered product/fulfilment cost |
+| --------------------------------- | ----------------------------: | ----------------------------------------: |
+| Single complete adult craft kit   |                       399 SEK |                                125.36 SEK |
+| Genuine two-person craft offer    |                       599 SEK |                                253.36 SEK |
+| Quality adult blanket hoodie      |                       499 SEK |                                189.36 SEK |
+| Useful pet-hair cleaning bundle   |                       349 SEK |                                 93.36 SEK |
+| Book nook at a 599 SEK hypothesis |                       599 SEK |                                253.36 SEK |
 
 At CAC 150, each cost ceiling falls by 50 SEK. At CAC 100, maximum break-even delivered costs are 189.20, 349.20, 269.20, 149.20 and 349.20 SEK respectively. Break-even is before fixed costs; it is not an acceptable target margin.
 

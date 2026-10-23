@@ -1,4 +1,5 @@
 # Noorly outsourced fulfilment assessment and quote requests
+
 Date: 23 October 2026, Europe/Stockholm
 
 ## Recommendation
@@ -26,10 +27,10 @@ Source: [Mitt Logistik calculator, inclusions and FAQ](https://www.mittlogistik.
 Observed calculator results, with **three picks per shipment and one pallet of storage**:
 
 | Monthly shipments | Calculator total ex VAT | Per order including assumed 25% VAT |
-|---|---:|---:|
-| 20 | SEK 654 | SEK 40.88 |
-| 50 | SEK 1,539 | SEK 38.48 |
-| 100 | SEK 3,014 | SEK 37.68 |
+| ----------------- | ----------------------: | ----------------------------------: |
+| 20                |                 SEK 654 |                           SEK 40.88 |
+| 50                |               SEK 1,539 |                           SEK 38.48 |
+| 100               |               SEK 3,014 |                           SEK 37.68 |
 
 The calculator explicitly includes picking, packing, storage, packaging and labels. Freight is additional and it says the customer has its own freight agreement. Consequently **no cheaper carrier rate was verified**.
 
@@ -56,6 +57,7 @@ Borås-based provider says it serves startups and small/medium ecommerce busines
 A completed calculator scenario used: 50 shipments, 3 picks/order, 3 inbound deliveries, 0 inbound pallets, 2 cartons per delivery, 1 storage pallet, 0 shelf spaces, 0 returns. Carton/storage quantities are modelling assumptions, not measured supplier master cartons.
 
 Visible output:
+
 - Order handling SEK 1,600 ex VAT: SEK 1,150 order starts + SEK 450 picks.
 - Receiving SEK 822: SEK 750 receiving events + SEK 72 carton put-away.
 - Storage SEK 89.
@@ -84,12 +86,12 @@ Advertises usage-based service without fixed costs, but the inspected warehouse 
 
 Use the prior 650 g kit cost SEK 544.55; remove the manual fulfilment block SEK 159 before adding the outsourced block. Products, quoted supplier freight, insert-freight allowance, FX and damage provision otherwise stay at the previous assumptions.
 
-| All-in outsourced fulfilment | Total variable kit cost before payment/ads | Left at SEK 100 all-in CAC, eligible VAT-exempt case | Conservative VAT stress case |
-|---|---:|---:|---:|
-| SEK 149.88 composite Mitt scenario | SEK 535.43 | SEK 427.60 | SEK 207.80 |
-| SEK 159 break-even | SEK 544.55 | SEK 418.48 | SEK 198.68 |
-| SEK 180 scenario | SEK 565.55 | SEK 397.48 | SEK 177.68 |
-| SEK 200 scenario | SEK 585.55 | SEK 377.48 | SEK 157.68 |
+| All-in outsourced fulfilment       | Total variable kit cost before payment/ads | Left at SEK 100 all-in CAC, eligible VAT-exempt case | Conservative VAT stress case |
+| ---------------------------------- | -----------------------------------------: | ---------------------------------------------------: | ---------------------------: |
+| SEK 149.88 composite Mitt scenario |                                 SEK 535.43 |                                           SEK 427.60 |                   SEK 207.80 |
+| SEK 159 break-even                 |                                 SEK 544.55 |                                           SEK 418.48 |                   SEK 198.68 |
+| SEK 180 scenario                   |                                 SEK 565.55 |                                           SEK 397.48 |                   SEK 177.68 |
+| SEK 200 scenario                   |                                 SEK 585.55 |                                           SEK 377.48 |                   SEK 157.68 |
 
 Payment assumption is 3% + SEK 3. VAT stress means 25% output tax with no input-tax recovery, not a final tax computation. Owner remains not VAT-registered; exemption eligibility is unresolved. Amounts are contributions before fixed overhead, sample/testing and income tax. CAC is hypothetical. No guaranteed net profit is established.
 
@@ -98,6 +100,7 @@ The three supplier deliveries should ideally go directly to the selected warehou
 ## Exact requests prepared for owner approval — NOT SENT
 
 Send separate emails, not a joint message, to:
+
 1. Mitt Logistik: kontakt@mittlogistik.se
 2. Expresspack: kenneth@expresspack.se
 
@@ -116,6 +119,7 @@ Skålen är cirka 31 × 22 × 8–9 cm. Glaset är cirka 12,5 cm i diameter och 
 Komponenterna kan komma direkt från tre EU-leverantörer. För en första kalkyl kan ni anta tre inleveranser med totalt ungefär sex kartonger och högst en pallplats under en månad, men de faktiska inleveranskollina behöver bekräftas.
 
 Kan ni lämna ett specificerat totalpris för:
+
 - Uppstart, eventuell Shopify-koppling eller alternativ manuell orderimport samt alla minimiavgifter, bindnings- och uppsägningsvillkor.
 - Mottagning och kontroll av de tre leveranserna, lagring samt hantering av eventuellt kvarvarande lager.
 - Tre komponentplock, kontroll av glas/skål, skyddande emballage, sammanpackning till ett kundkit, instruktion och etikett. Ange om förpackning i en samlad batch blir billigare än packning per order.

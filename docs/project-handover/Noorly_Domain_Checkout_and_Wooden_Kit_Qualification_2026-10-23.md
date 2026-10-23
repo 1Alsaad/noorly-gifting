@@ -29,15 +29,15 @@ The conservative 20-kit model, with two sealed 350 g refills, gives approximatel
 
 [Loopia checkout](https://www.loopia.se/bestall/checkout/cart/) contains only:
 
-| Item | Verified checkout state |
-|---|---|
-| Domain | noorly.se |
-| Term | One year / 12 months |
-| First-year total | SEK 11.25 including VAT |
-| Included VAT | SEK 2.25 |
+| Item                       | Verified checkout state                              |
+| -------------------------- | ---------------------------------------------------- |
+| Domain                     | noorly.se                                            |
+| Term                       | One year / 12 months                                 |
+| First-year total           | SEK 11.25 including VAT                              |
+| Included VAT               | SEK 2.25                                             |
 | Published standard renewal | SEK 361.25/year including VAT; SEK 289 excluding VAT |
-| Paid extras | None selected |
-| Registration/payment | Owner must complete |
+| Paid extras                | None selected                                        |
+| Registration/payment       | Owner must complete                                  |
 
 The cart displayed the domain as orderable after the availability search. This is availability at inspection time, not a reservation. Loopia's price information says registration starts after payment. Recheck the final total if the owner returns later.
 
@@ -51,14 +51,14 @@ Source: [Loopia detailed price list](https://www.loopia.se/domannamn/detaljerad_
 
 Prices and stock are dated observations and not reserved. Wholesale and dropship channels are kept separate.
 
-| Candidate | Size / appearance | Verified price and availability | Weight evidence and suitability |
-|---|---|---|---|
-| AWGifts TeakB-31, natural rough shape | Title 31 × 22 × 8 cm; irregular broad bowl, visually inspected | EUR 11.40 ex VAT standard; EUR 10.26 member price displayed. Actual 20-unit basket: EUR 205.20 net after a 10% first-order discount; 91 available | Specification conflict: 31 × 20 × 9 cm elsewhere. Net 1,290 g / catalogue shipping weight 1,300 g. Interior dimensions and final protective pack not measured. Best immediate aesthetic lead |
-| AWGifts TeakB-29, snake shape | Approx. 55 cm; visually inspected, multiple shallow compartments | EUR 13.25 ex VAT; EUR 11.93 member price displayed; in stock. AW Dropship catalogue separately showed 92 and EUR 12.50 | Dropship catalogue shipping weight 1,600 g. Length does not imply a large continuous cavity; weaker fit for the desired candle surface |
-| AWGifts TeakB-34, leaf shape | 40 × 24 × 5 cm | EUR 15.00 ex VAT; EUR 13.50 member price displayed; out of stock. Dropship separately EUR 19.50 / zero | Catalogue shipping weight 760 g. Shallow and unavailable, so not an immediate pilot lead |
-| Indonesian Wholesaler TBL10 small | Organic hand-carved teak root, approx. 40 × 30 × 12 cm | MOQ 10; pre-order; login-gated ex-works price | Bubble wrap/cardboard described, but no packed weight, available quantity, dispatch date or Sweden freight quote |
-| Indonesian Wholesaler TBL10 medium | Approx. 55 × 40 × 20 cm; strongest larger organic-shape route | Same MOQ/pre-order/ex-works limitations | Matte or gloss varnish offered. Finish, cavity and candle suitability need exact-product confirmation |
-| Dareels NERO, ref. 441181 | Handcrafted teak-root bowl, 50 × 40 × 12 cm; natural exterior, matte-black interior | EUR 70 public retail, not a wholesale quote; add-to-cart available, no numeric stock confirmed | Packaging panel says 53 × 43 × 25 cm, 17 kg, includes 2 units. Treat this unusual carton figure as needing supplier clarification, not a measured individual weight |
+| Candidate                             | Size / appearance                                                                   | Verified price and availability                                                                                                                   | Weight evidence and suitability                                                                                                                                                              |
+| ------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AWGifts TeakB-31, natural rough shape | Title 31 × 22 × 8 cm; irregular broad bowl, visually inspected                      | EUR 11.40 ex VAT standard; EUR 10.26 member price displayed. Actual 20-unit basket: EUR 205.20 net after a 10% first-order discount; 91 available | Specification conflict: 31 × 20 × 9 cm elsewhere. Net 1,290 g / catalogue shipping weight 1,300 g. Interior dimensions and final protective pack not measured. Best immediate aesthetic lead |
+| AWGifts TeakB-29, snake shape         | Approx. 55 cm; visually inspected, multiple shallow compartments                    | EUR 13.25 ex VAT; EUR 11.93 member price displayed; in stock. AW Dropship catalogue separately showed 92 and EUR 12.50                            | Dropship catalogue shipping weight 1,600 g. Length does not imply a large continuous cavity; weaker fit for the desired candle surface                                                       |
+| AWGifts TeakB-34, leaf shape          | 40 × 24 × 5 cm                                                                      | EUR 15.00 ex VAT; EUR 13.50 member price displayed; out of stock. Dropship separately EUR 19.50 / zero                                            | Catalogue shipping weight 760 g. Shallow and unavailable, so not an immediate pilot lead                                                                                                     |
+| Indonesian Wholesaler TBL10 small     | Organic hand-carved teak root, approx. 40 × 30 × 12 cm                              | MOQ 10; pre-order; login-gated ex-works price                                                                                                     | Bubble wrap/cardboard described, but no packed weight, available quantity, dispatch date or Sweden freight quote                                                                             |
+| Indonesian Wholesaler TBL10 medium    | Approx. 55 × 40 × 20 cm; strongest larger organic-shape route                       | Same MOQ/pre-order/ex-works limitations                                                                                                           | Matte or gloss varnish offered. Finish, cavity and candle suitability need exact-product confirmation                                                                                        |
+| Dareels NERO, ref. 441181             | Handcrafted teak-root bowl, 50 × 40 × 12 cm; natural exterior, matte-black interior | EUR 70 public retail, not a wholesale quote; add-to-cart available, no numeric stock confirmed                                                    | Packaging panel says 53 × 43 × 25 cm, 17 kg, includes 2 units. Treat this unusual carton figure as needing supplier clarification, not a measured individual weight                          |
 
 A 25 cm AW natural-shape bowl was also visible in the catalogue, but it is smaller than the preferred 31 cm lead and does not solve the request for a larger vessel.
 
@@ -66,16 +66,16 @@ A 25 cm AW natural-shape bowl was also visible in the catalogue, but it is small
 
 The basket for 20 × TeakB-31 showed:
 
-| Line | EUR |
-|---|---:|
-| Standard goods subtotal | 228.00 |
-| Discount | -22.80 |
-| Goods net | 205.20 |
-| Other charges | 0.00 |
-| Shipping to existing Swedish destination | 29.95 |
-| Total excluding VAT | 235.15 |
-| Moms 25% | 58.79 |
-| Total before payment | 293.94 |
+| Line                                     |    EUR |
+| ---------------------------------------- | -----: |
+| Standard goods subtotal                  | 228.00 |
+| Discount                                 | -22.80 |
+| Goods net                                | 205.20 |
+| Other charges                            |   0.00 |
+| Shipping to existing Swedish destination |  29.95 |
+| Total excluding VAT                      | 235.15 |
+| Moms 25%                                 |  58.79 |
+| Total before payment                     | 293.94 |
 
 The basket labelled the reduction as the first-order bonus. Do not assume this exact offer repeats, stacks with member/range discounts, or applies to a smaller basket. Published member pricing and the actual basket discount are distinct evidence.
 
@@ -92,6 +92,7 @@ None of these wooden fruit/decor bowls has been qualified for direct burning of 
 The glass insert does not automatically make the wood-and-glass combination suitable. The real sample must establish fit, stability, clearance from the wood, rim geometry, heat transfer and performance through the intended burn cycle. Do not sell it as candle-safe merely because the insert is sold for candle making.
 
 [Candle Shack clear 50cl Lotti, GLAS0501](https://candle-shack.com/products/50cl-bowl-clear) remains a component candidate:
+
 - EUR 3.07 ex VAT for 1–59; EUR 2.77 for 60–119. Page displayed 314 available.
 - Internal diameter 11.6 cm; outer top diameter 12.5 cm; outer height 7.03 cm; internal height 6.19 cm.
 - Actual 20-unit cart: EUR 61.40 excluding VAT. Sweden checkout showed EUR 15.35 estimated tax and EUR 76.75 before freight. The product/cart's generic 20%-VAT display was superseded by the Swedish checkout's 25% estimate.
@@ -105,6 +106,7 @@ The insert is taller than the published 5 cm leaf bowl and may be conspicuous or
 ### Two sealed 350 g refills
 
 The existing Nordic Lights and Midnight refill pages both showed EUR 5.80 wholesale per pack. The current titles/body identify 350 g and the category states five wicks per pack. The cart SKUs still contain 330g:
+
 - nordic-lights-330g-refill-pearled-candle
 - midnight-330g-refill-pearled-candle
 
@@ -112,21 +114,22 @@ These were directly observed matching page/cart identities, not substituted Hert
 
 A cart with 20 of each refill plus the owner's existing one black 250 g sample showed:
 
-| Line | EUR displayed |
-|---|---:|
-| 20 Nordic Lights + 20 Midnight | 232.00 |
-| Existing black sample | 8.50 |
-| Subtotal | 240.50 |
-| FedEx to existing Swedish destination | 27.28 |
-| Total | 267.78 |
-| Included VAT | 51.83 |
-| Basket discount | None displayed |
+| Line                                  |  EUR displayed |
+| ------------------------------------- | -------------: |
+| 20 Nordic Lights + 20 Midnight        |         232.00 |
+| Existing black sample                 |           8.50 |
+| Subtotal                              |         240.50 |
+| FedEx to existing Swedish destination |          27.28 |
+| Total                                 |         267.78 |
+| Included VAT                          |          51.83 |
+| Basket discount                       | None displayed |
 
 This is a verified account cart quote, not stock allocation or a purchased invoice. It accepts the requested quantity but shows no numerical available stock/guaranteed dispatch allocation. Two 350 g packs provide 700 g total, with ten included wicks; they can support separate refills rather than assuming two fragrances should be mixed.
 
 ### 650 g alternative
 
 Rhubarb Sparkle 650 g showed EUR 12.12 wholesale and 17 included wicks. A separate temporary basket of 20 tubes plus the same existing sample showed:
+
 - Subtotal EUR 250.90.
 - FedEx Sweden freight EUR 29.76.
 - 10% accessories discount EUR 0.86 and 10% 650 g category discount EUR 24.24.
@@ -143,6 +146,7 @@ The prior Candledust correspondence remains relevant: approved reseller account;
 ## Sand quantity and packing: evidence versus assumptions
 
 The manufacturer's public calculator was exercised with hypothetical cylindrical interiors, one vessel, 100% fill and zero burn hours:
+
 - 12 cm inside diameter × 5 cm filled depth: displayed 0.57 kg.
 - 20 cm inside diameter × 5 cm filled depth: displayed 1.57 kg.
 
@@ -151,6 +155,7 @@ These are calculator outputs, not measurements of the AW bowl, the Lotti insert 
 The current central Candledust instruction page specifies an 8 cm minimum container diameter, about 4 cm sand clearance around a wick and 6–8 cm between wicks. The inspected 650 g product page still contains older 6 cm diameter / 5 cm spacing text. That discrepancy remains open; do not silently choose the smaller distances. Exact selected-product instructions, Swedish information and scent-specific SDS/labelling review remain release gates.
 
 [Packoplock](https://www.packoplock.se/emballage/kartonger-lador/enlagers-wellador) displayed:
+
 - SKU 795035, one-layer 440 × 320 × 250 mm internal box, pack 25, SEK 13.90 each excluding VAT, 100+ stock indicator.
 - Smaller 440 × 320 × 180 mm budget box SKU 788025, pack 25, SEK 9.95 each excluding VAT, stock indicator 67.
 - The larger box is a costing lead, not a tested packing design. Box strength, cushioning, separate glass protection, tube/pouch fit and supplier delivery charges still need verification. The reported stock indicator was not converted into a precise number of individual boxes.
@@ -165,33 +170,34 @@ Costed concept: one AW TeakB-31, one GLAS0501 insert, one Nordic Lights 350 g pa
 
 Exchange rate: the existing planning assumption 11.123 SEK/EUR, not a fresh bank conversion quote. The model uses the observed supplier cash totals without assuming recovery of their displayed VAT. Output VAT is modelled at 25%; merchant registration and correct invoice treatment must be confirmed. This deliberately conservative treatment should not be mistaken for an accounting conclusion.
 
-| Per kit | SEK | Evidence/basis |
-|---|---:|---|
-| Wooden bowl and allocated AW inbound freight/tax | 163.47 | EUR 293.94 / 20 at planning FX |
-| Two refills, allocated Candledust freight/tax and existing sample | 148.93 | EUR 267.78 / 20 |
-| Glass insert including Swedish checkout estimated tax | 42.68 | EUR 76.75 / 20 |
-| Insert inbound freight | 15.00 | Allowance, no quote |
-| Box, protective materials, tape and Swedish instruction/label | 30.00 | Allowance; box alone verified at SEK 13.90 ex VAT. Materials, minimum-pack surplus and supplier delivery still to reconcile |
-| Swedish delivery | 109.00 | Public >2–3 kg scenario, not weighed/contracted |
-| Packing labour | 20.00 | Assumption: six minutes at SEK 200/hour |
-| Breakage/returns provision | 15.00 | Assumption, not observed rate |
-| FX/payment conversion spread | 7.40 | 2% allowance on foreign supplier costs and insert freight |
-| Before customer payment fee and advertising | **551.49** | Mixture of verified cash costs and allowances |
+| Per kit                                                           |        SEK | Evidence/basis                                                                                                              |
+| ----------------------------------------------------------------- | ---------: | --------------------------------------------------------------------------------------------------------------------------- |
+| Wooden bowl and allocated AW inbound freight/tax                  |     163.47 | EUR 293.94 / 20 at planning FX                                                                                              |
+| Two refills, allocated Candledust freight/tax and existing sample |     148.93 | EUR 267.78 / 20                                                                                                             |
+| Glass insert including Swedish checkout estimated tax             |      42.68 | EUR 76.75 / 20                                                                                                              |
+| Insert inbound freight                                            |      15.00 | Allowance, no quote                                                                                                         |
+| Box, protective materials, tape and Swedish instruction/label     |      30.00 | Allowance; box alone verified at SEK 13.90 ex VAT. Materials, minimum-pack surplus and supplier delivery still to reconcile |
+| Swedish delivery                                                  |     109.00 | Public >2–3 kg scenario, not weighed/contracted                                                                             |
+| Packing labour                                                    |      20.00 | Assumption: six minutes at SEK 200/hour                                                                                     |
+| Breakage/returns provision                                        |      15.00 | Assumption, not observed rate                                                                                               |
+| FX/payment conversion spread                                      |       7.40 | 2% allowance on foreign supplier costs and insert freight                                                                   |
+| Before customer payment fee and advertising                       | **551.49** | Mixture of verified cash costs and allowances                                                                               |
 
 Customer payment fee assumption: 3% of gross customer payment + SEK 3. Actual Shopify/payment-provider rate, payment method, plan and any additional fee were not verified. Advertising CAC below means media spend divided by completed paid customers, not clicks or email signups.
 
 | Delivered customer price incl. assumed VAT | Revenue ex VAT | Assumed payment fee | Break-even CAC before fixed overhead | Contribution after CAC 100 |
-|---|---:|---:|---:|---:|
-| SEK 799 | 639.20 | 26.97 | 60.74 | **-39.26** |
-| SEK 899 | 719.20 | 29.97 | 137.74 | **37.74** |
-| SEK 999 | 799.20 | 32.97 | 214.74 | **114.74** |
-| SEK 1,099 | 879.20 | 35.97 | 291.74 | **191.74** |
+| ------------------------------------------ | -------------: | ------------------: | -----------------------------------: | -------------------------: |
+| SEK 799                                    |         639.20 |               26.97 |                                60.74 |                 **-39.26** |
+| SEK 899                                    |         719.20 |               29.97 |                               137.74 |                  **37.74** |
+| SEK 999                                    |         799.20 |               32.97 |                               214.74 |                 **114.74** |
+| SEK 1,099                                  |         879.20 |               35.97 |                               291.74 |                 **191.74** |
 
 Formula: contribution = delivered price / 1.25 - (0.03 × delivered price + 3) - 551.4868 - CAC.
 
 At SEK 999 / CAC 100, contribution is about 14.4% of ex-VAT revenue. Under these assumptions, approximately SEK 1,073 delivered is required for 20% contribution at CAC 100; SEK 1,099 is a scenario, not a recommended validated market price. Demand at that price has not been demonstrated.
 
 Sensitivity:
+
 - Every SEK 10 extra freight, packaging, damage or acquisition cost reduces contribution by SEK 10.
 - The >3–5 kg parcel band reduces contribution by SEK 20.
 - The observed 650 g basket would save about SEK 6.80 per kit before small FX effects; it supplies 50 g less and uses a different scent/format. Fill sufficiency still needs checking.
