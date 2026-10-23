@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.4
 
+> Latest verified continuation: [Chrome domain checkout and wooden-kit qualification — 23 October 2026](Noorly_Domain_Checkout_and_Wooden_Kit_Qualification_2026-10-23.md). Read the final checkpoint below before acting on older browser-access, domain or supplier-price statements.
+
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
 ## Decisions remain unchanged
@@ -313,3 +315,42 @@ No actual Chrome tabs/window could be inspected or controlled in these retries. 
 - No supplier contacted, sample/inventory order placed, paid app added, payment submitted, campaign launched, DNS changed or store activated during these retries.
 
 Repository: 1Alsaad/noorly-gifting. Existing Shopify: https://admin.shopify.com/store/tzwngp-h1?country=SE. Storefront: https://noorly-gifting.vercel.app/sv. Continue keeping GitHub as the source of truth and record only work actually performed. Do not place credentials, owner-preview password, tokens or payment details in the repository.
+
+
+## Chrome checkout and authenticated wooden-kit checkpoint — 23 October 2026
+
+Read [domain checkout and wooden complete-kit qualification](Noorly_Domain_Checkout_and_Wooden_Kit_Qualification_2026-10-23.md) for the current evidence, exact basket totals, larger alternatives, caveats and the full economics model. This checkpoint supersedes the earlier same-day browser failure, unprepared-checkout and unauthenticated-price states.
+
+### Access and owner instructions
+
+Chrome worked in this session. The owner explicitly changed the interaction scope to Chrome only; no native Computer window was used. AW Dropship was already signed in. AWGifts and Candledust initially showed login forms; after inspection the owner signed into both and authenticated prices were obtained. Do not revert to the earlier missing-controls assumption or repeatedly request app tags/sign-in without checking current state.
+
+### Domain: actual checkout prepared
+
+The live Loopia checkout was left open for the owner: noorly.se only, one year, SEK 11.25 including SEK 2.25 VAT. Published standard renewal is SEK 361.25/year including VAT. No hosting, email, paid DNS or extra domain was selected. Registration fields and terms/marketing checkboxes were left blank/unchecked; BankID and manual registration were available. A readable local screenshot was saved and the tab marked for owner handoff.
+
+The owner will register and pay. The domain remains NOT purchased, registered, reserved or connected by this work. Orderable at inspection does not reserve it. No final Beställ/payment submission or DNS action occurred. Keep Noorly remains the commercial recommendation; trademark clearance remains unverified.
+
+### Actual wholesale baskets, not purchases
+
+- AWGifts TeakB-31 rough organic bowl: standard EUR 11.40 ex VAT; 20-unit basket applied 10% first-order discount, yielding EUR 205.20 goods net, EUR 29.95 Sweden freight, EUR 58.79 VAT and EUR 293.94 cash total. Stock showed 91. Displayed basket weight 26 kg is a catalogue-derived figure, not a measured master-carton specification. Do not assume this discount repeats or stacks. The former EUR 14.80 is the separate AW Dropship price.
+- AWGifts TeakB-29 approx. 55 cm: EUR 13.25 ex VAT, EUR 11.93 member price displayed, in stock; its multiple shallow compartments make it a weaker match than a broad organic bowl. TeakB-34 40 × 24 × 5 cm: EUR 15.00 ex VAT, member EUR 13.50 displayed, out of stock. Do not silently merge these with different Dropship prices.
+- Larger alternatives: Indonesian Wholesaler TBL10 40/55 cm, MOQ ten/pre-order/ex-works/login-gated, still no landed quote; Dareels NERO 50 × 40 × 12 cm EUR 70 public retail, not wholesale. Dareels' 17 kg / two-unit carton statement needs clarification.
+- Candledust Nordic Lights and Midnight 350 g: EUR 5.80 each displayed wholesale. Actual cart of 20 each plus the owner's pre-existing black 250 g sample: EUR 240.50 subtotal, EUR 27.28 FedEx to the existing Swedish destination, EUR 267.78 total including EUR 51.83 VAT. No discount displayed. Legacy cart SKUs contain 330g while current product text says 350 g; physical packs still require verification.
+- Alternative 20 × Rhubarb Sparkle 650 g plus the same sample: EUR 12.12 each displayed; actual category discounts and EUR 29.76 freight yielded EUR 255.56 including EUR 49.46 VAT. Do not carry this discount to the 350 g basket. Do not call these displayed Candledust prices ex VAT.
+- Candle Shack GLAS0501: stock 314 displayed; 20-unit Sweden checkout EUR 61.40 goods + EUR 15.35 estimated tax = EUR 76.75 before freight. Shipping required full contact/address input; none was entered and freight remains unquoted.
+- AW sand catalogue still showed zero stock for all eleven variants. Candledust carts accepting quantities are not allocation or guaranteed stock/dispatch evidence.
+
+Temporary quotation additions were removed after inspection: AWGifts and Candle Shack carts verified empty; Candledust restored to its original one black sample. No order, payment, supplier message or reservation was submitted. A generated AW basket reference labelled “Order Number” is not evidence of a placed order.
+
+### Complete-kit economics and remaining gates
+
+The report models the wooden bowl, glass insert, two sealed 350 g packs, all three inbound routes, packing, domestic delivery, VAT, payment fees, FX, labour, damage/returns and advertising. Verified basket costs are distinguished from allowances.
+
+Conservative 20-kit scenario uses the old planning FX 11.123 SEK/EUR, supplier cash totals without assumed input-VAT recovery, 25% output VAT, SEK 15 insert-freight allowance, SEK 30 packing, SEK 109 domestic >2–3 kg tariff, SEK 20 labour, SEK 15 damage/returns, 2% FX allowance and assumed payment fee 3% + SEK 3. Cost before customer payment fee/ads is SEK 551.49 per kit. At CAC 100, contribution before fixed overhead is approximately -39 at SEK 799 delivered, 38 at SEK 899, 115 at SEK 999 and 192 at SEK 1,099. No final price or demand validation is established. Exact VAT treatment and merchant fees remain unverified.
+
+The two verified supplier baskets alone require about SEK 6,248 cash; inserts, packaging, final delivery and other costs are additional. Working capital is separate from the SEK 4,000 media allocation (2,000 initial / 2,000 reserve). No spending or launch approval follows from this research.
+
+No bowl is qualified for direct candle-sand use. A suitable insert must be checked as part of the whole wooden assembly. Usable internal dimensions, required fill, thermal behaviour, stable fit and final packed weight remain open. Manufacturer calculator examples (12 cm × 5 cm = 0.57 kg; 20 cm × 5 cm = 1.57 kg) are hypothetical fills, not measured kit requirements. Current central instructions and some product-page spacing/minimum-diameter text still conflict. Exact instructions, scent documents and Swedish labelling remain gates.
+
+Next work: obtain sample/purchase or supplier-contact authorization only when the owner chooses that next step; then settle the actual assembly, insert freight, measured parcel, stock/dispatch and full payment/refund flow before any paid pilot. Preserve original 15-second winter film, password protection and Shopify tzwngp-h1. No ads/presales, DNS, store settings, payments or supplier contact were activated in this continuation.
