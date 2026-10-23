@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Private-label requests SENT and first-month projections — 23 October 2026](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md). **PJ Nordic, M1 and Devillebard were contacted with explicit owner approval; three sends verified. Plan cautiously around break-even or a small first-month loss; the optimistic margin requires better sourcing and conversion.** Read the final checkpoint before relying on older decisions.
+> Latest verified continuation: **Product recommendation — 23 October 2026: keep Noorly, keep the wooden-bowl kit at quote/qualification stage, and favour researching a simpler first product unless economics improve. This is advice, not an owner-approved pivot.** Three supplier requests remain verified SENT. Read the final checkpoint and [outreach/projections report](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md).
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -535,3 +535,31 @@ At twelve sales after buying twenty sets, roughly **SEK 3,143** remains tied up 
 No store/checkout, ads/presales, business registration, DNS, inventory order/payment or contract was activated. Original 15-second winter video, password protection and Shopify tzwngp-h1 preserved; domain noorly.se remains owner-paid. Standing media release allocation remains SEK 4,000 total / SEK 2,000 initial test + SEK 2,000 reserve with historical spend unreconciled; modelling SEK 3,000 ads does not authorize activation.
 
 The three-send proof is saved locally as `outputs/noorly-supplier-requests-sent-2026-10-23.png`; Sent view left open in Chrome. GitHub contains the sent-message audit and full model, without publishing the owner's sender address or unrelated inbox content.
+
+
+## Latest continuation: product go/no-go recommendation — 23 October 2026
+
+The owner asked whether this product is worth pursuing or whether to pursue another product. **This is an assistant recommendation, not an owner-approved pivot, cancellation or launch decision.**
+
+Recommendation: retain the Noorly brand/domain, keep the sculptural wooden-bowl kit at the quote/qualification stage, and favour researching a simpler first product unless the pending quotes materially improve the complete-kit economics. Do not purchase stock or activate the current offer on the basis of the earlier forecast.
+
+Reasons:
+- Current twenty-kit own-brand model has approximately SEK 557.71 gross variable delivered cost before payment fees, or SEK 450.04 under the prospective registered-business assumptions, with unquoted service elements still present.
+- The optimistic model requires both cheaper finished sand and delivery AND better conversion; the improved supplier price alone does not prove demand.
+- A wooden bowl, separately sourced glass insert, sand, repacking and fragile fulfilment add coordination and qualification work that is unattractive for a small first launch.
+- The exact bowl/insert/wick assembly, final packed weight and complete fulfilment quote remain unverified.
+- **Twelve orders was a budgeting assumption, not measured demand or a statistically justified “most likely” forecast.** The stated 10–15 range must not be treated as validation.
+- Existing SEK 2,000 recurring overhead and acquisition costs will also apply to a replacement; changing products is not itself evidence of better economics.
+
+Proposed commercial screen (a recommendation, not a new approved budget):
+- Evaluate the business using ordinary VAT-registered economics as well as any legitimately eligible exempt pilot.
+- Aim for complete variable product/packing/handling/customer-delivery cost around **SEK 350 or less excluding recoverable VAT**, before payment fees and advertising; reserve included.
+- At SEK 1,099 consumer price, assumed 3% + SEK 3 fee, twenty retained sales, SEK 3,000 total ads and SEK 2,000 overhead, SEK 350 net variable cost would leave about **SEK 4,865** before income tax, or **SEK 3,865** after the additional SEK 1,000 first-month allowance. This is a decision threshold, not a supplier offer or guaranteed result.
+- Require actual evidence of retained customer acquisition near **SEK 150 or less** to support the twenty-order budget; no test has established this.
+- No paid launch until supplier terms, safe sample/assembly, business/tax setup and separate owner release authorization are in place.
+
+A simpler replacement should be judged for compact/lightweight shipping, low breakage, one-supplier or ready-packed fulfilment, minimal repacking and enough perceived value to cover paid acquisition. No particular replacement product has been researched/selected in this turn, and there is no claim that another product is automatically superior.
+
+A focused Gmail check found no messages from the three addressed supplier inboxes or matching Noorly mailer-daemon notices at the time of the check. This is not proof of recipient receipt or an exhaustive check for replies from alternate addresses. PJ Nordic, M1 and Devillebard requests remain verified SENT; do not resend them. No automatic monitoring or further supplier messaging was created. Earlier Mitt/Expresspack requests remain unsent.
+
+No spend, inventory, product/store change, presale, ads, DNS, domain or business-registration action occurred. Preserve Shopify tzwngp-h1, password protection, winter video and the standing media release gates. Full sent-request and scenario evidence remains in [the outreach/projections report](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md).
