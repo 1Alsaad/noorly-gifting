@@ -1,4 +1,5 @@
 # Noorly health assessment and Swedish candle-sand options
+
 Date: 23 October 2026, Europe/Stockholm
 
 ## Commercial verdict
@@ -8,6 +9,7 @@ Date: 23 October 2026, Europe/Stockholm
 The [monthly model](Noorly_Monthly_Breakeven_2026-10-23.md) uses SEK 1,099 delivered for the 650 g kit, provisional outsourced variable cost SEK 535.43, assumed fee 3% + SEK 3, total monthly overhead SEK 2,000 and total monthly ads SEK 3,000. Advertising is deducted once.
 
 At twenty orders:
+
 - Customer collections SEK 21,980.
 - Eligible exempt scenario: about SEK 5,552 surplus before income tax, roughly 25.3% of collections after the budgeted monthly expenses.
 - Pessimistic output-VAT/no-input-recovery stress: about SEK 1,156, roughly 5.3% of collections.
@@ -59,6 +61,7 @@ Good small-batch reseller lead, but current pack size, unscented format and unkn
 Sources: [1 kg](https://kristinasscrapbooking.se/stopa-ljus-gjuta-ljus/ljusmassa/kerasnow-snabbljus-i-ljusbehallare-1-kg/), [20 kg](https://kristinasscrapbooking.se/stopa-ljus-gjuta-ljus/ljusmassa/kerasnow-snabbljus-i-ljusbehallare-20-kg/), [onsite results](https://kristinasscrapbooking.se/search/?lang=sv&q=KeraSnow), [delivery terms](https://kristinasscrapbooking.se/info/kop-och-leveransvillkor/).
 
 Live public prices:
+
 - 1 kg SEK 138, in stock.
 - 3 kg SEK 408.
 - 5 kg SEK 670.
@@ -68,6 +71,7 @@ Live public prices:
 The 1 and 20 kg pages explicitly describe pouring powder into a fire-safe container and inserting a wick without melting; this is genuinely candle sand, not merely candle-making flakes.
 
 However:
+
 - Specifications say **paraffin/mineral wax, not vegetable wax**, origin **England**.
 - Wicks and glass are explicitly sold separately.
 - Sold by weight and supplied in bags; packaged resale portions, own-brand rights, exact supplier labels and documents require qualification.

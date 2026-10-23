@@ -16,13 +16,13 @@ The supplied AW screenshot shows Spirited black scented sand, 300 g, at EUR 6.25
 
 Assuming 25% output VAT, recoverable input VAT where actually applicable, EUR 6.25 net goods cost and customer prices including VAT:
 
-| Per single pouch | 3x the EUR 6.25 headline | 4x the EUR 6.25 headline |
-|---|---:|---:|
-| Customer payment | EUR 18.75 | EUR 25.00 |
-| Revenue excluding assumed VAT | EUR 15.00 | EUR 20.00 |
-| Pouch cost | EUR 6.25 | EUR 6.25 |
-| Left before shipping, fees, advertising and other costs | EUR 8.75 | EUR 13.75 |
-| Left after EUR 9.60 shipping, if that charge is net | EUR -0.85 | EUR 4.15 |
+| Per single pouch                                        | 3x the EUR 6.25 headline | 4x the EUR 6.25 headline |
+| ------------------------------------------------------- | -----------------------: | -----------------------: |
+| Customer payment                                        |                EUR 18.75 |                EUR 25.00 |
+| Revenue excluding assumed VAT                           |                EUR 15.00 |                EUR 20.00 |
+| Pouch cost                                              |                 EUR 6.25 |                 EUR 6.25 |
+| Left before shipping, fees, advertising and other costs |                 EUR 8.75 |                EUR 13.75 |
+| Left after EUR 9.60 shipping, if that charge is net     |                EUR -0.85 |                 EUR 4.15 |
 
 This arithmetic explains the constraint: markup is plausible, but individual international delivery can absorb the margin. A customer shipping charge changes the arithmetic and must be included in total price acceptance.
 

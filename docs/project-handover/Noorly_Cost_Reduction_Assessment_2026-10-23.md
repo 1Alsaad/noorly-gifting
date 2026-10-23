@@ -1,4 +1,5 @@
 # Noorly product, packing, delivery and handling cost assessment
+
 Date: 23 October 2026, Europe/Stockholm
 
 This follows the [offer and presale decision](Noorly_Offer_and_Presale_Decision_2026-10-23.md) and [authenticated supplier qualification](Noorly_Domain_Checkout_and_Wooden_Kit_Qualification_2026-10-23.md). Research used the owner's connected Chrome. Figures distinguish observed prices from untested packing and freight scenarios. No purchase, supplier contact or launch was made.
@@ -17,13 +18,13 @@ Do not reduce the price by SEK 100 to save SEK 40. Keep SEK 1,149 delivered as t
 
 The prior actual 20-unit supplier baskets remain the costing evidence. Planning FX is still 11.123 SEK/EUR, not a new bank quote; supplier cash includes the quoted tax, with no assumed recovery.
 
-| Component | Cash allocated per kit | Decision |
-|---|---:|---|
-| AWGifts TeakB-31, including first-order discount, supplier freight and VAT | SEK 163.47 | Keep as current organic wooden candidate |
-| Candledust Midnight 1 kg, allocated Sweden freight/tax and original sample | SEK 158.38 | Best value if parcel stays in lower band |
-| Candledust Rhubarb Sparkle 650 g, equivalent allocation | SEK 142.13 | Conditional smaller-pack option |
-| Candle Shack Lotti insert, goods and estimated Sweden tax | SEK 42.68 | Retain as candidate; not yet assembly-qualified |
-| Insert supplier freight | SEK 15.00 | Unquoted allowance retained |
+| Component                                                                  | Cash allocated per kit | Decision                                        |
+| -------------------------------------------------------------------------- | ---------------------: | ----------------------------------------------- |
+| AWGifts TeakB-31, including first-order discount, supplier freight and VAT |             SEK 163.47 | Keep as current organic wooden candidate        |
+| Candledust Midnight 1 kg, allocated Sweden freight/tax and original sample |             SEK 158.38 | Best value if parcel stays in lower band        |
+| Candledust Rhubarb Sparkle 650 g, equivalent allocation                    |             SEK 142.13 | Conditional smaller-pack option                 |
+| Candle Shack Lotti insert, goods and estimated Sweden tax                  |              SEK 42.68 | Retain as candidate; not yet assembly-qualified |
+| Insert supplier freight                                                    |              SEK 15.00 | Unquoted allowance retained                     |
 
 Changing 1 kg to 650 g saves SEK 16.25 in cash allocation, or SEK 16.58 including the model's 2% FX allowance. If it also changes domestic postage from SEK 129 to 109, total saving becomes SEK 36.58. Neither finished parcel has been weighed.
 
@@ -39,11 +40,11 @@ No wooden bowl is qualified for direct sand burning. Preserve an appropriate ins
 
 [Packoplock's single-wall box catalogue](https://www.packoplock.se/emballage/kartonger-lador/enlagers-wellador) provided these first-tier prices. Dimensions are INTERNAL; shipping dimensions must be measured on the finished parcel.
 
-| SKU | Box and minimum pack | Unit price ex VAT | Purchase cash incl VAT |
-|---|---|---:|---:|
-| 795035 | Previous 440 × 320 × 250 mm, pack 25 | SEK 13.90 | SEK 434.38 for 25 |
-| 795316 | Standard 390 × 290 × 150 mm, pack 25 | SEK 9.26 | SEK 289.38 for 25 |
-| 795772 | Quick-assembly 400 × 300 × 150 mm, pack 10 | SEK 11.90 | SEK 297.50 for 20 |
+| SKU    | Box and minimum pack                       | Unit price ex VAT | Purchase cash incl VAT |
+| ------ | ------------------------------------------ | ----------------: | ---------------------: |
+| 795035 | Previous 440 × 320 × 250 mm, pack 25       |         SEK 13.90 |      SEK 434.38 for 25 |
+| 795316 | Standard 390 × 290 × 150 mm, pack 25       |          SEK 9.26 |      SEK 289.38 for 25 |
+| 795772 | Quick-assembly 400 × 300 × 150 mm, pack 10 |         SEK 11.90 |      SEK 297.50 for 20 |
 
 The catalogue showed stock for the two compact candidates; no reservation was made. The quick-assembly option costs only SEK 8.13 more for the entire pilot than buying 25 standard boxes: about SEK 0.41 per shipped kit. Its higher unit price is offset by the smaller minimum pack. Select it if the actual packing test shows a useful time saving and sufficient protection.
 
@@ -61,15 +62,15 @@ Small retail packs can avoid a large initial packaging purchase. Prices inspecte
 
 Illustrative first-batch materials basket:
 
-| Item | Cash incl VAT |
-|---|---:|
-| Twenty quick-assembly boxes | SEK 297.50 |
-| Packoplock parcel freight | SEK 123.75 |
-| Two small bubble-wrap rolls | SEK 89.80 |
-| One tape roll | SEK 29.90 |
-| One kraft-paper roll | SEK 39.90 |
-| Printing/instructions/labels allowance | SEK 20.00 |
-| Total / twenty kits | **SEK 600.85 / SEK 30.04 each** |
+| Item                                   |                   Cash incl VAT |
+| -------------------------------------- | ------------------------------: |
+| Twenty quick-assembly boxes            |                      SEK 297.50 |
+| Packoplock parcel freight              |                      SEK 123.75 |
+| Two small bubble-wrap rolls            |                       SEK 89.80 |
+| One tape roll                          |                       SEK 29.90 |
+| One kraft-paper roll                   |                       SEK 39.90 |
+| Printing/instructions/labels allowance |                       SEK 20.00 |
+| Total / twenty kits                    | **SEK 600.85 / SEK 30.04 each** |
 
 Standard boxes instead produce SEK 29.64 per kit. This supports retaining the rounded SEK 30 allowance; it does NOT establish an additional saving against the existing model, which already budgets SEK 30. The previous large box alone plus supplier freight consumed SEK 27.91 per kit before any cushioning, so that format put the old allowance under pressure.
 
@@ -97,14 +98,14 @@ Current allowance is six minutes at SEK 200/hour = SEK 20 per kit. A four-minute
 
 All rows retain bowl, insert, insert-freight allowance, rounded SEK 30 packing, SEK 15 damage/returns reserve, supplier cash taxes and 2% FX provision. They exclude customer payment fees, advertising, fixed overhead, samples/testing and income tax. The account's original sample is already allocated through the quoted Candledust baskets. These are twenty-kit calculations.
 
-| Scenario | Cost per kit | Saving vs original | Unverified condition |
-|---|---:|---:|---|
-| Original 1 kg; SEK 129 delivery; six-minute handling | SEK 581.13 | — | Baseline allowances |
-| Compact 1 kg; SEK 109 delivery; six-minute handling | SEK 561.13 | SEK 20.00 | Protected parcel qualifies |
-| Same 1 kg; four-minute handling | SEK 554.46 | SEK 26.67 | Parcel plus timed handling |
-| Compact 650 g; SEK 109 delivery; six-minute handling | SEK 544.55 | SEK 36.58 | Fill/appearance and parcel qualify |
-| Same 650 g; four-minute handling | SEK 537.89 | SEK 43.24 | Also timed handling |
-| Same 650 g; SEK 80 all-in carrier target | SEK 508.89 | SEK 72.24 | Also actual cheaper freight quote |
+| Scenario                                             | Cost per kit | Saving vs original | Unverified condition               |
+| ---------------------------------------------------- | -----------: | -----------------: | ---------------------------------- |
+| Original 1 kg; SEK 129 delivery; six-minute handling |   SEK 581.13 |                  — | Baseline allowances                |
+| Compact 1 kg; SEK 109 delivery; six-minute handling  |   SEK 561.13 |          SEK 20.00 | Protected parcel qualifies         |
+| Same 1 kg; four-minute handling                      |   SEK 554.46 |          SEK 26.67 | Parcel plus timed handling         |
+| Compact 650 g; SEK 109 delivery; six-minute handling |   SEK 544.55 |          SEK 36.58 | Fill/appearance and parcel qualify |
+| Same 650 g; four-minute handling                     |   SEK 537.89 |          SEK 43.24 | Also timed handling                |
+| Same 650 g; SEK 80 all-in carrier target             |   SEK 508.89 |          SEK 72.24 | Also actual cheaper freight quote  |
 
 The material basket is SEK 0.04 above the rounded packing allowance per kit; use its actual amount when committing the final budget. Extra protection, collection and printing can matter more.
 

@@ -1,4 +1,5 @@
 # Noorly monthly break-even: SEK 2,000 overhead and SEK 3,000 advertising
+
 Date: 23 October 2026, Europe/Stockholm
 
 ## Owner's new facts and modelling request
@@ -14,6 +15,7 @@ The previous media allocation was SEK 4,000 total (SEK 2,000 initial / SEK 2,000
 Uses the 650 g complete wooden-kit example at **SEK 1,099 delivered**. This is the lower-sand hypothesis; not a confirmed final product or price. Prior actual supplier baskets used Rhubarb Sparkle 650 g. Sample fit, safe use, required fill, actual stock, parcel and delivery remain open.
 
 The [outsourced fulfilment assessment](Noorly_Outsourced_Fulfilment_Assessment_2026-10-23.md) provides the costing:
+
 - Variable kit cost before customer payment fee and advertising: SEK 535.42971625.
 - This contains products, allocated supplier freight/tax, insert-freight allowance, FX provision, damage/returns reserve and the provisional Mitt Logistik packing/storage-plus-delivery scenario.
 - Payment fee assumption: 3% of SEK 1,099 + SEK 3 = SEK 35.97.
@@ -30,16 +32,17 @@ SEK 3,000 ads is assumed to be the full cost including any nonrecoverable VAT or
 Formula: completed retained orders × contribution before ads/overhead - SEK 5,000.
 
 | Orders | Customer collections | Eligible VAT-exempt scenario | Pessimistic VAT stress |
-|---|---:|---:|---:|
-| 10 | SEK 10,990 | SEK 276 | SEK -1,922 |
-| 15 | SEK 16,485 | SEK 2,914 | SEK -383 |
-| 17 | SEK 18,683 | SEK 3,969 | SEK 233 |
-| 20 | SEK 21,980 | SEK 5,552 | SEK 1,156 |
-| 30 | SEK 32,970 | SEK 10,828 | SEK 4,234 |
-| 40 | SEK 43,960 | SEK 16,104 | SEK 7,312 |
-| 50 | SEK 54,950 | SEK 21,380 | SEK 10,390 |
+| ------ | -------------------: | ---------------------------: | ---------------------: |
+| 10     |           SEK 10,990 |                      SEK 276 |             SEK -1,922 |
+| 15     |           SEK 16,485 |                    SEK 2,914 |               SEK -383 |
+| 17     |           SEK 18,683 |                    SEK 3,969 |                SEK 233 |
+| 20     |           SEK 21,980 |                    SEK 5,552 |              SEK 1,156 |
+| 30     |           SEK 32,970 |                   SEK 10,828 |              SEK 4,234 |
+| 40     |           SEK 43,960 |                   SEK 16,104 |              SEK 7,312 |
+| 50     |           SEK 54,950 |                   SEK 21,380 |             SEK 10,390 |
 
 Break-even:
+
 - Eligible exempt scenario: **10 orders** (nine leaves about SEK -252, ten about SEK +276).
 - Pessimistic VAT stress: **17 orders** (sixteen leaves about SEK -75, seventeen about SEK +233).
 - For SEK 5,000 monthly surplus before income/corporation tax: **19 orders exempt**, **33 under stress**.
@@ -48,6 +51,7 @@ Break-even:
 These volumes are conditional calculations, not demand forecasts. Supplier per-kit costs were quoted at twenty, with a one-time AW discount and allocated original Candledust sample. Fewer/more actual purchases must be re-quoted. Storage, setup, inbound and fragile assembly fees are not yet fully confirmed. Mitt's observed 20-order calculator estimate is not an actual signed total quote or a universally linear per-order tariff.
 
 Ad acquisition required at fixed SEK 3,000 spend:
+
 - 10 retained paid orders: SEK 300 ads/order.
 - 17: SEK 176.47.
 - 20: SEK 150.
