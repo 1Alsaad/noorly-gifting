@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.4
 
-> Latest verified continuation: [Cost reduction assessment — 23 October 2026](Noorly_Cost_Reduction_Assessment_2026-10-23.md). **Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older domain, tax, cost or access statements.
+> Latest verified continuation: [Outsourced fulfilment assessment — 23 October 2026](Noorly_Outsourced_Fulfilment_Assessment_2026-10-23.md). **Mitt Logistik is the first quote candidate; no provider contacted or chosen. Owner has paid for noorly.se and is not yet VAT-registered.** Read the final checkpoint before relying on older decisions.
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.
 
@@ -411,3 +411,22 @@ Read the [cost reduction assessment](Noorly_Cost_Reduction_Assessment_2026-10-23
 The next useful step is a representative assembly and packing trial after separate sample-spend authorization: settle safe assembly/appearance and required fill, measure both protected formats, obtain the exact carrier quote, and time all handling including inspection and dispatch allocation. Do not remove cushioning to reach a weight threshold. Presales remain a proposed way to limit speculative stock, not a substitute for payout timing/working capital and refund planning.
 
 Research used Chrome only. No supplier contacted, account registered, order/payment submitted, ads/presales activated, DNS changed or Shopify setting/product changed. Preserve store tzwngp-h1, original 15-second winter film and password protection. Media remains SEK 4,000 total / SEK 2,000 initial and SEK 2,000 reserve; remaining spend unreconciled.
+
+
+## Latest continuation: outsourced fulfilment comparison — 23 October 2026
+
+Read [outsourced fulfilment assessment and exact quote requests](Noorly_Outsourced_Fulfilment_Assessment_2026-10-23.md) first. Owner queried the prior manual-packing assumption and requested a comparison to determine the best option. Manual fulfilment is a costing baseline, not a settled operational choice.
+
+- **Mitt Logistik is the first provider to qualify**, with Expresspack the second quote candidate. No final provider selection or verified cheaper all-in quote exists.
+- Mitt Logistik's public calculator was operated with 20 shipments, three picks per shipment and one pallet. It returned SEK 654 ex VAT, or SEK 40.88/order including assumed nonrecoverable 25% VAT. It states packing, picking, storage, packaging and labels included; delivery is extra and customer uses its own freight agreement. Fifty shipments returned SEK 1,539 ex VAT; one hundred SEK 3,014. No volume commitment follows.
+- Combining Mitt's twenty-order calculator with the existing provisional SEK 109 domestic postage gives approximately SEK 149.88/order. This is a composite estimate, not a provider quote. Fragile glass protection, kit assembly, receiving, setup/integration, minimum charges, exact contract terms, returns and actual shipping eligibility remain to confirm.
+- Manual baseline is SEK 159/order: packing 30 + owner time 20 + delivery 109. Mitt's composite scenario is about SEK 9.13 cheaper economically but SEK 10.88 more in immediate cash than manual packing if owner labour is unpaid. Do not describe the full owner-time saving as a cash saving.
+- Expresspack's live price page is a contact form rather than the calculator described by an old search snippet. It explicitly offers kitting/assembly in Borås. No price or minimum was obtained.
+- Flow 3PL's calculator would not accept twenty shipments and clamped to fifty. A completed 50-shipment/3-pick/3-receipt/6-carton/1-pallet/zero-return scenario returned SEK 2,511 ex VAT excluding freight and separately priced kitting; packaging inclusion unresolved. Extrapolating visible rates to twenty gives SEK 96.94 incl VAT/order before freight/kitting/any packaging. That is arithmetic, not a twenty-order quote or proof of a contractual minimum.
+- Plocklager/Mellanrummet's published setup, monthly fee, one pallet and three-pick fragile packing total SEK 163.25 per first-batch order at twenty before receiving and shipping; VAT basis/date validity unconfirmed. If prices exclude VAT, corresponding cash is SEK 204.06 before those extras. Weak pilot fit on these inputs.
+- Logitrail advertises no fixed charges but the inspected warehouse is in Raisio, Finland; no Swedish domestic warehouse/quote established.
+- At SEK 1,099 selling price, the 650 g model with hypothetical Mitt fulfilment gives about SEK 427.60 contribution with all-in CAC 100 in an eligible exempt case, or SEK 207.80 in the conservative VAT stress case, before fixed costs, testing and income tax. All final parcel, fee and tax assumptions remain unresolved.
+- Prefer a written first-month total at or below SEK 159 per completed customer order including nonrecoverable VAT, all receiving/assembly/materials/storage/setup allocation and domestic freight, plus any supplier-freight increase. Supplier deliveries should go directly to the chosen warehouse; re-quote the destination rather than assuming the prior inbound rates transfer unchanged.
+- Two exact Swedish email requests are saved in the report: kontakt@mittlogistik.se and kenneth@expresspack.se. **Neither was sent.** They request 20-order all-in first-month prices, 10/50-order and zero-order-month exposure, fragile handling, delivery, return and contract terms. Owner's earlier no-supplier-contact instruction requires clear further authorization before sending; research/comparison is complete within that boundary.
+
+No supplier contact, signup, order/payment, contract, store/ads/presale activation or DNS changes occurred. Chrome only; original 15-second winter film, password protection and store tzwngp-h1 preserved. Domain paid by owner; not yet VAT-registered; exemption eligibility unresolved. Media remains SEK 4,000 split SEK 2,000 initial / SEK 2,000 reserve with prior spend unreconciled.
