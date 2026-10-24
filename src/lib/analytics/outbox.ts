@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getEnv } from "@/lib/env/server";
 import { redisCommand } from "@/lib/security/redis";
 import { analyticsEventSchema } from "./schema";
+import { buildMetaPurchasePayload } from "./meta-purchase";
 
 const OUTBOX = "stilla:analytics:pending";
 const envelopeSchema = z.object({
@@ -82,25 +83,16 @@ async function deliver(
   } else if (provider === "meta") {
     url = `https://graph.facebook.com/${env.META_CAPI_API_VERSION}/${env.NEXT_PUBLIC_META_PIXEL_ID}/events`;
     headers.Authorization = `Bearer ${env.META_CAPI_ACCESS_TOKEN}`;
-    body = {
-      data: [
-        {
-          event_name: "Purchase",
-          event_time: Math.floor(new Date(item.createdAt).getTime() / 1000),
-          event_id: item.id,
-          action_source: "website",
-          event_source_url: env.NEXT_PUBLIC_SITE_URL,
-          user_data: {
-            ...(item.marketingFbp ? { fbp: item.marketingFbp } : {}),
-            ...(item.marketingFbc ? { fbc: item.marketingFbc } : {}),
-          },
-          custom_data: {
-            currency: properties.currency,
-            value: properties.value,
-          },
-        },
-      ],
-    };
+    body = buildMetaPurchasePayload({
+      id: item.id,
+      createdAt: item.createdAt,
+      siteUrl: env.NEXT_PUBLIC_SITE_URL,
+      currency: properties.currency!,
+      value: properties.value!,
+      fbp: item.marketingFbp,
+      fbc: item.marketingFbc,
+    });
+    if (!body) throw new Error("INVALID_META_PURCHASE");
   } else {
     url = env.ANALYTICS_DELIVERY_URL!;
     headers.Authorization = `Bearer ${env.ANALYTICS_DELIVERY_TOKEN}`;
