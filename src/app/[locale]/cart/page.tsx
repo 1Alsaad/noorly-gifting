@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { CartView } from "@/features/cart/cart-view";
 import { TrackView } from "@/components/analytics/track-view";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { isPublicTestPreview } from "@/lib/commerce/launch";
 export async function generateMetadata({
   params,
 }: {
@@ -28,6 +29,7 @@ export default async function CartPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (isPublicTestPreview()) redirect(`/${locale}/shop`);
   const t = getDictionary(locale);
   return (
     <div className="section-wrap page-content">

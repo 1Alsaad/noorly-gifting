@@ -1,9 +1,13 @@
-import { launchBundleHandle, launchBundleCopy } from "@/content/launch-bundle";
+import {
+  launchBundleHandle,
+  legacyLaunchBundleHandle,
+} from "@/content/launch-bundle";
 import { PlannedBundleDetails } from "@/components/product/planned-bundle";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
+import { getLaunchProduct } from "@/lib/commerce/launch-product";
 import { getDictionary, isLocale } from "@/content/translations";
 import { ProductPresentation } from "@/components/product/product-presentation";
 import { ProductCard } from "@/components/product/product-card";
@@ -15,14 +19,26 @@ type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
-  if (handle === launchBundleHandle) {
-    const copy = launchBundleCopy[locale];
-    return pageMetadata(
+  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle) {
+    const { product } = await getLaunchProduct();
+    const metadata = pageMetadata(
       locale,
-      `/products/${handle}`,
-      copy.title,
-      copy.description,
+      `/products/${launchBundleHandle}`,
+      product.title[locale],
+      product.description[locale],
     );
+    return product.images.length
+      ? {
+          ...metadata,
+          openGraph: {
+            ...metadata.openGraph,
+            images: product.images.map((image) => ({
+              url: image.url,
+              alt: image.alt,
+            })),
+          },
+        }
+      : metadata;
   }
   const p = await getCommerceProvider().getProductByHandle(handle);
   return p
@@ -37,8 +53,53 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
-  if (handle === launchBundleHandle)
-    return <PlannedBundleDetails locale={locale} />;
+  if (handle === legacyLaunchBundleHandle)
+    redirect(`/${locale}/products/${launchBundleHandle}`);
+  if (handle === launchBundleHandle) {
+    const launch = await getLaunchProduct();
+    const { product } = launch;
+    return (
+      <>
+        {launch.source === "shopify" && (
+          <>
+            <TrackView
+              name="product_viewed"
+              properties={{
+                locale,
+                product_id: product.id,
+                product_handle: product.handle,
+                currency: product.price.currencyCode,
+                value: product.price.amount,
+              }}
+            />
+            <StructuredData
+              data={{
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: product.title[locale],
+                description: product.description[locale],
+                image: product.images.map((image) => image.url),
+                sku: product.variants[0]?.sku ?? product.id,
+                ...(launch.purchasable
+                  ? {
+                      offers: {
+                        "@type": "Offer",
+                        price: product.price.amount,
+                        priceCurrency: product.price.currencyCode,
+                        url: `${brand.siteUrl}/${locale}/products/${product.handle}`,
+                        availability: "https://schema.org/InStock",
+                      },
+                    }
+                  : {}),
+              }}
+            />
+          </>
+        )}
+        <PlannedBundleDetails locale={locale} launch={launch} />
+      </>
+    );
+  }
+  if (process.env.NOORLY_PUBLIC_PREVIEW === "true") notFound();
   const provider = getCommerceProvider();
   const product = await provider.getProductByHandle(handle);
   if (!product) notFound();

@@ -15,6 +15,14 @@ import { variantLabel } from "@/components/product/variant-picker";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
+  const unsupportedPurchase = Boolean(
+    cart?.lines.some(
+      (line) =>
+        line.sellingPlanId ||
+        line.product.requiresSellingPlan ||
+        line.product.hasSellingPlans,
+    ),
+  );
   const groups = new Map<string, CartLine[]>();
   for (const line of cart?.lines ?? []) {
     const id =
@@ -88,87 +96,103 @@ export function CartView({ locale }: { locale: Locale }) {
                     </button>
                   </div>
                 )}
-                {lines.map((line) => (
-                  <div className="cart-line" key={line.id}>
-                    <Link
-                      href={`/${locale}/products/${line.product.handle}`}
-                      className="cart-image"
-                    >
-                      <Image
-                        src={
-                          (line.variant.images?.[0] ?? line.product.images[0])
-                            .url
-                        }
-                        alt={
-                          (line.variant.images?.[0] ?? line.product.images[0])
-                            .alt
-                        }
-                        fill
-                        sizes="100px"
-                      />
-                    </Link>
-                    <div className="cart-line-description">
-                      <h3>
-                        <Link
-                          href={`/${locale}/products/${line.product.handle}`}
-                        >
-                          {line.product.title[locale]}
-                        </Link>
-                      </h3>
-                      <p>{variantLabel(line.variant, locale)}</p>
+                {lines.map((line) => {
+                  const image =
+                    line.variant.images?.[0] ?? line.product.images[0];
+                  return (
+                    <div className="cart-line" key={line.id}>
+                      <Link
+                        href={`/${locale}/products/${line.product.handle}`}
+                        className="cart-image"
+                      >
+                        {image ? (
+                          <Image
+                            src={image.url}
+                            alt={image.alt}
+                            fill
+                            sizes="100px"
+                          />
+                        ) : (
+                          <span className="small-label">
+                            {locale === "sv"
+                              ? "Bild saknas"
+                              : "Image unavailable"}
+                          </span>
+                        )}
+                      </Link>
+                      <div className="cart-line-description">
+                        <h3>
+                          <Link
+                            href={`/${locale}/products/${line.product.handle}`}
+                          >
+                            {line.product.title[locale]}
+                          </Link>
+                        </h3>
+                        <p>{variantLabel(line.variant, locale)}</p>
+                        {!bundle && (
+                          <div className="quantity-control">
+                            <button
+                              className="icon-button"
+                              aria-label={`${t.quantity} −: ${line.product.title[locale]}`}
+                              disabled={
+                                loading ||
+                                unsupportedPurchase ||
+                                line.quantity <= 1
+                              }
+                              onClick={() => {
+                                void updateLine(
+                                  line.id,
+                                  line.quantity - 1,
+                                ).catch(() => {});
+                              }}
+                            >
+                              <Minus size={13} />
+                            </button>
+                            <span aria-label={t.quantity}>{line.quantity}</span>
+                            <button
+                              className="icon-button"
+                              aria-label={`${t.add}: ${line.product.title[locale]}`}
+                              disabled={
+                                loading ||
+                                unsupportedPurchase ||
+                                line.quantity >= 10
+                              }
+                              onClick={() => {
+                                void updateLine(
+                                  line.id,
+                                  line.quantity + 1,
+                                ).catch(() => {});
+                              }}
+                            >
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      <span>
+                        {formatMoney(
+                          {
+                            amount: line.variant.price.amount * line.quantity,
+                            currencyCode: "SEK",
+                          },
+                          locale,
+                        )}
+                      </span>
                       {!bundle && (
-                        <div className="quantity-control">
-                          <button
-                            className="icon-button"
-                            aria-label={`${t.quantity} −: ${line.product.title[locale]}`}
-                            disabled={loading || line.quantity <= 1}
-                            onClick={() => {
-                              void updateLine(line.id, line.quantity - 1).catch(
-                                () => {},
-                              );
-                            }}
-                          >
-                            <Minus size={13} />
-                          </button>
-                          <span aria-label={t.quantity}>{line.quantity}</span>
-                          <button
-                            className="icon-button"
-                            aria-label={`${t.add}: ${line.product.title[locale]}`}
-                            disabled={loading || line.quantity >= 10}
-                            onClick={() => {
-                              void updateLine(line.id, line.quantity + 1).catch(
-                                () => {},
-                              );
-                            }}
-                          >
-                            <Plus size={13} />
-                          </button>
-                        </div>
+                        <button
+                          className="icon-button"
+                          aria-label={`${t.remove}: ${line.product.title[locale]}`}
+                          disabled={loading}
+                          onClick={() => {
+                            void removeLines([line.id]).catch(() => {});
+                          }}
+                        >
+                          <X size={16} />
+                        </button>
                       )}
                     </div>
-                    <span>
-                      {formatMoney(
-                        {
-                          amount: line.variant.price.amount * line.quantity,
-                          currencyCode: "SEK",
-                        },
-                        locale,
-                      )}
-                    </span>
-                    {!bundle && (
-                      <button
-                        className="icon-button"
-                        aria-label={`${t.remove}: ${line.product.title[locale]}`}
-                        disabled={loading}
-                        onClick={() => {
-                          void removeLines([line.id]).catch(() => {});
-                        }}
-                      >
-                        <X size={16} />
-                      </button>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
                 {message && (
                   <div className="cart-gift-message">
                     <span className="eyebrow">{t.giftMessage}</span>
@@ -195,12 +219,19 @@ export function CartView({ locale }: { locale: Locale }) {
         <p>{t.tax}</p>
         <button
           className="button button-dark"
-          disabled={loading || !cart?.lines.length}
+          disabled={loading || !cart?.lines.length || unsupportedPurchase}
           onClick={pay}
         >
           {loading ? t.checking : t.checkout}
           <ArrowRight size={16} />
         </button>
+        {unsupportedPurchase && (
+          <p role="alert" className="field-error">
+            {locale === "sv"
+              ? "En produkt har ett köpalternativ som inte är tillgängligt här ännu. Ta bort produkten för att fortsätta."
+              : "An item has a purchase option that is not available here yet. Remove that item to continue."}
+          </p>
+        )}
         {error && (
           <p role="alert" className="field-error">
             {t.error}

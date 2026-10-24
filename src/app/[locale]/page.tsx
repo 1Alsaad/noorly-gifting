@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
 import { PlannedBundleCard } from "@/components/product/planned-bundle";
-import { launchBundleCopy, plannedLaunchBundle } from "@/content/launch-bundle";
+import { launchBundleCopy } from "@/content/launch-bundle";
+import { getLaunchProduct } from "@/lib/commerce/launch-product";
 import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
@@ -17,11 +18,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
+  const { product } = await getLaunchProduct();
   return pageMetadata(
     locale,
     "",
     t.home.title.replace("\n", " "),
-    launchBundleCopy[locale].description,
+    product.description[locale],
   );
 }
 export default async function Home({
@@ -32,9 +34,26 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
-  const season = await getContentRepository().getActiveSeason();
-  const products = [plannedLaunchBundle];
+  const [season, launch] = await Promise.all([
+    getContentRepository().getActiveSeason(),
+    getLaunchProduct(),
+  ]);
+  const products = [launch.product];
   const trustIcons = [Gift, Package, Clock3];
+  const trust =
+    launch.source === "shopify"
+      ? locale === "sv"
+        ? [
+            "Utvalt av Noorly",
+            "Se innehåll och produktbilder",
+            "Säker kassa hos Shopify",
+          ]
+        : [
+            "Selected by Noorly",
+            "Explore the contents and photographs",
+            "Secure Shopify checkout",
+          ]
+      : launchBundleCopy[locale].trust;
   return (
     <>
       <StructuredData
@@ -52,7 +71,7 @@ export default async function Home({
       />
       <div className="cinema-collection-handoff">
         <div className="trust-bar">
-          {launchBundleCopy[locale].trust.map((text, i) => {
+          {trust.map((text, i) => {
             const Icon = trustIcons[i];
             return (
               <div key={text}>
@@ -67,7 +86,7 @@ export default async function Home({
           id="gifts"
           tabIndex={-1}
         >
-          <PlannedBundleCard locale={locale} />
+          <PlannedBundleCard locale={locale} launch={launch} />
         </section>
       </div>
       <section className="story-section section-wrap">
@@ -94,11 +113,6 @@ export default async function Home({
             <ArrowRight size={17} />
           </Link>
         </div>
-      </section>
-      <section className="reviews-placeholder section-wrap">
-        <span className="eyebrow">{t.home.reviewsLabel}</span>
-        <p className="review-quote">{t.home.reviews}</p>
-        <p>{t.home.reviewsText}</p>
       </section>
     </>
   );

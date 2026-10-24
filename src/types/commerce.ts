@@ -19,6 +19,7 @@ export interface ProductVariant {
   scent?: LocalizedText;
   images?: ProductImage[];
   sku?: string;
+  selectedOptions?: { name: string; value: string }[];
 }
 export type ProductCategory =
   "box" | "signature" | "extra" | "card" | "packaging";
@@ -36,6 +37,9 @@ export interface Product {
   seasons: string[];
   boxEligible: boolean;
   previewOnly?: boolean;
+  /** Selling-plan checkout is unavailable until payment terms are integrated. */
+  requiresSellingPlan?: boolean;
+  hasSellingPlans?: boolean;
   included?: LocalizedText;
   care?: LocalizedText;
   highlights?: LocalizedText[];
@@ -68,6 +72,8 @@ export interface CartLine {
   variant: ProductVariant;
   quantity: number;
   attributes: CartAttribute[];
+  /** Retained from Shopify so an existing plan is never silently discarded. */
+  sellingPlanId?: string;
 }
 export interface Cart {
   id: string;

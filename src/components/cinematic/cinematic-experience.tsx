@@ -471,7 +471,11 @@ function Scene({
               >
                 <span>
                   <strong>{featured.title[locale]}</strong>
-                  <span>{launchBundleCopy[locale].price}</span>
+                  <span>
+                    {featured.id.startsWith("gid://shopify/Product/")
+                      ? price
+                      : launchBundleCopy[locale].price}
+                  </span>
                 </span>
                 <span aria-hidden="true">↗</span>
               </Link>

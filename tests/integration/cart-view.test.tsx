@@ -99,4 +99,26 @@ describe("cart controls and announcements", () => {
       screen.getByRole("button", { name: "Add to bag: Winter Candle" }),
     ).toBeDisabled();
   });
+  it("renders a cart without photographs without inventing a product image", () => {
+    state.cart!.lines[0].product.images = [];
+    state.cart!.lines[0].variant.images = [];
+    render(<CartView locale="en" />);
+    expect(screen.getByText("Image unavailable")).toBeVisible();
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Continue to secure checkout" }),
+    ).toBeEnabled();
+  });
+  it("blocks unsupported plan checkout while keeping removal available", () => {
+    state.cart!.lines[0].sellingPlanId = "gid://shopify/SellingPlan/1";
+    render(<CartView locale="en" />);
+    expect(
+      screen.getByRole("button", { name: "Continue to secure checkout" }),
+    ).toBeDisabled();
+    expect(screen.getByRole("alert")).toHaveTextContent("purchase option");
+    fireEvent.click(
+      screen.getByRole("button", { name: "Remove: Winter Candle" }),
+    );
+    expect(state.removeLines).toHaveBeenCalledWith(["line-1"]);
+  });
 });

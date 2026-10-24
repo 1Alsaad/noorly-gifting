@@ -14,9 +14,8 @@ export default async function AdminPreviewLogin({
         <p className="eyebrow">NOORLY / INTERN VISNING</p>
         <h1>Se vad vi bygger.</h1>
         <p>
-          Logga in för att granska butikens design. Produkter och priser i
-          förhandsvisningen kan vara exempel. Beställning och betalning är
-          stängda.
+          Logga in för att granska Noorlys produktsidor och köpupplevelse.
+          Kundernas beställning och betalning är fortfarande avstängda.
         </p>
         {signedIn ? (
           <div className="admin-preview-actions">

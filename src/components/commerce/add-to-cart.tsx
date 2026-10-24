@@ -25,9 +25,15 @@ export function AddToCart({
   const [state, setState] = useState<"idle" | "added" | "error">("idle");
   const t = getDictionary(locale);
   const variant =
-    product.variants.find((v) => v.id === variantId) ?? product.variants[0];
+    variantId === undefined
+      ? product.variants[0]
+      : product.variants.find((v) => v.id === variantId);
+  const unsupportedPlan =
+    product.requiresSellingPlan || product.hasSellingPlans;
+  const canPurchase =
+    product.available && !unsupportedPlan && Boolean(variant?.available);
   async function add() {
-    if (!variant) return;
+    if (!variant || !canPurchase || loading) return;
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
       setState("added");
@@ -48,10 +54,10 @@ export function AddToCart({
     <div className="add-control">
       <button
         className={compact ? "text-button" : "button button-dark"}
-        disabled={loading || !variant?.available}
+        disabled={loading || !canPurchase}
         onClick={add}
       >
-        {!variant?.available
+        {!canPurchase
           ? t.unavailable
           : loading
             ? t.adding

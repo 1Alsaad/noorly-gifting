@@ -203,6 +203,15 @@ export class ShopifyCommerceProvider implements CommerceProvider {
   async getCheckoutUrl(cartId: string, locale: Locale = "sv") {
     const cart = await this.getCart(cartId);
     if (!cart?.lines.length) throw new CommerceError("empty_cart");
+    if (
+      cart.lines.some(
+        (line) =>
+          line.sellingPlanId ||
+          line.product.requiresSellingPlan ||
+          line.product.hasSellingPlans,
+      )
+    )
+      throw new CommerceError("unsupported_purchase_option", 409);
     const availability = await this.validateAvailability(cart.lines);
     if (!availability.available)
       throw new CommerceError("unavailable_product", 409);
@@ -230,11 +239,12 @@ export class ShopifyCommerceProvider implements CommerceProvider {
         id: string;
         availableForSale: boolean;
         quantityAvailable: number | null;
+        product: {
+          requiresSellingPlan: boolean;
+          sellingPlanGroups: { nodes: { name: string }[] };
+        };
       } | null)[];
-    }>(
-      "query Availability($ids:[ID!]!) { nodes(ids:$ids) { ... on ProductVariant { id availableForSale quantityAvailable } } }",
-      { ids },
-    );
+    }>(queries.AVAILABILITY_QUERY, { ids });
     const unavailableVariantIds = ids.filter((id) => {
       const variant = result.nodes.find((item) => item?.id === id);
       const quantity = lines
@@ -242,6 +252,16 @@ export class ShopifyCommerceProvider implements CommerceProvider {
         .reduce((sum, line) => sum + line.quantity, 0);
       return (
         !variant?.availableForSale ||
+        !variant.product ||
+        variant.product.requiresSellingPlan !== false ||
+        !variant.product.sellingPlanGroups ||
+        variant.product.sellingPlanGroups.nodes.length > 0 ||
+        lines.some(
+          (line) =>
+            line.merchandiseId === id &&
+            "sellingPlanId" in line &&
+            Boolean(line.sellingPlanId),
+        ) ||
         (variant.quantityAvailable !== null &&
           variant.quantityAvailable < quantity)
       );

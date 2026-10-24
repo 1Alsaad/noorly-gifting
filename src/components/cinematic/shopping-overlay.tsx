@@ -12,6 +12,7 @@ import {
 } from "@/content/launch-bundle";
 import { useState } from "react";
 import Link from "next/link";
+import { formatMoney } from "@/lib/utils/money";
 import { VariantPicker } from "@/components/product/variant-picker";
 import { useCart } from "@/features/cart/cart-provider";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
@@ -58,6 +59,9 @@ export function ShoppingOverlay({
 
   if (product.handle === launchBundleHandle) {
     const bundle = launchBundleCopy[locale];
+    const published = product.id.startsWith("gid://shopify/Product/");
+    const purchasable =
+      !isProductTestMode() && !product.previewOnly && product.available;
     return (
       <div
         className="cinema-shopping"
@@ -71,19 +75,27 @@ export function ShoppingOverlay({
         }}
       >
         <p className="cinema-kicker">{bundle.label}</p>
-        <h2 className="cinema-shopping-title">{bundle.title}</h2>
-        <p className="cinema-planned-price">{bundle.price}</p>
+        <h2 className="cinema-shopping-title">{product.title[locale]}</h2>
+        <p className="cinema-planned-price">
+          {published ? formatMoney(product.price, locale) : bundle.price}
+        </p>
         <Link
           className="cinema-button cinema-button-dark"
           href={launchBundleHref(locale)}
         >
-          {bundle.cta}
+          {purchasable
+            ? locale === "sv"
+              ? "Se innehåll och köp"
+              : "View details and buy"
+            : bundle.cta}
         </Link>
-        <p className="cinema-planned-note">
-          {locale === "sv"
-            ? "Ingen beställning eller förbeställning ännu."
-            : "Orders and pre-orders are not open yet."}
-        </p>
+        {!purchasable && (
+          <p className="cinema-planned-note">
+            {locale === "sv"
+              ? "Beställning är inte tillgänglig just nu."
+              : "Ordering is currently unavailable."}
+          </p>
+        )}
         <a className="cinema-details-link" href="#gifts" onClick={onSkip}>
           {copy.explore}
         </a>

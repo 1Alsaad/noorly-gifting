@@ -132,7 +132,11 @@ export function validateIncomingLines(lines: CartLineInput[]): CartLineInput[] {
     attributes: cleanAttributes(line.attributes),
   }));
 }
-export function validateCart(cart: Cart, catalogue: Product[]): void {
+export function validateCart(
+  cart: Cart,
+  catalogue: Product[],
+  options: { allowUnsupportedPurchaseOptions?: boolean } = {},
+): void {
   if (
     cart.lines.length > MAX_CART_LINES ||
     cart.totalQuantity > MAX_CART_QUANTITY
@@ -140,6 +144,13 @@ export function validateCart(cart: Cart, catalogue: Product[]): void {
     throw new CommerceError("cart_limit");
   const groups = new Map<string, Cart["lines"]>();
   for (const line of cart.lines) {
+    if (
+      !options.allowUnsupportedPurchaseOptions &&
+      (line.sellingPlanId ||
+        line.product.requiresSellingPlan ||
+        line.product.hasSellingPlans)
+    )
+      throw new CommerceError("unsupported_purchase_option", 409);
     const attrs = Object.fromEntries(
       cleanAttributes(line.attributes).map(({ key, value }) => [key, value]),
     );

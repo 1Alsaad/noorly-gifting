@@ -18,13 +18,21 @@ export function ProductPresentation({
 }) {
   const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
   const variant = product.variants.find((item) => item.id === variantId);
+  const galleryImages = variant?.images?.length
+    ? product.variants.length === 1
+      ? [...variant.images, ...product.images].filter(
+          (image, index, images) =>
+            images.findIndex((item) => item.url === image.url) === index,
+        )
+      : variant.images
+    : product.images;
   const t = getDictionary(locale);
   return (
     <div className="product-detail">
       <div>
         <ProductGallery
           key={variantId}
-          images={variant?.images ?? product.images}
+          images={galleryImages}
           locale={locale}
           title={
             variant?.color
@@ -37,16 +45,18 @@ export function ProductPresentation({
             {product.included[locale]}
           </p>
         )}
-        {product.variants.some((item) => item.images) && (
+        {product.variants.some((item) => item.images?.length) && (
           <noscript>
             <ul>
-              {product.variants.map((item) => (
-                <li key={item.id}>
-                  <a href={item.images?.[0]?.url}>
-                    {variantLabel(item, locale)}
-                  </a>
-                </li>
-              ))}
+              {product.variants
+                .filter((item) => item.images?.length)
+                .map((item) => (
+                  <li key={item.id}>
+                    <a href={item.images?.[0]?.url}>
+                      {variantLabel(item, locale)}
+                    </a>
+                  </li>
+                ))}
             </ul>
           </noscript>
         )}

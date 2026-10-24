@@ -21,12 +21,20 @@ export function ProductCard({
         className="product-image"
         href={`/${locale}/products/${product.handle}`}
       >
-        <Image
-          src={product.images[0]?.url || "/media/products/winter-evening.svg"}
-          alt={product.images[0]?.alt || product.title[locale]}
-          fill
-          sizes="(max-width: 680px) 90vw, (max-width: 1000px) 45vw, 30vw"
-        />
+        {product.images[0] ? (
+          <Image
+            src={product.images[0].url}
+            alt={product.images[0].alt || product.title[locale]}
+            fill
+            sizes="(max-width: 680px) 90vw, (max-width: 1000px) 45vw, 30vw"
+          />
+        ) : (
+          <span className="product-note">
+            {locale === "sv"
+              ? "Produktbild saknas"
+              : "Product image unavailable"}
+          </span>
+        )}
         <span className="product-number">
           {index !== undefined
             ? `0${index + 1}`

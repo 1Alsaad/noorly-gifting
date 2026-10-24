@@ -18,8 +18,8 @@ export function PresaleHold({ locale }: { locale: "sv" | "en" }) {
           </h2>
           <p>
             {swedish
-              ? "Vi inväntar bekräftad tillgång och leveransperiod för vår ljussand. Du kan inte beställa eller betala här ännu."
-              : "We’re waiting for confirmed availability and a delivery window for our candle sand. You cannot order or pay here yet."}
+              ? "Noorly har fått in teakskålar och ljussand. Vi färdigställer paketets exakta innehåll och användningsinformation innan försäljning öppnar."
+              : "Noorly has received teak bowls and candle sand. We are finalising the exact package contents and usage instructions before sales open."}
           </p>
           <p>
             {swedish

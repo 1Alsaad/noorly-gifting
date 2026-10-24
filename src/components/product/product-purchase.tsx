@@ -23,6 +23,8 @@ export function ProductPurchase({
   const variantId = controlledVariant ?? localVariant ?? "";
   const t = getDictionary(locale);
   const selected = product.variants.find((v) => v.id === variantId);
+  const unsupportedPlan =
+    product.requiresSellingPlan || product.hasSellingPlans;
   return (
     <div className="purchase-panel">
       <p className="product-price">
@@ -36,9 +38,13 @@ export function ProductPurchase({
             ? locale === "sv"
               ? "Demopris · ej till försäljning"
               : "Demo price · not on sale"
-            : selected?.available
-              ? t.available
-              : t.unavailable}
+            : unsupportedPlan
+              ? locale === "sv"
+                ? "Det här köpalternativet är inte tillgängligt ännu."
+                : "This purchase option is not available yet."
+              : selected?.available && product.available
+                ? t.available
+                : t.unavailable}
       </p>
       {product.variants.some((variant) => variant.color) ? (
         <VariantPicker
