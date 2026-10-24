@@ -2,8 +2,9 @@ import type { Locale, Product } from "@/types/commerce";
 
 // This public presentation is an inventory-backed sourcing update, not a
 // Shopify purchasable variant. Do not assume 20 fully assembled kits from 20 bowls.
-export const launchBundleHandle =
+export const legacyLaunchBundleHandle =
   "noorly-ljusstund-presentset-med-glasskal-och-tva-dofter";
+export const launchBundleHandle = "noorly-ljusstund-teakskal-och-ljussand";
 
 export const supplierBowlUrl =
   "https://www.awgifts.eu/homeware/tableware-kitchen-accessories/teakb/teakb-37";
