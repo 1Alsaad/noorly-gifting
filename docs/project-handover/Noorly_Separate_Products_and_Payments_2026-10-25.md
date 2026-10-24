@@ -2,6 +2,8 @@
 
 Updated 25 October 2026, Europe/Stockholm. This checkpoint supersedes the earlier instructions to keep customer ordering closed and to promote the combined 799 SEK Ljusstund set. Historical research and handovers remain evidence of their dates, not the current sales instruction.
 
+> **Later checkout-design update:** Read [Noorly checkout branding — 25 October 2026](Noorly_Checkout_Branding_2026-10-25.md) for the saved logo, colours and fonts, plan limits, and current visual-verification status.
+
 ## Latest owner instruction
 
 The owner explicitly requested opening payments now, separating the bowl and candle sand into individual products, and improving the product page so customers choose a colour and see the corresponding product photograph. The owner will update the online-sales rules and company details manually. Do not reinstate the earlier hold on sales solely because those edits remain outstanding, and do not invent missing company data.
