@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import { getDictionary, isLocale } from "@/content/translations";
 import { BoxBuilder } from "@/features/box-builder/box-builder";
@@ -27,6 +27,7 @@ export default async function BuildPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (process.env.NOORLY_PUBLIC_PREVIEW === "true") redirect(`/${locale}/shop`);
   const query = await searchParams;
   const t = getDictionary(locale);
   const products = await getCommerceProvider().getProducts();
