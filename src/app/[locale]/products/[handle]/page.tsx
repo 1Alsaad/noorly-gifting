@@ -1,8 +1,12 @@
-import { launchBundleHandle, launchBundleCopy } from "@/content/launch-bundle";
+import {
+  launchBundleHandle,
+  legacyLaunchBundleHandle,
+  launchBundleCopy,
+} from "@/content/launch-bundle";
 import { PlannedBundleDetails } from "@/components/product/planned-bundle";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import { getDictionary, isLocale } from "@/content/translations";
 import { ProductPresentation } from "@/components/product/product-presentation";
@@ -15,7 +19,7 @@ type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
-  if (handle === launchBundleHandle) {
+  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle) {
     const copy = launchBundleCopy[locale];
     return pageMetadata(
       locale,
@@ -37,8 +41,11 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
+  if (handle === legacyLaunchBundleHandle)
+    redirect(`/${locale}/products/${launchBundleHandle}`);
   if (handle === launchBundleHandle)
     return <PlannedBundleDetails locale={locale} />;
+  if (process.env.NOORLY_PUBLIC_PREVIEW === "true") notFound();
   const provider = getCommerceProvider();
   const product = await provider.getProductByHandle(handle);
   if (!product) notFound();
