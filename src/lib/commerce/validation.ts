@@ -60,7 +60,7 @@ const attributeSchema = z
   );
 export const attributesSchema = z
   .array(attributeSchema)
-  .max(5)
+  .max(7)
   .refine(
     (attributes) =>
       new Set(attributes.map(({ key }) => key)).size === attributes.length,
