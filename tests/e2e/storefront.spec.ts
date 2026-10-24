@@ -38,7 +38,7 @@ async function expectSupplierBowlGallery(page: Page) {
     page.locator("main .planned-bundle-photo-note a"),
   ).toHaveAttribute("href", supplierBowlUrl);
   await expect(page.locator("main .planned-bundle-photo-note p")).toHaveText(
-    "The supplier's teak-bowl photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. The photographs show the individual products. The complete Ljusstund set has not yet been photographed.",
+    "The supplier's teak-bowl photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. The candle-sand photographs show the pouch and wax granules for each colour and scent. One 300 g pouch and four cotton wicks are included in the set. The photographs show the individual products. The complete Ljusstund set has not yet been photographed.",
   );
 }
 async function continueBuilder(page: Page) {
