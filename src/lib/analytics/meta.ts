@@ -158,7 +158,7 @@ export function getMetaCheckoutAttributes(): Record<string, string> {
       .find((value) => value.startsWith(`${name}=`));
     if (!pair) return "";
     const value = pair.slice(name.length + 1);
-    return /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value)
+    return /^fb\.\d+\.\d+\.[A-Za-z0-9_-]{1,160}$/.test(value)
       ? value
       : "";
   };
