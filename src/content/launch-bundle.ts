@@ -6,13 +6,16 @@ export const launchBundleHandle =
 
 export const launchBundleCopy = {
   sv: {
-    label: "PLANERAT PRESENTSET",
+    label: "FÖRHANDSBESTÄLLNING KOMMER SNART",
     title: "Noorly Ljusstund",
     description:
-      "En glasskål, två dofter och en liten stund att ge bort. Vi planerar ett presentset med ELYSIA och två förseglade refillpåsar från The Candledust.",
-    price: "Planerat pris: 799 kr inklusive leverans inom Sverige",
+      "Noorly Ljusstund är ett planerat presentset med ELYSIA-glasskål och två förseglade doftpåsar från The Candledust. Setet erbjuds som förhandsbeställning när beställningar öppnar.",
+    price: "Planerat förhandsbeställningspris: 799 kr inklusive leverans inom Sverige",
+    preorderHeading: "Förhandsbeställning – leverans när varorna kommit in i lager",
+    preorderExplanation:
+      "Presentsetet finns inte i lager ännu. När förhandsbeställningar öppnar skickar vi din beställning efter att varorna kommit in och setet packats. Vi anger en beräknad leveransperiod innan betalning.",
     status:
-      "Under utveckling. Vi tar inte emot beställningar eller förbeställningar ännu. Slutligt innehåll och leveranstid bekräftas före säljstart.",
+      "Förhandsbeställningen har ännu inte öppnat. Det går inte att beställa eller betala nu. Slutligt innehåll och leveransperiod bekräftas före säljstart.",
     contentsTitle: "Det här planerar vi att lägga i asken",
     contents: [
       "En ELYSIA glasskål",
@@ -25,23 +28,26 @@ export const launchBundleCopy = {
       "Totalt 700 g ljussand. Refillpåsarna behåller The Candledusts originalförpackningar. Noorly väljer ut och sätter samman presentsetet.",
     photos: "Produktbilder kommer när setet är färdigställt.",
     trust: [
-      "Två dofter · 700 g",
-      "Förseglade originalpåsar",
-      "Under utveckling",
+      "Förhandsbeställning kommer snart",
+      "Leverans efter att varorna kommit in i lager",
+      "799 kr · planerat pris",
     ],
-    cta: "Utforska presentsetet",
+    cta: "Se den kommande förhandsbeställningen",
     imageNote:
       "Stämningsbild. Kärlet och produkterna visar inte det planerade presentsetet.",
     film: "Stämningsfilm. Kärlet och produkterna i filmen visar inte det planerade presentsetet.",
   },
   en: {
-    label: "PLANNED GIFT SET",
+    label: "PRE-ORDER COMING SOON",
     title: "Noorly Ljusstund",
     description:
-      "A glass bowl, two fragrances and a quiet moment to give. We are planning a gift set with ELYSIA and two sealed refill pouches from The Candledust.",
-    price: "Planned price: SEK 799 including delivery within Sweden",
+      "Noorly Ljusstund is a planned gift set featuring an ELYSIA glass bowl and two sealed fragrance refills from The Candledust. It will be offered as a pre-order when ordering opens.",
+    price: "Planned pre-order price: SEK 799 including delivery within Sweden",
+    preorderHeading: "Pre-order – ships after stock arrives",
+    preorderExplanation:
+      "This gift set is not in stock yet. When pre-orders open, we will dispatch your order only after the items arrive and the set has been packed. An estimated delivery window will be provided before payment.",
     status:
-      "In development. We are not accepting orders or pre-orders yet. Final contents and delivery timing will be confirmed before sales open.",
+      "Pre-orders have not opened yet. Ordering and payment are unavailable for now. Final contents and the estimated delivery window will be confirmed before launch.",
     contentsTitle: "What we plan to include",
     contents: [
       "One ELYSIA glass bowl",
@@ -54,11 +60,11 @@ export const launchBundleCopy = {
       "700 g of candle sand in total. The refill pouches retain The Candledust's original packaging. Noorly selects and brings the gift set together.",
     photos: "Product photographs will follow once the set is finalised.",
     trust: [
-      "Two fragrances · 700 g",
-      "Sealed original pouches",
-      "In development",
+      "Pre-order coming soon",
+      "Delivery after stock arrives",
+      "SEK 799 · planned price",
     ],
-    cta: "Explore the gift set",
+    cta: "Explore the upcoming pre-order",
     imageNote:
       "Concept image. The vessel and products shown do not depict the planned gift set.",
     film: "Concept film. The vessel and products shown do not depict the planned gift set.",
