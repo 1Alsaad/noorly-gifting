@@ -10,7 +10,10 @@ const envelopeSchema = z.object({
   id: z.string().regex(/^[a-f0-9]{64}$/),
   createdAt: z.string(),
   event: analyticsEventSchema,
-  delivered: z.array(z.enum(["ga4", "posthog", "relay"])),
+  analyticsAllowed: z.boolean().optional(),
+  marketingFbp: z.string().optional(),
+  marketingFbc: z.string().optional(),
+  delivered: z.array(z.enum(["ga4", "posthog", "relay", "meta"])),
 });
 export type PurchaseEnvelope = z.infer<typeof envelopeSchema>;
 
@@ -33,7 +36,7 @@ export async function enqueuePurchase(
 }
 
 async function deliver(
-  provider: "ga4" | "posthog" | "relay",
+  provider: "ga4" | "posthog" | "relay" | "meta",
   item: PurchaseEnvelope,
 ) {
   const env = getEnv();
@@ -76,6 +79,28 @@ async function deliver(
         $process_person_profile: false,
       },
     };
+  } else if (provider === "meta") {
+    url = `https://graph.facebook.com/${env.META_CAPI_API_VERSION}/${env.NEXT_PUBLIC_META_PIXEL_ID}/events`;
+    headers.Authorization = `Bearer ${env.META_CAPI_ACCESS_TOKEN}`;
+    body = {
+      data: [
+        {
+          event_name: "Purchase",
+          event_time: Math.floor(new Date(item.createdAt).getTime() / 1000),
+          event_id: item.id,
+          action_source: "website",
+          event_source_url: env.NEXT_PUBLIC_SITE_URL,
+          user_data: {
+            ...(item.marketingFbp ? { fbp: item.marketingFbp } : {}),
+            ...(item.marketingFbc ? { fbc: item.marketingFbc } : {}),
+          },
+          custom_data: {
+            currency: properties.currency,
+            value: properties.value,
+          },
+        },
+      ],
+    };
   } else {
     url = env.ANALYTICS_DELIVERY_URL!;
     headers.Authorization = `Bearer ${env.ANALYTICS_DELIVERY_TOKEN}`;
@@ -94,13 +119,19 @@ async function deliver(
 /** Invoke from authenticated scheduled worker. Failed deliveries stay pending. */
 export async function drainPurchaseOutbox(maxItems = 20) {
   const env = getEnv();
-  const providers: ("ga4" | "posthog" | "relay")[] = [];
+  const providers: ("ga4" | "posthog" | "relay" | "meta")[] = [];
   if (env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && env.GA4_API_SECRET)
     providers.push("ga4");
   if (env.NEXT_PUBLIC_POSTHOG_KEY && env.NEXT_PUBLIC_POSTHOG_HOST)
     providers.push("posthog");
   if (env.ANALYTICS_DELIVERY_URL && env.ANALYTICS_DELIVERY_TOKEN)
     providers.push("relay");
+  if (
+    env.META_CAPI_ACCESS_TOKEN &&
+    env.META_CAPI_API_VERSION &&
+    /^\\d+$/.test(env.NEXT_PUBLIC_META_PIXEL_ID ?? "")
+  )
+    providers.push("meta");
   if (!providers.length)
     return { processed: 0, pending: true, reason: "PROVIDER_NOT_CONFIGURED" };
   const pending = await redisCommand<string[]>(["SMEMBERS", OUTBOX]);
@@ -120,6 +151,9 @@ export async function drainPurchaseOutbox(maxItems = 20) {
       if (!raw) continue;
       const item = envelopeSchema.parse(JSON.parse(raw));
       for (const provider of providers) {
+        if (provider === "meta") {
+          if (!item.marketingFbp && !item.marketingFbc) continue;
+        } else if (item.analyticsAllowed === false) continue;
         if (item.delivered.includes(provider)) continue;
         await deliver(provider, item);
         item.delivered.push(provider);
