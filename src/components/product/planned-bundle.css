@@ -82,3 +82,21 @@
 .planned-bundle-interest .product-note {
   margin-top: 10px;
 }
+
+.planned-bundle-source-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin-top: 20px;
+}
+.planned-bundle-source-links a {
+  color: #344b3e;
+  font-size: 13px;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.planned-bundle-source-links a:hover {
+  color: #242924;
+}
