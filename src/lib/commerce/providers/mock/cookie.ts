@@ -24,7 +24,7 @@ const payloadSchema = z
       .max(24),
     attributes: z
       .array(z.object({ key: z.string().max(40), value: z.string().max(280) }))
-      .max(5),
+      .max(7),
   })
   .strict();
 export type MockCartState = z.infer<typeof payloadSchema>;
