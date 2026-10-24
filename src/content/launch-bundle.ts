@@ -10,8 +10,10 @@ export const launchBundleCopy = {
     title: "Noorly Ljusstund",
     description:
       "Noorly Ljusstund är ett planerat presentset med ELYSIA-glasskål och två förseglade doftpåsar från The Candledust. Setet erbjuds som förhandsbeställning när beställningar öppnar.",
-    price: "Planerat förhandsbeställningspris: 799 kr inklusive leverans inom Sverige",
-    preorderHeading: "Förhandsbeställning – leverans när varorna kommit in i lager",
+    price:
+      "Planerat förhandsbeställningspris: 799 kr inklusive leverans inom Sverige",
+    preorderHeading:
+      "Förhandsbeställning – leverans när varorna kommit in i lager",
     preorderExplanation:
       "Presentsetet finns inte i lager ännu. När förhandsbeställningar öppnar skickar vi din beställning efter att varorna kommit in och setet packats. Vi anger en beräknad leveransperiod innan betalning.",
     status:
