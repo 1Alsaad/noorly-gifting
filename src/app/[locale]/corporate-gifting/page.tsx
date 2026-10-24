@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { EnquiryForm } from "@/components/forms/enquiry-form";
+import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
 export async function generateMetadata({
   params,
@@ -33,7 +34,13 @@ export default async function CorporatePage({
         <p>{t.forms.corporateText}</p>
         <p className="muted">{t.deliveryText}</p>
       </div>
-      <EnquiryForm locale={locale} kind="corporate" />
+      {process.env.NOORLY_PUBLIC_PREVIEW === "true" ? (
+        <a className="button button-dark" href={`mailto:${brand.supportEmail}`}>
+          {locale === "sv" ? "Kontakta Noorly" : "Contact Noorly"}
+        </a>
+      ) : (
+        <EnquiryForm locale={locale} kind="corporate" />
+      )}
     </div>
   );
 }
