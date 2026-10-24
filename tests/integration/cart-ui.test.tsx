@@ -172,6 +172,9 @@ describe("cart state and mutation safety", () => {
       attributes: [
         { key: "_stilla_analytics_consent", value: "denied" },
         { key: "_stilla_analytics_session", value: "" },
+        { key: "_noorly_meta_consent", value: "denied" },
+        { key: "_noorly_meta_fbp", value: "" },
+        { key: "_noorly_meta_fbc", value: "" },
       ],
     });
   });

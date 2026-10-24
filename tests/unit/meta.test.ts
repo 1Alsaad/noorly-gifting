@@ -50,6 +50,25 @@ describe("marketing consent and genuine lead events", () => {
     expect(meta.trackMetaInitiateCheckout(799)).toBe(false);
   });
 
+  it("carries only consented Meta identifiers into Shopify checkout", async () => {
+    const meta = await import("@/lib/analytics/meta");
+    expect(meta.getMetaCheckoutAttributes()).toMatchObject({
+      _noorly_meta_consent: "denied",
+    });
+    saveConsent({ analytics: false, marketing: true });
+    document.cookie = "_fbp=fb.1.1234567890.1234567890; Path=/";
+    expect(meta.getMetaCheckoutAttributes()).toMatchObject({
+      _noorly_meta_consent: "granted",
+      _noorly_meta_fbp: "fb.1.1234567890.1234567890",
+    });
+    saveConsent({ analytics: false, marketing: false });
+    expect(meta.getMetaCheckoutAttributes()).toMatchObject({
+      _noorly_meta_consent: "denied",
+      _noorly_meta_fbp: "",
+    });
+    document.cookie = "_fbp=; Max-Age=0; Path=/";
+  });
+
   it("allows marketing independently of analytics, deduplicates and honors revocation", async () => {
     const meta = await import("@/lib/analytics/meta");
     saveConsent({ analytics: false, marketing: true });

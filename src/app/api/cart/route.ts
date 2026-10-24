@@ -286,7 +286,11 @@ export async function POST(request: Request) {
       if (!cart.lines.length) throw new CommerceError("empty_cart");
       const checkoutAttributes = cleanAttributes(
         action.attributes ?? [],
-      ).filter(({ key }) => key.startsWith("_stilla_analytics_"));
+      ).filter(
+        ({ key }) =>
+          key.startsWith("_stilla_analytics_") ||
+          key.startsWith("_noorly_meta_"),
+      );
       // Missing consent explicitly clears any prior consent from this cart.
       if (
         !checkoutAttributes.some(
@@ -306,10 +310,23 @@ export async function POST(request: Request) {
           key: "_stilla_analytics_session",
           value: "",
         });
+      for (const key of [
+        "_noorly_meta_consent",
+        "_noorly_meta_fbp",
+        "_noorly_meta_fbc",
+      ]) {
+        if (!checkoutAttributes.some((item) => item.key === key))
+          checkoutAttributes.push({
+            key,
+            value: key === "_noorly_meta_consent" ? "denied" : "",
+          });
+      }
       const merged = [
         ...cart.attributes.filter(
           ({ key }) =>
-            !key.startsWith("_stilla_analytics_") && key !== "locale",
+            !key.startsWith("_stilla_analytics_") &&
+            !key.startsWith("_noorly_meta_") &&
+            key !== "locale",
         ),
         ...checkoutAttributes,
         { key: "locale", value: action.locale },

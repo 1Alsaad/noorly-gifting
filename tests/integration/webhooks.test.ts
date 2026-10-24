@@ -89,6 +89,23 @@ describe("verified paid order ingestion", () => {
     ).toMatchObject({ analytics: "not_consented" });
     expect(redisCommand).not.toHaveBeenCalled();
   });
+  it("queues marketing-only purchases only when a valid Meta identifier is present", async () => {
+    const noAnalytics = {
+      ...paidOrder,
+      id: 9876,
+      note_attributes: [
+        { name: "_stilla_analytics_consent", value: "denied" },
+        { name: "_noorly_meta_consent", value: "granted" },
+        { name: "_noorly_meta_fbp", value: "fb.1.1234567890.1234567890" },
+      ],
+    };
+    expect((await POST(request(noAnalytics))).status).toBe(200);
+    const queued = vi.mocked(redisCommand).mock.calls[0]?.[0].join(" ");
+    expect(queued).toContain("marketingFbp");
+    expect(queued).toContain("analyticsAllowed");
+    expect(queued).not.toContain("private@example.com");
+  });
+
   it("returns a retryable failure when durable enqueue fails", async () => {
     vi.spyOn(console, "error").mockImplementation(() => undefined);
     state.fail = true;

@@ -87,6 +87,35 @@ Test Events and a consenting browser, including no requests on reject or
 withdrawal, the correct pixel ID, a single PageView per navigation, and
 conversion event prices in SEK.
 
+### Meta Conversions API paid-order preparation
+
+The Shopify checkout client now also forwards `_noorly_meta_consent`,
+`_noorly_meta_fbp`, and `_noorly_meta_fbc` with the order attributes.
+These are separate from analytics consent and are denied/cleared on checkout
+when absent. They are never collected without the visitor's prior marketing
+consent, and no customer name, email or IP address is copied to Meta.
+
+The verified `orders/paid` webhook now independently considers analytics
+and marketing consent. On a genuine non-test, paid order, it may enqueue an
+event whose marketing identifiers are eligible for server-side Meta delivery.
+The outbox can send the event using server-only
+`META_CAPI_ACCESS_TOKEN` and `META_CAPI_API_VERSION` when both are configured,
+and the existing `NEXT_PUBLIC_META_PIXEL_ID`. The API access token is always
+sent via Authorization header, not client JavaScript or a query-string URL.
+The Meta payload uses one stable hashed order event ID, event_time, SEK
+transaction value and only the consented first-party `_fbp`/`_fbc` identifiers.
+No browser Purchase is generated, so there is no competing browser purchase
+to deduplicate; failed server delivery is retried through the existing
+outbox with provider checkpoints.
+
+**Not live or verified:** Shopify's `orders/paid` webhook subscription has not
+been configured, `SHOPIFY_WEBHOOK_SECRET` is not present in Vercel Production,
+and the server's CAPI token/API version/worker have not been configured or
+verified through Meta Test Events. The zero-stock draft product and private
+storefront prevent real paid orders. Shopify checkout must actually preserve
+the custom attributes; this requires an end-to-end dry run. No claim of live
+purchase attribution or legal sign-off follows from the committed code.
+
 ## Server purchase and retries
 
 Use Shopify's `orders/paid` subscription. Browser thank-you navigation cannot emit a `purchase`: `trackEvent` explicitly rejects it. Mock and Shopify test orders are ignored. The current consent and anonymous UUID must be passed as `_stilla_analytics_consent` and `_stilla_analytics_session` cart attributes before hosted checkout using `getAnalyticsCheckoutAttributes()`.

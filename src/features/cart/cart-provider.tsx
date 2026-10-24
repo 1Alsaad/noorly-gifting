@@ -20,7 +20,10 @@ import {
   trackEvent,
   getAnalyticsCheckoutAttributes,
 } from "@/lib/analytics/client";
-import { trackMetaInitiateCheckout } from "@/lib/analytics/meta";
+import {
+  getMetaCheckoutAttributes,
+  trackMetaInitiateCheckout,
+} from "@/lib/analytics/meta";
 
 type CartContextValue = {
   cart: Cart | null;
@@ -137,9 +140,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const checkout = useCallback(
     async (locale: Locale) => {
       try {
-        const attributes = Object.entries(getAnalyticsCheckoutAttributes()).map(
-          ([key, value]) => ({ key, value }),
-        );
+        const attributes = Object.entries({
+          ...getAnalyticsCheckoutAttributes(),
+          ...getMetaCheckoutAttributes(),
+        }).map(([key, value]) => ({ key, value }));
         const data = await mutate({ type: "checkout", locale, attributes });
         if (!data.url) {
           setError("checkout_unavailable");

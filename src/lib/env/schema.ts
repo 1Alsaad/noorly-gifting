@@ -40,6 +40,14 @@ export const envSchema = z
     ),
     NEXT_PUBLIC_GA4_MEASUREMENT_ID: optional,
     NEXT_PUBLIC_META_PIXEL_ID: optional,
+    META_CAPI_ACCESS_TOKEN: optional,
+    META_CAPI_API_VERSION: z.preprocess(
+      (v) => (v === "" ? undefined : v),
+      z
+        .string()
+        .regex(/^v\d{1,2}\.0$/)
+        .optional(),
+    ),
     PRODUCT_INTEREST_ENABLED: z.preprocess(
       (v) => v === "true" || v === true,
       z.boolean(),
@@ -60,6 +68,13 @@ export const envSchema = z
   .superRefine((env, ctx) => {
     const issue = (path: string, message: string) =>
       ctx.addIssue({ code: "custom", path: [path], message });
+    if (
+      Boolean(env.META_CAPI_ACCESS_TOKEN) !== Boolean(env.META_CAPI_API_VERSION)
+    )
+      issue(
+        "META_CAPI_API_VERSION",
+        "Configure the Meta CAPI version and access token together",
+      );
     if (
       Boolean(env.RATE_LIMIT_PROVIDER_URL) !==
       Boolean(env.RATE_LIMIT_PROVIDER_TOKEN)

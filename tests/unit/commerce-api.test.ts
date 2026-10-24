@@ -214,6 +214,26 @@ describe("cart API integration", () => {
       key: "_stilla_analytics_session",
       value: "",
     });
+    expect(denied.data.cart.attributes).toContainEqual({
+      key: "_noorly_meta_consent",
+      value: "denied",
+    });
+    const consented = await post({
+      action: "checkout",
+      locale: "sv",
+      attributes: [
+        { key: "_stilla_analytics_consent", value: "denied" },
+        { key: "_stilla_analytics_session", value: "" },
+        { key: "_noorly_meta_consent", value: "granted" },
+        { key: "_noorly_meta_fbp", value: "fb.1.1234567890.987654321" },
+        { key: "_noorly_meta_fbc", value: "" },
+      ],
+    });
+    expect(consented.response.status).toBe(200);
+    expect(consented.data.cart.attributes).toContainEqual({
+      key: "_noorly_meta_fbp",
+      value: "fb.1.1234567890.987654321",
+    });
   });
   it("rejects oversized cookie state without replacing the current cart", async () => {
     await post({
