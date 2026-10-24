@@ -1,9 +1,11 @@
 import {
   launchBundleHandle,
   launchBundlePhotos,
-  launchSandChoices,
-  supplierBowlUrl,
 } from "../../src/content/launch-bundle";
+import {
+  candleSandHandle,
+  teakBowlHandle,
+} from "../../src/content/launch-catalog";
 import { installTestSceneMedia } from "./media-fixture";
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
@@ -34,11 +36,8 @@ async function expectSupplierBowlGallery(page: Page) {
   await expect(gallery).toHaveAttribute("href", firstPhoto.url);
   const imageSource = new URL((await image.getAttribute("src"))!, page.url());
   expect(imageSource.searchParams.get("url")).toBe(firstPhoto.url);
-  await expect(
-    page.locator("main .planned-bundle-photo-note a"),
-  ).toHaveAttribute("href", supplierBowlUrl);
-  await expect(page.locator("main .planned-bundle-photo-note p")).toHaveText(
-    "The supplier's teak-bowl photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. The candle-sand photographs show the pouch and wax granules for each colour and scent. One 300 g pouch and four cotton wicks are included in the set. The photographs show the individual products. The complete Ljusstund set has not yet been photographed.",
+  await expect(page.locator("main .catalog-photo-note")).toHaveText(
+    "The supplier's photographs show TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included.",
   );
 }
 async function continueBuilder(page: Page) {
@@ -66,13 +65,13 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(page.locator("#gifts")).toBeInViewport();
   await expect(
-    page.locator("#gifts").getByRole("heading", { name: "Noorly Ljusstund" }),
+    page
+      .locator("#gifts")
+      .getByRole("heading", { name: "Candle sand · 300 g" }),
   ).toBeVisible();
   await expect(page.locator('a[href*="build-a-box"]')).toHaveCount(0);
-  await expect(page.locator('a[href*="products/candle-sand"]')).toHaveCount(0);
-  await expect(
-    page.locator("#gifts").getByText(/Planned set price: SEK 799/),
-  ).toBeVisible();
+  await expect(page.locator("#gifts article")).toHaveCount(2);
+  await expect(page.locator("#gifts").getByText(/From.*199/)).toBeVisible();
 });
 
 for (const linkName of ["Skip experience", "Explore the collection"]) {
@@ -134,7 +133,7 @@ test("late metadata preserves the reserved scene ranges and gifts position", asy
   expect(await geometry()).toEqual(before);
 });
 
-test("the planned bundle is keyboard accessible and cannot be purchased", async ({
+test("separate product pages are keyboard accessible and the former kit redirects to the catalogue", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -144,38 +143,24 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
   await link.scrollIntoViewIfNeeded();
   await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+  await expect(page).toHaveURL("/en/products/" + candleSandHandle);
+  await expect(page.getByRole("radio")).toHaveCount(11);
+  await page.goto("/en/products/" + teakBowlHandle);
   await expect(
-    page.getByRole("heading", { name: "Noorly Ljusstund", level: 1 }),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "This gift set is currently unavailable to order. Contact us to ask when it will be available.",
-      { exact: true },
-    ),
-  ).toBeVisible();
-  await expect(
-    page.getByText(
-      "One 300 g pouch of candle sand in your chosen colour and scent",
-    ),
+    page.getByRole("heading", {
+      name: "Decorative teak bowl · TeakB-37",
+      level: 1,
+    }),
   ).toBeVisible();
   await expect(
     page.getByText(/not a heat-resistant candle vessel/),
   ).toBeVisible();
-  await expect(
-    page.getByText("One decorative teakwood bowl, AWGifts model TeakB-37"),
-  ).toBeVisible();
   await expectSupplierBowlGallery(page);
-  await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(
-    launchBundlePhotos.length + launchSandChoices.length,
-  );
-  await expect(
-    page.getByRole("button", { name: /Add to|checkout/i }),
-  ).toHaveCount(0);
-  const json = await page
-    .locator('script[type="application/ld+json"]')
-    .allTextContents();
-  expect(json.join("")).not.toContain('"@type":"Offer"');
+  await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(3);
+  await expect(page.getByRole("radio")).toHaveCount(0);
+  await page.goto("/en/products/" + launchBundleHandle);
+  await expect(page).toHaveURL("/en/shop");
+  await expect(page.locator("main article")).toHaveCount(2);
 });
 
 test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
@@ -256,11 +241,11 @@ test("scroll progress seeks forward and backward with a deterministic test media
   );
   const details = entrance
     .locator(".cinema-shopping")
-    .getByRole("link", { name: "Discover Ljusstund" });
+    .getByRole("link", { name: "Choose colour & scent" });
   await expect(details).toBeVisible();
   await expect(details).toHaveAttribute(
     "href",
-    "/en/products/" + launchBundleHandle,
+    "/en/products/" + candleSandHandle,
   );
   await expect(entrance.locator(".cinema-shopping button")).toHaveCount(0);
 });
@@ -328,10 +313,10 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
     .analyze();
   expect(accessibility.violations).toEqual([]);
 
-  await expect(shopping.getByText(/Planned set price: SEK 799/)).toBeVisible();
+  await expect(shopping.getByText(/From.*199/)).toBeVisible();
   await expect(
-    shopping.getByText("Ordering is currently unavailable.", { exact: true }),
-  ).toBeVisible();
+    shopping.getByText(/Ordering is currently unavailable/),
+  ).toHaveCount(0);
   await expect(shopping.getByRole("button")).toHaveCount(0);
   await scene.getByRole("link", { name: "Skip experience" }).focus();
   await seek(0.4);
@@ -353,7 +338,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
   expect(panel.top).toBeGreaterThan(0);
   expect(panel.top).toBeLessThan(panel.viewport);
   await page.keyboard.press("ArrowLeft");
-  await shopping.getByRole("link", { name: "Discover Ljusstund" }).focus();
+  await shopping.getByRole("link", { name: "Choose colour & scent" }).focus();
   expect(
     await page
       .locator(".cinema-collection-handoff")
@@ -591,10 +576,10 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
   await expect(page.locator("#gifts")).toBeInViewport();
   await page
     .locator("#gifts")
-    .getByRole("link", { name: "Discover Ljusstund" })
+    .getByRole("link", { name: "Choose colour & scent" })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Noorly Ljusstund", level: 1 }),
+    page.getByRole("heading", { name: "Candle Sand", level: 1 }),
   ).toBeVisible();
 });
 
@@ -606,7 +591,8 @@ test("important shopping pages pass automated WCAG accessibility checks", async 
   for (const path of [
     "/en",
     "/en/shop",
-    "/en/products/" + launchBundleHandle,
+    "/en/products/" + candleSandHandle,
+    "/en/products/" + teakBowlHandle,
     "/en/collections/winter",
     "/en/cart",
   ]) {
@@ -652,12 +638,14 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Noorly Ljusstund", exact: true }),
+      page.getByRole("heading", { name: "Candle sand · 300 g", exact: true }),
     ).toBeVisible();
-    await page.getByRole("link", { name: "Discover Ljusstund" }).click();
-    await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+    await page.getByRole("link", { name: "Choose colour & scent" }).click();
+    await expect(page).toHaveURL("/en/products/" + candleSandHandle);
+    await expect(page.getByRole("radio")).toHaveCount(11);
+    await page.goto("/en/products/" + teakBowlHandle);
     await expect(
-      page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
+      page.getByText(/One decorative teak bowl, model TeakB-37/),
     ).toBeVisible();
     await expectSupplierBowlGallery(page);
     for (const [index, photo] of launchBundlePhotos.entries()) {
@@ -712,7 +700,7 @@ test("unavailable cinematic videos restore posters and conventional product cont
   const link = scene.locator(".cinema-static-product-button");
   await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+  await expect(page).toHaveURL("/en/products/" + candleSandHandle);
 });
 
 test("Save-Data suppresses video requests while keeping shopping available", async ({
@@ -737,7 +725,7 @@ test("Save-Data suppresses video requests while keeping shopping available", asy
   await link.scrollIntoViewIfNeeded();
   await expect(link).toHaveAttribute(
     "href",
-    "/en/products/" + launchBundleHandle,
+    "/en/products/" + candleSandHandle,
   );
   await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   expect(requests).toEqual([]);
@@ -769,9 +757,9 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   const card = scene.locator(".cinema-shopping");
   await expect(card).toHaveAttribute("data-visible", "true");
   await expect(
-    card.getByRole("heading", { name: "Noorly Ljusstund" }),
+    card.getByRole("heading", { name: "Ljussand · 300 g" }),
   ).toBeVisible();
-  await expect(card.getByText(/Planerat setpris: 799 kr/)).toBeVisible();
+  await expect(card.getByText(/Från.*199/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);
   // Visibility changes before the 240ms entrance transition finishes. Measure
   // the settled layout while preserving the original viewport-clearance check.
@@ -799,8 +787,8 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   expect(geometry.fit).toBe("contain");
 
   await expect(
-    card.getByRole("link", { name: "Upptäck Ljusstund", exact: true }),
-  ).toHaveAttribute("href", "/sv/products/" + launchBundleHandle);
+    card.getByRole("link", { name: "Välj färg & doft", exact: true }),
+  ).toHaveAttribute("href", "/sv/products/" + candleSandHandle);
   await card.getByRole("link", { name: "Upptäck kollektionen" }).click();
   await expect(page).toHaveURL(/#gifts$/);
   await expect(scene).toHaveAttribute("data-pinned", "false");
@@ -831,7 +819,7 @@ test("short-screen static shopping stays below editorial copy", async ({
   await link.scrollIntoViewIfNeeded();
   await link.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+  await expect(page).toHaveURL("/en/products/" + candleSandHandle);
 });
 
 test("candle sand colour, gallery and cart stay matched on mobile", async ({

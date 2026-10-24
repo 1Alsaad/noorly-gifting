@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CommerceError } from "@/lib/commerce/errors";
-import { launchBundleHandle } from "@/content/launch-bundle";
+import { launchProductDefinitions } from "@/content/launch-catalog";
 
 const { lookup } = vi.hoisted(() => ({ lookup: vi.fn() }));
 vi.mock("@/lib/env/server", () => ({ getEnv: vi.fn(() => ({})) }));
@@ -20,17 +20,45 @@ describe("public catalog health", () => {
     expect(lookup).not.toHaveBeenCalled();
   });
 
-  it("checks only the fixed launch product and returns no product data", async () => {
-    lookup.mockResolvedValue({ id: "private-id", price: 799, variants: [] });
+  it("checks both fixed launch products and returns no product data", async () => {
+    lookup.mockImplementation(async (handle: string) => {
+      const definition = launchProductDefinitions.find(
+        (item) => item.handle === handle,
+      );
+      return definition
+        ? { id: definition.id, handle, privateField: "private-value" }
+        : null;
+    });
     const response = await GET(
       new Request("https://example.com/api/health?catalog=1&handle=arbitrary"),
     );
-    expect(lookup).toHaveBeenCalledWith(launchBundleHandle);
+    expect(lookup).toHaveBeenCalledTimes(2);
+    for (const { handle } of launchProductDefinitions)
+      expect(lookup).toHaveBeenCalledWith(handle);
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(Object.keys(body).sort()).toEqual(["requestId", "status"]);
     expect(body.status).toBe("ok");
-    expect(JSON.stringify(body)).not.toContain("private-id");
+    expect(JSON.stringify(body)).not.toContain("private-value");
+  });
+
+  it("does not report ready when either separate product is unpublished or substituted", async () => {
+    lookup.mockImplementation(async (handle: string) =>
+      handle === launchProductDefinitions[0].handle
+        ? { ...launchProductDefinitions[0] }
+        : null,
+    );
+    const missing = await GET(
+      new Request("https://example.com/api/health?catalog=1"),
+    );
+    expect(missing.status).toBe(503);
+    expect((await missing.json()).status).toBe("catalog_unpublished");
+    lookup.mockResolvedValue({ id: "substituted", handle: "wrong-product" });
+    const wrong = await GET(
+      new Request("https://example.com/api/health?catalog=1"),
+    );
+    expect(wrong.status).toBe(503);
+    expect((await wrong.json()).status).toBe("invalid_launch_product");
   });
 
   it("reports safe failure categories without revealing provider content", async () => {

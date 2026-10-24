@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Product, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { getDictionary } from "@/content/translations";
+import { candleSandHandle } from "@/content/launch-catalog";
 export function ProductCard({
   product,
   locale,
@@ -52,7 +53,14 @@ export function ProductCard({
             {product.title[locale]}
           </Link>
         </h3>
-        <span>{formatMoney(product.price, locale)}</span>
+        <span>
+          {product.handle === candleSandHandle ||
+          new Set(product.variants.map((variant) => variant.price.amount))
+            .size > 1
+            ? `${t.from} `
+            : ""}
+          {formatMoney(product.price, locale)}
+        </span>
       </div>
       <p>{product.description[locale]}</p>
       {isProductTestMode() && product.category === "box" && (

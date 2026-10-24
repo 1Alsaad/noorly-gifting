@@ -2,10 +2,10 @@
 
 import { formatMoney } from "@/lib/utils/money";
 import {
-  launchBundleHandle,
-  launchBundleHref,
-  launchBundleCopy,
-} from "@/content/launch-bundle";
+  candleSandHandle,
+  launchCatalogHref,
+  launchCatalogCopy,
+} from "@/content/launch-catalog";
 
 /* Responsive first frames also cover loading and static-media fallbacks. */
 
@@ -408,9 +408,9 @@ function Scene({
                 </a>
                 <Link
                   className="cinema-text-link"
-                  href={launchBundleHref(locale)}
+                  href={launchCatalogHref(locale)}
                 >
-                  {launchBundleCopy[locale].cta}
+                  {launchCatalogCopy[locale].cta}
                   <span aria-hidden="true"> ↗</span>
                 </Link>
               </div>
@@ -464,17 +464,16 @@ function Scene({
         {featured && !enhanced && (
           <div className="cinema-static-product">
             <p className="cinema-kicker">{copy.product}</p>
-            {featured.handle === launchBundleHandle ? (
+            {featured.handle === candleSandHandle ? (
               <Link
                 className="cinema-static-product-button"
-                href={launchBundleHref(locale)}
+                href={launchCatalogHref(locale)}
               >
                 <span>
                   <strong>{featured.title[locale]}</strong>
                   <span>
-                    {featured.id.startsWith("gid://shopify/Product/")
-                      ? price
-                      : launchBundleCopy[locale].price}
+                    {locale === "sv" ? "Från " : "From "}
+                    {price}
                   </span>
                 </span>
                 <span aria-hidden="true">↗</span>

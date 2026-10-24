@@ -7,8 +7,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
   const sv = locale === "sv";
   const contact = brand.supportEmail;
   const delivery = sv
-    ? "För Ljusstund ingår leverans inom Sverige. Vi skickar din beställning så snart som möjligt."
-    : "Shipping within Sweden is included for Ljusstund. We will dispatch your order as soon as possible.";
+    ? "Leverans inom Sverige ingår. Vi skickar din beställning så snart som möjligt."
+    : "Shipping within Sweden is included. We will dispatch your order as soon as possible.";
   const care = sv
     ? "Teakskålen är dekorativ och får inte användas direkt som ljuskärl. Följ tillverkarens anvisningar för ljussanden och använd ett separat lämpligt obrännbart och värmetåligt kärl för eventuell låga."
     : "The teak bowl is decorative and must not be used directly as a candle vessel. Follow the candle-sand manufacturer's instructions and use a separate suitable noncombustible, heat-resistant container for any flame.";
@@ -18,22 +18,22 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
     delivery: sv ? "Leverans inom Sverige" : "Delivery within Sweden",
     deliveryText: delivery,
     tax: sv
-      ? "Leverans inom Sverige ingår för Ljusstund. Du ser hela beloppet i kassan innan du betalar."
-      : "Shipping within Sweden is included for Ljusstund. You can review the complete total at checkout before paying.",
+      ? "Moms och leverans inom Sverige ingår. Du ser hela beloppet i kassan innan du betalar."
+      : "VAT and shipping within Sweden are included. You can review the complete total at checkout before paying.",
     materialText: care,
     footer: { ...t.footer, rights: brand.name },
     home: {
       ...t.home,
       text: sv
-        ? "Noorly samlar dekorativa detaljer och ljussand för lugna stunder. Upptäck Ljusstund, vår första upplaga."
-        : "Noorly brings together decorative details and candle sand for slower moments. Discover Ljusstund, our first edition.",
+        ? "Upptäck ljussand i din favoritfärg och dekorativa teakskålar för hemmet. Välj varje produkt för sig."
+        : "Discover candle sand in your favourite colour and decorative teak bowls for your home. Choose each product separately.",
       curatedLabel: sv ? "NOORLY · FÖRSTA UPPLAGAN" : "NOORLY · FIRST EDITION",
       curatedText: sv
-        ? "Ljusstund kombinerar en dekorativ TeakB-37-skål med en påse med 300 g ljussand och fyra bomullsvekar. Välj färg och doft på produktsidan."
-        : "Ljusstund pairs a decorative TeakB-37 bowl with one 300 g pouch of candle sand and four cotton wicks. Choose your colour and scent on the product page.",
+        ? "Välj färg och doft på din ljussand. Varje påse innehåller 300 g och fyra bomullsvekar. Den dekorativa TeakB-37-skålen säljs separat."
+        : "Choose your candle sand's colour and scent. Each pouch contains 300 g and four cotton wicks. The decorative TeakB-37 bowl is sold separately.",
       buildText: sv
-        ? "Vi fokuserar på Ljusstund i vår första upplaga."
-        : "Our first edition focuses on Ljusstund.",
+        ? "Vår första upplaga består av ljussand och dekorativa teakskålar, som du köper var för sig."
+        : "Our first edition features candle sand and decorative teak bowls, sold separately.",
       trust: sv
         ? [
             "Utvalt av Noorly",
@@ -104,8 +104,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       terms: {
         ...t.pages.terms,
         text: sv
-          ? "På produktsidan visas innehåll, pris och användningsinformation för Ljusstund. Tillgängliga produkter kan läggas i varukorgen. Betalning hanteras i Shopifys kassa, där du granskar totalbeloppet och väljer bland de betalningssätt som erbjuds."
-          : "The product page shows Ljusstund's contents, price and usage information. Available products can be added to your cart. Payment is handled in Shopify checkout, where you review the total and choose from the payment methods offered.",
+          ? "På varje produktsida visas innehåll, pris och användningsinformation. Ljussand och teakskål säljs separat. Tillgängliga produkter kan läggas i varukorgen. Betalning hanteras i Shopifys kassa, där du granskar totalbeloppet och väljer bland de betalningssätt som erbjuds."
+          : "Each product page shows the contents, price and usage information. Candle sand and the teak bowl are sold separately. Available products can be added to your cart. Payment is handled in Shopify checkout, where you review the total and choose from the payment methods offered.",
         extra: sv
           ? `Priser anges i SEK. Inga kortuppgifter samlas in på denna webbplats. Frågor om en beställning, ånger, retur eller reklamation skickas till ${contact}.`
           : `Prices are shown in SEK. This website does not collect card details. Email ${contact} about an order, cancellation, return or complaint.`,
@@ -113,16 +113,18 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
     },
     faqs: [
       {
-        q: sv ? "Hur beställer jag Ljusstund?" : "How do I order Ljusstund?",
+        q: sv ? "Hur beställer jag?" : "How do I order?",
         a: sv
-          ? "När produkten är tillgänglig kan du lägga den i varukorgen och fortsätta till Shopifys säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
-          : "When the product is available, add it to your cart and continue to secure Shopify checkout. Review the contents, delivery information and total before paying.",
+          ? "Välj produkt och, för ljussand, färg och doft. Lägg till den tillgängliga varan i varukorgen och fortsätt till Shopifys säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
+          : "Choose a product and, for candle sand, a colour and scent. Add the available item to your cart and continue to secure Shopify checkout. Review the contents, delivery information and total before paying.",
       },
       {
-        q: sv ? "Vad ingår i Ljusstund?" : "What is included in Ljusstund?",
+        q: sv
+          ? "Vad ingår i produkterna?"
+          : "What is included in each product?",
         a: sv
-          ? "En dekorativ teakskål, AWGifts modell TeakB-37, en påse med 300 g ljussand i vald färg och doft samt fyra bomullsvekar. Du väljer ljussand på produktsidan. Ett separat värmetåligt ljuskärl ingår inte."
-          : "One decorative teak bowl, AWGifts model TeakB-37, one 300 g pouch of candle sand in your chosen colour and scent, and four cotton wicks. Choose your candle sand on the product page. A separate heat-resistant candle vessel is not included.",
+          ? "Ljussanden säljs som en påse med 300 g i vald färg och doft, med fyra bomullsvekar. Teakskålen säljs separat och består av en dekorativ AWGifts TeakB-37-skål. Ett värmetåligt ljuskärl, presentbox och dekorationer ingår inte."
+          : "Candle sand is sold as one 300 g pouch in your chosen colour and scent, with four cotton wicks. The separately sold teak bowl is one decorative AWGifts TeakB-37 bowl. A heat-resistant candle vessel, gift box and styling decorations are not included.",
       },
       {
         q: sv
@@ -145,18 +147,18 @@ export function applyProductTestCopy(
 ): Dictionary {
   const sv = locale === "sv";
   const note = sv
-    ? "Ljusstunds innehåll är bekräftat: en teakskål, 300 g ljussand och fyra bomullsvekar. Beställning och betalning är ännu inte öppna."
-    : "Ljusstund's contents are confirmed: one teak bowl, 300 g of candle sand and four cotton wicks. Ordering and payment are not yet open.";
+    ? "Ljussand och dekorativa teakskålar säljs separat. Varje påse ljussand innehåller 300 g och fyra bomullsvekar. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
+    : "Candle sand and decorative teak bowls are sold separately. Each pouch of candle sand contains 300 g and four cotton wicks. Ordering and payment are not yet open in this preview.";
   const contact = brand.supportEmail;
   return {
     ...t,
     available: sv ? "I sortimentet" : "In the range",
     unavailable: sv ? "Beställning är inte öppen" : "Ordering is not open",
     deliveryText: sv
-      ? "Leverans inom Sverige ingår för Ljusstund. Beställning och betalning är ännu inte öppna."
-      : "Shipping within Sweden is included for Ljusstund. Ordering and payment are not yet open.",
+      ? "Leverans inom Sverige ingår. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
+      : "Shipping within Sweden is included. Ordering and payment are not yet open in this preview.",
     tax: note,
-    checkout: sv ? "Utforska Ljusstund" : "Explore Ljusstund",
+    checkout: sv ? "Utforska produkterna" : "Explore the products",
     add: sv ? "Läs om produkten" : "Read about the product",
     home: {
       ...t.home,
@@ -196,11 +198,11 @@ export function applyProductTestCopy(
     faqs: [
       {
         q: sv
-          ? "Kan jag beställa Ljusstund idag?"
-          : "Can I order Ljusstund today?",
+          ? "Kan jag beställa i förhandsvisningen?"
+          : "Can I order in this preview?",
         a: sv
-          ? "Inte ännu. Setets innehåll är bekräftat och vi gör kassan redo för beställningar. En intresseförfrågan innebär ingen beställning eller reservation."
-          : "Not yet. The set contents are confirmed and we are preparing checkout for orders. An expression of interest is not an order or reservation.",
+          ? "Nej. Förhandsvisningen tar inte emot beställningar eller betalningar. En intresseförfrågan innebär ingen beställning eller reservation."
+          : "No. This preview does not accept orders or payments. An expression of interest is not an order or reservation.",
       },
       ...t.faqs.slice(1),
     ],

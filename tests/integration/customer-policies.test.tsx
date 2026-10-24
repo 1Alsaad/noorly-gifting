@@ -71,9 +71,12 @@ describe("customer policy routes", () => {
     const withdrawal = container.querySelector("#withdrawal") as HTMLElement;
     const returns = container.querySelector("#returns") as HTMLElement;
     const refunds = container.querySelector("#refunds") as HTMLElement;
+    expect(delivery).toHaveTextContent("Ljussand och teakskål säljs separat");
     expect(delivery).toHaveTextContent(
-      "799 kr inklusive moms och leverans inom Sverige",
+      "199 kr utan doft eller 249 kr med doft",
     );
+    expect(delivery).toHaveTextContent("teakskålen kostar 550 kr");
+    expect(delivery).toHaveTextContent("moms och leverans inom Sverige");
     expect(delivery).toHaveTextContent("så snart som möjligt");
     expect(delivery).toHaveTextContent(
       "senast 30 dagar efter att avtalet ingicks",

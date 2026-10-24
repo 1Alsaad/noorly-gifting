@@ -2,16 +2,14 @@ import "server-only";
 
 import { cache } from "react";
 import {
-  launchBundleHandle,
-  plannedLaunchBundle,
-} from "@/content/launch-bundle";
+  candleSandHandle,
+  launchProductDefinitions,
+} from "@/content/launch-catalog";
 import { isProductTestMode } from "@/config/product-test";
 import { getCommerceProvider } from "@/lib/commerce";
 import { CommerceError } from "@/lib/commerce/errors";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
 import type { CommerceProvider, Product, ProductImage } from "@/types/commerce";
-
-const LAUNCH_PRODUCT_ID = "gid://shopify/Product/11401864249686";
 
 export interface LaunchProductState {
   product: Product;
@@ -35,16 +33,28 @@ function supportedImage(image: ProductImage) {
   }
 }
 
-/** Resolve the real kit without turning a mock, draft or incomplete product into stock. */
+export function isLaunchProduct(product: Pick<Product, "id" | "handle">) {
+  return launchProductDefinitions.some(
+    (definition) =>
+      product.id === definition.id && product.handle === definition.handle,
+  );
+}
+
+/** Resolve one real product without turning a mock, draft or incomplete product into stock. */
 export async function resolveLaunchProduct(
   provider: Pick<
     CommerceProvider,
     "name" | "getProductByHandle"
   > = getCommerceProvider(),
+  handle: string = candleSandHandle,
 ): Promise<LaunchProductState> {
+  const definition = launchProductDefinitions.find(
+    (candidate) => candidate.handle === handle,
+  );
+  if (!definition) throw new CommerceError("invalid_launch_product", 404);
   const salesOpen = isStorefrontOpen() && !isProductTestMode();
   const preparation: LaunchProductState = {
-    product: plannedLaunchBundle,
+    product: definition.preview,
     source: "preparation",
     salesOpen,
     purchasable: false,
@@ -54,9 +64,9 @@ export async function resolveLaunchProduct(
   if (!salesOpen || provider.name !== "shopify") return preparation;
 
   // Once sales open, provider failures still propagate and never become stock.
-  const found = await provider.getProductByHandle(launchBundleHandle);
+  const found = await provider.getProductByHandle(handle);
   if (!found) return preparation;
-  if (found.id !== LAUNCH_PRODUCT_ID || found.handle !== launchBundleHandle)
+  if (found.id !== definition.id || found.handle !== definition.handle)
     throw new CommerceError("invalid_launch_product", 502);
 
   const images = found.images.filter(supportedImage);
@@ -67,6 +77,8 @@ export async function resolveLaunchProduct(
       images: variantImages?.length ? variantImages : undefined,
       available:
         variant.available &&
+        !variant.requiresComponents &&
+        !variant.components?.length &&
         /^gid:\/\/shopify\/ProductVariant\/[1-9]\d*$/.test(variant.id) &&
         variant.price.currencyCode === "SEK" &&
         Number.isFinite(variant.price.amount) &&
@@ -103,4 +115,23 @@ export async function resolveLaunchProduct(
 }
 
 // Memoize only within the current render request, never across stock changes.
-export const getLaunchProduct = cache(() => resolveLaunchProduct());
+export const getLaunchProduct = cache((handle: string = candleSandHandle) =>
+  resolveLaunchProduct(getCommerceProvider(), handle),
+);
+
+export const getLaunchProducts = cache(() =>
+  Promise.all(
+    launchProductDefinitions.map(({ handle }) => getLaunchProduct(handle)),
+  ),
+);
+
+/** Keep the public launch catalogue limited to the two independently sold products. */
+export async function getStorefrontCatalogue(
+  provider: Pick<CommerceProvider, "name" | "getProducts">,
+) {
+  const products = await provider.getProducts();
+  return provider.name === "shopify" &&
+    process.env.NOORLY_PUBLIC_PREVIEW === "true"
+    ? products.filter(isLaunchProduct)
+    : products;
+}

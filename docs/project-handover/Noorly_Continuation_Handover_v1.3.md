@@ -1,6 +1,6 @@
 # Noorly continuation handover — v1.3
 
-> **Latest evidence:** Read [continuation handover v1.4](Noorly_Continuation_Handover_v1.4.md) first for working Chrome access, supplier rechecks, exact outreach drafts and draft PR #9. Standing decisions below remain in force.
+> **Latest evidence:** Read the [25 October separate products and payment launch checkpoint](Noorly_Separate_Products_and_Payments_2026-10-25.md) first. The owner explicitly requested opening payments and selling the bowl and candle sand separately. It supersedes the closed-sales instructions below. [Continuation handover v1.4](Noorly_Continuation_Handover_v1.4.md) preserves the earlier history.
 
 Updated 21 October 2026. **Read this first.** This consolidates the latest discussion and points to verified implementation evidence. It supersedes conflicting budget, schedule and planning assumptions in older documents; it does not overwrite their historical observations or turn proposals into approvals.
 

@@ -3,9 +3,12 @@ import { ArrowUpRight, Gift, Package, Clock3, ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
-import { PlannedBundleCard } from "@/components/product/planned-bundle";
-import { launchBundleCopy } from "@/content/launch-bundle";
-import { getLaunchProduct } from "@/lib/commerce/launch-product";
+import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
+import {
+  launchCatalogCopy,
+  presentCatalogProduct,
+} from "@/content/launch-catalog";
+import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
@@ -18,12 +21,11 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const t = getDictionary(locale);
-  const { product } = await getLaunchProduct();
   return pageMetadata(
     locale,
     "",
     t.home.title.replace("\n", " "),
-    product.description[locale],
+    launchCatalogCopy[locale].description,
   );
 }
 export default async function Home({
@@ -34,26 +36,27 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
-  const [season, launch] = await Promise.all([
+  const [season, launches] = await Promise.all([
     getContentRepository().getActiveSeason(),
-    getLaunchProduct(),
+    getLaunchProducts(),
   ]);
-  const products = [launch.product];
+  const products = launches.map(({ product }) =>
+    presentCatalogProduct(product, locale),
+  );
   const trustIcons = [Gift, Package, Clock3];
-  const trust =
-    launch.source === "shopify"
-      ? locale === "sv"
-        ? [
-            "Utvalt av Noorly",
-            "Se innehåll och produktbilder",
-            "Säker kassa hos Shopify",
-          ]
-        : [
-            "Selected by Noorly",
-            "Explore the contents and photographs",
-            "Secure Shopify checkout",
-          ]
-      : launchBundleCopy[locale].trust;
+  const trust = launches.some((launch) => launch.source === "shopify")
+    ? locale === "sv"
+      ? [
+          "Utvalt av Noorly",
+          "Se innehåll och produktbilder",
+          "Säker kassa hos Shopify",
+        ]
+      : [
+          "Selected by Noorly",
+          "Explore the contents and photographs",
+          "Secure Shopify checkout",
+        ]
+    : t.home.trust;
   return (
     <>
       <StructuredData
@@ -86,7 +89,14 @@ export default async function Home({
           id="gifts"
           tabIndex={-1}
         >
-          <PlannedBundleCard locale={locale} launch={launch} />
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{launchCatalogCopy[locale].label}</p>
+              <h2>{launchCatalogCopy[locale].title}</h2>
+              <p>{launchCatalogCopy[locale].description}</p>
+            </div>
+          </div>
+          <LaunchCatalogGrid locale={locale} launches={launches} />
         </section>
       </div>
       <section className="story-section section-wrap">

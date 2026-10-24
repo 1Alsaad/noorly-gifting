@@ -2,9 +2,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { getContentRepository } from "@/lib/content";
-import { PlannedBundleCard } from "@/components/product/planned-bundle";
-import { launchBundleCopy } from "@/content/launch-bundle";
-import { getLaunchProduct } from "@/lib/commerce/launch-product";
+import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
+import { launchCatalogCopy } from "@/content/launch-catalog";
+import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { TrackView } from "@/components/analytics/track-view";
 import { pageMetadata } from "@/lib/seo/metadata";
 export async function generateMetadata({
@@ -31,7 +31,7 @@ export default async function CollectionPage({
   if (!isLocale(locale)) notFound();
   const season = await getContentRepository().getSeasonBySlug(handle);
   if (!season) notFound();
-  const launch = await getLaunchProduct();
+  const launches = await getLaunchProducts();
   const t = getDictionary(locale);
   return (
     <>
@@ -50,15 +50,15 @@ export default async function CollectionPage({
         <div>
           <p className="eyebrow">{t.collectionLabel}</p>
           <h1>{t.collectionTitle}</h1>
-          <p>{launch.product.description[locale]}</p>
-          <p>{launchBundleCopy[locale].imageNote}</p>
+          <p>{launchCatalogCopy[locale].description}</p>
+          <p>{launchCatalogCopy[locale].imageNote}</p>
         </div>
       </div>
       <section className="section-wrap page-content">
         <div className="section-heading">
           <h2>{t.collection}</h2>
         </div>
-        <PlannedBundleCard locale={locale} launch={launch} />
+        <LaunchCatalogGrid locale={locale} launches={launches} />
       </section>
     </>
   );

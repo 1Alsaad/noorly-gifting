@@ -59,7 +59,8 @@ describe("Noorly public stock and product copy", () => {
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "false");
     const live = getDictionary("en");
     expect(live.checkout).toBe("Continue to secure checkout");
-    expect(live.deliveryText).toContain("included for Ljusstund");
+    expect(live.deliveryText).toContain("Shipping within Sweden is included");
+    expect(live.deliveryText).not.toContain("Ljusstund");
     const terms = getCustomerPolicy("en", "terms");
     const termsText = terms?.sections
       .flatMap((section) => section.paragraphs)

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getCommerceProvider } from "@/lib/commerce";
+import { getStorefrontCatalogue } from "@/lib/commerce/launch-product";
 import {
   signCartReference,
   verifyCartReference,
@@ -145,7 +146,7 @@ export async function GET() {
       {
         cart: publicCart(
           cart?.lines.length
-            ? enrichCartProducts(cart, await provider.getProducts())
+            ? enrichCartProducts(cart, await getStorefrontCatalogue(provider))
             : cart,
         ),
       },
@@ -189,7 +190,7 @@ export async function POST(request: Request) {
       if (action.action !== "add") throw new CommerceError("empty_cart");
       cart = await provider.createCart();
     }
-    const catalogue = await provider.getProducts();
+    const catalogue = await getStorefrontCatalogue(provider);
     // Refresh availability and bilingual presentation from the catalogue before mutations.
     cart = enrichCartProducts(cart, catalogue);
     if (action.action === "replace_bundle") {
