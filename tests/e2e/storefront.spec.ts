@@ -131,7 +131,7 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
     page.getByText(/Ordering and payment are not yet open/),
   ).toBeVisible();
   await expect(page.getByText(/Packaged candle sand from AWGifts/)).toBeVisible();
-  await expect(page.getByText(/TeakB-37/)).toBeVisible();
+  await expect(page.getByText(/not a heat-resistant candle vessel/)).toBeVisible();
   await expect(page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37")).toBeVisible();
   await expect(page.locator("main img")).toHaveCount(0);
   await expect(
