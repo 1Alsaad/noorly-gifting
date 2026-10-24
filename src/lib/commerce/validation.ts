@@ -44,7 +44,7 @@ const attributeSchema = z
       value === "" ||
       z.uuid().safeParse(value).success,
     "invalid_session",
-  );
+  )
   .refine(
     ({ key, value }) =>
       key !== "_noorly_meta_consent" ||
