@@ -95,11 +95,6 @@ export default async function Home({
           </Link>
         </div>
       </section>
-      <section className="reviews-placeholder section-wrap">
-        <span className="eyebrow">{t.home.reviewsLabel}</span>
-        <p className="review-quote">{t.home.reviews}</p>
-        <p>{t.home.reviewsText}</p>
-      </section>
     </>
   );
 }
