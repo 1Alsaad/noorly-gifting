@@ -130,9 +130,15 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
   await expect(
     page.getByText(/Ordering and payment are not yet open/),
   ).toBeVisible();
-  await expect(page.getByText(/Packaged candle sand from AWGifts/)).toBeVisible();
-  await expect(page.getByText(/not a heat-resistant candle vessel/)).toBeVisible();
-  await expect(page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37")).toBeVisible();
+  await expect(
+    page.getByText(/Packaged candle sand from AWGifts/),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/not a heat-resistant candle vessel/),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
+  ).toBeVisible();
   await expect(page.locator("main img")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: /Add to|checkout/i }),
@@ -294,7 +300,9 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
   expect(accessibility.violations).toEqual([]);
 
   await expect(shopping.getByText(/Planned set price: SEK 799/)).toBeVisible();
-  await expect(shopping.getByText(/Ordering and payment are not yet open/)).toBeVisible();
+  await expect(
+    shopping.getByText(/Ordering and payment are not yet open/),
+  ).toBeVisible();
   await expect(shopping.getByRole("button")).toHaveCount(0);
   await scene.getByRole("link", { name: "Skip experience" }).focus();
   await seek(0.4);
@@ -619,7 +627,9 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     ).toBeVisible();
     await page.getByRole("link", { name: "Discover Ljusstund" }).click();
     await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
-    await expect(page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37")).toBeVisible();
+    await expect(
+      page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
+    ).toBeVisible();
     await expect(
       page.getByText(/TEAKB-37 · TEAK BOWL/),
     ).toBeVisible();
