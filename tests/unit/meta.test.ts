@@ -43,7 +43,9 @@ describe("marketing consent and genuine lead events", () => {
     expect(meta.trackMetaInitiateCheckout(799)).toBe(true);
     const commands = window.fbq!.queue;
     expect(commands.filter((call) => call[2] === "PageView")).toHaveLength(2);
-    expect(commands.filter((call) => call[2] === "ViewContent")).toHaveLength(1);
+    expect(
+      commands.filter((call) => call[2] === "ViewContent"),
+    ).toHaveLength(1);
     expect(
       commands.filter((call) => call[2] === "InitiateCheckout"),
     ).toHaveLength(1);
