@@ -58,10 +58,10 @@ export function PlannedBundleDetails({ locale }: { locale: Locale }) {
           <h1>{copy.title}</h1>
           <p>{copy.description}</p>
           <p className="planned-bundle-price">{copy.price}</p>
-        <div className="planned-bundle-preorder" role="note">
-          <strong>{copy.preorderHeading}</strong>
-          <p>{copy.preorderExplanation}</p>
-        </div>
+          <div className="planned-bundle-preorder" role="note">
+            <strong>{copy.preorderHeading}</strong>
+            <p>{copy.preorderExplanation}</p>
+          </div>
           <p className="product-note">{copy.status}</p>
           <h2>{copy.contentsTitle}</h2>
           <ul className="planned-bundle-contents">
