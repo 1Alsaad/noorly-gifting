@@ -24,6 +24,10 @@ export function PlannedBundleCard({ locale }: { locale: Locale }) {
         <h2>{copy.title}</h2>
         <p>{copy.description}</p>
         <p className="planned-bundle-price">{copy.price}</p>
+        <div className="planned-bundle-preorder" role="note">
+          <strong>{copy.preorderHeading}</strong>
+          <p>{copy.preorderExplanation}</p>
+        </div>
         <Link className="button button-dark" href={launchBundleHref(locale)}>
           {copy.cta} <ArrowUpRight size={17} />
         </Link>
@@ -54,6 +58,10 @@ export function PlannedBundleDetails({ locale }: { locale: Locale }) {
           <h1>{copy.title}</h1>
           <p>{copy.description}</p>
           <p className="planned-bundle-price">{copy.price}</p>
+          <div className="planned-bundle-preorder" role="note">
+            <strong>{copy.preorderHeading}</strong>
+            <p>{copy.preorderExplanation}</p>
+          </div>
           <p className="product-note">{copy.status}</p>
           <h2>{copy.contentsTitle}</h2>
           <ul className="planned-bundle-contents">
