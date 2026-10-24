@@ -28,11 +28,6 @@ jobs:
           cache: pnpm
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
-      - name: Diagnose Zod formatting
-        run: |
-          pnpm exec prettier --write src/lib/commerce/validation.ts tests/unit/commerce-api.test.ts
-          git diff --color=never -- src/lib/commerce/validation.ts tests/unit/commerce-api.test.ts
-          git checkout -- src/lib/commerce/validation.ts tests/unit/commerce-api.test.ts
       - name: Check formatting
         run: pnpm format:check
       - name: Lint
