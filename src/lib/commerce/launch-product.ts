@@ -49,10 +49,11 @@ export async function resolveLaunchProduct(
     salesOpen,
     purchasable: false,
   };
-  if (provider.name !== "shopify") return preparation;
+  // The closed preview contains verified photographs and confirmed contents,
+  // but no sellable variants. It must remain readable during catalog setup.
+  if (!salesOpen || provider.name !== "shopify") return preparation;
 
-  // Provider/configuration failures propagate. Only an unpublished or missing
-  // product falls back to the clearly non-purchasable preparation presentation.
+  // Once sales open, provider failures still propagate and never become stock.
   const found = await provider.getProductByHandle(launchBundleHandle);
   if (!found) return preparation;
   if (found.id !== LAUNCH_PRODUCT_ID || found.handle !== launchBundleHandle)

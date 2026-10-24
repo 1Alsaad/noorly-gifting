@@ -260,7 +260,10 @@ export const plannedLaunchBundle: Product = {
     en: launchBundleCopy.en.description,
   },
   price: { amount: 799, currencyCode: "SEK" },
-  images: launchBundlePhotos.map((photo) => ({
+  images: [
+    ...launchBundlePhotos,
+    ...launchSandChoices.map((choice) => choice.photo),
+  ].map((photo) => ({
     url: photo.url,
     alt: photo.alt.sv,
   })),

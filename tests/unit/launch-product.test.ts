@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { launchBundleHandle } from "@/content/launch-bundle";
+import {
+  launchBundleHandle,
+  plannedLaunchBundle,
+  launchSandChoices,
+} from "@/content/launch-bundle";
 import { resolveLaunchProduct } from "@/lib/commerce/launch-product";
 import type { Product } from "@/types/commerce";
 
@@ -55,16 +59,27 @@ describe("the real launch product", () => {
     ["NOORLY_STOREFRONT_OPEN", "false"],
     ["NEXT_PUBLIC_PRODUCT_TEST_MODE", "true"],
   ])(
-    "preserves real photographs but disables every variant when %s=%s",
+    "shows verified component photographs without querying stock when %s=%s",
     async (key, value) => {
       vi.stubEnv(key, value);
-      const resolved = await resolveLaunchProduct(provider());
+      const shop = provider();
+      shop.getProductByHandle.mockRejectedValue(
+        new Error("provider_unavailable"),
+      );
+      const resolved = await resolveLaunchProduct(shop);
+      expect(shop.getProductByHandle).not.toHaveBeenCalled();
       expect(resolved.purchasable).toBe(false);
-      expect(resolved.product.images).toEqual(product.images);
+      expect(resolved.source).toBe("preparation");
+      expect(resolved.product.images).toEqual(plannedLaunchBundle.images);
+      for (const choice of launchSandChoices) {
+        expect(
+          resolved.product.images.some(
+            (image) => image.url === choice.photo.url,
+          ),
+        ).toBe(true);
+      }
       expect(resolved.product.available).toBe(false);
-      expect(
-        resolved.product.variants.every((variant) => !variant.available),
-      ).toBe(true);
+      expect(resolved.product.variants).toHaveLength(0);
     },
   );
 
