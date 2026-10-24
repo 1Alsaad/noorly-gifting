@@ -737,7 +737,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   await expect(
     card.getByRole("heading", { name: "Noorly Ljusstund" }),
   ).toBeVisible();
-  await expect(card.getByText(/Planerat pris: 799 kr/)).toBeVisible();
+  await expect(card.getByText(/Planerat setpris: 799 kr/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);
   // Visibility changes before the 240ms entrance transition finishes. Measure
   // the settled layout while preserving the original viewport-clearance check.
