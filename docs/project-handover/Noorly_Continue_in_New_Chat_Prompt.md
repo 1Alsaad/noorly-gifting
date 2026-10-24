@@ -1,5 +1,7 @@
 # Continuation prompt
 
+> **Updated 25 October 2026:** Start with [the separate products and payment launch checkpoint](Noorly_Separate_Products_and_Payments_2026-10-25.md) and its final release evidence. The owner explicitly requests opening payments, selling the bowl and candle sand separately, and manually completing company/rules details. The prompt below is historical; its closed-presale and draft-product instructions must not override that latest request. Keep GitHub as the source of truth and preserve the film and admin-password behaviour.
+
 Copy the text below into a new chat with Chrome/Computer tools enabled if available.
 
 Continue the Noorly ecommerce project using my connected Google Chrome and Computer tools if available. First read the latest GitHub handover and linked evidence in repository 1Alsaad/noorly-gifting:

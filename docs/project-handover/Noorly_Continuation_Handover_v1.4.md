@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.4
 
+> **Current continuation:** Read the [25 October separate products and payment launch checkpoint](Noorly_Separate_Products_and_Payments_2026-10-25.md) first. The owner now explicitly requests opening customer payments and selling candle sand and the bowl separately. Closed-sales instructions and draft/zero-stock observations below are historical.
+
 > Latest verified continuation: **Product recommendation — 23 October 2026: keep Noorly, keep the wooden-bowl kit at quote/qualification stage, and favour researching a simpler first product unless economics improve. This is advice, not an owner-approved pivot.** Three supplier requests remain verified SENT. Read the final checkpoint and [outreach/projections report](Noorly_Private_Label_Outreach_and_Projections_2026-10-23.md).
 
 Updated 21 October 2026, Europe/Stockholm. Read this first, then [v1.3](Noorly_Continuation_Handover_v1.3.md) for the complete standing decisions and [v1.2](Noorly_Presale_State_v1.2.md) for historical implementation IDs. This is an incremental evidence update; no release is authorised.

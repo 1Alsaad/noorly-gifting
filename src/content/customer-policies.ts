@@ -61,13 +61,13 @@ export function customerPolicySections(locale: Locale) {
     heading: sv ? "Pris och leverans" : "Price and delivery",
     paragraphs: sv
       ? [
-          "Noorly Ljusstund kostar 799 kr inklusive moms och leverans inom Sverige. Ingen extra fraktavgift tillkommer för leverans inom Sverige.",
+          "Ljussand och teakskål säljs separat. En påse ljussand med 300 g och fyra bomullsvekar kostar 199 kr utan doft eller 249 kr med doft. Den dekorativa teakskålen kostar 550 kr. Priserna inkluderar moms och leverans inom Sverige; ingen extra fraktavgift tillkommer.",
           "Vi behandlar och skickar din beställning så snart som möjligt. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
           "Om vi inte har avtalat om en annan leveranstid ska leveransen ske utan onödigt dröjsmål och senast 30 dagar efter att avtalet ingicks.",
           `Kontakta ${email} om leveransen dröjer eller paketet skadas eller försvinner. Vi ansvarar för leveransen tills du har tagit emot varan. Vid försening kan du kräva leverans och, när konsumentköplagens förutsättningar är uppfyllda, häva köpet och få tillbaka det du har betalat.`,
         ]
       : [
-          "Noorly Ljusstund costs SEK 799 including VAT and delivery within Sweden. No additional shipping charge applies to delivery within Sweden.",
+          "Candle sand and the teak bowl are sold separately. One 300 g pouch of candle sand with four cotton wicks costs SEK 199 unscented or SEK 249 scented. The decorative teak bowl costs SEK 550. Prices include VAT and delivery within Sweden, with no additional shipping charge.",
           "We process and dispatch your order as soon as possible. You receive an order confirmation by email and tracking information when available.",
           "Unless we have agreed on another delivery time, delivery must take place without unnecessary delay and no later than 30 days after the contract is concluded.",
           `Contact ${email} if delivery is delayed or your parcel is damaged or lost. We remain responsible for delivery until you receive the goods. For delays, you can request delivery and, where the conditions under Swedish consumer law are met, cancel the purchase and receive a refund.`,
@@ -159,12 +159,12 @@ export function customerPolicySections(locale: Locale) {
     paragraphs: sv
       ? [
           "Dessa villkor gäller när du som konsument handlar hos Noorly AB med leverans inom Sverige. Produktens innehåll och valda alternativ framgår på produktsidan och i din beställning.",
-          "Priser anges i svenska kronor inklusive moms. Noorly Ljusstund kostar 799 kr inklusive leverans inom Sverige. Kontrollera valda varor, leveransadress och totalbelopp innan du bekräftar köpet.",
+          "Priser anges i svenska kronor inklusive moms. Ljussand och teakskål säljs som separata produkter, och leverans inom Sverige ingår. Kontrollera valda varor, färg och doft, leveransadress och totalbelopp innan du bekräftar köpet.",
           "Betalning sker i Shopifys kassa med de betalningssätt som visas där. Du får en orderbekräftelse via e-post. Kontakta oss om någon uppgift i beställningen är fel.",
         ]
       : [
           "These terms apply when you buy from Noorly AB as a consumer for delivery within Sweden. The product contents and selected options are shown on the product page and in your order.",
-          "Prices are in Swedish kronor and include VAT. Noorly Ljusstund costs SEK 799 including delivery within Sweden. Check your items, delivery address and total before confirming your purchase.",
+          "Prices are in Swedish kronor and include VAT. Candle sand and the teak bowl are sold as separate products, and delivery within Sweden is included. Check your items, selected colour and scent, delivery address and total before confirming your purchase.",
           "Payment is completed through Shopify checkout using the payment methods shown there. You receive an order confirmation by email. Contact us if any order detail is incorrect.",
         ],
   };

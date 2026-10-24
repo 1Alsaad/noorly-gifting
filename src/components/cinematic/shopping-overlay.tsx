@@ -6,10 +6,10 @@ import {
   interestHref,
 } from "@/config/product-test";
 import {
-  launchBundleCopy,
-  launchBundleHandle,
-  launchBundleHref,
-} from "@/content/launch-bundle";
+  launchCatalogCopy,
+  candleSandHandle,
+  launchCatalogHref,
+} from "@/content/launch-catalog";
 import { useState } from "react";
 import Link from "next/link";
 import { formatMoney } from "@/lib/utils/money";
@@ -57,11 +57,8 @@ export function ShoppingOverlay({
     }
   }
 
-  if (product.handle === launchBundleHandle) {
-    const bundle = launchBundleCopy[locale];
-    const published = product.id.startsWith("gid://shopify/Product/");
-    const purchasable =
-      !isProductTestMode() && !product.previewOnly && product.available;
+  if (product.handle === candleSandHandle) {
+    const catalogue = launchCatalogCopy[locale];
     return (
       <div
         className="cinema-shopping"
@@ -74,28 +71,18 @@ export function ShoppingOverlay({
             setFocused(false);
         }}
       >
-        <p className="cinema-kicker">{bundle.label}</p>
+        <p className="cinema-kicker">{catalogue.label}</p>
         <h2 className="cinema-shopping-title">{product.title[locale]}</h2>
         <p className="cinema-planned-price">
-          {published ? formatMoney(product.price, locale) : bundle.price}
+          {locale === "sv" ? "Från " : "From "}
+          {formatMoney(product.price, locale)}
         </p>
         <Link
           className="cinema-button cinema-button-dark"
-          href={launchBundleHref(locale)}
+          href={launchCatalogHref(locale)}
         >
-          {purchasable
-            ? locale === "sv"
-              ? "Se innehåll och köp"
-              : "View details and buy"
-            : bundle.cta}
+          {catalogue.cta}
         </Link>
-        {!purchasable && (
-          <p className="cinema-planned-note">
-            {locale === "sv"
-              ? "Beställning är inte tillgänglig just nu."
-              : "Ordering is currently unavailable."}
-          </p>
-        )}
         <a className="cinema-details-link" href="#gifts" onClick={onSkip}>
           {copy.explore}
         </a>

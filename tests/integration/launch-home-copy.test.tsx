@@ -3,10 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Home from "@/app/[locale]/page";
 import { ShoppingOverlay } from "@/components/cinematic/shopping-overlay";
 import { getDictionary } from "@/content/translations";
-import {
-  launchBundleHandle,
-  launchBundlePhotos,
-} from "@/content/launch-bundle";
+import { launchProductDefinitions } from "@/content/launch-catalog";
 import { isPublicTestPreview } from "@/lib/commerce/launch";
 import type { Locale, Product } from "@/types/commerce";
 
@@ -42,33 +39,23 @@ vi.mock("@/components/cinematic/cinematic-experience", () => ({
   ),
 }));
 
-const product: Product = {
-  id: "gid://shopify/Product/11401864249686",
-  handle: launchBundleHandle,
-  title: { sv: "Noorly Ljusstund", en: "Noorly Ljusstund" },
-  description: {
-    sv: "En TeakB-37-skål, en påse med 300 g ljussand och fyra bomullsvekar.",
-    en: "One TeakB-37 bowl, one 300 g pouch of candle sand and four cotton wicks.",
-  },
-  price: { amount: 799, currencyCode: "SEK" },
-  images: launchBundlePhotos.map((photo) => ({
-    url: photo.url,
-    alt: photo.alt.en,
-  })),
-  variants: [
-    {
-      id: "gid://shopify/ProductVariant/56138148413782",
-      title: "Vit · Doftfri",
-      sku: "NOORLY-LJUSSTUND-CSand-11",
-      price: { amount: 799, currencyCode: "SEK" },
-      available: true,
-    },
-  ],
-  available: true,
-  category: "box",
-  seasons: ["winter"],
-  boxEligible: false,
-};
+const products: Product[] = launchProductDefinitions.map(
+  (definition, index) => ({
+    ...definition.preview,
+    id: definition.id,
+    previewOnly: false,
+    available: true,
+    variants: [
+      {
+        id: `gid://shopify/ProductVariant/${index ? "56138148118870" : "55883112087894"}`,
+        sku: index ? "TeakB-37" : "CSand-11",
+        title: index ? "Default Title" : "Vit · Doftfri",
+        available: true,
+        price: definition.preview.price,
+      },
+    ],
+  }),
+);
 
 describe("launch copy through the homepage and real release gates", () => {
   beforeEach(() => {
@@ -78,7 +65,12 @@ describe("launch copy through the homepage and real release gates", () => {
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "false");
     // A retained preview flag must not revive preparation copy after opening.
     vi.stubEnv("NOORLY_PUBLIC_PREVIEW", "true");
-    getProductByHandle.mockReset().mockResolvedValue(product);
+    getProductByHandle
+      .mockReset()
+      .mockImplementation(
+        async (handle: string) =>
+          products.find((product) => product.handle === handle) ?? null,
+      );
   });
   afterEach(() => vi.unstubAllEnvs());
 
@@ -89,11 +81,15 @@ describe("launch copy through the homepage and real release gates", () => {
         await Home({ params: Promise.resolve({ locale }) }),
       );
       const purchaseLabel =
-        locale === "sv" ? "Se innehåll och köp" : "View details and buy";
+        locale === "sv" ? "Välj färg & doft" : "Choose colour & scent";
       expect(
         screen.getAllByRole("link", { name: new RegExp(purchaseLabel) }),
       ).toHaveLength(2);
-      expect(screen.getAllByText(/799/).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/199/).length).toBeGreaterThan(0);
+      expect(screen.getByText(/550/)).toBeInTheDocument();
+      expect(
+        container.querySelectorAll(".launch-catalog-grid article"),
+      ).toHaveLength(2);
       expect(container).toHaveTextContent("300 g");
       expect(container.textContent).not.toMatch(
         /planned set price|planerat setpris|ordering (?:is currently unavailable|and payment are not yet open)|beställning (?:är inte tillgänglig|och betalning är ännu inte öppna)|contents will be confirmed|exakta set|förbeställ|preorders/i,
@@ -122,21 +118,19 @@ describe("launch copy through the homepage and real release gates", () => {
       await Home({ params: Promise.resolve({ locale: "en" }) }),
     );
     expect(isPublicTestPreview()).toBe(true);
-    expect(
-      screen.queryByRole("link", { name: /View details and buy/ }),
-    ).toBeNull();
-    expect(
-      screen.getByText("Ordering and payment are not yet open."),
-    ).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Add to bag/ })).toBeNull();
+    expect(screen.getAllByText("Ordering is not open")[0]).toBeInTheDocument();
     expect(container).toHaveTextContent("300 g");
     expect(container.textContent).not.toMatch(
       /contents will be confirmed|finalising the set contents/i,
     );
     const shared = getDictionary("en");
-    expect(shared.home.reviewsText).toContain("contents are confirmed");
     expect(shared.home.reviewsText).toContain(
-      "Ordering and payment are not yet open",
+      "Candle sand and decorative teak bowls",
     );
-    expect(shared.faqs[0].a).toContain("contents are confirmed");
+    expect(shared.home.reviewsText).toContain(
+      "Ordering and payment are not yet open in this preview",
+    );
+    expect(shared.faqs[0].a).toContain("preview");
   });
 });

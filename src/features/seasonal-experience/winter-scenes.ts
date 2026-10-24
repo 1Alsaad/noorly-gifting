@@ -1,4 +1,4 @@
-import { launchBundleHandle, launchBundleCopy } from "@/content/launch-bundle";
+import { candleSandHandle, launchCatalogCopy } from "@/content/launch-catalog";
 import type { CinematicScene } from "./types";
 
 export const winterScenes: CinematicScene[] = [
@@ -33,8 +33,8 @@ export const winterScenes: CinematicScene[] = [
         en: "In from the cold.\nInto something warmer.",
       },
     },
-    mediaNote: { sv: launchBundleCopy.sv.film, en: launchBundleCopy.en.film },
+    mediaNote: { sv: launchCatalogCopy.sv.film, en: launchCatalogCopy.en.film },
     hotspots: [],
-    shopping: { productHandle: launchBundleHandle, visibleFrom: 10 / 15 },
+    shopping: { productHandle: candleSandHandle, visibleFrom: 10 / 15 },
   },
 ];

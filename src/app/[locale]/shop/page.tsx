@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
-import { PlannedBundleCard } from "@/components/product/planned-bundle";
-import { getLaunchProduct } from "@/lib/commerce/launch-product";
+import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
+import { launchCatalogCopy } from "@/content/launch-catalog";
+import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { TrackView } from "@/components/analytics/track-view";
 export async function generateMetadata({
@@ -11,12 +12,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const { product } = await getLaunchProduct();
   return pageMetadata(
     locale,
     "/shop",
     getDictionary(locale).shop,
-    product.description[locale],
+    launchCatalogCopy[locale].description,
   );
 }
 export default async function Shop({
@@ -27,19 +27,19 @@ export default async function Shop({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
-  const launch = await getLaunchProduct();
+  const launches = await getLaunchProducts();
   return (
     <div className="section-wrap page-content">
       <TrackView
         name="product_list_viewed"
-        properties={{ locale, source: "shop", quantity: 1 }}
+        properties={{ locale, source: "shop", quantity: launches.length }}
       />
       <div className="page-heading">
         <p className="eyebrow">{t.edition}</p>
         <h1>{t.shop}</h1>
-        <p>{launch.product.description[locale]}</p>
+        <p>{launchCatalogCopy[locale].description}</p>
       </div>
-      <PlannedBundleCard locale={locale} launch={launch} />
+      <LaunchCatalogGrid locale={locale} launches={launches} />
     </div>
   );
 }

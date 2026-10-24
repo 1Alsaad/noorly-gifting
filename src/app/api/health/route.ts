@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { getEnv } from "@/lib/env/server";
 import { getCommerceProvider } from "@/lib/commerce";
 import { CommerceError } from "@/lib/commerce/errors";
-import { launchBundleHandle } from "@/content/launch-bundle";
+import { launchProductDefinitions } from "@/content/launch-catalog";
 
 const publicCatalogErrors = new Set([
   "provider_unavailable",
@@ -12,6 +12,7 @@ const publicCatalogErrors = new Set([
   "invalid_provider_response",
   "bundle_components_unavailable",
   "unsupported_currency",
+  "invalid_launch_product",
 ]);
 
 export const dynamic = "force-dynamic";
@@ -21,12 +22,20 @@ export async function GET(request: Request) {
     getEnv();
     if (new URL(request.url).searchParams.get("catalog") === "1") {
       try {
-        const product =
-          await getCommerceProvider().getProductByHandle(launchBundleHandle);
+        const provider = getCommerceProvider();
+        const products = await Promise.all(
+          launchProductDefinitions.map(async ({ id, handle }) => {
+            const product = await provider.getProductByHandle(handle);
+            if (product && (product.id !== id || product.handle !== handle))
+              throw new CommerceError("invalid_launch_product", 502);
+            return product;
+          }),
+        );
+        const complete = products.every(Boolean);
         return Response.json(
-          { status: product ? "ok" : "catalog_unpublished", requestId },
+          { status: complete ? "ok" : "catalog_unpublished", requestId },
           {
-            status: product ? 200 : 503,
+            status: complete ? 200 : 503,
             headers: { "Cache-Control": "no-store", "X-Request-ID": requestId },
           },
         );

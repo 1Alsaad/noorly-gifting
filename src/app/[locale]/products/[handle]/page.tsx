@@ -2,7 +2,12 @@ import {
   launchBundleHandle,
   legacyLaunchBundleHandle,
 } from "@/content/launch-bundle";
-import { PlannedBundleDetails } from "@/components/product/planned-bundle";
+import { LaunchProductDetails } from "@/components/product/launch-catalog";
+import {
+  candleSandHandle,
+  launchProductDefinitions,
+  presentCatalogProduct,
+} from "@/content/launch-catalog";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -19,26 +24,27 @@ type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
-  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle) {
-    const { product } = await getLaunchProduct();
+  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle)
+    return pageMetadata(locale, "/shop", getDictionary(locale).shop, "");
+  if (launchProductDefinitions.some((item) => item.handle === handle)) {
+    const launch = await getLaunchProduct(handle);
+    const product = presentCatalogProduct(launch.product, locale);
     const metadata = pageMetadata(
       locale,
-      `/products/${launchBundleHandle}`,
+      `/products/${handle}`,
       product.title[locale],
       product.description[locale],
     );
-    return product.images.length
-      ? {
-          ...metadata,
-          openGraph: {
-            ...metadata.openGraph,
-            images: product.images.map((image) => ({
-              url: image.url,
-              alt: image.alt,
-            })),
-          },
-        }
-      : metadata;
+    return {
+      ...metadata,
+      openGraph: {
+        ...metadata.openGraph,
+        images: product.images.map((image) => ({
+          url: image.url,
+          alt: image.alt,
+        })),
+      },
+    };
   }
   const p = await getCommerceProvider().getProductByHandle(handle);
   return p
@@ -53,11 +59,19 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
-  if (handle === legacyLaunchBundleHandle)
-    redirect(`/${locale}/products/${launchBundleHandle}`);
-  if (handle === launchBundleHandle) {
-    const launch = await getLaunchProduct();
-    const { product } = launch;
+  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle)
+    redirect(`/${locale}/shop`);
+  const provider = getCommerceProvider();
+  // The existing local mock catalogue remains useful for preview checkout tests.
+  // Public Shopify routes always resolve the two verified merchant products.
+  if (
+    launchProductDefinitions.some((item) => item.handle === handle) &&
+    (provider.name === "shopify" ||
+      process.env.NOORLY_PUBLIC_PREVIEW === "true" ||
+      handle !== candleSandHandle)
+  ) {
+    const launch = await getLaunchProduct(handle);
+    const product = presentCatalogProduct(launch.product, locale);
     return (
       <>
         {launch.source === "shopify" && (
@@ -67,7 +81,7 @@ export default async function ProductDetail({ params }: Props) {
               properties={{
                 locale,
                 product_id: product.id,
-                product_handle: product.handle,
+                product_handle: handle,
                 currency: product.price.currencyCode,
                 value: product.price.amount,
               }}
@@ -82,25 +96,27 @@ export default async function ProductDetail({ params }: Props) {
                 sku: product.variants[0]?.sku ?? product.id,
                 ...(launch.purchasable
                   ? {
-                      offers: {
-                        "@type": "Offer",
-                        price: product.price.amount,
-                        priceCurrency: product.price.currencyCode,
-                        url: `${brand.siteUrl}/${locale}/products/${product.handle}`,
-                        availability: "https://schema.org/InStock",
-                      },
+                      offers: product.variants
+                        .filter((variant) => variant.available)
+                        .map((variant) => ({
+                          "@type": "Offer",
+                          price: variant.price.amount,
+                          priceCurrency: variant.price.currencyCode,
+                          sku: variant.sku,
+                          url: `${brand.siteUrl}/${locale}/products/${handle}`,
+                          availability: "https://schema.org/InStock",
+                        })),
                     }
                   : {}),
               }}
             />
           </>
         )}
-        <PlannedBundleDetails locale={locale} launch={launch} />
+        <LaunchProductDetails locale={locale} launch={launch} />
       </>
     );
   }
   if (process.env.NOORLY_PUBLIC_PREVIEW === "true") notFound();
-  const provider = getCommerceProvider();
   const product = await provider.getProductByHandle(handle);
   if (!product) notFound();
   const t = getDictionary(locale);

@@ -1,5 +1,5 @@
 "use client";
-import { launchBundleCopy, launchBundleHref } from "@/content/launch-bundle";
+import { launchCatalogCopy, launchCatalogHref } from "@/content/launch-catalog";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -70,11 +70,11 @@ export function Header({ locale }: { locale: Locale }) {
           {isProductTestMode() ? (
             <Link
               className="bag-link"
-              href={launchBundleHref(locale)}
-              aria-label={launchBundleCopy[locale].cta}
+              href={launchCatalogHref(locale)}
+              aria-label={launchCatalogCopy[locale].cta}
             >
               <ArrowUpRight size={19} />
-              <span className="bag-label">{launchBundleCopy[locale].cta}</span>
+              <span className="bag-label">{launchCatalogCopy[locale].cta}</span>
             </Link>
           ) : (
             <Link
