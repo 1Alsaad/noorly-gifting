@@ -52,7 +52,18 @@ export async function POST(request: Request) {
       order.note_attributes.map((a) => [a.name, a.value]),
     );
     const session = z.uuid().safeParse(attributes._stilla_analytics_session);
-    if (attributes._stilla_analytics_consent !== "granted" || !session.success)
+    const analyticsAllowed =
+      attributes._stilla_analytics_consent === "granted" && session.success;
+    const metaCookie = (key: string) => {
+      const value = attributes[key] ?? "";
+      return /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value)
+        ? value
+        : "";
+    };
+    const marketingAllowed = attributes._noorly_meta_consent === "granted";
+    const fbp = marketingAllowed ? metaCookie("_noorly_meta_fbp") : "";
+    const fbc = marketingAllowed ? metaCookie("_noorly_meta_fbc") : "";
+    if (!analyticsAllowed && !fbp && !fbc)
       return Response.json({ ok: true, analytics: "not_consented" });
     // Hash store + order identity: paid topic redeliveries with new webhook IDs are also deduplicated.
     const id = createHash("sha256")
@@ -62,10 +73,13 @@ export async function POST(request: Request) {
       id,
       createdAt: new Date().toISOString(),
       delivered: [],
+      analyticsAllowed,
+      marketingFbp: fbp || undefined,
+      marketingFbc: fbc || undefined,
       event: {
         name: "purchase",
         properties: {
-          anonymous_session_id: session.data,
+          ...(analyticsAllowed ? { anonymous_session_id: session.data } : {}),
           transaction_id: id,
           currency: order.currency,
           value: Number(order.total_price),
