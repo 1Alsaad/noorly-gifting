@@ -129,7 +129,7 @@ export async function drainPurchaseOutbox(maxItems = 20) {
   if (
     env.META_CAPI_ACCESS_TOKEN &&
     env.META_CAPI_API_VERSION &&
-    /^\\d+$/.test(env.NEXT_PUBLIC_META_PIXEL_ID ?? "")
+    /^\d+$/.test(env.NEXT_PUBLIC_META_PIXEL_ID ?? "")
   )
     providers.push("meta");
   if (!providers.length)
