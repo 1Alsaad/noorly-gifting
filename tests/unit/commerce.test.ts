@@ -33,6 +33,8 @@ const rawProduct = {
   title: "Vinterljus",
   description: "Ett vinterljus.",
   availableForSale: true,
+  requiresSellingPlan: false,
+  sellingPlanGroups: { nodes: [] },
   productType: "signature",
   tags: ["season:winter", "box-eligible"],
   priceRange: { minVariantPrice: { amount: "295.00", currencyCode: "SEK" } },
@@ -47,6 +49,12 @@ const rawProduct = {
       {
         id: "gid://shopify/ProductVariant/1",
         title: "Standard",
+        sku: "WINTER-001",
+        image: {
+          url: "https://cdn.shopify.com/variant.jpg",
+          altText: "Selected candle",
+        },
+        selectedOptions: [{ name: "Size", value: "Standard" }],
         availableForSale: true,
         price: { amount: "295.00", currencyCode: "SEK" },
       },
@@ -167,6 +175,27 @@ describe("Shopify mapping", () => {
     expect(product.boxEligible).toBe(true);
     expect(product.seasons).toEqual(["winter"]);
     expect(product.compareAtPrice).toBeUndefined();
+    expect(product.variants[0]).toMatchObject({
+      sku: "WINTER-001",
+      images: [
+        { url: "https://cdn.shopify.com/variant.jpg", alt: "Selected candle" },
+      ],
+      selectedOptions: [{ name: "Size", value: "Standard" }],
+    });
+    expect(product.requiresSellingPlan).toBe(false);
+    expect(product.hasSellingPlans).toBe(false);
+  });
+  it("preserves optional and required selling plans instead of treating them as ordinary stock", () => {
+    const product = mapShopifyProduct({
+      ...rawProduct,
+      sellingPlanGroups: { nodes: [{ name: "Pre-order" }] },
+    });
+    expect(product.requiresSellingPlan).toBe(false);
+    expect(product.hasSellingPlans).toBe(true);
+    expect(
+      mapShopifyProduct({ ...rawProduct, requiresSellingPlan: true })
+        .requiresSellingPlan,
+    ).toBe(true);
   });
   it("rejects unsupported currencies instead of mislabelling them SEK", () => {
     expect(() =>
@@ -191,6 +220,9 @@ describe("Shopify mapping", () => {
             id: "line",
             quantity: 1,
             attributes: [{ key: "gift_message", value: "Plain text" }],
+            sellingPlanAllocation: {
+              sellingPlan: { id: "gid://shopify/SellingPlan/1" },
+            },
             merchandise: {
               ...rawProduct.variants.nodes[0],
               product: rawProduct,
@@ -202,6 +234,11 @@ describe("Shopify mapping", () => {
     expect(cart.total.amount).toBe(295);
     expect(cart.lines[0].product.handle).toBe("winter-candle");
     expect(cart.lines[0].attributes[0].value).toBe("Plain text");
+    expect(cart.lines[0].sellingPlanId).toBe("gid://shopify/SellingPlan/1");
+    expect(cart.lines[0].variant.sku).toBe("WINTER-001");
+    expect(cart.lines[0].variant.images?.[0].url).toBe(
+      "https://cdn.shopify.com/variant.jpg",
+    );
     const translated = mapShopifyProduct(rawProduct, {
       ...rawProduct,
       title: "Winter Candle",
@@ -209,6 +246,9 @@ describe("Shopify mapping", () => {
     expect(
       enrichCartProducts(cart, [translated]).lines[0].product.title.en,
     ).toBe("Winter Candle");
+    expect(enrichCartProducts(cart, [translated]).lines[0].sellingPlanId).toBe(
+      "gid://shopify/SellingPlan/1",
+    );
     expect(enrichCartProducts(cart, []).lines[0].variant.available).toBe(false);
   });
   it("sends real GraphQL operations with server credentials and fails on provider errors", async () => {

@@ -15,7 +15,14 @@ export function ProductGallery({
 }) {
   const [index, setIndex] = useState(0);
   const current = images[index] ?? images[0];
-  if (!current) return null;
+  if (!current)
+    return (
+      <div className="product-detail-image" role="img" aria-label={title}>
+        <p className="product-note">
+          {locale === "sv" ? "Produktbild saknas" : "Product image unavailable"}
+        </p>
+      </div>
+    );
   return (
     <div className="product-gallery">
       <a

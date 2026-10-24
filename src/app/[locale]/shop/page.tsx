@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { PlannedBundleCard } from "@/components/product/planned-bundle";
-import { launchBundleCopy } from "@/content/launch-bundle";
+import { getLaunchProduct } from "@/lib/commerce/launch-product";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { TrackView } from "@/components/analytics/track-view";
 export async function generateMetadata({
@@ -10,14 +10,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return isLocale(locale)
-    ? pageMetadata(
-        locale,
-        "/shop",
-        getDictionary(locale).shop,
-        launchBundleCopy[locale].description,
-      )
-    : {};
+  if (!isLocale(locale)) return {};
+  const { product } = await getLaunchProduct();
+  return pageMetadata(
+    locale,
+    "/shop",
+    getDictionary(locale).shop,
+    product.description[locale],
+  );
 }
 export default async function Shop({
   params,
@@ -27,6 +27,7 @@ export default async function Shop({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
+  const launch = await getLaunchProduct();
   return (
     <div className="section-wrap page-content">
       <TrackView
@@ -36,9 +37,9 @@ export default async function Shop({
       <div className="page-heading">
         <p className="eyebrow">{t.edition}</p>
         <h1>{t.shop}</h1>
-        <p>{launchBundleCopy[locale].description}</p>
+        <p>{launch.product.description[locale]}</p>
       </div>
-      <PlannedBundleCard locale={locale} />
+      <PlannedBundleCard locale={locale} launch={launch} />
     </div>
   );
 }

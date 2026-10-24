@@ -336,7 +336,9 @@ export async function POST(request: Request) {
       return respond(enrichCartProducts(cart, catalogue), { url });
     }
     cart = enrichCartProducts(cart, catalogue);
-    validateCart(cart, catalogue);
+    validateCart(cart, catalogue, {
+      allowUnsupportedPurchaseOptions: action.action === "remove",
+    });
     return respond(cart);
   } catch (error) {
     return failed(error);

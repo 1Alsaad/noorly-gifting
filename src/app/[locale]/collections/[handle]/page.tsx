@@ -4,6 +4,7 @@ import { getDictionary, isLocale } from "@/content/translations";
 import { getContentRepository } from "@/lib/content";
 import { PlannedBundleCard } from "@/components/product/planned-bundle";
 import { launchBundleCopy } from "@/content/launch-bundle";
+import { getLaunchProduct } from "@/lib/commerce/launch-product";
 import { TrackView } from "@/components/analytics/track-view";
 import { pageMetadata } from "@/lib/seo/metadata";
 export async function generateMetadata({
@@ -30,6 +31,7 @@ export default async function CollectionPage({
   if (!isLocale(locale)) notFound();
   const season = await getContentRepository().getSeasonBySlug(handle);
   if (!season) notFound();
+  const launch = await getLaunchProduct();
   const t = getDictionary(locale);
   return (
     <>
@@ -48,7 +50,7 @@ export default async function CollectionPage({
         <div>
           <p className="eyebrow">{t.collectionLabel}</p>
           <h1>{t.collectionTitle}</h1>
-          <p>{launchBundleCopy[locale].description}</p>
+          <p>{launch.product.description[locale]}</p>
           <p>{launchBundleCopy[locale].imageNote}</p>
         </div>
       </div>
@@ -56,7 +58,7 @@ export default async function CollectionPage({
         <div className="section-heading">
           <h2>{t.collection}</h2>
         </div>
-        <PlannedBundleCard locale={locale} />
+        <PlannedBundleCard locale={locale} launch={launch} />
       </section>
     </>
   );

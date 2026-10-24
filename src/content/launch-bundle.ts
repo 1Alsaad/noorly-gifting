@@ -10,6 +10,32 @@ export const supplierBowlUrl =
   "https://www.awgifts.eu/homeware/tableware-kitchen-accessories/teakb/teakb-37";
 export const supplierCandleSandUrl = "https://www.awgifts.se/candles/csand";
 
+// Authenticated AW catalogue images, used under AW Dropship terms section 12.
+// These photographs show the supplier's bowl model, not a finished Noorly set.
+export const launchBundlePhotos = [
+  {
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-01.jpg?v=1792875778",
+    alt: {
+      sv: "Leverantörsfoto av dekorativ teakskål TeakB-37 med naturlig ådring och vågformad kant",
+      en: "Supplier photograph of the decorative TeakB-37 bowl with natural grain and an undulating rim",
+    },
+  },
+  {
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-03.jpg?v=1792875790",
+    alt: {
+      sv: "Leverantörsfoto av insidan på teakskål TeakB-37, sedd snett ovanifrån",
+      en: "Supplier photograph showing the inside of the TeakB-37 bowl, viewed from above at an angle",
+    },
+  },
+  {
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-02.jpg?v=1792875785",
+    alt: {
+      sv: "Leverantörsfoto av teakskål TeakB-37 med citrusfrukter som dekoration; frukten ingår inte",
+      en: "Supplier photograph of the TeakB-37 bowl styled with citrus fruit; the fruit is not included",
+    },
+  },
+] as const;
+
 export const launchBundleCopy = {
   sv: {
     label: "NOORLY LJUSSTUND · FÖRSTA UPPLAGAN",
@@ -31,6 +57,12 @@ export const launchBundleCopy = {
     provenance:
       "Teakskålen är en dekorativ träskål, inte en värmetålig ljusbehållare. Tänd aldrig vekar eller ljussand direkt i träskålen. Om ljussanden ska brinna krävs ett separat lämpligt, obrännbart och värmetåligt kärl samt tillverkarens användningsanvisningar.",
     photos: "TEAKB-37 · TEAKSKÅL",
+    photoTitle: "TeakB-37 · dekorativ teakskål",
+    photoSource: "Produktbilder från leverantören",
+    photoCaption:
+      "Leverantörsbilderna visar modellen TeakB-37. Form och ådring varierar naturligt. Frukten är dekoration och ingår inte.",
+    fullSetPhotos:
+      "Bilder på ljussanden och det kompletta Ljusstund-setet tillkommer.",
     supplierLink: "Se leverantörens originalbilder av teakskålen",
     supplierSandLink: "Se AWGifts sortiment av ljussand",
     trust: [
@@ -66,6 +98,12 @@ export const launchBundleCopy = {
     provenance:
       "The teak bowl is a decorative wooden bowl, not a heat-resistant candle vessel. Never burn a wick or candle sand directly inside the wooden bowl. Using candle sand with a flame requires a separate suitable noncombustible heat-resistant container and the manufacturer's instructions.",
     photos: "TEAKB-37 · TEAK BOWL",
+    photoTitle: "TeakB-37 · decorative teak bowl",
+    photoSource: "Supplier product photographs",
+    photoCaption:
+      "The supplier photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included.",
+    fullSetPhotos:
+      "Photographs of the candle sand and the complete Ljusstund set will follow.",
     supplierLink: "View the supplier's original photos of the teak bowl",
     supplierSandLink: "Explore AWGifts candle-sand products",
     trust: [
@@ -97,7 +135,10 @@ export const plannedLaunchBundle: Product = {
     en: launchBundleCopy.en.description,
   },
   price: { amount: 799, currencyCode: "SEK" },
-  images: [],
+  images: launchBundlePhotos.map((photo) => ({
+    url: photo.url,
+    alt: photo.alt.sv,
+  })),
   variants: [],
   available: false,
   previewOnly: true,

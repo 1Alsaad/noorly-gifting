@@ -1,16 +1,31 @@
 import { z } from "zod";
-import type { Cart, Money, Product, ProductCategory } from "@/types/commerce";
+import type {
+  Cart,
+  Money,
+  Product,
+  ProductCategory,
+  ProductVariant,
+} from "@/types/commerce";
 import { CommerceError } from "@/lib/commerce/errors";
 
 const moneySchema = z.object({
   amount: z.string(),
   currencyCode: z.literal("SEK"),
 });
+const imageSchema = z.object({
+  url: z.string().url(),
+  altText: z.string().nullable(),
+});
 const variantSchema = z.object({
   id: z.string(),
   title: z.string(),
   availableForSale: z.boolean(),
   price: moneySchema,
+  sku: z.string().nullable().optional(),
+  image: imageSchema.nullable().optional(),
+  selectedOptions: z
+    .array(z.object({ name: z.string(), value: z.string() }))
+    .optional(),
 });
 const productSchema = z.object({
   id: z.string(),
@@ -18,14 +33,16 @@ const productSchema = z.object({
   title: z.string(),
   description: z.string(),
   availableForSale: z.boolean(),
+  requiresSellingPlan: z.boolean(),
+  sellingPlanGroups: z.object({
+    nodes: z.array(z.object({ name: z.string() })),
+  }),
   productType: z.string(),
   tags: z.array(z.string()),
   priceRange: z.object({ minVariantPrice: moneySchema }),
   compareAtPriceRange: z.object({ minVariantPrice: moneySchema }).optional(),
   images: z.object({
-    nodes: z.array(
-      z.object({ url: z.string().url(), altText: z.string().nullable() }),
-    ),
+    nodes: z.array(imageSchema),
   }),
   variants: z.object({ nodes: z.array(variantSchema) }),
 });
@@ -35,6 +52,29 @@ export function mapShopifyMoney(raw: z.infer<typeof moneySchema>): Money {
   if (!Number.isFinite(amount) || amount < 0 || raw.currencyCode !== "SEK")
     throw new CommerceError("unsupported_currency", 502);
   return { amount, currencyCode: "SEK" };
+}
+function mapShopifyVariant(
+  variant: z.infer<typeof variantSchema>,
+  productTitle: string,
+): ProductVariant {
+  return {
+    id: variant.id,
+    title: variant.title,
+    available: variant.availableForSale,
+    price: mapShopifyMoney(variant.price),
+    ...(variant.sku ? { sku: variant.sku } : {}),
+    ...(variant.image
+      ? {
+          images: [
+            {
+              url: variant.image.url,
+              alt: variant.image.altText || productTitle,
+            },
+          ],
+        }
+      : {}),
+    selectedOptions: variant.selectedOptions ?? [],
+  };
 }
 export function mapShopifyProduct(
   input: unknown,
@@ -69,6 +109,8 @@ export function mapShopifyProduct(
     title: { sv: raw.title, en: english.title },
     description: { sv: raw.description, en: english.description },
     available: raw.availableForSale,
+    requiresSellingPlan: raw.requiresSellingPlan,
+    hasSellingPlans: raw.sellingPlanGroups.nodes.length > 0,
     category,
     boxEligible: raw.tags.includes("box-eligible"),
     seasons: raw.tags
@@ -80,12 +122,9 @@ export function mapShopifyProduct(
       url: image.url,
       alt: image.altText || raw.title,
     })),
-    variants: raw.variants.nodes.map((variant) => ({
-      id: variant.id,
-      title: variant.title,
-      available: variant.availableForSale,
-      price: mapShopifyMoney(variant.price),
-    })),
+    variants: raw.variants.nodes.map((variant) =>
+      mapShopifyVariant(variant, raw.title),
+    ),
   };
 }
 const attributeSchema = z.object({ key: z.string(), value: z.string() });
@@ -101,6 +140,9 @@ const cartSchema = z.object({
         id: z.string(),
         quantity: z.number().int(),
         attributes: z.array(attributeSchema),
+        sellingPlanAllocation: z
+          .object({ sellingPlan: z.object({ id: z.string() }) })
+          .nullable(),
         merchandise: variantSchema.extend({ product: productSchema }),
       }),
     ),
@@ -122,13 +164,14 @@ export function mapShopifyCart(input: unknown): Cart {
       merchandiseId: line.merchandise.id,
       quantity: line.quantity,
       attributes: line.attributes,
+      ...(line.sellingPlanAllocation
+        ? { sellingPlanId: line.sellingPlanAllocation.sellingPlan.id }
+        : {}),
       product: mapShopifyProduct(line.merchandise.product),
-      variant: {
-        id: line.merchandise.id,
-        title: line.merchandise.title,
-        available: line.merchandise.availableForSale,
-        price: mapShopifyMoney(line.merchandise.price),
-      },
+      variant: mapShopifyVariant(
+        line.merchandise,
+        line.merchandise.product.title,
+      ),
     })),
   };
 }

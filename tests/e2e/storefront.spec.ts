@@ -765,7 +765,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   expect(geometry.fit).toBe("contain");
 
   await expect(
-    card.getByRole("link", { name: "Utforska presentsetet" }),
+    card.getByRole("link", { name: "Upptäck Ljusstund", exact: true }),
   ).toHaveAttribute("href", "/sv/products/" + launchBundleHandle);
   await card.getByRole("link", { name: "Upptäck kollektionen" }).click();
   await expect(page).toHaveURL(/#gifts$/);
