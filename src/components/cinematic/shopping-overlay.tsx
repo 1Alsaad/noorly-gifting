@@ -79,11 +79,7 @@ export function ShoppingOverlay({
         >
           {bundle.cta}
         </Link>
-        <p className="cinema-planned-note">
-          {locale === "sv"
-            ? "Ingen beställning eller förbeställning ännu."
-            : "Orders and pre-orders are not open yet."}
-        </p>
+        <p className="cinema-planned-note">{bundle.status}</p>
         <a className="cinema-details-link" href="#gifts" onClick={onSkip}>
           {copy.explore}
         </a>
