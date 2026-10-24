@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import { getEnv } from "@/lib/env/server";
 import { isLocale } from "@/content/translations";
@@ -32,6 +32,7 @@ export default async function InterestPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (process.env.NOORLY_PUBLIC_PREVIEW === "true") redirect(`/${locale}/shop`);
   const query = await searchParams;
   const products = await getCommerceProvider().getProducts();
   const handle = query.product ?? "candle-sand";
