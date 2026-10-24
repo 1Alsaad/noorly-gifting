@@ -149,8 +149,7 @@ export function getMetaCheckoutAttributes(): Record<string, string> {
     _noorly_meta_fbp: "",
     _noorly_meta_fbc: "",
   };
-  if (typeof window === "undefined" || !getConsent()?.marketing)
-    return denied;
+  if (typeof window === "undefined" || !getConsent()?.marketing) return denied;
   const cookie = (name: string) => {
     const pair = document.cookie
       .split(";")
