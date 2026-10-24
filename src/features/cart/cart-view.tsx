@@ -126,6 +126,13 @@ export function CartView({ locale }: { locale: Locale }) {
                 {lines.map((line) => {
                   const image =
                     line.variant.images?.[0] ?? line.product.images[0];
+                  const label = variantLabel(line.variant, locale);
+                  const showVariantLabel =
+                    label &&
+                    !(
+                      line.product.variants.length === 1 &&
+                      label.trim() === "Default Title"
+                    );
                   return (
                     <div className="cart-line" key={line.id}>
                       <Link
@@ -155,7 +162,7 @@ export function CartView({ locale }: { locale: Locale }) {
                             {line.product.title[locale]}
                           </Link>
                         </h3>
-                        <p>{variantLabel(line.variant, locale)}</p>
+                        {showVariantLabel && <p>{label}</p>}
                         {Boolean(line.components?.length) && (
                           <ul
                             className="cart-components"
