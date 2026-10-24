@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { launchBundleCopy, launchBundleHref } from "@/content/launch-bundle";
+import {
+  launchBundleCopy,
+  launchBundleHref,
+  supplierBowlUrl,
+  supplierCandleSandUrl,
+} from "@/content/launch-bundle";
 import type { Locale } from "@/types/commerce";
 import { brand } from "@/config/brand";
 import "./planned-bundle.css";
@@ -23,6 +28,18 @@ export function PlannedBundleVisual({ locale }: { locale: Locale }) {
       <span className="eyebrow">NOORLY</span>
       <span className="planned-bundle-mark">Ljusstund</span>
       <p>{launchBundleCopy[locale].photos}</p>
+      <div className="planned-bundle-source-links">
+        <a href={supplierBowlUrl} target="_blank" rel="noopener noreferrer">
+          {launchBundleCopy[locale].supplierLink} ↗
+        </a>
+        <a
+          href={supplierCandleSandUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {launchBundleCopy[locale].supplierSandLink} ↗
+        </a>
+      </div>
     </div>
   );
 }
