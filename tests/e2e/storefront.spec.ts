@@ -1,4 +1,8 @@
-import { launchBundleHandle } from "../../src/content/launch-bundle";
+import {
+  launchBundleHandle,
+  launchBundlePhotos,
+  supplierBowlUrl,
+} from "../../src/content/launch-bundle";
 import { installTestSceneMedia } from "./media-fixture";
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
@@ -19,6 +23,22 @@ async function rejectOptional(page: Page) {
     exact: true,
   });
   if (await reject.isVisible()) await reject.click();
+}
+async function expectSupplierBowlGallery(page: Page) {
+  const firstPhoto = launchBundlePhotos[0];
+  const gallery = page.locator("main .gallery-main");
+  const image = gallery.locator("img");
+  await expect(image).toBeVisible();
+  await expect(image).toHaveAttribute("alt", firstPhoto.alt.en);
+  await expect(gallery).toHaveAttribute("href", firstPhoto.url);
+  const imageSource = new URL((await image.getAttribute("src"))!, page.url());
+  expect(imageSource.searchParams.get("url")).toBe(firstPhoto.url);
+  await expect(
+    page.locator("main .planned-bundle-photo-note a"),
+  ).toHaveAttribute("href", supplierBowlUrl);
+  await expect(page.locator("main .planned-bundle-photo-note p")).toHaveText(
+    "The supplier photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. Photographs of the candle sand and the complete Ljusstund set will follow.",
+  );
 }
 async function continueBuilder(page: Page) {
   await page.getByRole("button", { name: "Continue", exact: true }).click();
@@ -139,7 +159,10 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
   await expect(
     page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
   ).toBeVisible();
-  await expect(page.locator("main img")).toHaveCount(0);
+  await expectSupplierBowlGallery(page);
+  await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(
+    launchBundlePhotos.length,
+  );
   await expect(
     page.getByRole("button", { name: /Add to|checkout/i }),
   ).toHaveCount(0);
@@ -630,7 +653,12 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await expect(
       page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
     ).toBeVisible();
-    await expect(page.getByText(/TEAKB-37 · TEAK BOWL/)).toBeVisible();
+    await expectSupplierBowlGallery(page);
+    for (const [index, photo] of launchBundlePhotos.entries()) {
+      await expect(
+        page.getByRole("link", { name: `Image ${index + 1} ·`, exact: true }),
+      ).toHaveAttribute("href", photo.url);
+    }
   } finally {
     await context.close();
   }
