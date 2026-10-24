@@ -35,6 +35,9 @@ export const launchBundleCopy = {
       "799 kr · planerat pris",
     ],
     cta: "Se den kommande förhandsbeställningen",
+    interestCta: "Skicka intresseanmälan",
+    interestNote:
+      "Öppnar ditt e-postprogram. Ingen betalning, ingen beställning och ingen vara reserveras.",
     imageNote:
       "Stämningsbild. Kärlet och produkterna visar inte det planerade presentsetet.",
     film: "Stämningsfilm. Kärlet och produkterna i filmen visar inte det planerade presentsetet.",
@@ -67,6 +70,9 @@ export const launchBundleCopy = {
       "SEK 799 · planned price",
     ],
     cta: "Explore the upcoming pre-order",
+    interestCta: "Send an expression of interest",
+    interestNote:
+      "Opens your email app. No payment, no order and no stock is reserved.",
     imageNote:
       "Concept image. The vessel and products shown do not depict the planned gift set.",
     film: "Concept film. The vessel and products shown do not depict the planned gift set.",

@@ -47,8 +47,8 @@ export default async function LocaleLayout({
         >
           <span>
             {locale === "sv"
-              ? "Testversion av Noorly. Produkterna är planerade. Beställningar och betalningar är stängda."
-              : "Noorly test preview. Products are planned. Ordering and payment are unavailable."}
+              ? "Förhandsbeställning kommer snart. Ljusstund är ännu inte i lager. Beställningar och betalningar är stängda."
+              : "Pre-orders coming soon. Ljusstund is not yet in stock. Ordering and payment are unavailable."}
           </span>
         </aside>
       )}
