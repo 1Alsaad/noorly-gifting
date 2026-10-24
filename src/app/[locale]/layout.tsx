@@ -47,8 +47,8 @@ export default async function LocaleLayout({
         >
           <span>
             {locale === "sv"
-              ? "Förhandsbeställning kommer snart. Ljusstund är ännu inte i lager. Beställningar och betalningar är stängda."
-              : "Pre-orders coming soon. Ljusstund is not yet in stock. Ordering and payment are unavailable."}
+              ? "Noorlys första upplaga: teakskålar och ljussand finns i lager. Exakta set och köpvillkor bekräftas före säljstart."
+              : "Noorly first edition: teak bowls and candle sand are in stock. Final set contents and terms will be confirmed before orders open."}
           </span>
         </aside>
       )}
