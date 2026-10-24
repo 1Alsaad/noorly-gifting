@@ -127,7 +127,7 @@ function projectedAdd(
     (sum, line) => sum + line.quantity,
     0,
   );
-  validateCart(projected, catalogue);
+  validateCart(projected, catalogue, { projected: true });
   return projected;
 }
 export async function GET() {
@@ -258,7 +258,7 @@ export async function POST(request: Request) {
         (sum, line) => sum + line.quantity,
         0,
       );
-      validateCart(projected, catalogue);
+      validateCart(projected, catalogue, { projected: true });
       if (!(await provider.validateAvailability(projected.lines)).available)
         throw new CommerceError("unavailable_product", 409);
       cart = await provider.updateCartLines(cart.id, updates);
@@ -332,12 +332,19 @@ export async function POST(request: Request) {
         { key: "locale", value: action.locale },
       ];
       cart = await provider.updateCartAttributes(cart.id, merged);
+      if (cart.warnings?.length) {
+        cart = enrichCartProducts(cart, catalogue);
+        validateCart(cart, catalogue, { allowUnavailableItems: true });
+        return respond(cart, { reviewRequired: true });
+      }
       const url = await provider.getCheckoutUrl(cart.id, action.locale);
       return respond(enrichCartProducts(cart, catalogue), { url });
     }
     cart = enrichCartProducts(cart, catalogue);
     validateCart(cart, catalogue, {
       allowUnsupportedPurchaseOptions: action.action === "remove",
+      allowUnavailableItems:
+        action.action === "remove" || Boolean(cart.warnings?.length),
     });
     return respond(cart);
   } catch (error) {

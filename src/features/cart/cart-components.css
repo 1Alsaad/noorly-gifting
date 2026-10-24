@@ -1,0 +1,26 @@
+.cart-components {
+  margin: 0.75rem 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.cart-components li + li {
+  margin-top: 0.35rem;
+}
+
+.cart-warning {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid currentColor;
+}
+
+.cart-warning p {
+  margin: 0 0 0.5rem;
+}
+
+.cart-warning ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}

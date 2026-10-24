@@ -6,6 +6,7 @@ import {
   legacyLaunchBundleHandle,
 } from "@/content/launch-bundle";
 import { getDictionary } from "@/content/translations";
+import { getCustomerPolicy } from "@/content/customer-policies";
 
 afterEach(() => vi.unstubAllEnvs());
 
@@ -38,9 +39,12 @@ describe("Noorly public stock and product copy", () => {
         const visible = [
           t.footer.rights,
           t.pages.about.text,
-          t.pages.terms.text,
-          t.pages["shipping-returns"].text,
-          t.pages.privacy.text,
+          ...["terms", "shipping-returns", "privacy"].flatMap(
+            (page) =>
+              getCustomerPolicy(locale, page)?.sections.flatMap(
+                (section) => section.paragraphs,
+              ) ?? [],
+          ),
           t.home.text,
           t.home.reviewsText,
         ].join(" ");
@@ -56,16 +60,17 @@ describe("Noorly public stock and product copy", () => {
     const live = getDictionary("en");
     expect(live.checkout).toBe("Continue to secure checkout");
     expect(live.deliveryText).toContain("included for Ljusstund");
-    expect(live.pages.terms.text).toContain("Shopify checkout");
-    expect(live.pages.terms.text).not.toMatch(
-      /not open|fictional|no purchase/i,
-    );
+    const terms = getCustomerPolicy("en", "terms");
+    const termsText = terms?.sections
+      .flatMap((section) => section.paragraphs)
+      .join(" ");
+    expect(termsText).toContain("Shopify checkout");
+    expect(termsText).not.toMatch(/not open|fictional|no purchase/i);
     expect(live.pages.cookies.text).not.toMatch(/no marketing provider/i);
     expect(live.footer.rights).toBe("NOORLY");
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "true");
     const preparation = getDictionary("en");
     expect(preparation.pages.about).toEqual(live.pages.about);
-    expect(preparation.pages.privacy).toEqual(live.pages.privacy);
-    expect(preparation.pages.terms.text).toMatch(/not open yet/i);
+    expect(getCustomerPolicy("en", "terms")).toEqual(terms);
   });
 });

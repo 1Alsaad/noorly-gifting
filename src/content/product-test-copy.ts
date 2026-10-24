@@ -7,8 +7,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
   const sv = locale === "sv";
   const contact = brand.supportEmail;
   const delivery = sv
-    ? "För Ljusstund ingår leverans inom Sverige. Beräknad leveransperiod anges på produktsidan före betalning."
-    : "Shipping within Sweden is included for Ljusstund. The estimated delivery window is shown on the product page before payment.";
+    ? "För Ljusstund ingår leverans inom Sverige. Vi skickar din beställning så snart som möjligt."
+    : "Shipping within Sweden is included for Ljusstund. We will dispatch your order as soon as possible.";
   const care = sv
     ? "Teakskålen är dekorativ och får inte användas direkt som ljuskärl. Följ tillverkarens anvisningar för ljussanden och använd ett separat lämpligt obrännbart och värmetåligt kärl för eventuell låga."
     : "The teak bowl is decorative and must not be used directly as a candle vessel. Follow the candle-sand manufacturer's instructions and use a separate suitable noncombustible, heat-resistant container for any flame.";
@@ -29,8 +29,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
         : "Noorly brings together decorative details and candle sand for slower moments. Discover Ljusstund, our first edition.",
       curatedLabel: sv ? "NOORLY · FÖRSTA UPPLAGAN" : "NOORLY · FIRST EDITION",
       curatedText: sv
-        ? "Ljusstund kombinerar en dekorativ teakskål med förpackad ljussand. Se produktens exakta innehåll och användningsinformation."
-        : "Ljusstund pairs a decorative teak bowl with packaged candle sand. Explore the exact contents and usage information on the product page.",
+        ? "Ljusstund kombinerar en dekorativ TeakB-37-skål med en påse med 300 g ljussand och fyra bomullsvekar. Välj färg och doft på produktsidan."
+        : "Ljusstund pairs a decorative TeakB-37 bowl with one 300 g pouch of candle sand and four cotton wicks. Choose your colour and scent on the product page.",
       buildText: sv
         ? "Vi fokuserar på Ljusstund i vår första upplaga."
         : "Our first edition focuses on Ljusstund.",
@@ -121,8 +121,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       {
         q: sv ? "Vad ingår i Ljusstund?" : "What is included in Ljusstund?",
         a: sv
-          ? "Ljusstund utgår från AWGifts dekorativa teakskål TeakB-37 och förpackad ljussand. Se produktsidan för exakt antal, mängd, färg och eventuell doft."
-          : "Ljusstund is based on the AWGifts decorative TeakB-37 bowl and packaged candle sand. See the product page for exact quantities, weight, colour and any fragrance.",
+          ? "En dekorativ teakskål, AWGifts modell TeakB-37, en påse med 300 g ljussand i vald färg och doft samt fyra bomullsvekar. Du väljer ljussand på produktsidan. Ett separat värmetåligt ljuskärl ingår inte."
+          : "One decorative teak bowl, AWGifts model TeakB-37, one 300 g pouch of candle sand in your chosen colour and scent, and four cotton wicks. Choose your candle sand on the product page. A separate heat-resistant candle vessel is not included.",
       },
       {
         q: sv
@@ -145,16 +145,16 @@ export function applyProductTestCopy(
 ): Dictionary {
   const sv = locale === "sv";
   const note = sv
-    ? "Vi har fått in teakskålar och förpackad ljussand. Beställning öppnar när det färdiga paketet och leveransvillkoren är fastställda."
-    : "We have received teak bowls and packaged candle sand. Ordering will open when the finished set and delivery terms are confirmed.";
+    ? "Ljusstunds innehåll är bekräftat: en teakskål, 300 g ljussand och fyra bomullsvekar. Beställning och betalning är ännu inte öppna."
+    : "Ljusstund's contents are confirmed: one teak bowl, 300 g of candle sand and four cotton wicks. Ordering and payment are not yet open.";
   const contact = brand.supportEmail;
   return {
     ...t,
     available: sv ? "I sortimentet" : "In the range",
-    unavailable: sv ? "Köp öppnar snart" : "Ordering opens soon",
+    unavailable: sv ? "Beställning är inte öppen" : "Ordering is not open",
     deliveryText: sv
-      ? "Svensk leverans planeras. Leveranstid och fraktvillkor anges innan du kan beställa."
-      : "Shipping within Sweden is planned. Delivery dates and shipping terms will be shown before you can order.",
+      ? "Leverans inom Sverige ingår för Ljusstund. Beställning och betalning är ännu inte öppna."
+      : "Shipping within Sweden is included for Ljusstund. Ordering and payment are not yet open.",
     tax: note,
     checkout: sv ? "Utforska Ljusstund" : "Explore Ljusstund",
     add: sv ? "Läs om produkten" : "Read about the product",
@@ -199,8 +199,8 @@ export function applyProductTestCopy(
           ? "Kan jag beställa Ljusstund idag?"
           : "Can I order Ljusstund today?",
         a: sv
-          ? "Inte ännu. Vi har skålar och ljussand i lager, men slutför paketets innehåll och köpvillkor innan kassan öppnar."
-          : "Not yet. We have bowls and candle sand in stock, but we are finalising the set contents and purchase terms before checkout opens.",
+          ? "Inte ännu. Setets innehåll är bekräftat och vi gör kassan redo för beställningar. En intresseförfrågan innebär ingen beställning eller reservation."
+          : "Not yet. The set contents are confirmed and we are preparing checkout for orders. An expression of interest is not an order or reservation.",
       },
       ...t.faqs.slice(1),
     ],

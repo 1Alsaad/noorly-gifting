@@ -9,6 +9,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockProducts } from "@/content/products";
 import type { Cart } from "@/types/commerce";
 import { CartProvider, useCart } from "@/features/cart/cart-provider";
+import { trackEvent } from "@/lib/analytics/client";
 
 vi.mock("@/lib/analytics/client", () => ({
   trackEvent: vi.fn(),
@@ -177,5 +178,50 @@ describe("cart state and mutation safety", () => {
         { key: "_noorly_meta_fbc", value: "" },
       ],
     });
+  });
+  it("keeps Shopify's adjusted cart and requires review instead of beginning checkout", async () => {
+    const changedCart = {
+      ...fullCart,
+      totalQuantity: 2,
+      warnings: [{ code: "MERCHANDISE_NOT_ENOUGH_STOCK", message: "Adjusted" }],
+    };
+    vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(response(fullCart))
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ cart: changedCart, reviewRequired: true }),
+        ),
+      )
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ cart: fullCart, url: "/en/mock-checkout" }),
+        ),
+      );
+    vi.mocked(trackEvent).mockClear();
+    render(
+      <CartProvider>
+        <Consumer />
+      </CartProvider>,
+    );
+    await waitFor(() =>
+      expect(screen.getByLabelText("cart quantity")).toHaveTextContent("1"),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Checkout" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("cart_changed");
+    expect(screen.getByLabelText("cart quantity")).toHaveTextContent("2");
+    expect(
+      vi
+        .mocked(trackEvent)
+        .mock.calls.some(([event]) => event.name === "begin_checkout"),
+    ).toBe(false);
+    fireEvent.click(screen.getByRole("button", { name: "Checkout" }));
+    await waitFor(() =>
+      expect(
+        vi
+          .mocked(trackEvent)
+          .mock.calls.some(([event]) => event.name === "begin_checkout"),
+      ).toBe(true),
+    );
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
 });

@@ -12,6 +12,10 @@ import type {
   Product,
 } from "@/types/commerce";
 import { CommerceError } from "./errors";
+import {
+  hasUnsupportedPurchaseOption,
+  isCartLineAvailable,
+} from "./cart-availability";
 
 export const MAX_CART_LINES = 24;
 export const MAX_CART_QUANTITY = 30;
@@ -135,7 +139,13 @@ export function validateIncomingLines(lines: CartLineInput[]): CartLineInput[] {
 export function validateCart(
   cart: Cart,
   catalogue: Product[],
-  options: { allowUnsupportedPurchaseOptions?: boolean } = {},
+  options: {
+    allowUnsupportedPurchaseOptions?: boolean;
+    /** Display Shopify's authoritative adjusted cart; never enable checkout. */
+    allowUnavailableItems?: boolean;
+    /** Pending mutations use the fixed definition before Shopify returns new component quantities. */
+    projected?: boolean;
+  } = {},
 ): void {
   if (
     cart.lines.length > MAX_CART_LINES ||
@@ -146,18 +156,17 @@ export function validateCart(
   for (const line of cart.lines) {
     if (
       !options.allowUnsupportedPurchaseOptions &&
-      (line.sellingPlanId ||
-        line.product.requiresSellingPlan ||
-        line.product.hasSellingPlans)
+      hasUnsupportedPurchaseOption(line)
     )
       throw new CommerceError("unsupported_purchase_option", 409);
     const attrs = Object.fromEntries(
       cleanAttributes(line.attributes).map(({ key, value }) => [key, value]),
     );
     if (
-      !line.variant.available ||
-      !line.product.available ||
-      line.quantity < 1 ||
+      !Number.isSafeInteger(line.quantity) ||
+      line.quantity < 0 ||
+      (!options.allowUnavailableItems &&
+        !isCartLineAvailable(line, { projected: options.projected })) ||
       line.quantity > 10
     )
       throw new CommerceError("unavailable_product");

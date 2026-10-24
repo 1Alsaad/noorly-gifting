@@ -1,7 +1,7 @@
-import type { Locale, Product } from "@/types/commerce";
+import type { Locale, LocalizedText, Product } from "@/types/commerce";
 
-// This public presentation is an inventory-backed sourcing update, not a
-// Shopify purchasable variant. Do not assume 20 fully assembled kits from 20 bowls.
+// The owner has confirmed complete sets. This fallback remains informational;
+// only Shopify supplies purchasable variant IDs, prices and current availability.
 export const legacyLaunchBundleHandle =
   "noorly-ljusstund-presentset-med-glasskal-och-tva-dofter";
 export const launchBundleHandle = "noorly-ljusstund-teakskal-och-ljussand";
@@ -36,33 +36,157 @@ export const launchBundlePhotos = [
   },
 ] as const;
 
+// Existing Shopify candle-sand photos and supplier choice names, verified on
+// 24 October 2026. These describe the components; they do not define stock or price.
+const sandChoices = [
+  [
+    "11",
+    "Vit",
+    "White",
+    "Doftfri",
+    "Unscented",
+    "#f3f0e5",
+    "csand-11-0.jpg?v=1792429599",
+  ],
+  [
+    "01",
+    "Mockabrun",
+    "Mocha Brown",
+    "Crimson Crystal",
+    "Crimson Crystal",
+    "#806452",
+    "csand-01-0_jpg.jpg?v=1792429030",
+  ],
+  [
+    "02",
+    "Lattebeige",
+    "Latte Beige",
+    "Pure Serenity",
+    "Pure Serenity",
+    "#d7c5b7",
+    "csand-02-0_jpg.jpg?v=1792429059",
+  ],
+  [
+    "03",
+    "Vit",
+    "White",
+    "Starlight Elixir",
+    "Starlight Elixir",
+    "#e8e4d8",
+    "csand-03-0_jpg.jpg?v=1792429089",
+  ],
+  [
+    "04",
+    "Chokladbrun",
+    "Chocolate Brown",
+    "Millionaire Gold",
+    "Millionaire Gold",
+    "#584239",
+    "csand-04-0_jpg.jpg?v=1792429120",
+  ],
+  [
+    "05",
+    "Varmgrå",
+    "Warm Grey",
+    "Azure Noir",
+    "Azure Noir",
+    "#bcb7b1",
+    "csand-05-0.jpg?v=1792429248",
+  ],
+  [
+    "06",
+    "Taupeorange",
+    "Taupe Orange",
+    "Cobalt",
+    "Cobalt",
+    "#d8a88b",
+    "csand-06-0.jpg?v=1792429279",
+  ],
+  [
+    "07",
+    "Gammalrosa",
+    "Dusty Rose",
+    "Maison de Roses",
+    "Maison de Roses",
+    "#dcb5bd",
+    "csand-07-0.jpg?v=1792429313",
+  ],
+  [
+    "08",
+    "Honung",
+    "Warm Honey",
+    "Blush Bloom",
+    "Blush Bloom",
+    "#e4d4a8",
+    "csand-08-0.jpg?v=1792429349",
+  ],
+  [
+    "09",
+    "Svart",
+    "Black",
+    "Spirited",
+    "Spirited",
+    "#302d2d",
+    "csand-09-0.jpg?v=1792429533",
+  ],
+  [
+    "10",
+    "Kräm",
+    "Cream",
+    "Regent Polo",
+    "Regent Polo",
+    "#eee0a2",
+    "csand-10-0.jpg?v=1792429564",
+  ],
+] as const;
+
+export const launchSandChoices = sandChoices.map(
+  ([code, colourSv, colourEn, scentSv, scentEn, hex, filename]) => ({
+    sku: `CSand-${code}`,
+    label: {
+      sv: `${colourSv} · ${scentSv}`,
+      en: `${colourEn} · ${scentEn}`,
+    } satisfies LocalizedText,
+    color: { name: { sv: colourSv, en: colourEn }, hex },
+    scent: { sv: scentSv, en: scentEn },
+    photo: {
+      url: `https://cdn.shopify.com/s/files/1/1073/5317/8454/files/${filename}`,
+      alt: {
+        sv: `Ljussand ${code === "11" ? "utan doft" : scentSv}, ${colourSv.toLowerCase()}: 300 g påse och vaxkorn`,
+        en: `${colourEn} candle sand, ${scentEn}: 300 g pouch and wax granules`,
+      },
+    },
+  }),
+);
+
 export const launchBundleCopy = {
   sv: {
     label: "NOORLY LJUSSTUND · FÖRSTA UPPLAGAN",
     title: "Noorly Ljusstund",
     description:
-      "En dekorativ teakskål och förpackad ljussand, noga utvalda för en lugnare stund. Vi har fått in vår första omgång teakskålar och ljussand.",
+      "En dekorativ teakskål och 300 g ljussand i vald färg och doft, noga utvalda för en lugnare stund. Fyra bomullsvekar ingår.",
     price: "Planerat setpris: 799 kr inklusive leverans inom Sverige",
-    preorderHeading: "Första omgången finns på plats",
+    preorderHeading: "Första upplagan är förberedd",
     preorderExplanation:
-      "Vi har teakskålar och ljussand i lager. Exakt innehåll och antal kompletta presentset fastställs innan köp öppnar. Leveransdatum visas innan beställning.",
-    status:
-      "Beställning och betalning är ännu inte öppna. Vi publicerar slutlig specifikation och användningsinformation före säljstart.",
-    contentsTitle: "Produkterna vi utgår från",
+      "Setets innehåll är bekräftat: en TeakB-37-skål, en påse med 300 g ljussand och fyra bomullsvekar. Vi gör kassan redo för beställningar.",
+    status: "Beställning och betalning är ännu inte öppna.",
+    contentsTitle: "Det här ingår",
     contents: [
-      "Dekorativ teakskål, modell TeakB-37 från AWGifts",
-      "Förpackad ljussand från AWGifts; exakt färg, doft och mängd specificeras inför försäljning",
-      "Tydliga produkt- och skötselanvisningar för respektive artikel",
+      "En dekorativ teakskål, modell TeakB-37 från AWGifts",
+      "En påse med 300 g ljussand i vald färg och doft",
+      "Fyra bomullsvekar",
     ],
     provenance:
-      "Teakskålen är en dekorativ träskål, inte en värmetålig ljusbehållare. Tänd aldrig vekar eller ljussand direkt i träskålen. Om ljussanden ska brinna krävs ett separat lämpligt, obrännbart och värmetåligt kärl samt tillverkarens användningsanvisningar.",
+      "Teakskålen är en dekorativ träskål, inte en värmetålig ljusbehållare. Tänd aldrig vekar eller ljussand direkt i träskålen. Om ljussanden ska brinna krävs ett separat lämpligt, obrännbart och värmetåligt kärl. Ett sådant kärl ingår inte. Följ alltid tillverkarens användningsanvisningar på förpackningen.",
     photos: "TEAKB-37 · TEAKSKÅL",
     photoTitle: "TeakB-37 · dekorativ teakskål",
     photoSource: "Produktbilder från leverantören",
     photoCaption:
-      "Leverantörsbilderna visar modellen TeakB-37. Form och ådring varierar naturligt. Frukten är dekoration och ingår inte.",
+      "Leverantörens bilder av teakskålen visar modellen TeakB-37. Form och ådring varierar naturligt. Frukten är dekoration och ingår inte.",
+    sandPhotoCaption:
+      "Ljussandsbilderna visar påsen och vaxkornen för respektive färg och doft. En påse med 300 g och fyra bomullsvekar ingår i setet.",
     fullSetPhotos:
-      "Bilder på ljussanden och det kompletta Ljusstund-setet tillkommer.",
+      "Bilderna visar artiklarna var för sig. Det kompletta Ljusstund-setet är ännu inte fotograferat.",
     supplierLink: "Se leverantörens originalbilder av teakskålen",
     supplierSandLink: "Se AWGifts sortiment av ljussand",
     trust: [
@@ -82,28 +206,29 @@ export const launchBundleCopy = {
     label: "NOORLY LJUSSTUND · FIRST EDITION",
     title: "Noorly Ljusstund",
     description:
-      "A decorative teak bowl and individually packaged candle sand, selected for slower moments. Our first supply of teak bowls and candle-sand products has arrived.",
+      "A decorative teak bowl and 300 g of candle sand in your chosen colour and scent, selected for slower moments. Four cotton wicks are included.",
     price: "Planned set price: SEK 799 including shipping within Sweden",
-    preorderHeading: "Our first batch has arrived",
+    preorderHeading: "Our first edition is prepared",
     preorderExplanation:
-      "We have teak bowls and candle sand in stock. The exact contents and quantity of complete gift sets will be confirmed before orders open. A delivery date will be given before purchase.",
-    status:
-      "Ordering and payment are not yet open. Final specifications and usage instructions will be provided before sales begin.",
-    contentsTitle: "The products behind the set",
+      "The contents are confirmed: one TeakB-37 bowl, one 300 g pouch of candle sand and four cotton wicks. We are preparing checkout for orders.",
+    status: "Ordering and payment are not yet open.",
+    contentsTitle: "Included in your set",
     contents: [
-      "Decorative teakwood bowl, AWGifts model TeakB-37",
-      "Packaged candle sand from AWGifts; exact colour, fragrance and quantity will be specified before sale",
-      "Clear product-specific usage and care instructions",
+      "One decorative teakwood bowl, AWGifts model TeakB-37",
+      "One 300 g pouch of candle sand in your chosen colour and scent",
+      "Four cotton wicks",
     ],
     provenance:
-      "The teak bowl is a decorative wooden bowl, not a heat-resistant candle vessel. Never burn a wick or candle sand directly inside the wooden bowl. Using candle sand with a flame requires a separate suitable noncombustible heat-resistant container and the manufacturer's instructions.",
+      "The teak bowl is a decorative wooden bowl, not a heat-resistant candle vessel. Never burn a wick or candle sand directly inside the wooden bowl. Using candle sand with a flame requires a separate suitable noncombustible heat-resistant container. That container is not included. Always follow the manufacturer's instructions on the packaging.",
     photos: "TEAKB-37 · TEAK BOWL",
     photoTitle: "TeakB-37 · decorative teak bowl",
     photoSource: "Supplier product photographs",
     photoCaption:
-      "The supplier photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included.",
+      "The supplier's teak-bowl photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included.",
+    sandPhotoCaption:
+      "The candle-sand photographs show the pouch and wax granules for each colour and scent. One 300 g pouch and four cotton wicks are included in the set.",
     fullSetPhotos:
-      "Photographs of the candle sand and the complete Ljusstund set will follow.",
+      "The photographs show the individual products. The complete Ljusstund set has not yet been photographed.",
     supplierLink: "View the supplier's original photos of the teak bowl",
     supplierSandLink: "Explore AWGifts candle-sand products",
     trust: [
@@ -125,7 +250,7 @@ export function launchBundleHref(locale: Locale) {
   return `/${locale}/products/${launchBundleHandle}`;
 }
 
-/** Informational presentation only; exact sellable bundle is not confirmed. */
+/** Informational presentation only; Shopify defines the actual offer. */
 export const plannedLaunchBundle: Product = {
   id: "noorly-ljusstund-first-edition",
   handle: launchBundleHandle,

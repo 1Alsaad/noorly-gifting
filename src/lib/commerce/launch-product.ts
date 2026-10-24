@@ -11,7 +11,7 @@ import { CommerceError } from "@/lib/commerce/errors";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
 import type { CommerceProvider, Product, ProductImage } from "@/types/commerce";
 
-const LAUNCH_PRODUCT_ID = "gid://shopify/Product/11395078259030";
+const LAUNCH_PRODUCT_ID = "gid://shopify/Product/11401864249686";
 
 export interface LaunchProductState {
   product: Product;
