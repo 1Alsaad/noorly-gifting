@@ -55,7 +55,7 @@ const attributeSchema = z
     ({ key, value }) =>
       (key !== "_noorly_meta_fbp" && key !== "_noorly_meta_fbc") ||
       value === "" ||
-      /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value),
+      /^fb\.\d+\.\d+\.[A-Za-z0-9_-]{1,160}$/.test(value),
     "invalid_meta_cookie",
   );
 export const attributesSchema = z
