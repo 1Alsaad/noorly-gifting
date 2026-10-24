@@ -43,7 +43,7 @@ export const envSchema = z
     META_CAPI_ACCESS_TOKEN: optional,
     META_CAPI_API_VERSION: z.preprocess(
       (v) => (v === "" ? undefined : v),
-      z.string().regex(/^v\\d{1,2}\\.0$/).optional(),
+      z.string().regex(/^v\d{1,2}\.0$/).optional(),
     ),
     PRODUCT_INTEREST_ENABLED: z.preprocess(
       (v) => v === "true" || v === true,
