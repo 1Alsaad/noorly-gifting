@@ -70,3 +70,15 @@
   font-size: 14px;
   line-height: 1.65;
 }
+
+.planned-bundle-interest {
+  margin: 18px 0 26px;
+}
+.planned-bundle-interest .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.planned-bundle-interest .product-note {
+  margin-top: 10px;
+}
