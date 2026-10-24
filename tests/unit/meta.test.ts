@@ -24,7 +24,7 @@ describe("marketing consent and genuine lead events", () => {
     );
   });
 
-  it("connects consented PageView, ViewContent and validated checkout without leaking preview or firing Purchase", async () => {
+  it("tracks consented browser events without preview tracking or Purchase", async () => {
     const meta = await import("@/lib/analytics/meta");
     expect(meta.trackMetaPageView("/sv")).toBe(false);
     expect(meta.trackMetaViewContent("noorly-gift", 799)).toBe(false);
@@ -44,7 +44,9 @@ describe("marketing consent and genuine lead events", () => {
     const commands = window.fbq!.queue;
     expect(commands.filter((call) => call[2] === "PageView")).toHaveLength(2);
     expect(commands.filter((call) => call[2] === "ViewContent")).toHaveLength(1);
-    expect(commands.filter((call) => call[2] === "InitiateCheckout")).toHaveLength(1);
+    expect(
+      commands.filter((call) => call[2] === "InitiateCheckout"),
+    ).toHaveLength(1);
     expect(commands.some((call) => call[2] === "Purchase")).toBe(false);
 
     saveConsent({ analytics: false, marketing: false });
