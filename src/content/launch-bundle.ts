@@ -14,21 +14,21 @@ export const supplierCandleSandUrl = "https://www.awgifts.se/candles/csand";
 // These photographs show the supplier's bowl model, not a finished Noorly set.
 export const launchBundlePhotos = [
   {
-    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-01.jpg?v=1792875778",
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-01_d446de8c-20a6-41cc-a742-0439f61c73e6.jpg?v=1792875850",
     alt: {
       sv: "Leverantörsfoto av dekorativ teakskål TeakB-37 med naturlig ådring och vågformad kant",
       en: "Supplier photograph of the decorative TeakB-37 bowl with natural grain and an undulating rim",
     },
   },
   {
-    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-03.jpg?v=1792875790",
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-03_1c786689-b62a-464e-8bc0-319666866629.jpg?v=1792875850",
     alt: {
       sv: "Leverantörsfoto av insidan på teakskål TeakB-37, sedd snett ovanifrån",
       en: "Supplier photograph showing the inside of the TeakB-37 bowl, viewed from above at an angle",
     },
   },
   {
-    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-02.jpg?v=1792875785",
+    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-02_18442787-ab03-499d-9dc9-b3a849a0f252.jpg?v=1792875850",
     alt: {
       sv: "Leverantörsfoto av teakskål TeakB-37 med citrusfrukter som dekoration; frukten ingår inte",
       en: "Supplier photograph of the TeakB-37 bowl styled with citrus fruit; the fruit is not included",

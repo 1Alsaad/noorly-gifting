@@ -95,6 +95,34 @@ describe("the connected launch presentation", () => {
     ]);
   });
 
+  it("retains supplier attribution for the processed image URL returned by the live Shopify product", () => {
+    render(
+      <PlannedBundleDetails
+        locale="en"
+        launch={{
+          ...launch,
+          product: {
+            ...launch.product,
+            images: [
+              {
+                url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/noorly-teakb37-supplier-bowl-01_d446de8c-20a6-41cc-a742-0439f61c73e6.jpg?v=1792875850",
+                alt: "TeakB-37",
+              },
+            ],
+          },
+        }}
+      />,
+    );
+    expect(
+      screen.getByText(/supplier photographs show model TeakB-37/),
+    ).toHaveTextContent("complete Ljusstund set will follow");
+    expect(
+      screen.getByRole("img", {
+        name: /Supplier photograph of the decorative TeakB-37 bowl/,
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("shows a customer purchase link and actual price instead of the planned offer on collection cards", () => {
     render(<PlannedBundleCard locale="en" launch={launch} />);
     expect(
