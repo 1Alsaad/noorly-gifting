@@ -85,8 +85,26 @@ export class ShopifyCommerceProvider implements CommerceProvider {
     }
     if (!response.ok) throw new CommerceError("provider_unavailable", 503);
     const result = (await response.json()) as { data?: T; errors?: unknown[] };
-    if (result.errors?.length || !result.data)
+    if (result.errors?.length) {
+      const codes = result.errors.flatMap((error) => {
+        if (!error || typeof error !== "object" || !("extensions" in error))
+          return [];
+        const extensions = error.extensions;
+        if (
+          !extensions ||
+          typeof extensions !== "object" ||
+          !("code" in extensions)
+        )
+          return [];
+        return typeof extensions.code === "string" ? [extensions.code] : [];
+      });
+      if (codes.includes("MAX_COST_EXCEEDED"))
+        throw new CommerceError("provider_query_limit", 502);
+      if (codes.includes("ACCESS_DENIED"))
+        throw new CommerceError("provider_access_denied", 502);
       throw new CommerceError("provider_request_failed", 502);
+    }
+    if (!result.data) throw new CommerceError("provider_request_failed", 502);
     return result.data;
   }
   private async mutation(

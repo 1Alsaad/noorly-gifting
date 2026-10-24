@@ -1,6 +1,7 @@
 import {
   launchBundleHandle,
   launchBundlePhotos,
+  launchSandChoices,
   supplierBowlUrl,
 } from "../../src/content/launch-bundle";
 import { installTestSceneMedia } from "./media-fixture";
@@ -166,7 +167,7 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
   ).toBeVisible();
   await expectSupplierBowlGallery(page);
   await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(
-    launchBundlePhotos.length,
+    launchBundlePhotos.length + launchSandChoices.length,
   );
   await expect(
     page.getByRole("button", { name: /Add to|checkout/i }),

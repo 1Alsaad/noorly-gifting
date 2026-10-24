@@ -22,6 +22,21 @@ function providerWithData(data: unknown) {
 }
 
 describe("Shopify native fixed bundles", () => {
+  it("fails closed with a safe category when a required bundle definition is missing", () => {
+    const fixture = nativeBundleFixture();
+    fixture.product.variants.nodes[0].components.nodes = [];
+    expect(() => mapShopifyProduct(fixture.product)).toThrow(
+      "bundle_components_unavailable",
+    );
+  });
+
+  it("normalizes an invalid translated product without leaking provider fields", () => {
+    const fixture = nativeBundleFixture();
+    expect(() =>
+      mapShopifyProduct(fixture.product, { private: "provider-detail" }),
+    ).toThrow("invalid_provider_response");
+  });
+
   it("preserves the selected component SKU, options and real photograph", () => {
     const fixture = nativeBundleFixture();
     const product = mapShopifyProduct(fixture.product);

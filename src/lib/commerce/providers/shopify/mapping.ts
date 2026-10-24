@@ -120,6 +120,8 @@ function mapBundleVariant(
   title: string,
   english?: z.infer<typeof variantSchema>,
 ): ProductVariant {
+  if (variant.requiresComponents && variant.components.nodes.length === 0)
+    throw new CommerceError("bundle_components_unavailable", 502);
   if (
     variant.requiresComponents !== variant.components.nodes.length > 0 ||
     variant.components.nodes.some(
@@ -154,7 +156,12 @@ export function mapShopifyProduct(
   if (!result.success)
     throw new CommerceError("invalid_provider_response", 502);
   const raw = result.data;
-  const english = englishInput ? productSchema.parse(englishInput) : raw;
+  const englishResult = englishInput
+    ? productSchema.safeParse(englishInput)
+    : undefined;
+  if (englishResult && !englishResult.success)
+    throw new CommerceError("invalid_provider_response", 502);
+  const english = englishResult?.data ?? raw;
   const categories: ProductCategory[] = [
     "box",
     "signature",
