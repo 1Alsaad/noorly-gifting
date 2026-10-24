@@ -74,7 +74,7 @@ function consentedPixelId(): string | null {
     typeof window === "undefined" ||
     !getConsent()?.marketing ||
     !pixelId ||
-    !/^\\d+$/.test(pixelId)
+    !/^\d+$/.test(pixelId)
   )
     return null;
   updateMetaConsent();
@@ -84,7 +84,7 @@ function consentedPixelId(): string | null {
 /** One PageView per visited locale path, including when consent is first granted. */
 export function trackMetaPageView(pathname: string): boolean {
   if (
-    !/^\\/(sv|en)(\\/|$)/.test(pathname) ||
+    !/^\/(sv|en)(\/|$)/.test(pathname) ||
     /[?#]/.test(pathname) ||
     lastPageView === pathname
   )
