@@ -56,7 +56,7 @@ export async function POST(request: Request) {
       attributes._stilla_analytics_consent === "granted" && session.success;
     const metaCookie = (key: string) => {
       const value = attributes[key] ?? "";
-      return /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value)
+      return /^fb\.\d+\.\d+\.[A-Za-z0-9_-]{1,160}$/.test(value)
         ? value
         : "";
     };
