@@ -41,7 +41,10 @@ export default async function LocaleLayout({
         </aside>
       )}
       {publicTestPreview && (
-        <aside className="admin-preview-bar" aria-label={locale === "sv" ? "Testversion" : "Test preview"}>
+        <aside
+          className="admin-preview-bar"
+          aria-label={locale === "sv" ? "Testversion" : "Test preview"}
+        >
           <span>
             {locale === "sv"
               ? "Testversion av Noorly. Produkterna är planerade. Beställningar och betalningar är stängda."
