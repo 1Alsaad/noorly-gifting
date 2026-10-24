@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(brand.siteUrl),
   title: { default: brand.name, template: `%s · ${brand.name}` },
   description:
-    "Thoughtful gifts, curated for the season. A fictional preview collection.",
+    "Noorly — dekorativa teakskålar och förpackad ljussand. Se vår första upplaga och kontakta oss för information.",
   robots: {
     index:
       isStorefrontOpen() &&
