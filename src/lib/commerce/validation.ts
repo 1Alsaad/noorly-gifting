@@ -47,8 +47,7 @@ const attributeSchema = z
   )
   .refine(
     ({ key, value }) =>
-      key !== "_noorly_meta_consent" ||
-      ["granted", "denied"].includes(value),
+      key !== "_noorly_meta_consent" || ["granted", "denied"].includes(value),
     "invalid_marketing_consent",
   )
   .refine(
