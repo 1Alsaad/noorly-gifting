@@ -58,6 +58,35 @@ Debug output runs only in development and after analytics consent. It prints the
 
 First- and last-touch UTM source/medium/campaign plus referrer **origin only** are captured only after consent. Values use a constrained character and length allowlist; query strings and referrer paths are not sent. Attribution lasts for the consented browser-tab session and is removed on withdrawal. This is intentionally a session attribution model, not cross-device identity. Never embed user identifiers in campaign names.
 
+## Meta Pixel connection (Noorly)
+
+The existing Meta dataset ID is `511816900240916`. Its former account-side
+name, `UY Scuti Media Pixel`, should be renamed to
+`Noorly – Website Pixel` in Meta Events Manager; changing that label does not
+change the ID. The Meta connector currently does not offer a dataset-rename
+operation, so renaming must be confirmed separately in Meta.
+
+The production Vercel variable `NEXT_PUBLIC_META_PIXEL_ID` configures this
+ID. A deployment/rebuild is required after changing a `NEXT_PUBLIC_*`
+variable. The existing Meta adapter in `src/lib/analytics/meta.ts` loads
+`fbevents.js` only after **marketing consent**, never automatically on page load.
+It disables Meta automatic configuration/matching and does not send customer
+email, form contents or gift messages. No `noscript` tracking image is used.
+With consent it emits PageView on locale path changes, ViewContent on genuine
+product details, and InitiateCheckout **only after a valid hosted Shopify
+redirect is returned**. It never generates a browser Purchase. Purchase/CAPI
+requires a separate, consent-aware verified paid-order integration, secure Meta
+access token, deduplication and Events Manager acceptance tests; the preexisting
+analytics outbox does not itself send Meta CAPI events.
+
+The public storefront remains **closed**. The analytics provider is intentionally
+not mounted for admin previews, so there should be **no live Meta events**
+until a publicly accessible consented storefront exists. Do not turn on
+presales or ads to create a test event. Later verify with Meta Events Manager
+Test Events and a consenting browser, including no requests on reject or
+withdrawal, the correct pixel ID, a single PageView per navigation, and
+conversion event prices in SEK.
+
 ## Server purchase and retries
 
 Use Shopify's `orders/paid` subscription. Browser thank-you navigation cannot emit a `purchase`: `trackEvent` explicitly rejects it. Mock and Shopify test orders are ignored. The current consent and anonymous UUID must be passed as `_stilla_analytics_consent` and `_stilla_analytics_session` cart attributes before hosted checkout using `getAnalyticsCheckoutAttributes()`.
