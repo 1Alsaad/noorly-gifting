@@ -4,7 +4,7 @@ import { resolveLaunchProduct } from "@/lib/commerce/launch-product";
 import type { Product } from "@/types/commerce";
 
 const product: Product = {
-  id: "gid://shopify/Product/11395078259030",
+  id: "gid://shopify/Product/11401864249686",
   handle: launchBundleHandle,
   title: { sv: "Ljusstund från Shopify", en: "Ljusstund from Shopify" },
   description: { sv: "Bekräftat innehåll.", en: "Confirmed contents." },
@@ -12,7 +12,7 @@ const product: Product = {
   images: [{ url: "https://cdn.shopify.com/real-kit.jpg", alt: "The kit" }],
   variants: [
     {
-      id: "gid://shopify/ProductVariant/56006367281494",
+      id: "gid://shopify/ProductVariant/56138148413782",
       title: "Presentset",
       price: { amount: 749, currencyCode: "SEK" },
       available: true,
@@ -99,7 +99,7 @@ describe("the real launch product", () => {
   it("rejects product substitution and does not hide provider outages behind preparation copy", async () => {
     await expect(
       resolveLaunchProduct(
-        provider({ ...product, id: "gid://shopify/Product/1" }),
+        provider({ ...product, id: "gid://shopify/Product/11395078259030" }),
       ),
     ).rejects.toThrow("invalid_launch_product");
     const failed = provider();

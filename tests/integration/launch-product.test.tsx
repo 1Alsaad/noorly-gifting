@@ -22,7 +22,7 @@ const launch: LaunchProductState = {
   salesOpen: true,
   purchasable: true,
   product: {
-    id: "gid://shopify/Product/11395078259030",
+    id: "gid://shopify/Product/11401864249686",
     handle: launchBundleHandle,
     title: { sv: "Noorly Ljusstund", en: "Noorly Ljusstund" },
     description: {
@@ -35,7 +35,7 @@ const launch: LaunchProductState = {
     ],
     variants: [
       {
-        id: "gid://shopify/ProductVariant/56006367281494",
+        id: "gid://shopify/ProductVariant/56138148413782",
         title: "Presentset",
         price: { amount: 749, currencyCode: "SEK" },
         available: true,
@@ -61,10 +61,10 @@ describe("the connected launch presentation", () => {
     const fullSize = screen.getByRole("link", { name: /Open full-size image/ });
     expect(fullSize).toHaveAttribute("href", launchBundlePhotos[0].url);
     expect(
-      screen.getByText(/supplier photographs show model TeakB-37/),
+      screen.getByText(/teak-bowl photographs show model TeakB-37/),
     ).toHaveTextContent("fruit is styling and is not included");
     expect(
-      screen.getByText(/complete Ljusstund set will follow/),
+      screen.getByText(/complete Ljusstund set has not yet been photographed/),
     ).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
     expect(fullSize).toHaveAttribute("href", launchBundlePhotos[1].url);
@@ -89,7 +89,7 @@ describe("the connected launch presentation", () => {
     await user.click(screen.getByRole("button", { name: "Lägg i påsen" }));
     expect(addLines).toHaveBeenCalledWith([
       {
-        merchandiseId: "gid://shopify/ProductVariant/56006367281494",
+        merchandiseId: "gid://shopify/ProductVariant/56138148413782",
         quantity: 1,
       },
     ]);
@@ -114,8 +114,8 @@ describe("the connected launch presentation", () => {
       />,
     );
     expect(
-      screen.getByText(/supplier photographs show model TeakB-37/),
-    ).toHaveTextContent("complete Ljusstund set will follow");
+      screen.getByText(/teak-bowl photographs show model TeakB-37/),
+    ).toHaveTextContent("complete Ljusstund set has not yet been photographed");
     expect(
       screen.getByRole("img", {
         name: /Supplier photograph of the decorative TeakB-37 bowl/,
@@ -130,6 +130,116 @@ describe("the connected launch presentation", () => {
     ).toHaveAttribute("href", `/en/products/${launchBundleHandle}`);
     expect(screen.queryByText(/not yet open/i)).toBeNull();
     expect(screen.queryByText(/799/)).toBeNull();
+  });
+
+  it("keeps a kit's selected sand photo, bowl photos, price and Shopify merchandise ID together", async () => {
+    const user = userEvent.setup();
+    render(
+      <PlannedBundleDetails
+        locale="en"
+        launch={{
+          ...launch,
+          product: {
+            ...launch.product,
+            images: launchBundlePhotos.map((photo) => ({
+              url: photo.url,
+              alt: "TeakB-37",
+            })),
+            variants: [
+              {
+                ...launch.product.variants[0],
+                sku: "NOORLY-LJUSSTUND-CSand-11",
+                title: "Vit · Doftfri",
+              },
+              {
+                ...launch.product.variants[0],
+                id: "gid://shopify/ProductVariant/56138148643158",
+                sku: "NOORLY-LJUSSTUND-CSand-07",
+                title: "Gammalrosa · Maison de Roses",
+                price: { amount: 799, currencyCode: "SEK" },
+                images: [
+                  {
+                    url: "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/csand-07-0.jpg?v=1792429313",
+                    alt: "Ljussand",
+                  },
+                ],
+              },
+            ],
+          },
+        }}
+      />,
+    );
+    expect(
+      screen.getByRole("radio", { name: "White · Unscented" }),
+    ).toBeChecked();
+    expect(screen.getByText("White · unscented")).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute(
+      "href",
+      "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/csand-11-0.jpg?v=1792429599",
+    );
+    await user.click(
+      screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
+    );
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute(
+      "href",
+      "https://cdn.shopify.com/s/files/1/1073/5317/8454/files/csand-07-0.jpg?v=1792429313",
+    );
+    expect(screen.getByText(/799/)).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
+      4,
+    );
+    await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute("href", launchBundlePhotos[0].url);
+    expect(
+      screen.getByText(/One 300 g pouch and four cotton wicks/),
+    ).toHaveTextContent("complete Ljusstund set has not yet been photographed");
+    expect(
+      screen.getByText(/dispatch your order as soon as possible/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/will be confirmed|photos.*will follow/i),
+    ).toBeNull();
+    await user.click(screen.getByRole("button", { name: "Add to bag" }));
+    expect(addLines).toHaveBeenCalledWith([
+      {
+        merchandiseId: "gid://shopify/ProductVariant/56138148643158",
+        quantity: 1,
+      },
+    ]);
+  });
+
+  it("does not guess a candle-sand choice from a colour alone or alter an unavailable variant", () => {
+    render(
+      <PlannedBundleDetails
+        locale="en"
+        launch={{
+          ...launch,
+          product: {
+            ...launch.product,
+            variants: [
+              {
+                ...launch.product.variants[0],
+                title: "White",
+                available: false,
+              },
+            ],
+          },
+        }}
+      />,
+    );
+    expect(screen.queryByRole("radio")).toBeNull();
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute("href", "https://cdn.shopify.com/current-kit.jpg");
+    expect(
+      screen.getByRole("button", { name: /Sold out|Unavailable/i }),
+    ).toBeDisabled();
   });
 
   it("keeps unavailable published stock visible without a purchase button or fictitious quantities", () => {

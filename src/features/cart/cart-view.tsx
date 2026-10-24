@@ -12,16 +12,19 @@ import type { CartLine, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { useCart } from "./cart-provider";
 import { variantLabel } from "@/components/product/variant-picker";
+import {
+  hasUnsupportedPurchaseOption,
+  isCartLineAvailable,
+} from "@/lib/commerce/cart-availability";
+import "./cart-components.css";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
   const unsupportedPurchase = Boolean(
-    cart?.lines.some(
-      (line) =>
-        line.sellingPlanId ||
-        line.product.requiresSellingPlan ||
-        line.product.hasSellingPlans,
-    ),
+    cart?.lines.some(hasUnsupportedPurchaseOption),
+  );
+  const unavailableItems = Boolean(
+    cart?.lines.some((line) => !isCartLineAvailable(line)),
   );
   const groups = new Map<string, CartLine[]>();
   for (const line of cart?.lines ?? []) {
@@ -57,6 +60,30 @@ export function CartView({ locale }: { locale: Locale }) {
         >
           {cart ? `${t.cartUpdated}: ${cart.totalQuantity}` : ""}
         </div>
+        {Boolean(cart?.warnings?.length) && (
+          <div className="cart-warning" role="alert">
+            <p>
+              {locale === "sv"
+                ? "Din varukorg har ändrats. Kontrollera innehåll och antal innan du fortsätter."
+                : "Your bag has changed. Review the items and quantities before continuing."}
+            </p>
+            <ul>
+              {cart!.warnings!.map((warning, index) => (
+                <li key={`${warning.code}:${warning.target ?? index}`}>
+                  {warning.code === "MERCHANDISE_NOT_ENOUGH_STOCK"
+                    ? locale === "sv"
+                      ? "Det önskade antalet finns inte längre i lager. Varukorgen visar det aktuella antalet."
+                      : "The requested quantity is no longer in stock. Your bag shows the current quantity."
+                    : warning.code === "MERCHANDISE_OUT_OF_STOCK"
+                      ? locale === "sv"
+                        ? "En vara har tagit slut. Kontrollera den uppdaterade varukorgen."
+                        : "An item has sold out. Please review your updated bag."
+                      : warning.message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {!cart?.lines.length ? (
           <div className="empty-cart">
             <ShoppingBag size={38} strokeWidth={1} />
@@ -129,6 +156,44 @@ export function CartView({ locale }: { locale: Locale }) {
                           </Link>
                         </h3>
                         <p>{variantLabel(line.variant, locale)}</p>
+                        {Boolean(line.components?.length) && (
+                          <ul
+                            className="cart-components"
+                            aria-label={
+                              locale === "sv"
+                                ? "Innehåll i setet"
+                                : "Kit contents"
+                            }
+                          >
+                            {line.components!.map((component) => {
+                              const definition = line.variant.components?.find(
+                                (item) =>
+                                  item.variant.id === component.merchandiseId,
+                              );
+                              const product =
+                                definition?.product ?? component.product;
+                              const variant =
+                                definition?.variant ?? component.variant;
+                              const label = variantLabel(variant, locale);
+                              return (
+                                <li key={component.id}>
+                                  {component.quantity} × {product.title[locale]}
+                                  {label &&
+                                  label !== "Default Title" &&
+                                  label !== "Standard"
+                                    ? ` · ${label}`
+                                    : ""}
+                                  {component.variant.sku && (
+                                    <span className="small-label">
+                                      {" "}
+                                      · {component.variant.sku}
+                                    </span>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
                         {!bundle && (
                           <div className="quantity-control">
                             <button
@@ -155,6 +220,7 @@ export function CartView({ locale }: { locale: Locale }) {
                               disabled={
                                 loading ||
                                 unsupportedPurchase ||
+                                unavailableItems ||
                                 line.quantity >= 10
                               }
                               onClick={() => {
@@ -171,8 +237,11 @@ export function CartView({ locale }: { locale: Locale }) {
                       </div>
                       <span>
                         {formatMoney(
-                          {
-                            amount: line.variant.price.amount * line.quantity,
+                          line.cost?.totalAmount ?? {
+                            amount:
+                              (Math.round(line.variant.price.amount * 100) *
+                                line.quantity) /
+                              100,
                             currencyCode: "SEK",
                           },
                           locale,
@@ -219,7 +288,12 @@ export function CartView({ locale }: { locale: Locale }) {
         <p>{t.tax}</p>
         <button
           className="button button-dark"
-          disabled={loading || !cart?.lines.length || unsupportedPurchase}
+          disabled={
+            loading ||
+            !cart?.lines.length ||
+            unsupportedPurchase ||
+            unavailableItems
+          }
           onClick={pay}
         >
           {loading ? t.checking : t.checkout}
@@ -232,9 +306,20 @@ export function CartView({ locale }: { locale: Locale }) {
               : "An item has a purchase option that is not available here yet. Remove that item to continue."}
           </p>
         )}
-        {error && (
+        {unavailableItems && !unsupportedPurchase && (
           <p role="alert" className="field-error">
-            {t.error}
+            {locale === "sv"
+              ? "En vara eller del av ett set är inte längre tillgänglig. Ta bort den för att fortsätta."
+              : "An item or part of a kit is no longer available. Remove it to continue."}
+          </p>
+        )}
+        {error && !(error === "cart_changed" && cart?.warnings?.length) && (
+          <p role="alert" className="field-error">
+            {error === "cart_changed"
+              ? locale === "sv"
+                ? "Kontrollera din uppdaterade varukorg innan du fortsätter."
+                : "Review your updated bag before continuing."
+              : t.error}
           </p>
         )}
         <p className="small-label">{t.delivery}</p>

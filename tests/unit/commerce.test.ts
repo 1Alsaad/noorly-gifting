@@ -56,6 +56,8 @@ const rawProduct = {
         },
         selectedOptions: [{ name: "Size", value: "Standard" }],
         availableForSale: true,
+        requiresComponents: false,
+        components: { nodes: [], pageInfo: { hasNextPage: false } },
         price: { amount: "295.00", currencyCode: "SEK" },
       },
     ],
@@ -217,9 +219,15 @@ describe("Shopify mapping", () => {
       lines: {
         nodes: [
           {
+            __typename: "CartLine",
             id: "line",
             quantity: 1,
             attributes: [{ key: "gift_message", value: "Plain text" }],
+            cost: {
+              amountPerQuantity: { amount: "295", currencyCode: "SEK" },
+              subtotalAmount: { amount: "295", currencyCode: "SEK" },
+              totalAmount: { amount: "295", currencyCode: "SEK" },
+            },
             sellingPlanAllocation: {
               sellingPlan: { id: "gid://shopify/SellingPlan/1" },
             },

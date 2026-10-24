@@ -37,7 +37,7 @@ async function expectSupplierBowlGallery(page: Page) {
     page.locator("main .planned-bundle-photo-note a"),
   ).toHaveAttribute("href", supplierBowlUrl);
   await expect(page.locator("main .planned-bundle-photo-note p")).toHaveText(
-    "The supplier photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. Photographs of the candle sand and the complete Ljusstund set will follow.",
+    "The supplier's teak-bowl photographs show model TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included. The photographs show the individual products. The complete Ljusstund set has not yet been photographed.",
   );
 }
 async function continueBuilder(page: Page) {
@@ -154,13 +154,15 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
     ),
   ).toBeVisible();
   await expect(
-    page.getByText(/Packaged candle sand from AWGifts/),
+    page.getByText(
+      "One 300 g pouch of candle sand in your chosen colour and scent",
+    ),
   ).toBeVisible();
   await expect(
     page.getByText(/not a heat-resistant candle vessel/),
   ).toBeVisible();
   await expect(
-    page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
+    page.getByText("One decorative teakwood bowl, AWGifts model TeakB-37"),
   ).toBeVisible();
   await expectSupplierBowlGallery(page);
   await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(

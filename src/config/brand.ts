@@ -2,7 +2,8 @@ import type { Locale } from "@/types/commerce";
 
 export const brand = {
   name: process.env.NEXT_PUBLIC_BRAND_NAME || "NOORLY",
-  legalCompanyName: "[Legal company name — replace before launch]",
+  legalCompanyName: "Noorly AB",
+  organizationNumber: "",
   domain: "noorlynordic.com",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://noorlynordic.com",
   supportEmail: "support@noorlynordic.com",
@@ -26,14 +27,16 @@ export const brand = {
     interface: "Arial, Helvetica, sans-serif",
   },
   address: {
-    street: "[Street address]",
-    postalCode: "[Postal code]",
-    city: "[City]",
+    street: "Haga parkgata 3A",
+    postalCode: "723 36",
+    city: "Västerås",
     country: "SE",
   },
   customerService: {
-    hours: { sv: "Vardagar 09–16", en: "Weekdays 09:00–16:00" },
     email: "support@noorlynordic.com",
+    phone: "",
+    // Use the exact URL copied from Shopify Settings > Customer accounts.
+    customerAccountsUrl: "https://shopify.com/107353178454/account",
   },
   seasonalSettings: { activeSeasonId: "winter", timezone: "Europe/Stockholm" },
   giftMessageMaxLength: 280,

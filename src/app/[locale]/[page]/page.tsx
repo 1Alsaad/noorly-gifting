@@ -4,10 +4,15 @@ import { getDictionary, isLocale } from "@/content/translations";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { StructuredData } from "@/components/ui/structured-data";
+import { getCustomerPolicy } from "@/content/customer-policies";
+import { CustomerPolicyContent } from "@/components/content/customer-policy";
 type Props = { params: Promise<{ locale: string; page: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, page } = await params;
   if (!isLocale(locale)) return {};
+  const policy = getCustomerPolicy(locale, page);
+  if (policy)
+    return pageMetadata(locale, `/${page}`, policy.title, policy.description);
   const t = getDictionary(locale);
   if (!(page in t.pages)) return {};
   const c = t.pages[page as keyof typeof t.pages];
@@ -16,6 +21,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function InformationPage({ params }: Props) {
   const { locale, page } = await params;
   if (!isLocale(locale)) notFound();
+  const policy = getCustomerPolicy(locale, page);
+  if (policy) return <CustomerPolicyContent policy={policy} />;
   const t = getDictionary(locale);
   if (!Object.hasOwn(t.pages, page)) notFound();
   const content = t.pages[page as keyof typeof t.pages];

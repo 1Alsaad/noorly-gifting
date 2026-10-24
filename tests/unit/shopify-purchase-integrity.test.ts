@@ -15,6 +15,8 @@ const ordinaryVariant = {
   id: variant.id,
   availableForSale: true,
   quantityAvailable: 2,
+  requiresComponents: false,
+  components: { nodes: [], pageInfo: { hasNextPage: false } },
   product: { requiresSellingPlan: false, sellingPlanGroups: { nodes: [] } },
 };
 function providerWithVariant(value: unknown) {

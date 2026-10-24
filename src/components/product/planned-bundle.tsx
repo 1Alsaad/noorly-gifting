@@ -4,11 +4,17 @@ import {
   launchBundleCopy,
   launchBundleHref,
   launchBundlePhotos,
+  launchSandChoices,
   plannedLaunchBundle,
   supplierBowlUrl,
   supplierCandleSandUrl,
 } from "@/content/launch-bundle";
-import type { Locale, Product, ProductImage } from "@/types/commerce";
+import type {
+  Locale,
+  Product,
+  ProductImage,
+  ProductVariant,
+} from "@/types/commerce";
 import type { LaunchProductState } from "@/lib/commerce/launch-product";
 import { formatMoney } from "@/lib/utils/money";
 import { brand } from "@/config/brand";
@@ -46,16 +52,100 @@ function isSupplierPhoto(image: ProductImage) {
   return launchBundlePhotos.some((photo) => photo.url === image.url);
 }
 
+function sandPhotoChoice(image: ProductImage) {
+  return launchSandChoices.find((choice) => choice.photo.url === image.url);
+}
+
+function variantSandChoice(variant: ProductVariant) {
+  const values = [
+    variant.sku ?? "",
+    variant.title,
+    ...(variant.selectedOptions?.map((option) => option.value) ?? []),
+  ];
+  const codes = new Set(
+    values.flatMap((value) =>
+      (value.match(/\bCSand-(?:0[1-9]|1[01])\b/gi) ?? []).map((code) =>
+        code.toLowerCase(),
+      ),
+    ),
+  );
+  // Never guess between different components or match an ambiguous colour alone.
+  if (codes.size > 1) return undefined;
+  if (codes.size === 1)
+    return launchSandChoices.find((choice) =>
+      codes.has(choice.sku.toLowerCase()),
+    );
+
+  return launchSandChoices.find((choice) =>
+    values.some((value) =>
+      [choice.label.sv, choice.label.en].some(
+        (label) => label.toLowerCase() === value.trim().toLowerCase(),
+      ),
+    ),
+  );
+}
+
 function localizePhoto(image: ProductImage, locale: Locale): ProductImage {
   const supplierPhoto = launchBundlePhotos.find(
     (photo) => photo.url === image.url,
   );
-  return supplierPhoto ? { ...image, alt: supplierPhoto.alt[locale] } : image;
+  const knownPhoto = supplierPhoto ?? sandPhotoChoice(image)?.photo;
+  return knownPhoto ? { ...image, alt: knownPhoto.alt[locale] } : image;
+}
+
+function uniquePhotos(images: ProductImage[]) {
+  return images.filter(
+    (image, index) =>
+      images.findIndex((item) => item.url === image.url) === index,
+  );
+}
+
+function presentVariant(
+  variant: ProductVariant,
+  locale: Locale,
+): ProductVariant {
+  const choice = variantSandChoice(variant);
+  const images = variant.images?.map((image) => localizePhoto(image, locale));
+  if (!choice) return { ...variant, images };
+  return {
+    ...variant,
+    label: choice.label,
+    color:
+      choice.sku === "CSand-11" && variant.sku !== "CSand-11"
+        ? {
+            ...choice.color,
+            name: { sv: "Vit · doftfri", en: "White · unscented" },
+          }
+        : choice.color,
+    scent: choice.scent,
+    images: uniquePhotos([
+      { url: choice.photo.url, alt: choice.photo.alt[locale] },
+      ...(images ?? []).filter((image) => {
+        const photographedChoice = sandPhotoChoice(image);
+        return !photographedChoice || photographedChoice.sku === choice.sku;
+      }),
+      ...launchBundlePhotos.map((photo) => ({
+        url: photo.url,
+        alt: photo.alt[locale],
+      })),
+    ]),
+  };
 }
 
 function photoCaption(locale: Locale, images: ProductImage[]) {
   const copy = launchBundleCopy[locale];
-  return `${copy.photoCaption}${images.every(isSupplierPhoto) ? ` ${copy.fullSetPhotos}` : ""}`;
+  const bowlPhotos = images.some(isSupplierPhoto);
+  const sandPhotos = images.some((image) => sandPhotoChoice(image));
+  if (!bowlPhotos && !sandPhotos) return "";
+  return [
+    bowlPhotos ? copy.photoCaption : "",
+    sandPhotos ? copy.sandPhotoCaption : "",
+    images.every((image) => isSupplierPhoto(image) || sandPhotoChoice(image))
+      ? copy.fullSetPhotos
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 export function PlannedBundleVisual({
@@ -65,25 +155,30 @@ export function PlannedBundleVisual({
   locale: Locale;
   product?: Product;
 }) {
-  if (product.images.length) {
-    const supplierPhotos = product.images.some(isSupplierPhoto);
+  const firstVariant = product.variants[0];
+  const images =
+    firstVariant && variantSandChoice(firstVariant)
+      ? (presentVariant(firstVariant, locale).images ?? product.images)
+      : product.images;
+  if (images.length) {
+    const caption = photoCaption(locale, images);
     return (
       <div className="planned-bundle-photos">
         <ProductGallery
-          images={product.images.map((image) => localizePhoto(image, locale))}
+          images={images.map((image) => localizePhoto(image, locale))}
           locale={locale}
           title={
-            product.images.every(isSupplierPhoto)
+            images.every(isSupplierPhoto)
               ? launchBundleCopy[locale].photoTitle
               : product.title[locale]
           }
         />
-        {supplierPhotos && (
+        {caption && (
           <div className="planned-bundle-photo-note">
             <a href={supplierBowlUrl} target="_blank" rel="noopener noreferrer">
               {launchBundleCopy[locale].photoSource} ↗
             </a>
-            <p>{photoCaption(locale, product.images)}</p>
+            <p>{caption}</p>
           </div>
         )}
       </div>
@@ -163,27 +258,27 @@ export function PlannedBundleDetails({
   launch?: LaunchProductState;
 }) {
   const copy = launchBundleCopy[locale];
-  const supplierPhotos = launch.product.images.some(isSupplierPhoto);
+  const variants = launch.product.variants.map((variant) =>
+    presentVariant(variant, locale),
+  );
+  const variantPhotos = variants.flatMap((variant) => variant.images ?? []);
+  const galleryImages = uniquePhotos(
+    variants.length > 1 && variants.every((variant) => variant.images?.length)
+      ? variantPhotos
+      : [...launch.product.images, ...variantPhotos],
+  );
+  const caption = photoCaption(locale, galleryImages);
   const product: Product = {
     ...launch.product,
     images: launch.product.images.map((image) => localizePhoto(image, locale)),
-    variants: launch.product.variants.map((variant) => ({
-      ...variant,
-      images: variant.images?.map((image) => localizePhoto(image, locale)),
-    })),
-    ...(supplierPhotos
+    variants,
+    ...(caption
       ? {
           included: {
-            sv: [
-              launch.product.included?.sv,
-              photoCaption("sv", launch.product.images),
-            ]
+            sv: [launch.product.included?.sv, photoCaption("sv", galleryImages)]
               .filter(Boolean)
               .join(" "),
-            en: [
-              launch.product.included?.en,
-              photoCaption("en", launch.product.images),
-            ]
+            en: [launch.product.included?.en, photoCaption("en", galleryImages)]
               .filter(Boolean)
               .join(" "),
           },

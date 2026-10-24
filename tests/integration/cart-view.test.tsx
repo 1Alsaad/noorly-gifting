@@ -2,6 +2,9 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockProducts } from "@/content/products";
 import type { Cart } from "@/types/commerce";
+import { mapShopifyCart } from "@/lib/commerce/providers/shopify/mapping";
+import { formatMoney } from "@/lib/utils/money";
+import { nativeBundleFixture } from "../fixtures/shopify-native-bundle";
 const state = vi.hoisted(() => ({
   cart: null as Cart | null,
   loading: false,
@@ -120,5 +123,64 @@ describe("cart controls and announcements", () => {
       screen.getByRole("button", { name: "Remove: Winter Candle" }),
     );
     expect(state.removeLines).toHaveBeenCalledWith(["line-1"]);
+  });
+  it("shows exact kit contents and allocated parent cost with parent-only controls", () => {
+    state.cart = mapShopifyCart(nativeBundleFixture(2).cart);
+    // Shopify's current allocated line cost, not the variant's undiscounted price.
+    state.cart.lines[0].cost!.totalAmount.amount = 1500;
+    render(<CartView locale="en" />);
+    const contents = screen.getByRole("list", { name: "Kit contents" });
+    expect(contents).toHaveTextContent("2 × Decorative teak bowl");
+    expect(contents).toHaveTextContent("2 × Candle sand 300 g with four wicks");
+    expect(contents).toHaveTextContent("Dusty Rose · Maison de Roses");
+    expect(contents).toHaveTextContent("CSand-07");
+    expect(
+      screen.getByText(
+        formatMoney({ amount: 1500, currencyCode: "SEK" }, "en"),
+        { normalizer: (text) => text },
+      ),
+    ).toBeVisible();
+    expect(
+      screen.queryByText(
+        formatMoney({ amount: 1100, currencyCode: "SEK" }, "en"),
+        { normalizer: (text) => text },
+      ),
+    ).not.toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /^Remove:/ })).toHaveLength(1);
+    fireEvent.click(
+      screen.getByRole("button", { name: "Add to bag: Noorly Ljusstund" }),
+    );
+    expect(state.updateLine).toHaveBeenCalledWith(
+      "gid://shopify/CartLine/kit",
+      3,
+    );
+  });
+  it("blocks an incomplete native kit and keeps whole-kit removal available", () => {
+    state.cart = mapShopifyCart(nativeBundleFixture().cart);
+    state.cart.lines[0].components!.pop();
+    render(<CartView locale="en" />);
+    expect(
+      screen.getByRole("button", { name: "Continue to secure checkout" }),
+    ).toBeDisabled();
+    fireEvent.click(
+      screen.getByRole("button", { name: "Remove: Noorly Ljusstund" }),
+    );
+    expect(state.removeLines).toHaveBeenCalledWith([
+      "gid://shopify/CartLine/kit",
+    ]);
+  });
+  it("announces Shopify's stock adjustment while showing the updated complete kit", () => {
+    state.cart = mapShopifyCart(nativeBundleFixture().cart, [
+      { code: "MERCHANDISE_NOT_ENOUGH_STOCK", message: "Adjusted" },
+    ]);
+    state.error = "cart_changed";
+    render(<CartView locale="en" />);
+    expect(screen.getByRole("alert")).toHaveTextContent("Your bag has changed");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "The requested quantity is no longer in stock",
+    );
+    expect(
+      screen.getByRole("button", { name: "Continue to secure checkout" }),
+    ).toBeEnabled();
   });
 });

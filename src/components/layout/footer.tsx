@@ -4,8 +4,10 @@ import { brand } from "@/config/brand";
 import { getDictionary } from "@/content/translations";
 import type { Locale } from "@/types/commerce";
 import { ConsentSettingsButton } from "@/components/consent/consent-banner";
+import { customerWithdrawalLink } from "@/content/customer-policies";
 export function Footer({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
+  const withdrawal = customerWithdrawalLink(locale);
   const groups = [
     {
       title: t.footer.explore,
@@ -20,6 +22,7 @@ export function Footer({ locale }: { locale: Locale }) {
       links: [
         ["about", t.about],
         ["faq", t.footer.faq],
+        ["contact", t.footer.contact],
         ["shipping-returns", t.footer.shipping],
         ["accessibility", t.footer.accessibility],
       ],
@@ -55,6 +58,11 @@ export function Footer({ locale }: { locale: Locale }) {
                   <Link href={`/${locale}/${href}`}>{label}</Link>
                 </li>
               ))}
+              {group.title === t.footer.help && (
+                <li>
+                  <a href={withdrawal.href}>{withdrawal.label}</a>
+                </li>
+              )}
             </ul>
           </div>
         ))}

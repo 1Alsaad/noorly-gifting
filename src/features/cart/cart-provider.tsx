@@ -74,7 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const data = await response.json();
       if (!response.ok) throw new Error("cart_update_failed");
       if (data.cart) setCart(data.cart);
-      return data as { cart?: Cart; url?: string };
+      return data as { cart?: Cart; url?: string; reviewRequired?: boolean };
     } catch (e) {
       setError("cart_update_failed");
       throw e;
@@ -86,6 +86,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addLines = useCallback(
     async (lines: CartLineInput[]) => {
       const data = await mutate({ type: "add", lines });
+      if (data.cart?.warnings?.length) {
+        setError("cart_changed");
+        throw new Error("cart_changed");
+      }
       trackEvent({
         name: "add_to_cart",
         properties: {
@@ -145,6 +149,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
           ...getMetaCheckoutAttributes(),
         }).map(([key, value]) => ({ key, value }));
         const data = await mutate({ type: "checkout", locale, attributes });
+        if (data.reviewRequired || data.cart?.warnings?.length) {
+          setError("cart_changed");
+          throw new Error("cart_changed");
+        }
         if (!data.url) {
           setError("checkout_unavailable");
           throw new Error("checkout_unavailable");

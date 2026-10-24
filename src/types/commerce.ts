@@ -20,6 +20,18 @@ export interface ProductVariant {
   images?: ProductImage[];
   sku?: string;
   selectedOptions?: { name: string; value: string }[];
+  requiresComponents?: boolean;
+  /** Fixed-bundle definition: component quantities required for one parent. */
+  components?: ProductVariantComponent[];
+}
+export type BundleComponentProduct = Pick<
+  Product,
+  "id" | "handle" | "title" | "requiresSellingPlan" | "hasSellingPlans"
+>;
+export interface ProductVariantComponent {
+  quantity: number;
+  product: BundleComponentProduct;
+  variant: ProductVariant;
 }
 export type ProductCategory =
   "box" | "signature" | "extra" | "card" | "packaging";
@@ -74,6 +86,29 @@ export interface CartLine {
   attributes: CartAttribute[];
   /** Retained from Shopify so an existing plan is never silently discarded. */
   sellingPlanId?: string;
+  cost?: CartLineCost;
+  /** Shopify's grouped component lines; quantity already includes parent quantity. */
+  components?: CartLineComponent[];
+}
+export interface CartLineCost {
+  amountPerQuantity: Money;
+  subtotalAmount: Money;
+  totalAmount: Money;
+}
+export interface CartLineComponent {
+  id: string;
+  merchandiseId: string;
+  product: BundleComponentProduct;
+  variant: ProductVariant;
+  quantity: number;
+  attributes: CartAttribute[];
+  sellingPlanId?: string;
+  cost: CartLineCost;
+}
+export interface CartWarning {
+  code: string;
+  message: string;
+  target?: string;
 }
 export interface Cart {
   id: string;
@@ -82,6 +117,8 @@ export interface Cart {
   totalQuantity: number;
   attributes: CartAttribute[];
   checkoutUrl?: string;
+  /** Successful Shopify mutations can adjust stock quantities and report why. */
+  warnings?: CartWarning[];
 }
 export interface AvailabilityResult {
   available: boolean;

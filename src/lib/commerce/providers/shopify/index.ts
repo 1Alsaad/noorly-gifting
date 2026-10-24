@@ -1,5 +1,9 @@
 import { CommerceError } from "@/lib/commerce/errors";
 import {
+  hasUnsupportedPurchaseOption,
+  isCartLineAvailable,
+} from "@/lib/commerce/cart-availability";
+import {
   cleanAttributes,
   validateIncomingLines,
 } from "@/lib/commerce/validation";
@@ -24,6 +28,21 @@ interface Connection {
 interface MutationResult {
   cart: unknown;
   userErrors: { code?: string; message: string }[];
+  warnings?: unknown;
+}
+interface StockVariant {
+  id: string;
+  availableForSale: boolean;
+  quantityAvailable: number | null;
+  requiresComponents: boolean;
+  product?: {
+    requiresSellingPlan: boolean;
+    sellingPlanGroups: { nodes: { name: string }[] };
+  };
+  components?: {
+    nodes: { quantity: number; productVariant: StockVariant }[];
+    pageInfo: { hasNextPage: boolean };
+  };
 }
 interface ShopifyCollection {
   id: string;
@@ -82,7 +101,7 @@ export class ShopifyCommerceProvider implements CommerceProvider {
     const result = data[key];
     if (!result || result.userErrors.length || !result.cart)
       throw new CommerceError("cart_update_failed", 409);
-    return mapShopifyCart(result.cart);
+    return mapShopifyCart(result.cart, result.warnings ?? []);
   }
   private async catalogue(language: "SV" | "EN") {
     const products: ShopifyProduct[] = [];
@@ -203,15 +222,10 @@ export class ShopifyCommerceProvider implements CommerceProvider {
   async getCheckoutUrl(cartId: string, locale: Locale = "sv") {
     const cart = await this.getCart(cartId);
     if (!cart?.lines.length) throw new CommerceError("empty_cart");
-    if (
-      cart.lines.some(
-        (line) =>
-          line.sellingPlanId ||
-          line.product.requiresSellingPlan ||
-          line.product.hasSellingPlans,
-      )
-    )
+    if (cart.lines.some(hasUnsupportedPurchaseOption))
       throw new CommerceError("unsupported_purchase_option", 409);
+    if (cart.lines.some((line) => !isCartLineAvailable(line)))
+      throw new CommerceError("unavailable_product", 409);
     const availability = await this.validateAvailability(cart.lines);
     if (!availability.available)
       throw new CommerceError("unavailable_product", 409);
@@ -234,38 +248,86 @@ export class ShopifyCommerceProvider implements CommerceProvider {
   }
   async validateAvailability(lines: CartLineInput[]) {
     const ids = [...new Set(lines.map((line) => line.merchandiseId))];
-    const result = await this.request<{
-      nodes: ({
-        id: string;
-        availableForSale: boolean;
-        quantityAvailable: number | null;
-        product: {
-          requiresSellingPlan: boolean;
-          sellingPlanGroups: { nodes: { name: string }[] };
-        };
-      } | null)[];
-    }>(queries.AVAILABILITY_QUERY, { ids });
-    const unavailableVariantIds = ids.filter((id) => {
-      const variant = result.nodes.find((item) => item?.id === id);
-      const quantity = lines
-        .filter((line) => line.merchandiseId === id)
-        .reduce((sum, line) => sum + line.quantity, 0);
-      return (
-        !variant?.availableForSale ||
-        !variant.product ||
-        variant.product.requiresSellingPlan !== false ||
-        !variant.product.sellingPlanGroups ||
-        variant.product.sellingPlanGroups.nodes.length > 0 ||
-        lines.some(
-          (line) =>
-            line.merchandiseId === id &&
-            "sellingPlanId" in line &&
-            Boolean(line.sellingPlanId),
-        ) ||
-        (variant.quantityAvailable !== null &&
-          variant.quantityAvailable < quantity)
+    if (!ids.length) return { available: true, unavailableVariantIds: [] };
+    const result = await this.request<{ nodes: (StockVariant | null)[] }>(
+      queries.AVAILABILITY_QUERY,
+      { ids },
+    );
+    const unavailable = new Set<string>();
+    const demand = new Map<
+      string,
+      {
+        quantity: number;
+        snapshots: StockVariant[];
+        parents: Set<string>;
+        component: boolean;
+      }
+    >();
+    const addDemand = (
+      variant: StockVariant,
+      quantity: number,
+      parent: string,
+      component = false,
+    ) => {
+      const previous = demand.get(variant.id);
+      demand.set(variant.id, {
+        quantity: (previous?.quantity ?? 0) + quantity,
+        snapshots: [...(previous?.snapshots ?? []), variant],
+        parents: new Set([...(previous?.parents ?? []), parent]),
+        component: component || Boolean(previous?.component),
+      });
+    };
+    for (const line of lines) {
+      const variant = result.nodes.find(
+        (item) => item?.id === line.merchandiseId,
       );
-    });
+      if (
+        !variant ||
+        !Number.isSafeInteger(line.quantity) ||
+        line.quantity < 1 ||
+        ("sellingPlanId" in line && Boolean(line.sellingPlanId)) ||
+        typeof variant.requiresComponents !== "boolean" ||
+        !variant.components ||
+        variant.components.pageInfo?.hasNextPage !== false ||
+        variant.requiresComponents !== variant.components.nodes.length > 0
+      ) {
+        unavailable.add(line.merchandiseId);
+        continue;
+      }
+      addDemand(variant, line.quantity, line.merchandiseId);
+      for (const component of variant.components.nodes) {
+        if (
+          !Number.isSafeInteger(component.quantity) ||
+          component.quantity < 1 ||
+          component.productVariant.requiresComponents !== false
+        ) {
+          unavailable.add(line.merchandiseId);
+          continue;
+        }
+        addDemand(
+          component.productVariant,
+          line.quantity * component.quantity,
+          line.merchandiseId,
+          true,
+        );
+      }
+    }
+    for (const { quantity, snapshots, parents, component } of demand.values()) {
+      if (
+        snapshots.some(
+          (variant) =>
+            !variant.availableForSale ||
+            variant.product?.requiresSellingPlan !== false ||
+            variant.product.sellingPlanGroups?.nodes.length !== 0 ||
+            (variant.quantityAvailable === null
+              ? component
+              : !Number.isSafeInteger(variant.quantityAvailable) ||
+                variant.quantityAvailable < quantity),
+        )
+      )
+        for (const parent of parents) unavailable.add(parent);
+    }
+    const unavailableVariantIds = ids.filter((id) => unavailable.has(id));
     return {
       available: unavailableVariantIds.length === 0,
       unavailableVariantIds,
