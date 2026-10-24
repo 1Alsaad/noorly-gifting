@@ -39,9 +39,9 @@ export const launchBundleCopy = {
       "Sverige · leveransvillkor före köp",
     ],
     cta: "Upptäck Ljusstund",
-    interestCta: "Fråga om första omgången",
+    interestCta: "Skicka intresseanmälan",
     interestNote:
-      "Öppnar ditt e-postprogram. Det här är inte en beställning eller reservation, och ingen betalning sker.",
+      "Öppnar ditt e-postprogram. Ingen betalning, ingen beställning och ingen vara reserveras.",
     imageNote:
       "Miljöbilden visar en stämning och återger inte nödvändigtvis innehållet i Ljusstund.",
     film: "Stämningsfilm. Skålen och produkterna i filmen visar inte det faktiska presentsetet.",
@@ -74,9 +74,9 @@ export const launchBundleCopy = {
       "Sweden · shipping terms before purchase",
     ],
     cta: "Discover Ljusstund",
-    interestCta: "Ask about the first edition",
+    interestCta: "Send an expression of interest",
     interestNote:
-      "Opens your email application. This is not an order or reservation, and no payment is taken.",
+      "Opens your email app. No payment, no order and no stock is reserved.",
     imageNote:
       "Lifestyle imagery expresses a mood and does not necessarily depict the Ljusstund contents.",
     film: "Concept film. Its bowl and products do not depict the actual gift set.",
