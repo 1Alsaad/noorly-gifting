@@ -28,11 +28,6 @@ jobs:
           cache: pnpm
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
-      - name: Diagnose formatting differences
-        run: |
-          pnpm exec prettier --write src/lib/analytics/meta.ts src/lib/env/schema.ts
-          git diff --color=never -- src/lib/analytics/meta.ts src/lib/env/schema.ts
-          git checkout -- src/lib/analytics/meta.ts src/lib/env/schema.ts
       - name: Check formatting
         run: pnpm format:check
       - name: Lint
