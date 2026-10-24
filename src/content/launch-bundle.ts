@@ -44,8 +44,7 @@ export const launchBundleCopy = {
       "Öppnar ditt e-postprogram. Det här är inte en beställning eller reservation, och ingen betalning sker.",
     imageNote:
       "Miljöbilden visar en stämning och återger inte nödvändigtvis innehållet i Ljusstund.",
-    film:
-      "Stämningsfilm. Skålen och produkterna i filmen visar inte det faktiska presentsetet.",
+    film: "Stämningsfilm. Skålen och produkterna i filmen visar inte det faktiska presentsetet.",
   },
   en: {
     label: "NOORLY LJUSSTUND · FIRST EDITION",
@@ -80,8 +79,7 @@ export const launchBundleCopy = {
       "Opens your email application. This is not an order or reservation, and no payment is taken.",
     imageNote:
       "Lifestyle imagery expresses a mood and does not necessarily depict the Ljusstund contents.",
-    film:
-      "Concept film. Its bowl and products do not depict the actual gift set.",
+    film: "Concept film. Its bowl and products do not depict the actual gift set.",
   },
 } as const;
 
