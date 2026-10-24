@@ -18,6 +18,12 @@ export function proxy(request: NextRequest) {
   headers.set("Content-Security-Policy", csp);
   const response = NextResponse.next({ request: { headers } });
   if (
+    process.env.NOORLY_PUBLIC_PREVIEW === "true" &&
+    process.env.NOORLY_STOREFRONT_OPEN === "false"
+  ) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  if (
     request.nextUrl.pathname.startsWith("/admin-preview") ||
     request.cookies.has("noorly_admin_preview")
   ) {

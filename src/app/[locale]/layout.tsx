@@ -5,7 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { CartProvider } from "@/features/cart/cart-provider";
 import { ConsentBanner } from "@/components/consent/consent-banner";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
-import { isStorefrontOpen } from "@/lib/commerce/launch";
+import { isPublicTestPreview, isStorefrontOpen } from "@/lib/commerce/launch";
 import { hasAdminPreviewSession } from "@/lib/security/admin-preview";
 import "@/styles/admin-preview.css";
 export const dynamic = "force-dynamic";
@@ -19,7 +19,9 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const adminPreview = !isStorefrontOpen() && (await hasAdminPreviewSession());
-  if (!isStorefrontOpen() && !adminPreview) redirect("/admin-preview");
+  const publicTestPreview = isPublicTestPreview() && !adminPreview;
+  if (!isStorefrontOpen() && !adminPreview && !publicTestPreview)
+    redirect("/admin-preview");
   const t = getDictionary(locale);
   return (
     <CartProvider>
@@ -36,6 +38,18 @@ export default async function LocaleLayout({
             <input type="hidden" name="action" value="logout" />
             <button type="submit">Logga ut</button>
           </form>
+        </aside>
+      )}
+      {publicTestPreview && (
+        <aside
+          className="admin-preview-bar"
+          aria-label={locale === "sv" ? "Testversion" : "Test preview"}
+        >
+          <span>
+            {locale === "sv"
+              ? "Testversion av Noorly. Produkterna är planerade. Beställningar och betalningar är stängda."
+              : "Noorly test preview. Products are planned. Ordering and payment are unavailable."}
+          </span>
         </aside>
       )}
       <a className="skip-link" href="#main-content">
