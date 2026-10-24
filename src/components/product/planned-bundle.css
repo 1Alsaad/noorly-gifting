@@ -53,3 +53,20 @@
     min-height: 280px;
   }
 }
+
+.planned-bundle-preorder {
+  border-left: 3px solid #344b3e;
+  background: #f4f0e8;
+  padding: 15px 18px;
+  margin: 0 0 20px;
+}
+.planned-bundle-preorder strong {
+  display: block;
+  font-weight: 700;
+  line-height: 1.5;
+}
+.planned-bundle-preorder p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
