@@ -120,7 +120,9 @@ export function applyProductTestCopy(
     },
     faqs: [
       {
-        q: sv ? "Kan jag beställa Ljusstund idag?" : "Can I order Ljusstund today?",
+        q: sv
+          ? "Kan jag beställa Ljusstund idag?"
+          : "Can I order Ljusstund today?",
         a: sv
           ? "Inte ännu. Vi har skålar och ljussand i lager, men slutför paketets innehåll och köpvillkor innan kassan öppnar."
           : "Not yet. We have bowls and candle sand in stock, but we are finalising the set contents and purchase terms before checkout opens.",
