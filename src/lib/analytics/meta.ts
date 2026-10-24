@@ -17,6 +17,7 @@ declare global {
 }
 const sent = new Set<string>();
 let initialized = false;
+let lastPageView: string | null = null;
 
 /** Load nothing before marketing consent. Never pass email or form fields. */
 export function updateMetaConsent() {
@@ -24,6 +25,7 @@ export function updateMetaConsent() {
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
   if (!pixelId || !/^\d+$/.test(pixelId)) return;
   if (!getConsent()?.marketing) {
+    lastPageView = null;
     if (window.fbq) {
       if (!window.fbq.callMethod) initialized = false;
       window.fbq.queue = [];
@@ -62,6 +64,81 @@ export function updateMetaConsent() {
     script.dataset.noorlyMeta = "true";
     script.src = "https://connect.facebook.net/en_US/fbevents.js";
     document.head.append(script);
+  }
+}
+
+/** Standard Meta browser events: marketing consent only, never in admin preview. */
+function consentedPixelId(): string | null {
+  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+  if (
+    typeof window === "undefined" ||
+    !getConsent()?.marketing ||
+    !pixelId ||
+    !/^\d+$/.test(pixelId)
+  )
+    return null;
+  updateMetaConsent();
+  return window.fbq ? pixelId : null;
+}
+
+/** One PageView per visited locale path, including when consent is first granted. */
+export function trackMetaPageView(pathname: string): boolean {
+  if (
+    !/^\/(sv|en)(\/|$)/.test(pathname) ||
+    /[?#]/.test(pathname) ||
+    lastPageView === pathname
+  )
+    return false;
+  const pixelId = consentedPixelId();
+  if (!pixelId || !window.fbq) return false;
+  try {
+    window.fbq("trackSingle", pixelId, "PageView");
+    lastPageView = pathname;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Only genuine product details, not the non-purchasable planned bundle. */
+export function trackMetaViewContent(
+  productHandle: string,
+  value?: number,
+): boolean {
+  if (
+    !/^[a-z0-9-]{1,100}$/.test(productHandle) ||
+    (value !== undefined && (!Number.isFinite(value) || value < 0))
+  )
+    return false;
+  const pixelId = consentedPixelId();
+  if (!pixelId || !window.fbq) return false;
+  try {
+    window.fbq("trackSingle", pixelId, "ViewContent", {
+      content_type: "product",
+      content_ids: [productHandle],
+      content_name: productHandle,
+      ...(value !== undefined ? { value, currency: "SEK" } : {}),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Only after the server confirms a valid Shopify checkout redirect. */
+export function trackMetaInitiateCheckout(value?: number): boolean {
+  if (value === undefined || !Number.isFinite(value) || value <= 0)
+    return false;
+  const pixelId = consentedPixelId();
+  if (!pixelId || !window.fbq) return false;
+  try {
+    window.fbq("trackSingle", pixelId, "InitiateCheckout", {
+      value,
+      currency: "SEK",
+    });
+    return true;
+  } catch {
+    return false;
   }
 }
 

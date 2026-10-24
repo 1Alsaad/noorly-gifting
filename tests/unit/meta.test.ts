@@ -24,6 +24,32 @@ describe("marketing consent and genuine lead events", () => {
     );
   });
 
+  it("tracks consented website events", async () => {
+    const meta = await import("@/lib/analytics/meta");
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(false);
+
+    saveConsent({ analytics: false, marketing: true });
+    expect(meta.trackMetaPageView("/admin-preview")).toBe(false);
+    expect(meta.trackMetaPageView("/sv?email=private")).toBe(false);
+    expect(meta.trackMetaPageView("/sv")).toBe(true);
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaViewContent("noorly-gift", 799)).toBe(true);
+    expect(meta.trackMetaInitiateCheckout(-1)).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(true);
+
+    const events = window.fbq!.queue.map((call) => call[2]);
+    expect(events).toContain("PageView");
+    expect(events).toContain("ViewContent");
+    expect(events).toContain("InitiateCheckout");
+    expect(events).not.toContain("Purchase");
+
+    saveConsent({ analytics: false, marketing: false });
+    meta.updateMetaConsent();
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(false);
+  });
+
   it("allows marketing independently of analytics, deduplicates and honors revocation", async () => {
     const meta = await import("@/lib/analytics/meta");
     saveConsent({ analytics: false, marketing: true });

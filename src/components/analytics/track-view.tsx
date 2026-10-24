@@ -1,6 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import { trackEvent } from "@/lib/analytics/client";
+import { CONSENT_EVENT } from "@/lib/analytics/consent";
+import { trackMetaViewContent } from "@/lib/analytics/meta";
 export function TrackView({
   name,
   properties,
@@ -18,6 +20,24 @@ export function TrackView({
       { name, properties: JSON.parse(serialized) },
       `${name}:${serialized}`,
     );
+    if (name !== "product_viewed") return;
+    const details = JSON.parse(serialized) as {
+      product_handle?: string;
+      value?: number;
+    };
+    if (!details.product_handle) return;
+    let sent = false;
+    const onConsent = () => {
+      if (!sent && details.product_handle)
+        sent = trackMetaViewContent(details.product_handle, details.value);
+    };
+    onConsent();
+    window.addEventListener(CONSENT_EVENT, onConsent);
+    window.addEventListener("storage", onConsent);
+    return () => {
+      window.removeEventListener(CONSENT_EVENT, onConsent);
+      window.removeEventListener("storage", onConsent);
+    };
   }, [name, serialized]);
   return null;
 }

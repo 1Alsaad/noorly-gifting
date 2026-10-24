@@ -20,6 +20,7 @@ import {
   trackEvent,
   getAnalyticsCheckoutAttributes,
 } from "@/lib/analytics/client";
+import { trackMetaInitiateCheckout } from "@/lib/analytics/meta";
 
 type CartContextValue = {
   cart: Cart | null;
@@ -153,6 +154,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             quantity: cart?.totalQuantity,
           },
         });
+        trackMetaInitiateCheckout(cart?.total.amount);
         return data.url;
       } catch (e) {
         trackEvent({ name: "checkout_error", properties: { source: "cart" } });
