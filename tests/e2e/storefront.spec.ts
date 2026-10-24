@@ -148,7 +148,10 @@ test("the planned bundle is keyboard accessible and cannot be purchased", async 
     page.getByRole("heading", { name: "Noorly Ljusstund", level: 1 }),
   ).toBeVisible();
   await expect(
-    page.getByText(/Ordering and payment are not yet open/),
+    page.getByText(
+      "This gift set is currently unavailable to order. Contact us to ask when it will be available.",
+      { exact: true },
+    ),
   ).toBeVisible();
   await expect(
     page.getByText(/Packaged candle sand from AWGifts/),
@@ -324,7 +327,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
 
   await expect(shopping.getByText(/Planned set price: SEK 799/)).toBeVisible();
   await expect(
-    shopping.getByText(/Ordering and payment are not yet open/),
+    shopping.getByText("Ordering is currently unavailable.", { exact: true }),
   ).toBeVisible();
   await expect(shopping.getByRole("button")).toHaveCount(0);
   await scene.getByRole("link", { name: "Skip experience" }).focus();
