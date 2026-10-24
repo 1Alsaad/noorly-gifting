@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { CartView } from "@/features/cart/cart-view";
 import { TrackView } from "@/components/analytics/track-view";
@@ -28,6 +28,7 @@ export default async function CartPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (process.env.NOORLY_PUBLIC_PREVIEW === "true") redirect(`/${locale}/shop`);
   const t = getDictionary(locale);
   return (
     <div className="section-wrap page-content">
