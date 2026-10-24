@@ -142,6 +142,33 @@ export function trackMetaInitiateCheckout(value?: number): boolean {
   }
 }
 
+/** Checkout sends consent status and first-party click identifiers, never email or names. */
+export function getMetaCheckoutAttributes(): Record<string, string> {
+  const denied = {
+    _noorly_meta_consent: "denied",
+    _noorly_meta_fbp: "",
+    _noorly_meta_fbc: "",
+  };
+  if (typeof window === "undefined" || !getConsent()?.marketing)
+    return denied;
+  const cookie = (name: string) => {
+    const pair = document.cookie
+      .split(";")
+      .map((value) => value.trim())
+      .find((value) => value.startsWith(`${name}=`));
+    if (!pair) return "";
+    const value = pair.slice(name.length + 1);
+    return /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value)
+      ? value
+      : "";
+  };
+  return {
+    _noorly_meta_consent: "granted",
+    _noorly_meta_fbp: cookie("_fbp"),
+    _noorly_meta_fbc: cookie("_fbc"),
+  };
+}
+
 /** Only call after durable, non-mock acceptance; no lead on click or retry. */
 export function trackInterestLead(eventId: string, productHandle: string) {
   if (
