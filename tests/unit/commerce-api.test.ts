@@ -214,6 +214,10 @@ describe("cart API integration", () => {
       key: "_stilla_analytics_session",
       value: "",
     });
+    expect(denied.data.cart.attributes).toContainEqual({
+      key: "_noorly_meta_consent",
+      value: "denied",
+    });
   });
   it("rejects oversized cookie state without replacing the current cart", async () => {
     await post({
