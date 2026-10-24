@@ -20,7 +20,10 @@ import {
   trackEvent,
   getAnalyticsCheckoutAttributes,
 } from "@/lib/analytics/client";
-import { getMetaCheckoutAttributes, trackMetaInitiateCheckout } from "@/lib/analytics/meta";
+import {
+  getMetaCheckoutAttributes,
+  trackMetaInitiateCheckout,
+} from "@/lib/analytics/meta";
 
 type CartContextValue = {
   cart: Cart | null;
