@@ -630,9 +630,7 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await expect(
       page.getByText("Decorative teakwood bowl, AWGifts model TeakB-37"),
     ).toBeVisible();
-    await expect(
-      page.getByText(/TEAKB-37 · TEAK BOWL/),
-    ).toBeVisible();
+    await expect(page.getByText(/TEAKB-37 · TEAK BOWL/)).toBeVisible();
   } finally {
     await context.close();
   }
