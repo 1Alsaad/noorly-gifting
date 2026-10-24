@@ -1,8 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  isPublicTestPreview,
-  isStorefrontOpen,
-} from "@/lib/commerce/launch";
+import { isPublicTestPreview, isStorefrontOpen } from "@/lib/commerce/launch";
 import { GET, POST } from "@/app/api/cart/route";
 
 describe("read-only public test preview", () => {
@@ -37,7 +34,10 @@ describe("read-only public test preview", () => {
     const response = await POST(
       new Request("https://noorlynordic.com/api/cart", {
         method: "POST",
-        headers: { origin: "https://noorlynordic.com", "content-type": "application/json" },
+        headers: {
+          origin: "https://noorlynordic.com",
+          "content-type": "application/json",
+        },
         body: JSON.stringify({ action: "checkout", locale: "sv" }),
       }),
     );
