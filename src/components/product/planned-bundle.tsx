@@ -2,7 +2,20 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { launchBundleCopy, launchBundleHref } from "@/content/launch-bundle";
 import type { Locale } from "@/types/commerce";
+import { brand } from "@/config/brand";
 import "./planned-bundle.css";
+
+function interestMailto(locale: Locale) {
+  const subject =
+    locale === "sv"
+      ? "Noorly Ljusstund – intresse för 799 kr"
+      : "Noorly Ljusstund – interest at SEK 799";
+  const body =
+    locale === "sv"
+      ? "Hej Noorly! Jag är intresserad av Ljusstund till det planerade priset 799 kr. Jag förstår att detta inte är en beställning eller reservation."
+      : "Hello Noorly! I am interested in Ljusstund at the planned SEK 799 price. I understand this is not an order or reservation.";
+  return `mailto:${brand.supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export function PlannedBundleVisual({ locale }: { locale: Locale }) {
   return (
@@ -63,6 +76,12 @@ export function PlannedBundleDetails({ locale }: { locale: Locale }) {
             <p>{copy.preorderExplanation}</p>
           </div>
           <p className="product-note">{copy.status}</p>
+          <div className="planned-bundle-interest">
+            <a className="button button-dark" href={interestMailto(locale)}>
+              {copy.interestCta} <ArrowUpRight size={17} />
+            </a>
+            <p className="product-note">{copy.interestNote}</p>
+          </div>
           <h2>{copy.contentsTitle}</h2>
           <ul className="planned-bundle-contents">
             {copy.contents.map((item) => (
