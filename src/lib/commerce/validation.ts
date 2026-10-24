@@ -25,6 +25,9 @@ const attributeSchema = z
       "locale",
       "_stilla_analytics_consent",
       "_stilla_analytics_session",
+      "_noorly_meta_consent",
+      "_noorly_meta_fbp",
+      "_noorly_meta_fbc",
     ]),
     value: z.string().max(brand.giftMessageMaxLength),
   })
@@ -41,6 +44,19 @@ const attributeSchema = z
       value === "" ||
       z.uuid().safeParse(value).success,
     "invalid_session",
+  );
+  .refine(
+    ({ key, value }) =>
+      key !== "_noorly_meta_consent" ||
+      ["granted", "denied"].includes(value),
+    "invalid_marketing_consent",
+  )
+  .refine(
+    ({ key, value }) =>
+      (key !== "_noorly_meta_fbp" && key !== "_noorly_meta_fbc") ||
+      value === "" ||
+      /^fb\\.\\d+\\.\\d+\\.[A-Za-z0-9_-]{1,160}$/.test(value),
+    "invalid_meta_cookie",
   );
 export const attributesSchema = z
   .array(attributeSchema)
