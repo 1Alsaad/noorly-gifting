@@ -24,6 +24,35 @@ describe("marketing consent and genuine lead events", () => {
     );
   });
 
+  it("connects consented PageView, ViewContent and validated checkout without leaking preview or firing Purchase", async () => {
+    const meta = await import("@/lib/analytics/meta");
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaViewContent("noorly-gift", 799)).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(false);
+    expect(document.querySelector("script[data-noorly-meta]")).toBeNull();
+
+    saveConsent({ analytics: false, marketing: true });
+    expect(meta.trackMetaPageView("/admin-preview")).toBe(false);
+    expect(meta.trackMetaPageView("/sv?email=user@example.com")).toBe(false);
+    expect(meta.trackMetaPageView("/sv")).toBe(true);
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaPageView("/sv/shop")).toBe(true);
+    expect(meta.trackMetaViewContent("noorly-gift", 799)).toBe(true);
+    expect(meta.trackMetaViewContent("bad@example.com", 799)).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(-1)).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(true);
+    const commands = window.fbq!.queue;
+    expect(commands.filter((call) => call[2] === "PageView")).toHaveLength(2);
+    expect(commands.filter((call) => call[2] === "ViewContent")).toHaveLength(1);
+    expect(commands.filter((call) => call[2] === "InitiateCheckout")).toHaveLength(1);
+    expect(commands.some((call) => call[2] === "Purchase")).toBe(false);
+
+    saveConsent({ analytics: false, marketing: false });
+    meta.updateMetaConsent();
+    expect(meta.trackMetaPageView("/sv")).toBe(false);
+    expect(meta.trackMetaInitiateCheckout(799)).toBe(false);
+  });
+
   it("allows marketing independently of analytics, deduplicates and honors revocation", async () => {
     const meta = await import("@/lib/analytics/meta");
     saveConsent({ analytics: false, marketing: true });
