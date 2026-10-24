@@ -40,7 +40,6 @@ describe("Shopify checkout destinations", () => {
     "https://tzwngp-h1.myshopify.com",
     "https://checkout.shopify.com",
     "https://other.myshopify.com",
-    "https://checkout.noorly.se",
     "https://checkout.noorlynordic.com",
   ])(
     "preserves a valid checkout at %s and applies the chosen locale",
@@ -58,6 +57,11 @@ describe("Shopify checkout destinations", () => {
   );
 
   it.each([
+    "https://checkout.noorly.se/checkouts/test",
+    "https://erinra.com/checkouts/test",
+    "https://www.erinra.com/checkouts/test",
+    "https://erinra.eu/checkouts/test",
+    "https://www.erinra.eu/checkouts/test",
     "http://checkout.noorly.se/checkouts/test",
     "https://checkout.noorly.se:8443/checkouts/test",
     "https://checkout.noorly.se.evil.test/checkouts/test",
@@ -83,7 +87,7 @@ describe("Shopify checkout destinations", () => {
     });
   });
 
-  it.each(["https://checkout.noorly.se", "https://checkout.noorlynordic.com"])(
+  it.each(["https://checkout.noorlynordic.com"])(
     "does not bypass availability for the custom checkout at %s",
     async (origin) => {
       const { provider, availability } = availableCheckout(
