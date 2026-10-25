@@ -58,7 +58,7 @@ export function ProductPurchase({
     const update = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        setPastPurchase(target.getBoundingClientRect().bottom <= 0);
+        setPastPurchase(target.getBoundingClientRect().bottom < 0);
       });
     };
     window.addEventListener("scroll", update, { passive: true });
