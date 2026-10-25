@@ -1,0 +1,29 @@
+.consent-action {
+  flex: 1 1 11rem;
+  min-height: 44px;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: #000;
+  padding: 0.65rem 1.25rem;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  transition: background-color 120ms ease;
+}
+
+.consent-action:hover {
+  background: #292929;
+}
+
+.consent-action:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .consent-action {
+    transition: none;
+  }
+}
