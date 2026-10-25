@@ -261,6 +261,10 @@
   transform: translateY(-38%);
   width: min(670px, 75%);
 }
+.cinema-entrance[data-pinned="true"] .cinema-scene-content {
+  top: 38%;
+  transform: translateY(-50%);
+}
 .cinema-kicker {
   font-family: var(--font-sans, Arial, sans-serif);
   font-size: 10px;
@@ -294,6 +298,12 @@
   gap: 28px;
   margin-top: 34px;
   flex-wrap: wrap;
+}
+.cinema-offer {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 .cinema-button {
   display: flex;

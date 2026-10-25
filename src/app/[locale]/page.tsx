@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
 import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
+import { CandleSandGuide } from "@/components/product/candle-sand-guide";
 import {
   launchCatalogCopy,
   presentCatalogProduct,
@@ -96,6 +97,7 @@ export default async function Home({
           <LaunchCatalogGrid locale={locale} launches={launches} />
         </section>
       </div>
+      <CandleSandGuide locale={locale} showLink />
       <section className="story-section section-wrap">
         <p className="eyebrow">{t.home.storyLabel}</p>
         <h2>{t.home.storyTitle}</h2>

@@ -23,10 +23,13 @@ export const winterScenes: CinematicScene[] = [
         sv: "VINTERKOLLEKTIONEN · 2026",
         en: "THE WINTER COLLECTION · 2026",
       },
-      title: { sv: "Kliv in i\nsäsongen.", en: "Step into\nthe season." },
+      title: {
+        sv: "Din färg.\nDin ljusstund.",
+        en: "Your colour.\nYour candle moment.",
+      },
       description: {
-        sv: "Omtänksamma gåvor. Stilla stunder.\nEn vinter att dela.",
-        en: "Thoughtful gifts. Quieter moments.\nA winter worth sharing.",
+        sv: "Ljussand för en varmare hemmakväll.\nVälj din färg och doft · 300 g och fyra vekar ingår.",
+        en: "Candle sand for a warmer evening at home.\nChoose your colour and scent · 300 g and four wicks included.",
       },
       beat: {
         sv: "Från vinterkylan.\nTill en varmare stund.",

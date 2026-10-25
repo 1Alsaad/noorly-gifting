@@ -392,27 +392,34 @@ function Scene({
             )}
             <p className="cinema-description">
               {scene.copy.description[locale]}
+              {first &&
+                featured?.handle === candleSandHandle &&
+                !featured.previewOnly && (
+                  <span className="cinema-offer">
+                    {locale === "sv" ? "Från " : "From "}
+                    {price}
+                    {locale === "sv"
+                      ? " · frakt inom Sverige ingår"
+                      : " · Sweden delivery included"}
+                  </span>
+                )}
             </p>
             {first && (
               <div
                 className="cinema-actions"
                 data-muted={enhanced && choreography.details < 0.05}
               >
-                <a
-                  className="cinema-button cinema-button-light"
-                  href="#gifts"
-                  onClick={onSkip}
-                >
-                  {copy.explore}
-                  <span aria-hidden="true">↗</span>
-                </a>
                 <Link
-                  className="cinema-text-link"
+                  className="cinema-button cinema-button-light"
                   href={launchCatalogHref(locale)}
                 >
                   {launchCatalogCopy[locale].cta}
-                  <span aria-hidden="true"> ↗</span>
+                  <span aria-hidden="true">↗</span>
                 </Link>
+                <a className="cinema-text-link" href="#gifts" onClick={onSkip}>
+                  {copy.explore}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
               </div>
             )}
           </div>
