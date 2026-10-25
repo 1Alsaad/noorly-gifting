@@ -109,7 +109,7 @@ describe("customer policy routes", () => {
       "Ljussand och teakskål kan köpas var för sig eller tillsammans som paket",
     );
     expect(delivery).toHaveTextContent(
-      "219 kr utan doft eller 269 kr med doft",
+      "349 kr utan doft eller 449 kr med doft",
     );
     expect(delivery).toHaveTextContent("teakskålen kostar 550 kr");
     expect(delivery).toHaveTextContent(

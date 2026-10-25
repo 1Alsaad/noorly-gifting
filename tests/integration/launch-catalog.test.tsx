@@ -37,7 +37,7 @@ const sand: LaunchProductState = {
       title: choice.label.sv,
       available: true,
       price: {
-        amount: choice.sku === "CSand-11" ? 219 : 269,
+        amount: choice.sku === "CSand-11" ? 349 : 449,
         currencyCode: "SEK" as const,
       },
       // Deliberately mixed product media must not leak into the selected gallery.
@@ -124,8 +124,9 @@ describe("separate products and the native bundle", () => {
     const { container } = render(
       <LaunchProductDetails launch={sand} locale="en" />,
     );
+    expect(screen.getByRole("list", { name: "Product details" })).toBeVisible();
     expect(screen.getAllByRole("radio")).toHaveLength(11);
-    expect(screen.getByText(/219/)).toBeInTheDocument();
+    expect(screen.getByText(/349/)).toBeInTheDocument();
     expect(container.querySelector(".stock-label")).toHaveTextContent(
       "Pre-order",
     );
@@ -138,7 +139,7 @@ describe("separate products and the native bundle", () => {
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[7].photo.url);
-    expect(screen.getByText(/269/)).toBeInTheDocument();
+    expect(screen.getByText(/449/)).toBeInTheDocument();
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
     ).toHaveLength(0);
@@ -200,6 +201,7 @@ describe("separate products and the native bundle", () => {
     expect(screen.getByText("Bundle price")).toBeVisible();
     expect(screen.getAllByRole("radio")).toHaveLength(11);
     expect(container.querySelector(".product-price")).toHaveTextContent("699");
+    expect(container.querySelector(".bundle-value")).toHaveTextContent("200");
     expect(container.querySelector(".stock-label")).toHaveTextContent(
       "Pre-order",
     );
@@ -229,6 +231,7 @@ describe("separate products and the native bundle", () => {
       screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
     );
     expect(container.querySelector(".product-price")).toHaveTextContent("749");
+    expect(container.querySelector(".bundle-value")).toHaveTextContent("250");
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[7].photo.url);
@@ -269,7 +272,7 @@ describe("separate products and the native bundle", () => {
     expect(
       screen.getByRole("link", { name: /Choose your bundle/ }),
     ).toHaveAttribute("href", `/en/products/${launchBundleHandle}`);
-    expect(screen.getByText(/From.*219/)).toBeVisible();
+    expect(screen.getByText(/From.*349/)).toBeVisible();
     expect(screen.getByText(/550/)).toBeVisible();
     expect(screen.getByText(/From.*699/)).toBeVisible();
     const bundleCard = screen

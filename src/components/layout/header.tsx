@@ -1,5 +1,6 @@
 "use client";
 import { launchCatalogCopy, launchCatalogHref } from "@/content/launch-catalog";
+import { launchBundleHandle } from "@/content/launch-bundle";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -9,6 +10,7 @@ import { getDictionary } from "@/content/translations";
 import type { Locale } from "@/types/commerce";
 import { useCart } from "@/features/cart/cart-provider";
 import { trackEvent } from "@/lib/analytics/client";
+import { BrandProof } from "./brand-proof";
 export function Header({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart } = useCart();
@@ -20,18 +22,15 @@ export function Header({ locale }: { locale: Locale }) {
     (query ? `?${query}` : "");
   const nav = [
     { href: `/${locale}/shop`, label: t.shop },
+    {
+      href: `/${locale}/products/${launchBundleHandle}`,
+      label: locale === "sv" ? "Paket" : "Bundle",
+    },
     { href: `/${locale}/about`, label: t.about },
   ];
   return (
     <>
-      <div className="announcement">
-        <span>{t.edition}</span>
-        <span>{t.brandTag}</span>
-        <Link href={`/${locale}/corporate-gifting`}>
-          {t.corporate}
-          <ArrowUpRight size={11} />
-        </Link>
-      </div>
+      <BrandProof locale={locale} />
       <header className="site-header">
         <Link
           className="wordmark"
@@ -96,8 +95,10 @@ export function Header({ locale }: { locale: Locale }) {
                 <Link
                   href={item.href}
                   key={item.href}
-                  onClick={(e) =>
-                    e.currentTarget.closest("details")?.removeAttribute("open")
+                  onClick={(event) =>
+                    event.currentTarget
+                      .closest("details")
+                      ?.removeAttribute("open")
                   }
                 >
                   {item.label}

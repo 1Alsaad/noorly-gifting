@@ -64,14 +64,14 @@ export function customerPolicySections(locale: Locale) {
     heading: sv ? "Pris och leverans" : "Price and delivery",
     paragraphs: sv
       ? [
-          "Ljussand och teakskål kan köpas var för sig eller tillsammans som paket. En påse ljussand med 300 g och fyra bomullsvekar kostar 219 kr utan doft eller 269 kr med doft. Den dekorativa teakskålen kostar 550 kr.",
+          "Ljussand och teakskål kan köpas var för sig eller tillsammans som paket. En påse ljussand med 300 g och fyra bomullsvekar kostar 349 kr utan doft eller 449 kr med doft. Den dekorativa teakskålen kostar 550 kr.",
           "Paketet innehåller en dekorativ teakskål och en påse ljussand med 300 g och fyra bomullsvekar. Paketpriset är 699 kr med vit, doftfri ljussand eller 749 kr med ljussand i vald färg och doft. Alla priser inkluderar moms och leverans inom Sverige; ingen extra fraktavgift tillkommer.",
           "Produkterna säljs som förbeställning. Vi skickar din beställning så snart varan finns i lager hos oss. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
           "Om vi inte har avtalat om en annan leveranstid ska leveransen ske utan onödigt dröjsmål och senast 30 dagar efter att avtalet ingicks.",
           `Kontakta ${email} om leveransen dröjer eller paketet skadas eller försvinner. Vi ansvarar för leveransen tills du har tagit emot varan. Vid försening kan du kräva leverans och, när konsumentköplagens förutsättningar är uppfyllda, häva köpet och få tillbaka det du har betalat.`,
         ]
       : [
-          "Candle sand and the teak bowl can be bought individually or together as a bundle. One 300 g pouch of candle sand with four cotton wicks costs SEK 219 unscented or SEK 269 scented. The decorative teak bowl costs SEK 550.",
+          "Candle sand and the teak bowl can be bought individually or together as a bundle. One 300 g pouch of candle sand with four cotton wicks costs SEK 349 unscented or SEK 449 scented. The decorative teak bowl costs SEK 550.",
           "The bundle contains one decorative teak bowl and one 300 g pouch of candle sand with four cotton wicks. The bundle price is SEK 699 with white, unscented candle sand or SEK 749 with candle sand in your chosen colour and scent. All prices include VAT and delivery within Sweden, with no additional shipping charge.",
           "Products are available to pre-order. We dispatch your order as soon as the goods arrive in stock with us. You receive an order confirmation by email and tracking information when available.",
           "Unless we have agreed on another delivery time, delivery must take place without unnecessary delay and no later than 30 days after the contract is concluded.",

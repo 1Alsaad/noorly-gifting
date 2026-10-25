@@ -85,7 +85,7 @@ describe("launch copy through the homepage and real release gates", () => {
       expect(
         screen.getAllByRole("link", { name: new RegExp(purchaseLabel) }),
       ).toHaveLength(2);
-      expect(screen.getAllByText(/219/).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/349/).length).toBeGreaterThan(0);
       expect(screen.getByText(/550/)).toBeInTheDocument();
       expect(
         container.querySelectorAll(".launch-catalog-grid article"),
