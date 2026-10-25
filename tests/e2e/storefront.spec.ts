@@ -158,7 +158,14 @@ test("separate products and the bundle are keyboard accessible", async ({
   ).toBeAttached();
   await expectBowlGallery(page);
   await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(3);
-  await expect(page.getByRole("radio")).toHaveCount(0);
+  await expect(page.locator(".product-detail").getByRole("radio")).toHaveCount(
+    0,
+  );
+  await expect(
+    page
+      .getByRole("region", { name: "Your moment, your choice." })
+      .getByRole("radio"),
+  ).toHaveCount(3);
   await page.goto("/en/products/" + launchBundleHandle);
   await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(

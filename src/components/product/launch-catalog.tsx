@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ProductCard } from "./product-card";
 import { ProductPresentation } from "./product-presentation";
+import { ProductInspiration } from "./product-inspiration";
 import {
   candleSandHandle,
   launchCatalogCopy,
@@ -100,6 +101,7 @@ export function LaunchProductDetails({
           </Link>
         )}
       </ProductPresentation>
+      <ProductInspiration locale={locale} />
       <div className="catalog-back-link">
         <Link className="text-link" href={`/${locale}/shop`}>
           {locale === "sv" ? "Se alla produkter" : "Explore all products"} ↗

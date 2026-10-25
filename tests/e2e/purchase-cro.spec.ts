@@ -48,6 +48,11 @@ test("inline offers fit a narrow phone and keep preview purchases disabled", asy
   await expect(
     offers.getByRole("button", { name: "Checkout with Luma + Alva" }),
   ).toBeDisabled();
+  const inspiration = page.getByRole("region", { name: "Home inspiration" });
+  await expect(inspiration.getByRole("img")).toHaveCount(3);
+  await expect(
+    page.getByText(/Insert and styling accessories are not included/),
+  ).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
