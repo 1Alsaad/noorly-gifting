@@ -4,17 +4,18 @@ Latest consolidated update: 25 October 2026, Europe/Stockholm.
 
 ## Start here
 
-Read [Continuation Handover v1.6](Noorly_Continuation_Handover_v1.6.md) first. It records the owner-approved Maximum Meta connection, Clarity installation, consent changes, cleared deployment limit and remaining live receipt checks. The checkpoints below describe the historical v1.5 state.
+Read [Continuation Handover v1.6](Noorly_Continuation_Handover_v1.6.md) first. It records the owner-approved Maximum Meta connection, deployed Clarity integration, consent changes, verified production release and remaining live receipt checks.
 
 Use [the updated new-session prompt](Noorly_Continue_in_New_Chat_Prompt.md) to continue with the connected tools. Actual tool access must be checked in the new session; an enabled app does not establish a working signed-in browser or completed deployment.
 
 ## Current checkpoint
 
-- Last successfully verified production: PR #34, source `57d8fe3edf90fb67c2fdfe09641ddd97647ace54`, with 349/449 SEK sand pricing and CRO changes.
-- PR #35 (expanded Meta events and Shopify storefront analytics) and PR #36 (black cookie controls) are merged into main but were not published at the last successful deployment check.
-- Deployment previously hit Vercel's daily limit. Fresh alias/project reads during the handover update returned 404, so current access/assignment also requires reconciliation. This does not prove the public website is down.
-- Native checkout Purchase tracking and the Facebook & Instagram connection remain incomplete. Reuse dataset `511816900240916`.
-- Heatmaps are not installed. The owner's provider project/access is still needed.
+- Verified production: [PR #38](https://github.com/1Alsaad/noorly-gifting/pull/38), source `d29bfe7f5d1994147fd064c9f851f9713404f306`, [Vercel deployment Ready / Production / Current](https://vercel.com/1alsaads-projects/noorly-gifting/B8pLSokVE6WfPGV4XQSp7w4g5Gca) on `noorlynordic.com`. This includes the earlier CRO, pricing, analytics and black consent controls.
+- Vercel's daily deployment limit cleared; no paid upgrade was required. The connector still has project access errors, while the authenticated dashboard works.
+- Clarity project `z37qnt9bf3` is installed with explicit analytics consent, strict masking, default cookies off and private-route exclusions. First recording/heatmap receipt is not yet verified.
+- Official Facebook & Instagram channel is connected to existing dataset `511816900240916` with explicitly owner-approved Maximum sharing, advanced matching and Conversions API. Shopify confirms Server + Web access. Actual native Purchase receipt and deduplication remain unverified.
+- Hosted Shipping policy and Terms of service now show 349/449 SEK. Hosted Privacy policy includes Clarity and Maximum Meta disclosures; maintain the custom appendix manually.
+- CI passed 324 unit tests, 26 browser/accessibility tests, normal build, lint, types, formatting and production dependency audit. Canonical-domain manual testing is blocked by this device's newly registered domain filter; use an unrestricted device or authorized allowlisting.
 - Keep the original video, separate products, native bundles and inventory. Do not restore historical closed-sales gates or reset stock.
 
 ## Supporting implementation records

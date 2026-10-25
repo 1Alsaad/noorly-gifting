@@ -1,54 +1,45 @@
 # Noorly next-session prompt
 
-**Current entry point:** [v1.6](Noorly_Continuation_Handover_v1.6.md). Read it and the release PR before using the historical prompt below. Clarity and native Meta Maximum have since been configured with owner approval; remaining receipt checks must not be confused with installation.
-
-Updated 25 October 2026. Copy the prompt below into the next session with GitHub, Shopify, Vercel, Meta Ads and Browser enabled. Verify actual access before assuming the previous browser or deployment blockers are resolved.
+Updated 25 October 2026 after PR #38 was deployed. Copy the prompt below into a session with GitHub, Shopify, Vercel, Meta Ads and Browser available.
 
 ```text
-Continue Noorly and finish the tracking, heatmap and cookie-button work. IMPLEMENT the changes, not just a plan. NO DEEP RESEARCH.
+Continue Noorly by verifying actual tracking receipt. Installation and deployment are complete; initial Clarity receipt and native Purchase/deduplication still need evidence. NO DEEP RESEARCH.
 
-Use my connected GitHub, Shopify, Vercel, Meta Ads and Browser/Computer tools where available. Inspect existing browser tabs and signed-in sessions before asking me to log in again. Verify actual access; do not assume that enabling a tool resolves deployment limits or account permissions.
-
-READ FIRST:
-https://github.com/1Alsaad/noorly-gifting/blob/main/docs/project-handover/Noorly_Continuation_Handover_v1.5.md
-
-Then read AGENTS.md, the handover README, the pixel and consent/heatmap checkpoints, and PRs #34, #35 and #36. Check the current main branch; later owner instructions override historical launch restrictions.
+READ FIRST
+https://github.com/1Alsaad/noorly-gifting/blob/main/docs/project-handover/Noorly_Continuation_Handover_v1.6.md
+Then read AGENTS.md, the handover README and PR #38. Inspect current main, deployment status and existing signed-in sessions before changing anything. Verify actual connected-tool access.
 
 PROJECT
 Repository: 1Alsaad/noorly-gifting
 Website: https://noorlynordic.com/sv
 Shopify: https://admin.shopify.com/store/tzwngp-h1
 Checkout: https://checkout.noorlynordic.com
-Recorded Vercel project: noorly-gifting / prj_giiYMRfopk6hpEXGWb8TXAHU39x4
-Recorded Vercel team: 1alsaads-projects / team_fyWRW85ET1y2k933iBNlpNoR
-Existing Meta pixel/dataset: 511816900240916. Reuse it; do not create another.
+Vercel project: noorly-gifting / prj_giiYMRfopk6hpEXGWb8TXAHU39x4
+Vercel team: 1alsaads-projects / team_fyWRW85ET1y2k933iBNlpNoR
+Existing Meta dataset: 511816900240916. Reuse it; do not create another.
+Clarity project: z37qnt9bf3.
 
-CURRENT POSITION
-PR #34's pricing/CRO release was the last verified production version. PR #35's expanded Meta events and Shopify storefront analytics, plus PR #36's black cookie buttons, are tested and merged but were not live at the last deployment check. The application head before the handover-only update was f420853d27050f7e47307cea4ed272c705259cf6.
+VERIFIED RELEASE
+PR #38 merged as d29bfe7f5d1994147fd064c9f851f9713404f306. Vercel deployment B8pLSokVE6WfPGV4XQSp7w4g5Gca was Ready, Production, Current on noorlynordic.com. The daily limit cleared without a paid upgrade. CI passed 324 unit tests, 26 browser/accessibility tests, normal build, lint, types, formatting and dependency audit. The Vercel connector returned access errors; the authenticated dashboard worked.
 
-Deployment previously hit Vercel's api-deployments-free-per-day limit. Later alias/project reads returned 404 despite the recorded team being visible. Diagnose current access and quota; do not assume resolution, recreate the project, switch domains, bypass limits or upgrade billing silently. Native checkout Purchase tracking and heatmaps are still incomplete.
+Clarity is deployed behind explicit analytics consent with strict masking and default cookies off. Only canonical HTTPS public routes without query/hash parameters or unsafe referrers qualify. Private routes are excluded. Consent withdrawal stops recording, clears cookies and reloads. Previous positive consent must be refreshed under noorly-consent-v3.
 
-EXECUTE IN THIS ORDER
+The official Facebook & Instagram Shopify channel is connected. I explicitly approved Maximum sharing, including newer technologies, after being informed about personal data shared with Meta. Do not ask again for the same permission. Existing dataset 511816900240916 is used. Shopify shows Server + Web and Optimized access. The free catalog was approved and active sand/bowl products included. No ads were launched. Native checkout retains its own consent interface; do not assume headless localStorage automatically propagates consent.
 
-1. Verify GitHub/Vercel access, the domain's deployed source, current main and deployment quota. Publish the saved changes using the correct production environment when available. Never promote a preview built with mock commerce. Batch related changes to conserve deployments.
+Hosted Terms of service and Shipping policy now show 349/449 SEK. Hosted Privacy policy includes the Clarity/Maximum Meta appendix, with automatic rewriting disabled. Maintain this disclosure with future edits.
 
-2. Complete Meta and Shopify tracking. Inspect existing apps/pixels first, then finish the official Facebook & Instagram channel connection using the existing dataset if still missing. Preserve independent analytics/marketing consent and avoid duplicate pixels or Purchase events. Do not silently enable Enhanced/Maximum personal-data sharing. Verify PageView, ViewContent, successful AddToCart and checkout initiation with correct selected variants and SEK values. Complete and verify native checkout Purchase tracking and deduplication through an appropriate test flow. A checkout click is not a Purchase; do not send fake conversions or charge a card without approval.
+REMAINING VERIFICATION
+The current device's network filter blocks the canonical website because the domain was newly registered. This is not evidence the site is unsafe. No bypass or alternate-domain redirect change was made. Use an unrestricted device or authorized allowlisting for live tests. Clarity is intentionally disabled on Vercel aliases, which cannot validate canonical-domain recording.
 
-3. Install heatmaps for clicks, scrolling and behaviour using the correct owner-controlled Microsoft Clarity project or existing chosen provider. No project ID was available and nothing was installed previously. Inspect my signed-in browser first; ask only for an unavoidable sign-in, approval or public project ID. Require analytics consent, mask personal/form data, exclude admin/account/checkout pages, test rejection and withdrawal, and update privacy/cookie disclosures. No paid subscription is authorised.
+For a clean test, type the canonical /sv URL directly in a private window without tracking parameters. Reject optional tracking and confirm shopping still works. Then accept Analytics and Marketing, browse/scroll a product for about a minute, add it to cart and enter checkout. Accept checkout's own cookie choices if prompted, but do not pay. Note time/product. Withdraw optional consent again and confirm shopping works. Verify masked Clarity receipt and real Meta PageView/ViewContent/AddToCart/InitiateCheckout separately from mocked CI evidence.
 
-4. Publish and verify the already-implemented black-background, white-text consent controls on mobile and desktop. Keep accept/reject clear and equally accessible, preserve category choices and do not start optional tracking before permission.
-
-5. Correct the old 219/269 SEK wording in Shopify-hosted Shipping policy and Terms of service, including English, to 349/449 SEK. Website policies are already updated. Use authorised access or identify the exact owner-only step; do not expand connector permissions silently.
+On the next legitimate consenting order, verify native Purchase value/currency and browser/server deduplication. Shopify's native channel owns Purchase/CAPI. Do not add a duplicate custom sender, fabricate conversions or make real charges. Earlier Meta browser traffic was observed; new server receipt was not established.
 
 PRESERVE
-Unscented sand 349 SEK; scented sand 449 SEK; bowl 550 SEK; native bundles 699/749 SEK. DO NOT CHANGE SHOPIFY INVENTORY QUANTITIES or shared bundle components.
+Sand 349 SEK unscented / 449 SEK scented; bowl 550 SEK; native bundles 699/749 SEK. Do not change inventory or shared bundle components. Keep the original video and scroll animation, separate products, selectors, CRO work, black consent controls and checkout styling. Keep dispatch-on-stock-arrival messaging; do not invent dates, scarcity or reviews. Keep Swedish/English copy and truthful claims. I will complete accurate seller details manually; do not expose private addresses or invent legal facts.
 
-Keep the original video and scroll animation, separate bowl/sand pages, colour/photo selector, CRO additions and Noorly checkout styling. Keep pre-order wording saying orders ship as soon as stock arrives; do not invent an arrival date.
-
-Do not restore my personal address, Noorly AB, supplier names or technical product codes to normal customer-facing copy. I will complete accurate company details manually. Retain appropriate privacy disclosures and do not invent legal facts. Vegan/Recyclable badges need evidence; Handmade applies to the bowls. Preserve unused/unlit return guidance without overriding statutory rights.
-
-Do not activate ads, increase budgets, buy inventory, change payment/bank details, purchase a paid plan or submit real-money orders. The historical 4,000 SEK ad allocation is not permission to launch campaigns now.
+Do not activate ads, increase budgets, buy inventory, change payment/bank details, buy a paid plan or submit real-money orders. The historical 4,000 SEK ad allocation is not permission to launch campaigns now. If Vercel's daily limit recurs, batch work and wait for its actual reset; no replacement project or silent billing upgrade.
 
 FINISH
-Work on what is available; ask only for an action that genuinely requires me. Give brief progress updates. Verify the actual live website, deployment source and provider receipt separately from code/CI success. Update the GitHub handover and report exactly what is implemented, merged, deployed, verified collecting, or still blocked, with relevant URLs and the next action.
+Complete available verification, update the GitHub handover and report implemented, merged, deployed and actually collecting as separate statuses. Ask only for an unavoidable owner action. Never claim real event receipt based solely on installation, screenshots, mocks or passing CI.
 ```
