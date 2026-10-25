@@ -1,7 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GET, POST } from "@/app/api/cart/route";
 import { launchProductDefinitions } from "@/content/launch-catalog";
+import { signCartReference } from "@/lib/commerce/cart-cookie";
+import { CommerceError } from "@/lib/commerce/errors";
+import { mapShopifyCart } from "@/lib/commerce/providers/shopify/mapping";
 import type { Cart, Product } from "@/types/commerce";
+import { nativeBundleFixture } from "../fixtures/shopify-native-bundle";
 
 const { jar, provider } = vi.hoisted(() => ({
   jar: new Map<string, string>(),
@@ -58,6 +62,7 @@ const bowl: Product = {
     },
   ],
 };
+const secret = "standalone-cart-test-secret-more-than-32-characters";
 function cartFor(items: { product: Product; quantity: number }[]): Cart {
   return {
     id: "gid://shopify/Cart/standalone-check?key=local-test-only",
@@ -79,6 +84,25 @@ function cartFor(items: { product: Product; quantity: number }[]): Cart {
       currencyCode: "SEK",
     },
   };
+}
+function cartWithRetiredBundle(
+  items: { product: Product; quantity: number }[] = [],
+): Cart {
+  const saved = mapShopifyCart(nativeBundleFixture().cart);
+  const current = cartFor(items);
+  return {
+    ...saved,
+    lines: [...saved.lines, ...current.lines],
+    totalQuantity: saved.totalQuantity + current.totalQuantity,
+    total: {
+      amount: saved.total.amount + current.total.amount,
+      currencyCode: "SEK",
+    },
+  };
+}
+function restoreCart(cart: Cart) {
+  jar.set("stilla_cart", signCartReference(cart.id, secret));
+  provider.getCart.mockResolvedValue(cart);
 }
 
 async function post(payload: unknown) {
@@ -112,10 +136,7 @@ beforeEach(() => {
   vi.stubEnv("NEXT_PUBLIC_COMMERCE_PROVIDER", "shopify");
   vi.stubEnv("SHOPIFY_STORE_DOMAIN", "standalone-test.myshopify.com");
   vi.stubEnv("SHOPIFY_STOREFRONT_ACCESS_TOKEN", "local-mocked-provider");
-  vi.stubEnv(
-    "CART_COOKIE_SECRET",
-    "standalone-cart-test-secret-more-than-32-characters",
-  );
+  vi.stubEnv("CART_COOKIE_SECRET", secret);
   provider.createCart.mockResolvedValue(cartFor([]));
   provider.getProducts.mockResolvedValue([sand, bowl]);
   provider.validateAvailability.mockResolvedValue({
@@ -233,4 +254,198 @@ describe("independent candle-sand and bowl checkout", () => {
     expect(provider.addCartLines).not.toHaveBeenCalled();
     expect(await (await GET()).json()).toEqual({ cart: null });
   });
+
+  it.each([sand, bowl])(
+    "adds $handle to a saved retired bundle and requires its removal before checkout",
+    async (product) => {
+      const saved = cartWithRetiredBundle();
+      const combined = cartWithRetiredBundle([{ product, quantity: 1 }]);
+      const retired = saved.lines[0];
+      restoreCart(saved);
+      provider.addCartLines.mockResolvedValue(combined);
+
+      const lines = [{ merchandiseId: product.variants[0].id, quantity: 1 }];
+      const added = await post({ action: "add", lines });
+
+      expect(added.response.status).toBe(200);
+      expect(provider.createCart).not.toHaveBeenCalled();
+      expect(provider.addCartLines).toHaveBeenCalledWith(saved.id, lines);
+      expect(provider.validateAvailability).toHaveBeenCalledWith([
+        expect.objectContaining({
+          merchandiseId: product.variants[0].id,
+          quantity: 1,
+        }),
+      ]);
+      expect(added.data.cart.lines).toHaveLength(2);
+      expect(added.data.cart.lines[0]).toEqual({
+        ...retired,
+        variant: { ...retired.variant, available: false },
+      });
+      expect(added.data.cart.lines[1].merchandiseId).toBe(
+        product.variants[0].id,
+      );
+      expect(added.data.cart.checkoutUrl).toBeUndefined();
+
+      provider.getCart.mockResolvedValue(combined);
+      const blocked = await post({ action: "checkout", locale: "sv" });
+      expect(blocked.response.status).toBe(400);
+      expect(blocked.data.error).toBe("UNAVAILABLE_PRODUCT");
+      expect(provider.updateCartAttributes).not.toHaveBeenCalled();
+      expect(provider.getCheckoutUrl).not.toHaveBeenCalled();
+
+      const current = {
+        ...cartFor([{ product, quantity: 1 }]),
+        id: saved.id,
+      };
+      provider.removeCartLines.mockResolvedValue(current);
+      const removed = await post({
+        action: "remove",
+        lineIds: [retired.id],
+      });
+      expect(removed.response.status).toBe(200);
+      expect(provider.removeCartLines).toHaveBeenCalledWith(saved.id, [
+        retired.id,
+      ]);
+      expect(removed.data.cart.lines).toHaveLength(1);
+      expect(removed.data.cart.lines[0].merchandiseId).toBe(
+        product.variants[0].id,
+      );
+
+      provider.getCart.mockResolvedValue(current);
+      provider.updateCartAttributes.mockResolvedValue(current);
+      provider.getCheckoutUrl.mockResolvedValue(
+        "https://checkout.noorlynordic.com/checkouts/local-test",
+      );
+      const checkout = await post({ action: "checkout", locale: "sv" });
+      expect(checkout.response.status).toBe(200);
+      expect(checkout.data.url).toBe(
+        "https://checkout.noorlynordic.com/checkouts/local-test",
+      );
+      expect(provider.getCheckoutUrl).toHaveBeenCalledWith(saved.id, "sv");
+    },
+  );
+
+  it.each([false, true])(
+    "checks combined variant stock with a retired bundle (distinct attributes: %s)",
+    async (distinctAttributes) => {
+      const saved = cartWithRetiredBundle([{ product: sand, quantity: 2 }]);
+      if (distinctAttributes)
+        saved.lines[1].attributes = [{ key: "gift_message", value: "A gift" }];
+      restoreCart(saved);
+      provider.validateAvailability.mockImplementation(
+        async (lines: Cart["lines"]) => ({
+          available:
+            lines
+              .filter((line) => line.merchandiseId === sand.variants[0].id)
+              .reduce((sum, line) => sum + line.quantity, 0) <= 3,
+          unavailableVariantIds: [sand.variants[0].id],
+        }),
+      );
+
+      const result = await post({
+        action: "add",
+        lines: [{ merchandiseId: sand.variants[0].id, quantity: 2 }],
+      });
+
+      expect(result.response.status).toBe(409);
+      expect(result.data.error).toBe("UNAVAILABLE_PRODUCT");
+      const checked: Cart["lines"] =
+        provider.validateAvailability.mock.calls[0][0];
+      expect(checked).toHaveLength(distinctAttributes ? 2 : 1);
+      expect(
+        checked.every((line) => line.merchandiseId === sand.variants[0].id),
+      ).toBe(true);
+      expect(checked.reduce((sum, line) => sum + line.quantity, 0)).toBe(4);
+      expect(provider.addCartLines).not.toHaveBeenCalled();
+      expect(provider.createCart).not.toHaveBeenCalled();
+    },
+  );
+
+  it("still enforces the per-line quantity limit when retaining an old bundle", async () => {
+    restoreCart(cartWithRetiredBundle([{ product: sand, quantity: 10 }]));
+
+    const result = await post({
+      action: "add",
+      lines: [{ merchandiseId: sand.variants[0].id, quantity: 1 }],
+    });
+
+    expect(result.response.status).toBe(400);
+    expect(result.data.error).toBe("UNAVAILABLE_PRODUCT");
+    expect(provider.validateAvailability).not.toHaveBeenCalled();
+    expect(provider.addCartLines).not.toHaveBeenCalled();
+  });
+
+  it("does not exempt an unavailable existing variant when more of it is requested", async () => {
+    const soldOutSand = {
+      ...sand,
+      available: false,
+      variants: sand.variants.map((variant) => ({
+        ...variant,
+        available: false,
+      })),
+    };
+    restoreCart(cartWithRetiredBundle([{ product: soldOutSand, quantity: 1 }]));
+    provider.getProducts.mockResolvedValue([soldOutSand, bowl]);
+
+    const result = await post({
+      action: "add",
+      lines: [
+        {
+          merchandiseId: sand.variants[0].id,
+          quantity: 1,
+          attributes: [{ key: "gift_message", value: "Another gift" }],
+        },
+      ],
+    });
+
+    expect(result.response.status).toBe(400);
+    expect(result.data.error).toBe("UNAVAILABLE_PRODUCT");
+    expect(provider.validateAvailability).not.toHaveBeenCalled();
+    expect(provider.addCartLines).not.toHaveBeenCalled();
+  });
+
+  it("does not accept a newly invalid returned line under an old line's exemption", async () => {
+    restoreCart(cartWithRetiredBundle());
+    provider.addCartLines.mockResolvedValue(
+      cartWithRetiredBundle([{ product: sand, quantity: 0 }]),
+    );
+
+    const result = await post({
+      action: "add",
+      lines: [{ merchandiseId: sand.variants[0].id, quantity: 1 }],
+    });
+
+    expect(result.response.status).toBe(400);
+    expect(result.data.error).toBe("UNAVAILABLE_PRODUCT");
+    expect(result.response.headers.get("set-cookie")).toBeNull();
+    expect(provider.createCart).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["getCart", "invalid_provider_response", 502],
+    ["addCartLines", "invalid_provider_response", 502],
+    ["getCart", "provider_unavailable", 503],
+    ["addCartLines", "provider_unavailable", 503],
+  ] as const)(
+    "preserves %s failures (%s) without replacing the customer's cart",
+    async (method, code, status) => {
+      const saved = cartWithRetiredBundle();
+      restoreCart(saved);
+      const originalCookie = jar.get("stilla_cart");
+      provider[method].mockRejectedValue(new CommerceError(code, status));
+
+      const result = await post({
+        action: "add",
+        lines: [{ merchandiseId: sand.variants[0].id, quantity: 1 }],
+      });
+
+      expect(result.response.status).toBe(status);
+      expect(result.data.error).toBe(code.toUpperCase());
+      expect(result.response.headers.get("set-cookie")).toBeNull();
+      expect(jar.get("stilla_cart")).toBe(originalCookie);
+      expect(provider.createCart).not.toHaveBeenCalled();
+      expect(provider.removeCartLines).not.toHaveBeenCalled();
+      expect(provider.getCheckoutUrl).not.toHaveBeenCalled();
+    },
+  );
 });

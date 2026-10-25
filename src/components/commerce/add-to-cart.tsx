@@ -10,6 +10,12 @@ import { ArrowUpRight, Check } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { useCart } from "@/features/cart/cart-provider";
+import {
+  cartErrorAction,
+  cartErrorCode,
+  cartErrorMessage,
+  type CartErrorCode,
+} from "@/features/cart/cart-errors";
 export function AddToCart({
   product,
   locale,
@@ -22,8 +28,12 @@ export function AddToCart({
   variantId?: string;
 }) {
   const { addLines, loading } = useCart();
-  const [state, setState] = useState<"idle" | "added" | "error">("idle");
+  const [state, setState] = useState<
+    { status: "idle" | "added" } | { status: "error"; code: CartErrorCode }
+  >({ status: "idle" });
   const t = getDictionary(locale);
+  const errorAction =
+    state.status === "error" ? cartErrorAction(state.code, locale) : undefined;
   const variant =
     variantId === undefined
       ? product.variants[0]
@@ -34,11 +44,12 @@ export function AddToCart({
     product.available && !unsupportedPlan && Boolean(variant?.available);
   async function add() {
     if (!variant || !canPurchase || loading) return;
+    setState({ status: "idle" });
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
-      setState("added");
-    } catch {
-      setState("error");
+      setState({ status: "added" });
+    } catch (error) {
+      setState({ status: "error", code: cartErrorCode(error) });
     }
   }
   if (isProductTestMode())
@@ -61,10 +72,10 @@ export function AddToCart({
           ? t.unavailable
           : loading
             ? t.adding
-            : state === "added"
+            : state.status === "added"
               ? t.added
               : t.add}
-        {state === "added" ? (
+        {state.status === "added" ? (
           <Check size={17} aria-hidden />
         ) : (
           <ArrowUpRight size={17} aria-hidden />
@@ -72,19 +83,26 @@ export function AddToCart({
       </button>
       <span
         className={
-          state === "error"
+          state.status === "error"
             ? "field-error"
-            : state === "added"
+            : state.status === "added"
               ? "add-confirmation"
               : "sr-only"
         }
         role="status"
       >
-        {state === "error" ? t.error : state === "added" ? t.added : ""}
+        {state.status === "error"
+          ? cartErrorMessage(state.code, locale)
+          : state.status === "added"
+            ? t.added
+            : ""}
       </span>
-      {state === "added" && (
-        <Link className="text-link cart-next-step" href={`/${locale}/cart`}>
-          {t.cart} ↗
+      {(state.status === "added" || errorAction) && (
+        <Link
+          className="text-link cart-next-step"
+          href={errorAction?.href ?? `/${locale}/cart`}
+        >
+          {errorAction?.label ?? t.cart} ↗
         </Link>
       )}
     </div>

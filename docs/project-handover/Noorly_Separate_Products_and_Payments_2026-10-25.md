@@ -2,6 +2,8 @@
 
 Updated 25 October 2026, Europe/Stockholm. This checkpoint supersedes the earlier instructions to keep customer ordering closed and to promote the combined 799 SEK Ljusstund set. Historical research and handovers remain evidence of their dates, not the current sales instruction.
 
+> **Latest cart-recovery update:** Read [Noorly cart recovery — 25 October 2026](Noorly_Cart_Recovery_2026-10-25.md) for the reproduced legacy-host failure, saved-cart regression fix, actionable Swedish/English feedback and release-verification status. Preserve the current pre-existing cart item during further checks.
+
 > **Later checkout-design update:** Read [Noorly checkout branding — 25 October 2026](Noorly_Checkout_Branding_2026-10-25.md) for the saved logo, colours and fonts, plan limits, and current visual-verification status.
 
 ## Latest owner instruction
