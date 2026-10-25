@@ -146,7 +146,7 @@ export function ProductPurchase({
             />
           ) : (
             <label className="variant-select">
-              {t.chooseVariant}
+              {locale === "sv" ? "Välj ett alternativ" : "Choose an option"}
               <select
                 value={variantId}
                 onChange={(e) => choose(e.target.value)}

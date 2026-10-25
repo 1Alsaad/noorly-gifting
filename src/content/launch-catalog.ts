@@ -86,7 +86,7 @@ export const launchProductDefinitions: ReadonlyArray<{
       handle: candleSandHandle,
       title: sandTitle,
       description: sandDescription,
-      price: { amount: 219, currencyCode: "SEK" },
+      price: { amount: 349, currencyCode: "SEK" },
       images: [
         {
           url: launchSandChoices[0].photo.url,

@@ -71,7 +71,7 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   ).toBeVisible();
   await expect(page.locator('a[href*="build-a-box"]')).toHaveCount(0);
   await expect(page.locator("#gifts article")).toHaveCount(3);
-  await expect(page.locator("#gifts").getByText(/From.*219/)).toBeVisible();
+  await expect(page.locator("#gifts").getByText(/From.*349/)).toBeVisible();
 });
 
 for (const linkName of ["Skip experience", "Explore the collection"]) {
@@ -319,7 +319,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
     .analyze();
   expect(accessibility.violations).toEqual([]);
 
-  await expect(shopping.getByText(/From.*219/)).toBeVisible();
+  await expect(shopping.getByText(/From.*349/)).toBeVisible();
   await expect(
     shopping.getByText(/Ordering is currently unavailable/),
   ).toHaveCount(0);
@@ -765,7 +765,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   await expect(
     card.getByRole("heading", { name: "Ljussand · 300 g" }),
   ).toBeVisible();
-  await expect(card.getByText(/Från.*219/)).toBeVisible();
+  await expect(card.getByText(/Från.*349/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);
   // Visibility changes before the 240ms entrance transition finishes. Measure
   // the settled layout while preserving the original viewport-clearance check.
