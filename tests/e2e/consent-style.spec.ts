@@ -11,7 +11,10 @@ for (const locale of ["sv", "en"] as const) {
       await page.goto(`/${locale}/cookies`);
       await page.mouse.move(0, 0);
 
-      const banner = page.getByRole("region", { name: copy.title, exact: true });
+      const banner = page.getByRole("region", {
+        name: copy.title,
+        exact: true,
+      });
       const accept = banner.getByRole("button", {
         name: copy.accept,
         exact: true,
@@ -31,7 +34,9 @@ for (const locale of ["sv", "en"] as const) {
       }
       const acceptBounds = await accept.boundingBox();
       const rejectBounds = await reject.boundingBox();
-      expect(Math.abs(acceptBounds!.width - rejectBounds!.width)).toBeLessThan(1);
+      expect(Math.abs(acceptBounds!.width - rejectBounds!.width)).toBeLessThan(
+        1,
+      );
 
       await reject.focus();
       await expect(reject).toHaveCSS("outline-style", "solid");
@@ -41,8 +46,13 @@ for (const locale of ["sv", "en"] as const) {
       await page.reload();
       await expect(banner).toHaveCount(0);
 
-      await page.getByRole("button", { name: copy.settings, exact: true }).click();
-      const dialog = page.getByRole("dialog", { name: copy.title, exact: true });
+      await page
+        .getByRole("button", { name: copy.settings, exact: true })
+        .click();
+      const dialog = page.getByRole("dialog", {
+        name: copy.title,
+        exact: true,
+      });
       const analytics = dialog.getByRole("checkbox", {
         name: copy.analytics,
         exact: true,
@@ -60,7 +70,9 @@ for (const locale of ["sv", "en"] as const) {
       await analytics.check();
       await save.click();
       await expect(dialog).toHaveCount(0);
-      await page.getByRole("button", { name: copy.settings, exact: true }).click();
+      await page
+        .getByRole("button", { name: copy.settings, exact: true })
+        .click();
       await expect(analytics).toBeChecked();
       await expect(marketing).not.toBeChecked();
     });
