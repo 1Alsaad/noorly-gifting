@@ -1,30 +1,52 @@
-# Continuation prompt
+# Noorly next-session prompt
 
-> **Updated 25 October 2026:** Start with [the separate products and payment launch checkpoint](Noorly_Separate_Products_and_Payments_2026-10-25.md) and its final release evidence. The owner explicitly requests opening payments, selling the bowl and candle sand separately, and manually completing company/rules details. The prompt below is historical; its closed-presale and draft-product instructions must not override that latest request. Keep GitHub as the source of truth and preserve the film and admin-password behaviour.
+Updated 25 October 2026. Copy the prompt below into the next session with GitHub, Shopify, Vercel, Meta Ads and Browser enabled. Verify actual access before assuming the previous browser or deployment blockers are resolved.
 
-Copy the text below into a new chat with Chrome/Computer tools enabled if available.
+```text
+Continue Noorly and finish the tracking, heatmap and cookie-button work. IMPLEMENT the changes, not just a plan. NO DEEP RESEARCH.
 
-Continue the Noorly ecommerce project using my connected Google Chrome and Computer tools if available. First read the latest GitHub handover and linked evidence in repository 1Alsaad/noorly-gifting:
+Use my connected GitHub, Shopify, Vercel, Meta Ads and Browser/Computer tools where available. Inspect existing browser tabs and signed-in sessions before asking me to log in again. Verify actual access; do not assume that enabling a tool resolves deployment limits or account permissions.
 
-https://github.com/1Alsaad/noorly-gifting/blob/main/docs/project-handover/Noorly_Continuation_Handover_v1.3.md
+READ FIRST:
+https://github.com/1Alsaad/noorly-gifting/blob/main/docs/project-handover/Noorly_Continuation_Handover_v1.5.md
 
-Then read Noorly_Presale_State_v1.2.md, Noorly_Supplier_Shortlist_and_Quote_Brief_2026-10-21.md, Noorly_ROI_and_Launch_Readiness_2026-10-21.md, the supplier/product research and AGENTS.md. Latest decisions override conflicting old budgets/schedules. Keep GitHub updated as the source of truth.
+Then read AGENTS.md, the handover README, the pixel and consent/heatmap checkpoints, and PRs #34, #35 and #36. Check the current main branch; later owner instructions override historical launch restrictions.
 
-Objective: validate profitable Swedish demand through Meta and honest presales. Exactly 4,000 SEK total media allocation: first offer up to 2,000 over an initial 4–5-day screen, review day four; reserve 2,000 for promising continuation or one genuinely different product. Variants/bundles/creatives/supplier changes aren't separate tests. Judge verified purchases, contribution, traffic and conversion delay together. Do not activate ads or open paid presales. Friday 23 October 2026 is a readiness checkpoint, not a guaranteed launch.
+PROJECT
+Repository: 1Alsaad/noorly-gifting
+Website: https://noorlynordic.com/sv
+Shopify: https://admin.shopify.com/store/tzwngp-h1
+Checkout: https://checkout.noorlynordic.com
+Recorded Vercel project: noorly-gifting / prj_giiYMRfopk6hpEXGWb8TXAHU39x4
+Recorded Vercel team: 1alsaads-projects / team_fyWRW85ET1y2k933iBNlpNoR
+Existing Meta pixel/dataset: 511816900240916. Reuse it; do not create another.
 
-The Candledust is the preferred supplier to qualify via a small existing scented-product order; Hertwill is the alternative fulfilment route and Devillebard the next direct own-brand candidate. No final quote, stock reservation or purchase is approved. Avoid a large white-label commitment. Target 200–220 SEK all-in per delivered pair excluding recoverable VAT. The proposed 599 SEK delivered pair is an internal hypothesis, not a saved price: at assumed 25% VAT, 220 cost and 31 fees/refund allowance it leaves 228.20 before ads or 108.20 at hypothetical CAC 120. No CAC has been measured.
+CURRENT POSITION
+PR #34's pricing/CRO release was the last verified production version. PR #35's expanded Meta events and Shopify storefront analytics, plus PR #36's black cookie buttons, are tested and merged but were not live at the last deployment check. The application head before the handover-only update was f420853d27050f7e47307cea4ed272c705259cf6.
 
-We discussed genuine premium mood/occasion five-packs (Hemmakväll, Middag med vänner, Nytt hem), a transparent premium price anchor/decoy concept and possible later country pricing. None is implemented; start with one Swedish public price. November 100k collections is a stretch aspiration, not extra advertising authorisation: at 599 it takes 167 orders and roughly 20k ads at assumed CAC 120, plus working capital. Keep VAT, fulfilment and refunds reserved.
+Deployment previously hit Vercel's api-deployments-free-per-day limit. Later alias/project reads returned 404 despite the recorded team being visible. Diagnose current access and quota; do not assume resolution, recreate the project, switch domains, bypass limits or upgrade billing silently. Native checkout Purchase tracking and heatmaps are still incomplete.
 
-Shopify: https://admin.shopify.com/store/tzwngp-h1?country=SE
-Storefront: https://noorly-gifting.vercel.app/sv
+EXECUTE IN THIS ORDER
 
-Inspect actual browser access before asking me to sign in again. I previously signed into AW. The prior chat had no callable Chrome/Computer tools, so its final setup attempt changed nothing. Use available connectors for independent preparation when appropriate; don't claim browser work happened without evidence.
+1. Verify GitHub/Vercel access, the domain's deployed source, current main and deployment quota. Publish the saved changes using the correct production environment when available. Never promote a preview built with mock commerce. Batch related changes to conserve deployments.
 
-Read the handover for saved Shopify AW SKU mappings/prices, the closed storefront and unfinished payments/presale/consent/Meta/routing work. Don't carry AW weights, contents or IDs into a different supplier's product. Recheck the existing AW inquiry reply/stock; no new candidate supplier has been contacted.
+2. Complete Meta and Shopify tracking. Inspect existing apps/pixels first, then finish the official Facebook & Instagram channel connection using the existing dataset if still missing. Preserve independent analytics/marketing consent and avoid duplicate pixels or Purchase events. Do not silently enable Enhanced/Maximum personal-data sharing. Verify PageView, ViewContent, successful AddToCart and checkout initiation with correct selected variants and SEK values. Complete and verify native checkout Purchase tracking and deduplication through an appropriate test flow. A checkout click is not a Purchase; do not send fake conversions or charge a card without approval.
 
-Proceed autonomously with authorised reversible preparation and edits. Prepare supplier outreach but ask for explicit approval before sending new messages. No paid apps, samples, inventory, supplier orders, domain purchase or real-payment test orders are authorised. Keep the domain documented and deferred. Ask only for genuine blockers, spending approval or required account-owner actions.
+3. Install heatmaps for clicks, scrolling and behaviour using the correct owner-controlled Microsoft Clarity project or existing chosen provider. No project ID was available and nothing was installed previously. Inspect my signed-in browser first; ask only for an unavoidable sign-in, approval or public project ID. Require analytics consent, mask personal/form data, exclude admin/account/checkout pages, test rejection and withdrawal, and update privacy/cookie disclosures. No paid subscription is authorised.
 
-Finish accurate supplier-specific listings and pricing, truthful presale terms, supported dispatch, payment/shipping/cancellation disclosures, SKU/bundle routing, consent and deduplicated paid-order Purchase tracking. Verify the complete custom-storefront and Shopify test-order flow plus supplier-supported dry run before release. Swedish copy; no faces, fabricated reviews, false scarcity, unsupported claims or invented delivery dates.
+4. Publish and verify the already-implemented black-background, white-text consent controls on mobile and desktop. Keep accept/reject clear and equally accessible, preserve category choices and do not start optional tracking before permission.
 
-Report what was actually saved/tested and what remains blocked, and update the GitHub handover after each meaningful phase.
+5. Correct the old 219/269 SEK wording in Shopify-hosted Shipping policy and Terms of service, including English, to 349/449 SEK. Website policies are already updated. Use authorised access or identify the exact owner-only step; do not expand connector permissions silently.
+
+PRESERVE
+Unscented sand 349 SEK; scented sand 449 SEK; bowl 550 SEK; native bundles 699/749 SEK. DO NOT CHANGE SHOPIFY INVENTORY QUANTITIES or shared bundle components.
+
+Keep the original video and scroll animation, separate bowl/sand pages, colour/photo selector, CRO additions and Noorly checkout styling. Keep pre-order wording saying orders ship as soon as stock arrives; do not invent an arrival date.
+
+Do not restore my personal address, Noorly AB, supplier names or technical product codes to normal customer-facing copy. I will complete accurate company details manually. Retain appropriate privacy disclosures and do not invent legal facts. Vegan/Recyclable badges need evidence; Handmade applies to the bowls. Preserve unused/unlit return guidance without overriding statutory rights.
+
+Do not activate ads, increase budgets, buy inventory, change payment/bank details, purchase a paid plan or submit real-money orders. The historical 4,000 SEK ad allocation is not permission to launch campaigns now.
+
+FINISH
+Work on what is available; ask only for an action that genuinely requires me. Give brief progress updates. Verify the actual live website, deployment source and provider receipt separately from code/CI success. Update the GitHub handover and report exactly what is implemented, merged, deployed, verified collecting, or still blocked, with relevant URLs and the next action.
+```
