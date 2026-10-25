@@ -16,6 +16,8 @@ Updated 25 October 2026. Read this before v1.5. Preserve its product, stock, pri
 
 ## Implementation
 
+Cookie appearance follow-up: Shopify's native banner colors were saved as Custom, button background **#000000**, button text **#ffffff**, with white banner background and black body text. Reload confirmed persistence, Sweden, manual management and checkout-banner enabled. The admin preview shows equally visible black Accept and Decline buttons. Shopify's native preferences dialog still has its close control: the inspected appearance/content controls expose no option to remove it. Do not claim that request completed or inject theme CSS expecting it to change hosted checkout. Live checkout rendering remains unverified on this restricted device. The landing-page implementation already has no close control and black Accept/Decline/Save actions; no application change was necessary. Its initial banner remains until a choice is saved, and returning from customization without a choice restores the banner.
+
 - Clarity loads only after Analytics consent with real Shopify commerce and product-test mode false, on canonical HTTPS storefront hosts. Only clean Swedish/English home, shop, about, product and collection routes qualify.
 - Cart, checkout, account, admin, forms, query/hash URLs and unsafe referrers are excluded. This deliberately undercounts visits. After stopping on an excluded route, recording requires a clean full reload to restart.
 - HTML masking precedes tag loading. No custom identity, contact fields or order data are supplied. Withdrawal denies storage, stops recording, clears `_clck`/`_clsk`, removes the tag and reloads to dispose of vendor code, including in-flight downloads.
