@@ -12,10 +12,10 @@ import {
 } from "@/lib/analytics/consent";
 import { trackEvent } from "@/lib/analytics/client";
 import { consentCopy } from "./copy";
+import "./consent-banner.css";
 
 const OPEN_EVENT = "stilla:open-consent";
-const CONSENT_ACTION_CLASS =
-  "min-h-11 rounded-full border border-black bg-black px-5 text-sm font-medium text-white transition-colors hover:bg-stone-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
+const CONSENT_ACTION_CLASS = "consent-action";
 
 export function ConsentSettingsButton({ locale }: { locale: "sv" | "en" }) {
   return (
