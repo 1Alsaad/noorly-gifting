@@ -1,21 +1,13 @@
 "use client";
-import {
-  isProductTestMode,
-  productTestCopy,
-  interestHref,
-} from "@/config/product-test";
-import { useEffect, useRef, useState } from "react";
+import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, Check } from "lucide-react";
-import type { Product, Locale } from "@/types/commerce";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
-import { useCart } from "@/features/cart/cart-provider";
-import {
-  cartErrorAction,
-  cartErrorCode,
-  cartErrorMessage,
-} from "@/features/cart/cart-errors";
 import { formatMoney } from "@/lib/utils/money";
+import { AddToCart } from "@/components/commerce/add-to-cart";
+import { trackEvent } from "@/lib/analytics/client";
 import { VariantPicker, variantLabel } from "./variant-picker";
 import {
   launchCatalogCopy,
@@ -32,47 +24,29 @@ import {
 export function ProductPurchase({
   product,
   locale,
-  variantId: controlledVariantId,
+  variantId: controlledVariant,
   onVariantChange,
 }: {
   product: Product;
   locale: Locale;
   variantId?: string;
-  onVariantChange?: (value: string) => void;
+  onVariantChange?: (id: string) => void;
 }) {
+  const [localVariant, setVariant] = useState(product.variants[0]?.id);
+  const variantId = controlledVariant ?? localVariant ?? "";
   const t = getDictionary(locale);
-  const [localVariantId, setLocalVariantId] = useState(
-    product.variants.find((v) => v.available)?.id ?? product.variants[0]?.id,
-  );
-  const variantId = controlledVariantId ?? localVariantId;
-  const variant =
-    product.variants.find((v) => v.id === variantId) ?? product.variants[0];
-  const { addLines, loading } = useCart();
-  const [added, setAdded] = useState(false);
-  const [error, setError] = useState("");
-  const errorAction = error ? cartErrorAction(error, locale) : undefined;
-  const test = isProductTestMode();
-  const preview = test || product.previewOnly === true;
-  const preparation = product.variants.length === 0;
+  const selected = product.variants.find((v) => v.id === variantId);
+  const unsupportedPlan =
+    product.requiresSellingPlan || product.hasSellingPlans;
   const preorder = launchProductDefinitions.some(
-    (item) => item.handle === product.handle,
+    ({ handle }) => handle === product.handle,
   );
-  const stockLabel = variant?.available
-    ? preorder
-      ? launchCatalogCopy[locale].availability
-      : t.available
-    : locale === "sv"
-      ? "Tillfälligt slut"
-      : "Currently unavailable";
-  const unavailableText =
-    locale === "sv"
-      ? preparation
-        ? "Den här produkten går inte att beställa just nu. Kontakta oss om du har frågor."
-        : "Det valda alternativet går inte att beställa just nu. Välj ett annat alternativ eller kontakta oss."
-      : preparation
-        ? "This product cannot be ordered right now. Contact us with any questions."
-        : "The selected option cannot be ordered right now. Choose another option or contact us.";
-  const blocked = preview || !product.available || !variant?.available;
+  const test = isProductTestMode();
+  const canPurchase =
+    !test &&
+    product.available &&
+    !unsupportedPlan &&
+    Boolean(selected?.available);
   const purchaseRef = useRef<HTMLDivElement>(null);
   const [pastPurchase, setPastPurchase] = useState(false);
   const purchaseId = `purchase-${product.handle}`;
@@ -87,170 +61,95 @@ export function ProductPurchase({
     observer.observe(target);
     return () => observer.disconnect();
   }, []);
-  async function add() {
-    if (blocked || !variant) return;
-    setError("");
-    setAdded(false);
-    try {
-      await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
-      setAdded(true);
-    } catch (error) {
-      setError(cartErrorCode(error));
-    }
-  }
   function choose(id: string) {
-    setLocalVariantId(id);
+    setVariant(id);
     onVariantChange?.(id);
-    setAdded(false);
-    setError("");
+    trackEvent({
+      name: "product_variant_selected",
+      properties: {
+        locale,
+        product_handle: product.handle,
+        variant_id: id,
+      },
+    });
   }
   return (
-    <>
-      <p className="eyebrow">
-        {product.category === "box" ? t.boxes : t.brandTag}
-      </p>
-      <h1>{product.title[locale]}</h1>
-      <p>{product.description[locale]}</p>
+    <div className="purchase-panel">
       {preorder && <ProductProof product={product} locale={locale} />}
-      <div className="product-price" aria-live="polite">
-        {formatMoney(variant?.price ?? product.price, locale)}
-      </div>
-      {preorder && !preview && (
+      <p className="product-price" aria-live="polite">
+        {formatMoney(selected?.price ?? product.price, locale)}
+      </p>
+      {preorder && !test && !product.previewOnly && (
         <p className="purchase-total-note">
           {locale === "sv"
             ? "Inklusive moms och leverans inom Sverige. Ingen extra fraktavgift."
             : "Includes VAT and Sweden delivery. No additional shipping charge."}
         </p>
       )}
-      {product.handle === launchBundleHandle && !preview && (
-        <BundleValue variant={variant} locale={locale} />
+      {product.handle === launchBundleHandle && !test && (
+        <BundleValue variant={selected} locale={locale} />
       )}
-      <span className="stock-label">
-        {!preparation && <i data-available={Boolean(variant?.available)} />}
+      <p className="stock-label">
+        <span aria-hidden>●</span>{" "}
         {test
-          ? t.unavailable
-          : preparation
+          ? productTestCopy[locale].note
+          : product.previewOnly
             ? locale === "sv"
-              ? "Inte tillgänglig"
-              : "Unavailable"
-            : stockLabel}
-      </span>
+              ? "Demopris · ej till försäljning"
+              : "Demo price · not on sale"
+            : unsupportedPlan
+              ? locale === "sv"
+                ? "Det här köpalternativet är inte tillgängligt ännu."
+                : "This purchase option is not available yet."
+              : selected?.available && product.available
+                ? preorder
+                  ? launchCatalogCopy[locale].availability
+                  : t.available
+                : t.unavailable}
+      </p>
       <div id={purchaseId} className="purchase-anchor" tabIndex={-1}>
-        {product.variants.length > 1 &&
-          (product.variants.every((candidate) => candidate.color) ? (
-            <VariantPicker
-              product={product}
-              locale={locale}
-              value={variantId ?? ""}
-              onChange={choose}
-            />
-          ) : (
-            <label className="variant-select">
-              {locale === "sv" ? "Välj ett alternativ" : "Choose an option"}
+        {product.variants.some((variant) => variant.color) ? (
+          <VariantPicker
+            product={product}
+            locale={locale}
+            value={variantId}
+            onChange={choose}
+          />
+        ) : (
+          product.variants.length > 1 && (
+            <label>
+              {t.variant}
               <select
                 value={variantId}
-                onChange={(e) => choose(e.target.value)}
+                onChange={(event) => choose(event.target.value)}
               >
                 {product.variants.map((v) => (
-                  <option value={v.id} key={v.id}>
+                  <option key={v.id} value={v.id}>
                     {v.title}
-                    {!v.available ? ` — ${t.unavailable}` : ""}
+                    {!v.available ? ` · ${t.unavailable}` : ""}
                   </option>
                 ))}
               </select>
             </label>
-          ))}
-        {preorder && !preview && <PurchaseConfidence locale={locale} />}
-        <div ref={purchaseRef}>
-          {blocked ? (
-            <>
-              <div
-                className="product-status-note"
-                role="note"
-                aria-label={test ? t.unavailable : stockLabel}
-              >
-                <p>
-                  {test
-                    ? `${t.unavailable}. ${productTestCopy[locale].note}`
-                    : unavailableText}
-                </p>
-                {test && (
-                  <>
-                    <span>{productTestCopy[locale].concept}</span>
-                    <Link className="text-link" href={interestHref(locale)}>
-                      {productTestCopy[locale].cta}
-                      <ArrowRight size={16} />
-                    </Link>
-                  </>
-                )}
-                <a className="text-link" href="#product-photographs">
-                  {locale === "sv"
-                    ? "Se produktbilderna"
-                    : "View product photographs"}
-                  <ArrowDown size={16} />
-                </a>
-              </div>
-              {!preview && (
-                <button
-                  className="button button-dark add-to-cart-button"
-                  disabled
-                >
-                  {t.unavailable}
-                </button>
-              )}
-            </>
-          ) : (
-            <button
-              className="button button-dark add-to-cart-button"
-              onClick={add}
-              disabled={loading}
-            >
-              {added ? (
-                <>
-                  <Check size={16} />
-                  {t.added}
-                </>
-              ) : loading ? (
-                t.checking
-              ) : (
-                t.add
-              )}
-            </button>
-          )}
-        </div>
-      </div>
-      <div aria-live="polite">
-        {error && (
-          <p className="field-error" role="alert">
-            {cartErrorMessage(error, locale)}
-            {errorAction && (
-              <>
-                {" "}
-                <Link className="text-link" href={errorAction.href}>
-                  {errorAction.label} ↗
-                </Link>
-              </>
-            )}
-          </p>
+          )
         )}
-        {added && (
-          <Link className="text-link cart-next-step" href={`/${locale}/cart`}>
-            {locale === "sv"
-              ? "Visa påsen och fortsätt till kassan"
-              : "View your bag and continue to checkout"}
-            <ArrowRight size={16} />
+        {preorder && !test && <PurchaseConfidence locale={locale} />}
+        <p className="product-note purchase-delivery">
+          {t.deliveryText}{" "}
+          <Link href={`/${locale}/shipping-returns`}>
+            {t.footer.shipping} ↗
           </Link>
-        )}
-      </div>
-      {product.highlights && (
-        <div className="product-highlights">
-          {product.highlights.map((h) => (
-            <span key={h[locale]}>{h[locale]}</span>
-          ))}
+        </p>
+        <div ref={purchaseRef}>
+          <AddToCart
+            key={variantId}
+            product={product}
+            locale={locale}
+            variantId={variantId}
+          />
         </div>
-      )}
-      <p className="product-note">{t.deliveryText}</p>
-      {preorder && !preview && product.handle !== launchBundleHandle && (
+      </div>
+      {preorder && !test && product.handle !== launchBundleHandle && (
         <Link
           className="purchase-bundle-link"
           href={`/${locale}/products/${launchBundleHandle}`}
@@ -266,8 +165,8 @@ export function ProductPurchase({
           ↗
         </Link>
       )}
-      {preorder && !preview && <PurchaseAnswers locale={locale} />}
-      {preorder && !blocked && pastPurchase && (
+      {preorder && !test && <PurchaseAnswers locale={locale} />}
+      {preorder && canPurchase && pastPurchase && (
         <aside
           className="mobile-purchase-bar"
           aria-label={
@@ -276,11 +175,11 @@ export function ProductPurchase({
         >
           <div>
             <strong>
-              {formatMoney(variant?.price ?? product.price, locale)}
+              {formatMoney(selected?.price ?? product.price, locale)}
             </strong>
             <small>
-              {variant && product.variants.length > 1
-                ? variantLabel(variant, locale)
+              {selected && product.variants.length > 1
+                ? variantLabel(selected, locale)
                 : product.title[locale]}
             </small>
           </div>
@@ -299,6 +198,6 @@ export function ProductPurchase({
           </a>
         </aside>
       )}
-    </>
+    </div>
   );
 }
