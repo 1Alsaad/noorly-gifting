@@ -1,15 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Gift, Package, Clock3, ArrowRight } from "lucide-react";
 import { notFound } from "next/navigation";
+import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
 import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
 import {
   launchCatalogCopy,
-  launchCatalogHref,
   presentCatalogProduct,
 } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
+import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -20,10 +20,11 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
+  const t = getDictionary(locale);
   return pageMetadata(
     locale,
     "",
-    launchCatalogCopy[locale].title,
+    t.home.title.replace("\n", " "),
     launchCatalogCopy[locale].description,
   );
 }
@@ -35,12 +36,13 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
-  const launches = await getLaunchProducts();
+  const [season, launches] = await Promise.all([
+    getContentRepository().getActiveSeason(),
+    getLaunchProducts(),
+  ]);
   const products = launches.map(({ product }) =>
     presentCatalogProduct(product, locale),
   );
-  const heroImage = products[0]?.images[0];
-  const copy = launchCatalogCopy[locale];
   const trustIcons = [Gift, Package, Clock3];
   const trust = launches.some((launch) => launch.source === "shopify")
     ? locale === "sv"
@@ -61,44 +63,12 @@ export default async function Home({
           url: brand.siteUrl,
         }}
       />
-      <section
-        className="catalog-home section-wrap"
-        aria-labelledby="home-title"
-      >
-        <div className="catalog-home-copy">
-          <p className="eyebrow">{copy.label}</p>
-          <h1 id="home-title">{copy.title}</h1>
-          <p>{copy.description}</p>
-          <div className="catalog-home-actions">
-            <Link
-              className="button button-dark"
-              href={launchCatalogHref(locale)}
-            >
-              {copy.cta}
-              <ArrowUpRight size={17} />
-            </Link>
-            <a className="text-link" href="#gifts">
-              {locale === "sv"
-                ? "Upptäck kollektionen"
-                : "Explore the collection"}
-              <ArrowRight size={17} />
-            </a>
-          </div>
-          <p className="product-note">{t.deliveryText}</p>
-        </div>
-        {heroImage && (
-          <Link className="catalog-home-photo" href={launchCatalogHref(locale)}>
-            <Image
-              src={heroImage.url}
-              alt={heroImage.alt}
-              fill
-              sizes="(max-width: 760px) 88vw, 45vw"
-              loading="eager"
-            />
-          </Link>
-        )}
-      </section>
-      <div>
+      <CinematicExperience
+        locale={locale}
+        products={products}
+        scenes={season.scenes}
+      />
+      <div className="cinema-collection-handoff">
         <div className="trust-bar">
           {trust.map((text, i) => {
             const Icon = trustIcons[i];
@@ -120,6 +90,7 @@ export default async function Home({
               <p className="eyebrow">{launchCatalogCopy[locale].label}</p>
               <h2>{launchCatalogCopy[locale].title}</h2>
               <p>{launchCatalogCopy[locale].description}</p>
+              <p className="product-note">{t.deliveryText}</p>
             </div>
           </div>
           <LaunchCatalogGrid locale={locale} launches={launches} />
