@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -9,7 +9,11 @@ import {
   launchProductDefinitions,
   presentCatalogProduct,
 } from "@/content/launch-catalog";
-import { launchSandChoices, launchBundlePhotos } from "@/content/launch-bundle";
+import {
+  launchSandChoices,
+  launchBundlePhotos,
+  launchBundleHandle,
+} from "@/content/launch-bundle";
 import type { LaunchProductState } from "@/lib/commerce/launch-product";
 
 const { addLines } = vi.hoisted(() => ({ addLines: vi.fn() }));
@@ -33,7 +37,7 @@ const sand: LaunchProductState = {
       title: choice.label.sv,
       available: true,
       price: {
-        amount: choice.sku === "CSand-11" ? 199 : 249,
+        amount: choice.sku === "CSand-11" ? 219 : 269,
         currencyCode: "SEK" as const,
       },
       // Deliberately mixed product media must not leak into the selected gallery.
@@ -64,8 +68,51 @@ const bowl: LaunchProductState = {
     ],
   },
 };
+const bundleVariantIds = [
+  "56138148413782",
+  "56138148446550",
+  "56138148479318",
+  "56138148512086",
+  "56138148544854",
+  "56138148577622",
+  "56138148610390",
+  "56138148643158",
+  "56138148675926",
+  "56138148708694",
+  "56138148741462",
+];
+const bundle: LaunchProductState = {
+  source: "shopify",
+  salesOpen: true,
+  purchasable: true,
+  product: {
+    ...launchProductDefinitions[2].preview,
+    id: launchProductDefinitions[2].id,
+    previewOnly: false,
+    available: true,
+    variants: sand.product.variants.map((sandVariant, index) => ({
+      id: `gid://shopify/ProductVariant/${bundleVariantIds[index]}`,
+      title: sandVariant.title,
+      sku: `NOORLY-LJUSSTUND-${sandVariant.sku}`,
+      available: true,
+      requiresComponents: true,
+      price: {
+        amount: sandVariant.sku === "CSand-11" ? 699 : 749,
+        currencyCode: "SEK" as const,
+      },
+      components: [
+        { quantity: 1, product: sand.product, variant: sandVariant },
+        {
+          quantity: 1,
+          product: bowl.product,
+          variant: bowl.product.variants[0],
+        },
+      ],
+    })),
+  },
+};
 
-describe("separate merchant product pages", () => {
+describe("separate products and the native bundle", () => {
   beforeEach(() => {
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "false");
     addLines.mockReset().mockResolvedValue(undefined);
@@ -78,7 +125,7 @@ describe("separate merchant product pages", () => {
       <LaunchProductDetails launch={sand} locale="en" />,
     );
     expect(screen.getAllByRole("radio")).toHaveLength(11);
-    expect(screen.getByText(/199/)).toBeInTheDocument();
+    expect(screen.getByText(/219/)).toBeInTheDocument();
     expect(container.querySelector(".stock-label")).toHaveTextContent(
       "Pre-order",
     );
@@ -91,7 +138,7 @@ describe("separate merchant product pages", () => {
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[7].photo.url);
-    expect(screen.getByText(/249/)).toBeInTheDocument();
+    expect(screen.getByText(/269/)).toBeInTheDocument();
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
     ).toHaveLength(0);
@@ -139,19 +186,105 @@ describe("separate merchant product pages", () => {
     expect(product.variants[0].available).toBe(false);
   });
 
-  it("lists two distinct purchase paths with their separate prices", () => {
+  it("keeps bundle colour, component photos, price and native parent together", async () => {
+    const user = userEvent.setup();
     const { container } = render(
-      <LaunchCatalogGrid launches={[sand, bowl]} locale="en" />,
+      <LaunchProductDetails launch={bundle} locale="en" />,
     );
-    expect(container.querySelectorAll("article")).toHaveLength(2);
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: "Teak bowl + candle sand",
+      }),
+    ).toBeVisible();
+    expect(screen.getByText("Bundle price")).toBeVisible();
+    expect(screen.getAllByRole("radio")).toHaveLength(11);
+    expect(container.querySelector(".product-price")).toHaveTextContent("699");
+    expect(container.querySelector(".stock-label")).toHaveTextContent(
+      "Pre-order",
+    );
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute("href", launchSandChoices[0].photo.url);
+    expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
+      4,
+    );
+    await user.click(screen.getByRole("button", { name: "Add to bag" }));
+    expect(addLines).toHaveBeenLastCalledWith([
+      {
+        merchandiseId: "gid://shopify/ProductVariant/56138148413782",
+        quantity: 1,
+      },
+    ]);
+
+    await user.click(
+      screen.getByRole("button", {
+        name: `Image 2: ${launchBundlePhotos[0].alt.en}`,
+      }),
+    );
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute("href", launchBundlePhotos[0].url);
+    await user.click(
+      screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
+    );
+    expect(container.querySelector(".product-price")).toHaveTextContent("749");
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute("href", launchSandChoices[7].photo.url);
+    expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
+      4,
+    );
+    for (const [index, photo] of launchBundlePhotos.entries())
+      expect(
+        screen.getByRole("button", {
+          name: `Image ${index + 2}: ${photo.alt.en}`,
+        }),
+      ).toBeVisible();
+    expect(container.querySelector(".gallery-included")).toHaveTextContent(
+      "1 decorative teak bowl + 300 g candle sand",
+    );
+    await user.click(screen.getByRole("button", { name: "Add to bag" }));
+    expect(addLines).toHaveBeenLastCalledWith([
+      {
+        merchandiseId: "gid://shopify/ProductVariant/56138148643158",
+        quantity: 1,
+      },
+    ]);
+    expect(addLines).toHaveBeenCalledTimes(2);
+    expect(container.textContent).not.toMatch(/CSand-|TeakB-|AWGifts/i);
+  });
+
+  it("lists both separate products and a bundle card showing both included products", () => {
+    const { container } = render(
+      <LaunchCatalogGrid launches={[sand, bowl, bundle]} locale="en" />,
+    );
+    expect(container.querySelectorAll("article")).toHaveLength(3);
     expect(
       screen.getByRole("link", { name: /Choose colour & scent/ }),
     ).toHaveAttribute("href", "/en/products/candle-sand");
     expect(
       screen.getByRole("link", { name: /Discover the teak bowl/ }),
     ).toHaveAttribute("href", "/en/products/teakb-37-dekorativ-teakskal");
-    expect(screen.getByText(/From.*199/)).toBeVisible();
+    expect(
+      screen.getByRole("link", { name: /Choose your bundle/ }),
+    ).toHaveAttribute("href", `/en/products/${launchBundleHandle}`);
+    expect(screen.getByText(/From.*219/)).toBeVisible();
     expect(screen.getByText(/550/)).toBeVisible();
-    expect(container.textContent).not.toMatch(/799|Ljusstund|complete set/);
+    expect(screen.getByText(/From.*699/)).toBeVisible();
+    const bundleCard = screen
+      .getByRole("heading", { name: "Teak bowl + candle sand" })
+      .closest("article")!;
+    expect(within(bundleCard).getAllByRole("img")).toHaveLength(2);
+    expect(
+      within(bundleCard).getByRole("img", {
+        name: launchSandChoices[0].photo.alt.en,
+      }),
+    ).toBeVisible();
+    expect(
+      within(bundleCard).getByRole("img", {
+        name: launchBundlePhotos[0].alt.en,
+      }),
+    ).toBeVisible();
   });
 });

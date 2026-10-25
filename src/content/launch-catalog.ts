@@ -1,4 +1,8 @@
-import { launchBundlePhotos, launchSandChoices } from "./launch-bundle";
+import {
+  launchBundleHandle,
+  launchBundlePhotos,
+  launchSandChoices,
+} from "./launch-bundle";
 import type { Locale, LocalizedText, Product } from "@/types/commerce";
 
 export const candleSandHandle = "candle-sand";
@@ -9,9 +13,10 @@ export const launchCatalogCopy = {
     label: "NOORLY · UTVALT FÖR LUGNA STUNDER",
     title: "Små detaljer. Din egen stund.",
     description:
-      "Välj ljussand i din färg och doft, eller en dekorativ teakskål med naturlig karaktär. Produkterna köps var för sig.",
+      "Välj ljussand i din färg och doft, en dekorativ teakskål eller vårt paket med båda.",
     cta: "Välj färg & doft",
     bowlCta: "Upptäck teakskålen",
+    bundleCta: "Välj ditt paket",
     availability: "Förbeställning",
     imageNote:
       "Miljöbilden visar en stämning. Se produktbilderna för varje artikel.",
@@ -19,14 +24,17 @@ export const launchCatalogCopy = {
       "Bilden visar påsen och vaxkornen för vald färg och doft. Skål och andra tillbehör ingår inte.",
     bowlCaption:
       "Varje teakskål har sin egen form och ådring. Frukten på bilden är dekoration och ingår inte.",
+    bundleCaption:
+      "Bilderna visar den valda ljussanden och teakskålen var för sig. En skål, en påse med 300 g ljussand och fyra bomullsvekar ingår. Frukt, presentask och andra dekorationer ingår inte.",
   },
   en: {
     label: "NOORLY · SELECTED FOR SLOWER MOMENTS",
     title: "Little details. A moment of your own.",
     description:
-      "Choose candle sand in your colour and scent, or a decorative teak bowl with natural character. Each product is sold separately.",
+      "Choose candle sand in your colour and scent, a decorative teak bowl, or our bundle with both.",
     cta: "Choose colour & scent",
     bowlCta: "Discover the teak bowl",
+    bundleCta: "Choose your bundle",
     availability: "Pre-order",
     imageNote:
       "Lifestyle imagery expresses a mood. See each item's product photographs.",
@@ -34,6 +42,8 @@ export const launchCatalogCopy = {
       "The photograph shows the pouch and wax granules for the selected colour and scent. A bowl and other accessories are not included.",
     bowlCaption:
       "Each teak bowl has its own shape and grain. The fruit in the photograph is styling and is not included.",
+    bundleCaption:
+      "The photographs show the selected candle sand and teak bowl separately. One bowl, one 300 g pouch of candle sand and four cotton wicks are included. Fruit, a gift box and other styling accessories are not included.",
   },
 } as const;
 
@@ -53,6 +63,14 @@ const bowlDescription: LocalizedText = {
   sv: "En dekorativ skål i teak med mjuka former och naturlig ådring. En enkel detalj för bordet, hyllan eller en omtänksam gåva.",
   en: "A decorative teak bowl with soft contours and natural grain. A simple detail for your table, shelf or a thoughtful gift.",
 };
+const bundleTitle: LocalizedText = {
+  sv: "Teakskål + ljussand",
+  en: "Teak bowl + candle sand",
+};
+const bundleDescription: LocalizedText = {
+  sv: "Vårt paket med en dekorativ teakskål och 300 g ljussand i din färg och doft. Fyra bomullsvekar ingår.",
+  en: "Our bundle with one decorative teak bowl and 300 g of candle sand in your chosen colour and scent. Four cotton wicks are included.",
+};
 
 /** Read-only fallback photographs and copy. Shopify alone supplies sellable variants. */
 export const launchProductDefinitions: ReadonlyArray<{
@@ -68,7 +86,7 @@ export const launchProductDefinitions: ReadonlyArray<{
       handle: candleSandHandle,
       title: sandTitle,
       description: sandDescription,
-      price: { amount: 199, currencyCode: "SEK" },
+      price: { amount: 219, currencyCode: "SEK" },
       images: [
         {
           url: launchSandChoices[0].photo.url,
@@ -104,6 +122,26 @@ export const launchProductDefinitions: ReadonlyArray<{
       boxEligible: false,
     },
   },
+  {
+    id: "gid://shopify/Product/11401864249686",
+    handle: launchBundleHandle,
+    preview: {
+      id: "noorly-bowl-and-sand-preview",
+      handle: launchBundleHandle,
+      title: bundleTitle,
+      description: bundleDescription,
+      price: { amount: 699, currencyCode: "SEK" },
+      images: [launchSandChoices[0].photo, launchBundlePhotos[0]].map(
+        (photo) => ({ url: photo.url, alt: photo.alt.sv }),
+      ),
+      variants: [],
+      available: false,
+      previewOnly: true,
+      category: "signature",
+      seasons: ["winter"],
+      boxEligible: false,
+    },
+  },
 ];
 
 export function launchCatalogHref(locale: Locale) {
@@ -115,6 +153,60 @@ export function presentCatalogProduct(
   product: Product,
   locale: Locale,
 ): Product {
+  if (product.handle === launchBundleHandle) {
+    const bowlImages = launchBundlePhotos.map((photo) => ({
+      url: photo.url,
+      alt: photo.alt[locale],
+    }));
+    const variants = product.variants.map((variant) => {
+      const sand = variant.components?.find(
+        (component) => component.product.handle === candleSandHandle,
+      );
+      const choice = launchSandChoices.find(
+        (item) => item.sku === sand?.variant.sku,
+      );
+      if (!choice) return variant;
+      return {
+        ...variant,
+        label: choice.label,
+        color: choice.color,
+        scent: choice.scent,
+        images: [
+          { url: choice.photo.url, alt: choice.photo.alt[locale] },
+          ...bowlImages,
+        ],
+      };
+    });
+    return {
+      ...product,
+      title: bundleTitle,
+      description: bundleDescription,
+      category: "signature",
+      variants,
+      images: variants[0]?.images ?? [
+        {
+          url: launchSandChoices[0].photo.url,
+          alt: launchSandChoices[0].photo.alt[locale],
+        },
+        ...bowlImages,
+      ],
+      included: {
+        sv: "1 dekorativ teakskål + 300 g ljussand i vald färg och doft + fyra bomullsvekar.",
+        en: "1 decorative teak bowl + 300 g candle sand in your chosen colour and scent + four cotton wicks.",
+      },
+      highlights: [
+        { sv: "Paketpris", en: "Bundle price" },
+        {
+          sv: "Välj bland 11 färg- och doftval",
+          en: "Choose from 11 colour and scent options",
+        },
+      ],
+      care: {
+        sv: "Använd ljussanden i ett stabilt, obrännbart och värmetåligt ljuskärl. Följ instruktionerna på förpackningen och lämna aldrig levande ljus utan uppsikt. Torka teakskålen varsamt med en mjuk, torr trasa.",
+        en: "Use candle sand in a stable, noncombustible, heat-resistant candle vessel. Follow the instructions on the packaging and never leave a burning candle unattended. Wipe the teak bowl gently with a soft, dry cloth.",
+      },
+    };
+  }
   if (product.handle === candleSandHandle) {
     const variants = product.variants.map((variant) => {
       const choice = launchSandChoices.find((item) => item.sku === variant.sku);

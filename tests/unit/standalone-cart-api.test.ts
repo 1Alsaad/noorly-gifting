@@ -217,7 +217,7 @@ describe("independent candle-sand and bowl checkout", () => {
     expect(removed.data.cart.total.amount).toBe(498);
   });
 
-  it("rejects the retired combined set even when Shopify still publishes it", async () => {
+  it("rejects a combined set missing its native component definition", async () => {
     const retired = {
       ...bowl,
       id: "gid://shopify/Product/11401864249686",

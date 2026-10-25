@@ -64,13 +64,15 @@ export function customerPolicySections(locale: Locale) {
     heading: sv ? "Pris och leverans" : "Price and delivery",
     paragraphs: sv
       ? [
-          "Ljussand och teakskål säljs separat. En påse ljussand med 300 g och fyra bomullsvekar kostar 199 kr utan doft eller 249 kr med doft. Den dekorativa teakskålen kostar 550 kr. Priserna inkluderar moms och leverans inom Sverige; ingen extra fraktavgift tillkommer.",
+          "Ljussand och teakskål kan köpas var för sig eller tillsammans som paket. En påse ljussand med 300 g och fyra bomullsvekar kostar 219 kr utan doft eller 269 kr med doft. Den dekorativa teakskålen kostar 550 kr.",
+          "Paketet innehåller en dekorativ teakskål och en påse ljussand med 300 g och fyra bomullsvekar. Paketpriset är 699 kr med vit, doftfri ljussand eller 749 kr med ljussand i vald färg och doft. Alla priser inkluderar moms och leverans inom Sverige; ingen extra fraktavgift tillkommer.",
           "Produkterna säljs som förbeställning. Vi skickar din beställning så snart varan finns i lager hos oss. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
           "Om vi inte har avtalat om en annan leveranstid ska leveransen ske utan onödigt dröjsmål och senast 30 dagar efter att avtalet ingicks.",
           `Kontakta ${email} om leveransen dröjer eller paketet skadas eller försvinner. Vi ansvarar för leveransen tills du har tagit emot varan. Vid försening kan du kräva leverans och, när konsumentköplagens förutsättningar är uppfyllda, häva köpet och få tillbaka det du har betalat.`,
         ]
       : [
-          "Candle sand and the teak bowl are sold separately. One 300 g pouch of candle sand with four cotton wicks costs SEK 199 unscented or SEK 249 scented. The decorative teak bowl costs SEK 550. Prices include VAT and delivery within Sweden, with no additional shipping charge.",
+          "Candle sand and the teak bowl can be bought individually or together as a bundle. One 300 g pouch of candle sand with four cotton wicks costs SEK 219 unscented or SEK 269 scented. The decorative teak bowl costs SEK 550.",
+          "The bundle contains one decorative teak bowl and one 300 g pouch of candle sand with four cotton wicks. The bundle price is SEK 699 with white, unscented candle sand or SEK 749 with candle sand in your chosen colour and scent. All prices include VAT and delivery within Sweden, with no additional shipping charge.",
           "Products are available to pre-order. We dispatch your order as soon as the goods arrive in stock with us. You receive an order confirmation by email and tracking information when available.",
           "Unless we have agreed on another delivery time, delivery must take place without unnecessary delay and no later than 30 days after the contract is concluded.",
           `Contact ${email} if delivery is delayed or your parcel is damaged or lost. We remain responsible for delivery until you receive the goods. For delays, you can request delivery and, where the conditions under Swedish consumer law are met, cancel the purchase and receive a refund.`,
@@ -168,12 +170,12 @@ export function customerPolicySections(locale: Locale) {
     paragraphs: sv
       ? [
           "Dessa villkor gäller när du som konsument handlar hos Noorly med leverans inom Sverige. Produktens innehåll och valda alternativ framgår på produktsidan och i din beställning.",
-          "Priser anges i svenska kronor inklusive moms. Ljussand och teakskål säljs som separata produkter, och leverans inom Sverige ingår. Kontrollera valda varor, färg och doft, leveransadress och totalbelopp innan du bekräftar köpet.",
+          "Priser anges i svenska kronor inklusive moms. Ljussand och teakskål kan köpas var för sig eller tillsammans till paketpris, och leverans inom Sverige ingår. Kontrollera valda varor, färg och doft, leveransadress och totalbelopp innan du bekräftar köpet.",
           "Betalning sker i vår säkra kassa med de betalningssätt som visas där. Du får en orderbekräftelse via e-post. Kontakta oss om någon uppgift i beställningen är fel.",
         ]
       : [
           "These terms apply when you buy from Noorly as a consumer for delivery within Sweden. The product contents and selected options are shown on the product page and in your order.",
-          "Prices are in Swedish kronor and include VAT. Candle sand and the teak bowl are sold as separate products, and delivery within Sweden is included. Check your items, selected colour and scent, delivery address and total before confirming your purchase.",
+          "Prices are in Swedish kronor and include VAT. Candle sand and the teak bowl can be bought individually or together at a bundle price, and delivery within Sweden is included. Check your items, selected colour and scent, delivery address and total before confirming your purchase.",
           "Payment is completed through our secure checkout using the payment methods shown there. You receive an order confirmation by email. Contact us if any order detail is incorrect.",
         ],
   };

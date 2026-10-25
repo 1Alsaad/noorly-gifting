@@ -1,5 +1,7 @@
 # Noorly storefront copy cleanup
 
+**Later owner correction:** restore the original desktop/mobile video while keeping the “Stämningsfilm” label removed. The restoration is in [PR #32](https://github.com/1Alsaad/noorly-gifting/pull/32). The subsequent [pricing and bundle checkpoint](Noorly_Pricing_and_Bundle_2026-10-25.md) supersedes the earlier prices and separate-products-only presentation. Retain the identity, returns and preorder wording below.
+
 Updated 25 October 2026, Europe/Stockholm. This checkpoint records the owner's latest customer-facing copy changes and supersedes older film, supplier/model, company-name and dispatch wording in the [launch handover](Noorly_Separate_Products_and_Payments_2026-10-25.md). Final release evidence belongs in the associated merge PR; this document does not claim post-release verification.
 
 ## Customer experience

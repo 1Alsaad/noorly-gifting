@@ -47,8 +47,8 @@ export default async function LocaleLayout({
         >
           <span>
             {locale === "sv"
-              ? "Noorly: ljussand och dekorativa teakskålar som separata produkter. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
-              : "Noorly: candle sand and decorative teak bowls sold separately. Ordering and payment are not yet open in this preview."}
+              ? "Noorly: ljussand och dekorativa teakskålar, var för sig eller som paket. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
+              : "Noorly: candle sand and decorative teak bowls, individually or as a bundle. Ordering and payment are not yet open in this preview."}
           </span>
         </aside>
       )}

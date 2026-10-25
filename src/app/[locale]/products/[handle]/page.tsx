@@ -24,8 +24,13 @@ type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
-  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle)
-    return pageMetadata(locale, "/shop", getDictionary(locale).shop, "");
+  if (handle === legacyLaunchBundleHandle)
+    return pageMetadata(
+      locale,
+      `/products/${launchBundleHandle}`,
+      getDictionary(locale).shop,
+      "",
+    );
   if (launchProductDefinitions.some((item) => item.handle === handle)) {
     const launch = await getLaunchProduct(handle);
     const product = presentCatalogProduct(launch.product, locale);
@@ -59,11 +64,11 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
-  if (handle === launchBundleHandle || handle === legacyLaunchBundleHandle)
-    redirect(`/${locale}/shop`);
+  if (handle === legacyLaunchBundleHandle)
+    redirect(`/${locale}/products/${launchBundleHandle}`);
   const provider = getCommerceProvider();
   // The existing local mock catalogue remains useful for preview checkout tests.
-  // Public Shopify routes always resolve the two verified merchant products.
+  // Public routes resolve the verified separate products and their native bundle.
   if (
     launchProductDefinitions.some((item) => item.handle === handle) &&
     (provider.name === "shopify" ||

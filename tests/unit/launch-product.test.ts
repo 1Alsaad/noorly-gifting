@@ -4,6 +4,7 @@ import {
   teakBowlHandle,
   launchProductDefinitions,
 } from "@/content/launch-catalog";
+import { launchBundleHandle } from "@/content/launch-bundle";
 import {
   getStorefrontCatalogue,
   resolveLaunchProduct,
@@ -37,6 +38,64 @@ function provider(value: Product | null = product) {
   return {
     name: "shopify" as const,
     getProductByHandle: vi.fn().mockResolvedValue(value),
+  };
+}
+
+function bundleProduct(): Product {
+  return {
+    ...product,
+    id: "gid://shopify/Product/11401864249686",
+    handle: launchBundleHandle,
+    title: { sv: "Noorly Ljusstund", en: "Noorly Ljusstund" },
+    price: { amount: 749, currencyCode: "SEK" },
+    category: "box",
+    requiresSellingPlan: false,
+    hasSellingPlans: false,
+    variants: [
+      {
+        ...product.variants[0],
+        id: "gid://shopify/ProductVariant/56138148643158",
+        sku: "NOORLY-LJUSSTUND-CSand-07",
+        price: { amount: 749, currencyCode: "SEK" },
+        requiresComponents: true,
+        components: [
+          {
+            quantity: 1,
+            product: {
+              id: product.id,
+              handle: candleSandHandle,
+              title: product.title,
+              requiresSellingPlan: false,
+              hasSellingPlans: false,
+            },
+            variant: {
+              ...product.variants[0],
+              sku: "CSand-07",
+              price: { amount: 269, currencyCode: "SEK" },
+              requiresComponents: false,
+            },
+          },
+          {
+            quantity: 1,
+            product: {
+              id: "gid://shopify/Product/11401864216918",
+              handle: teakBowlHandle,
+              title: { sv: "Dekorativ teakskål", en: "Decorative teak bowl" },
+              requiresSellingPlan: false,
+              hasSellingPlans: false,
+            },
+            variant: {
+              id: "gid://shopify/ProductVariant/56138148118870",
+              title: "Default Title",
+              sku: "TeakB-37",
+              price: { amount: 550, currencyCode: "SEK" },
+              available: true,
+              requiresComponents: false,
+            },
+          },
+        ],
+      },
+    ],
   };
 }
 
@@ -160,10 +219,10 @@ describe("the real launch product", () => {
     );
   });
 
-  it("rejects the previous combined set and unknown product handles", async () => {
+  it("rejects retired and unknown product handles", async () => {
     const shop = provider();
     for (const handle of [
-      "noorly-ljusstund-teakskal-och-ljussand",
+      "noorly-ljusstund-presentset-med-glasskal-och-tva-dofter",
       "unknown-product",
     ]) {
       await expect(resolveLaunchProduct(shop, handle)).rejects.toThrow(
@@ -173,24 +232,142 @@ describe("the real launch product", () => {
     expect(shop.getProductByHandle).not.toHaveBeenCalled();
   });
 
-  it("limits the public Shopify cart catalogue to exact separate-product identities", async () => {
+  it("limits the public cart catalogue to verified identities and disables malformed sets", async () => {
     vi.stubEnv("NOORLY_PUBLIC_PREVIEW", "true");
     const bowl = {
       ...product,
       id: "gid://shopify/Product/11401864216918",
       handle: teakBowlHandle,
     };
-    const retiredKit = {
+    const malformedKit = {
       ...product,
       id: "gid://shopify/Product/11401864249686",
-      handle: "noorly-ljusstund-teakskal-och-ljussand",
+      handle: launchBundleHandle,
     };
     const shop = {
       ...provider(),
-      getProducts: vi.fn().mockResolvedValue([product, bowl, retiredKit]),
+      getProducts: vi
+        .fn()
+        .mockResolvedValue([
+          product,
+          bowl,
+          malformedKit,
+          { ...product, id: "unapproved", handle: "unapproved" },
+        ]),
     };
     // The helper needs only these catalogue methods; no cart mutation is used.
     const catalogue = await getStorefrontCatalogue(shop);
-    expect(catalogue.map(({ id }) => id)).toEqual([product.id, bowl.id]);
+    expect(catalogue.map(({ id }) => id)).toEqual([
+      product.id,
+      bowl.id,
+      malformedKit.id,
+    ]);
+    expect(catalogue[2].available).toBe(false);
+    expect(catalogue[2].variants[0].available).toBe(false);
   });
+
+  it("sells the existing native set at its authoritative price with the chosen components", async () => {
+    const bundle = bundleProduct();
+    const original = structuredClone(bundle);
+    const resolved = await resolveLaunchProduct(
+      provider(bundle),
+      launchBundleHandle,
+    );
+    expect(resolved.purchasable).toBe(true);
+    expect(resolved.product.price.amount).toBe(749);
+    expect(resolved.product.variants[0].components).toEqual(
+      original.variants[0].components,
+    );
+    expect(bundle).toEqual(original);
+
+    vi.stubEnv("NOORLY_PUBLIC_PREVIEW", "true");
+    const catalogue = await getStorefrontCatalogue({
+      name: "shopify",
+      getProducts: vi.fn().mockResolvedValue([bundle]),
+    });
+    expect(catalogue[0].available).toBe(true);
+    expect(catalogue[0].variants[0].id).toBe(bundle.variants[0].id);
+  });
+
+  it("supports the real unscented set while preserving its different price", async () => {
+    const bundle = bundleProduct();
+    bundle.price.amount = 699;
+    const variant = bundle.variants[0];
+    variant.id = "gid://shopify/ProductVariant/56138148413782";
+    variant.sku = "NOORLY-LJUSSTUND-CSand-11";
+    variant.price.amount = 699;
+    variant.components![0].variant = {
+      ...variant.components![0].variant,
+      id: "gid://shopify/ProductVariant/55883112087894",
+      sku: "CSand-11",
+      price: { amount: 219, currencyCode: "SEK" },
+    };
+    const resolved = await resolveLaunchProduct(
+      provider(bundle),
+      launchBundleHandle,
+    );
+    expect(resolved.purchasable).toBe(true);
+    expect(resolved.product.variants[0].price.amount).toBe(699);
+    expect(resolved.product.variants[0].components![0].variant.sku).toBe(
+      "CSand-11",
+    );
+  });
+
+  it.each([
+    "missing-bowl",
+    "extra-component",
+    "wrong-component-quantity",
+    "wrong-sand-colour",
+    "wrong-sand-sku",
+    "wrong-bowl",
+    "wrong-component-product",
+    "unknown-parent-variant",
+    "standalone-parent",
+    "nested-component",
+    "selling-plan-component",
+    "unavailable-component",
+    "invalid-component-price",
+  ])(
+    "blocks a set with %s on both the page and cart catalogue",
+    async (failure) => {
+      const bundle = bundleProduct();
+      const variant = bundle.variants[0];
+      const components = variant.components!;
+      if (failure === "missing-bowl") components.pop();
+      if (failure === "extra-component") components.push(components[0]);
+      if (failure === "wrong-component-quantity") components[0].quantity = 2;
+      if (failure === "wrong-sand-colour")
+        components[0].variant.id =
+          "gid://shopify/ProductVariant/55883112087894";
+      if (failure === "wrong-sand-sku") components[0].variant.sku = "CSand-11";
+      if (failure === "wrong-bowl")
+        components[1].variant.id = "gid://shopify/ProductVariant/999";
+      if (failure === "wrong-component-product")
+        components[0].product.id = "gid://shopify/Product/999";
+      if (failure === "unknown-parent-variant")
+        variant.id = "gid://shopify/ProductVariant/999";
+      if (failure === "standalone-parent") variant.requiresComponents = false;
+      if (failure === "nested-component")
+        components[0].variant.requiresComponents = true;
+      if (failure === "selling-plan-component")
+        components[0].product.hasSellingPlans = true;
+      if (failure === "unavailable-component")
+        components[1].variant.available = false;
+      if (failure === "invalid-component-price")
+        components[0].variant.price.amount = Number.NaN;
+
+      const resolved = await resolveLaunchProduct(
+        provider(bundle),
+        launchBundleHandle,
+      );
+      expect(resolved.purchasable).toBe(false);
+      vi.stubEnv("NOORLY_PUBLIC_PREVIEW", "true");
+      const catalogue = await getStorefrontCatalogue({
+        name: "shopify",
+        getProducts: vi.fn().mockResolvedValue([bundle]),
+      });
+      expect(catalogue[0].available).toBe(false);
+      expect(catalogue[0].variants[0].available).toBe(false);
+    },
+  );
 });

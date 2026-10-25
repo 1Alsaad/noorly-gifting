@@ -85,11 +85,11 @@ describe("launch copy through the homepage and real release gates", () => {
       expect(
         screen.getAllByRole("link", { name: new RegExp(purchaseLabel) }),
       ).toHaveLength(2);
-      expect(screen.getAllByText(/199/).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/219/).length).toBeGreaterThan(0);
       expect(screen.getByText(/550/)).toBeInTheDocument();
       expect(
         container.querySelectorAll(".launch-catalog-grid article"),
-      ).toHaveLength(2);
+      ).toHaveLength(3);
       expect(container).toHaveTextContent("300 g");
       expect(container.textContent).not.toMatch(
         /planned set price|planerat setpris|ordering (?:is currently unavailable|and payment are not yet open)|beställning (?:är inte tillgänglig|och betalning är ännu inte öppna)|contents will be confirmed|exakta set|stämningsfilm|concept film|Shopify|AWGifts|TeakB-37/i,

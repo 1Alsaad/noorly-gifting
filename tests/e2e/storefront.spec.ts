@@ -70,8 +70,8 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
       .getByRole("heading", { name: "Candle sand · 300 g" }),
   ).toBeVisible();
   await expect(page.locator('a[href*="build-a-box"]')).toHaveCount(0);
-  await expect(page.locator("#gifts article")).toHaveCount(2);
-  await expect(page.locator("#gifts").getByText(/From.*199/)).toBeVisible();
+  await expect(page.locator("#gifts article")).toHaveCount(3);
+  await expect(page.locator("#gifts").getByText(/From.*219/)).toBeVisible();
 });
 
 for (const linkName of ["Skip experience", "Explore the collection"]) {
@@ -133,7 +133,7 @@ test("late metadata preserves the reserved scene ranges and gifts position", asy
   expect(await geometry()).toEqual(before);
 });
 
-test("separate product pages are keyboard accessible and the former kit redirects to the catalogue", async ({
+test("separate products and the bundle are keyboard accessible", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -159,8 +159,14 @@ test("separate product pages are keyboard accessible and the former kit redirect
   await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(3);
   await expect(page.getByRole("radio")).toHaveCount(0);
   await page.goto("/en/products/" + launchBundleHandle);
-  await expect(page).toHaveURL("/en/shop");
-  await expect(page.locator("main article")).toHaveCount(2);
+  await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Teak bowl + candle sand",
+  );
+  await expect(page.getByText(/699/)).toBeVisible();
+  await expect(
+    page.getByText(/1 decorative teak bowl \+ 300 g candle sand/),
+  ).toBeVisible();
 });
 
 test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
@@ -313,7 +319,7 @@ test("the continuous film clears copy for the orbit, shops during the hold, and 
     .analyze();
   expect(accessibility.violations).toEqual([]);
 
-  await expect(shopping.getByText(/From.*199/)).toBeVisible();
+  await expect(shopping.getByText(/From.*219/)).toBeVisible();
   await expect(
     shopping.getByText(/Ordering is currently unavailable/),
   ).toHaveCount(0);
@@ -759,7 +765,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   await expect(
     card.getByRole("heading", { name: "Ljussand · 300 g" }),
   ).toBeVisible();
-  await expect(card.getByText(/Från.*199/)).toBeVisible();
+  await expect(card.getByText(/Från.*219/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);
   // Visibility changes before the 240ms entrance transition finishes. Measure
   // the settled layout while preserving the original viewport-clearance check.

@@ -6,6 +6,7 @@ import type { Product, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { getDictionary } from "@/content/translations";
 import { candleSandHandle } from "@/content/launch-catalog";
+import { launchBundleHandle } from "@/content/launch-bundle";
 export function ProductCard({
   product,
   locale,
@@ -16,13 +17,27 @@ export function ProductCard({
   index?: number;
 }) {
   const t = getDictionary(locale);
+  const bundle = product.handle === launchBundleHandle;
   return (
     <article className={`product-card product-${product.handle}`}>
       <Link
         className="product-image"
         href={`/${locale}/products/${product.handle}`}
       >
-        {product.images[0] ? (
+        {bundle && product.images.length >= 2 ? (
+          <span className="bundle-card-photos">
+            {product.images.slice(0, 2).map((image) => (
+              <span className="bundle-card-photo" key={image.url}>
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 680px) 45vw, 16vw"
+                />
+              </span>
+            ))}
+          </span>
+        ) : product.images[0] ? (
           <Image
             src={product.images[0].url}
             alt={product.images[0].alt || product.title[locale]}
@@ -37,11 +52,15 @@ export function ProductCard({
           </span>
         )}
         <span className="product-number">
-          {index !== undefined
-            ? `0${index + 1}`
-            : product.category === "box"
-              ? t.boxes
-              : t.items}
+          {bundle
+            ? locale === "sv"
+              ? "Paket"
+              : "Bundle"
+            : index !== undefined
+              ? `0${index + 1}`
+              : product.category === "box"
+                ? t.boxes
+                : t.items}
         </span>
         <span className="product-arrow">
           <ArrowUpRight size={20} />
@@ -55,6 +74,7 @@ export function ProductCard({
         </h3>
         <span>
           {product.handle === candleSandHandle ||
+          bundle ||
           new Set(product.variants.map((variant) => variant.price.amount))
             .size > 1
             ? `${t.from} `
@@ -73,7 +93,11 @@ export function ProductCard({
         >
           <span className="product-mini-swatches" aria-hidden="true">
             {product.variants
-              .filter((variant) => variant.sku !== "CSand-11")
+              .filter(
+                (variant) =>
+                  variant.sku !== "CSand-11" &&
+                  variant.sku !== "NOORLY-LJUSSTUND-CSand-11",
+              )
               .map((variant) => (
                 <i
                   key={variant.id}
