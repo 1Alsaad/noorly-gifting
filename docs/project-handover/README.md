@@ -4,7 +4,7 @@ Latest consolidated update: 25 October 2026, Europe/Stockholm.
 
 ## Start here
 
-Read [Continuation Handover v1.5](Noorly_Continuation_Handover_v1.5.md) first. It distinguishes the last verified live release from merged-but-unpublished code, records the deployment/access blockers, and gives the next execution sequence.
+Read [Continuation Handover v1.6](Noorly_Continuation_Handover_v1.6.md) first. It records the owner-approved Maximum Meta connection, Clarity installation, consent changes, cleared deployment limit and remaining live receipt checks. The checkpoints below describe the historical v1.5 state.
 
 Use [the updated new-session prompt](Noorly_Continue_in_New_Chat_Prompt.md) to continue with the connected tools. Actual tool access must be checked in the new session; an enabled app does not establish a working signed-in browser or completed deployment.
 

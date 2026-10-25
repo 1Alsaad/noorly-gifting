@@ -20,6 +20,27 @@ function previous(analytics: boolean, marketing: boolean) {
   );
 }
 describe("shopping pixel consent policy revision", () => {
+  it("requires fresh analytics consent for Clarity while preserving earlier refusal", () => {
+    const state = {
+      version: 1,
+      necessary: true,
+      analytics: true,
+      marketing: true,
+      updatedAt: Date.now(),
+    };
+    localStorage.setItem("noorly-consent-v2", JSON.stringify(state));
+    expect(getConsent()).toBeNull();
+    localStorage.setItem(
+      "noorly-consent-v2",
+      JSON.stringify({ ...state, analytics: false }),
+    );
+    expect(getConsent()).toBeNull();
+    localStorage.setItem(
+      "noorly-consent-v2",
+      JSON.stringify({ ...state, analytics: false, marketing: false }),
+    );
+    expect(getConsent()).toMatchObject({ analytics: false, marketing: false });
+  });
   it("does not reuse old interest-only permissions", () => {
     previous(true, true);
     expect(getConsent()).toBeNull();

@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import { CartProvider } from "@/features/cart/cart-provider";
 import { ConsentBanner } from "@/components/consent/consent-banner";
 import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
+import { HeatmapProvider } from "@/components/analytics/heatmap-provider";
 import { isPublicTestPreview, isStorefrontOpen } from "@/lib/commerce/launch";
 import { hasAdminPreviewSession } from "@/lib/security/admin-preview";
 import "@/styles/admin-preview.css";
@@ -56,6 +57,7 @@ export default async function LocaleLayout({
         {t.skip}
       </a>
       {!adminPreview && <AnalyticsProvider locale={locale} />}
+      {!adminPreview && <HeatmapProvider />}
       <Header locale={locale} />
       <main id="main-content">{children}</main>
       <Footer locale={locale} />

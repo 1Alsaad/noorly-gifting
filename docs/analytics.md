@@ -1,5 +1,7 @@
 # Analytics contract
 
+Current tracking is described in [handover v1.6](project-handover/Noorly_Continuation_Handover_v1.6.md). It supersedes historical closed-store, no-replay and custom Meta Purchase assumptions below: the shop is open, Clarity is consent-gated, and Shopify's native Facebook & Instagram channel owns checkout Pixel/CAPI. Marketing and analytics remain separate choices.
+
 All browser tracking uses `trackEvent({ name, properties }, optionalDedupeKey)` from `src/lib/analytics/client.ts`. `src/lib/analytics/schema.ts` is the typed taxonomy and Zod allowlist. Unknown properties are discarded; invalid allowed values cause the event to be dropped. All browser events require current analytics consent. No event is buffered or backfilled before consent. Provider errors are isolated from shopping.
 
 Common optional properties: `anonymous_session_id`, `locale`, `currency`, `season_id`, `scene_id`, `hotspot_id`, `product_id`, `product_handle`, `variant_id`, `quantity`, `value`, `cart_id`, `bundle_id`, `source`, `device_category`, `reduced_motion`, `first_touch`, `last_touch`. Never supply emails, names, addresses, checkout URLs, provider secret cart keys, gift-message content, card information or free-form customer text. Use an opaque cart identity when needed, not a provider cart URL containing an access key. Prices use decimal major currency units.

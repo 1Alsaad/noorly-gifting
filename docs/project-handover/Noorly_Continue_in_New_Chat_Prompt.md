@@ -1,5 +1,7 @@
 # Noorly next-session prompt
 
+**Current entry point:** [v1.6](Noorly_Continuation_Handover_v1.6.md). Read it and the release PR before using the historical prompt below. Clarity and native Meta Maximum have since been configured with owner approval; remaining receipt checks must not be confused with installation.
+
 Updated 25 October 2026. Copy the prompt below into the next session with GitHub, Shopify, Vercel, Meta Ads and Browser enabled. Verify actual access before assuming the previous browser or deployment blockers are resolved.
 
 ```text

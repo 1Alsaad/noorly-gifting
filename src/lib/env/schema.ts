@@ -40,6 +40,7 @@ export const envSchema = z
     ),
     NEXT_PUBLIC_GA4_MEASUREMENT_ID: optional,
     NEXT_PUBLIC_META_PIXEL_ID: optional,
+    NEXT_PUBLIC_CLARITY_PROJECT_ID: optional,
     META_CAPI_ACCESS_TOKEN: optional,
     META_CAPI_API_VERSION: z.preprocess(
       (v) => (v === "" ? undefined : v),

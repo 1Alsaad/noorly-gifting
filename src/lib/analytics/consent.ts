@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-// Policy revision: earlier interest-only consent cannot authorize shopping pixels.
-export const CONSENT_KEY = "noorly-consent-v2";
+// New session replay and expanded Meta matching require fresh positive choices.
+export const CONSENT_KEY = "noorly-consent-v3";
 const LEGACY_CONSENT_KEY = "stilla-consent-v1";
 export const CONSENT_EVENT = "stilla:consent";
 const MAX_AGE = 180 * 86400_000;
@@ -34,6 +34,11 @@ export function parseConsent(
 function storedConsent(): string | null {
   const current = window.localStorage.getItem(CONSENT_KEY);
   if (current !== null) return current;
+  const shoppingRaw = window.localStorage.getItem("noorly-consent-v2");
+  const shopping = parseConsent(shoppingRaw);
+  // Preserve rejection; do not carry permission into expanded tracking.
+  if (shopping)
+    return !shopping.analytics && !shopping.marketing ? shoppingRaw : null;
   const raw = window.localStorage.getItem(LEGACY_CONSENT_KEY);
   const legacy = parseConsent(raw);
   // Respect earlier rejection; only positive choices require fresh consent.
