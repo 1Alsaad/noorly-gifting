@@ -100,7 +100,7 @@ export function ConsentBanner({ locale }: { locale: "sv" | "en" }) {
             </button>
             <button
               type="button"
-              className={CONSENT_ACTION_CLASS}
+              className={`${CONSENT_ACTION_CLASS} consent-action-accept`}
               onClick={() => choose(true, true)}
             >
               {copy.accept}
