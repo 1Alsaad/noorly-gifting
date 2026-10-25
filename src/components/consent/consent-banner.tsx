@@ -14,6 +14,9 @@ import { trackEvent } from "@/lib/analytics/client";
 import { consentCopy } from "./copy";
 
 const OPEN_EVENT = "stilla:open-consent";
+const CONSENT_ACTION_CLASS =
+  "min-h-11 rounded-full border border-black bg-black px-5 text-sm font-medium text-white transition-colors hover:bg-stone-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
+
 export function ConsentSettingsButton({ locale }: { locale: "sv" | "en" }) {
   return (
     <button
@@ -90,14 +93,14 @@ export function ConsentBanner({ locale }: { locale: "sv" | "en" }) {
           <div className="mt-4 flex flex-wrap gap-3">
             <button
               type="button"
-              className="min-h-11 rounded-full border border-stone-600 px-5 text-sm"
+              className={CONSENT_ACTION_CLASS}
               onClick={() => choose(false, false)}
             >
               {copy.reject}
             </button>
             <button
               type="button"
-              className="min-h-11 rounded-full border border-stone-600 px-5 text-sm"
+              className={CONSENT_ACTION_CLASS}
               onClick={() => choose(true, true)}
             >
               {copy.accept}
@@ -170,7 +173,7 @@ export function ConsentBanner({ locale }: { locale: "sv" | "en" }) {
             </div>
             <div className="flex flex-wrap gap-3">
               <button
-                className="min-h-11 rounded-full bg-[#273d32] px-5 text-white"
+                className={CONSENT_ACTION_CLASS}
                 onClick={() => choose(analytics, marketing)}
               >
                 {copy.save}
