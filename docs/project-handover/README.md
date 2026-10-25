@@ -4,16 +4,17 @@ Latest consolidated update: 25 October 2026, Europe/Stockholm.
 
 ## Start here
 
-Read [Continuation Handover v1.6](Noorly_Continuation_Handover_v1.6.md) first. It records the owner-approved Maximum Meta connection, deployed Clarity integration, consent changes, verified production release and remaining live receipt checks.
+Read [Continuation Handover v1.7](Noorly_Continuation_Handover_v1.7.md) first. It records verified live heatmaps, the owner's heatmaps-only decision, new Meta server-activity metadata and the advertising launch blockers. v1.6 remains the detailed installation record.
 
 Use [the updated new-session prompt](Noorly_Continue_in_New_Chat_Prompt.md) to continue with the connected tools. Actual tool access must be checked in the new session; an enabled app does not establish a working signed-in browser or completed deployment.
 
 ## Current checkpoint
 
-- Verified production: [PR #38](https://github.com/1Alsaad/noorly-gifting/pull/38), source `d29bfe7f5d1994147fd064c9f851f9713404f306`, [Vercel deployment Ready / Production / Current](https://vercel.com/1alsaads-projects/noorly-gifting/B8pLSokVE6WfPGV4XQSp7w4g5Gca) on `noorlynordic.com`. This includes the earlier CRO, pricing, analytics and black consent controls.
+- Last verified application release: [PR #39](https://github.com/1Alsaad/noorly-gifting/pull/39), source `7d295fe125f80efdb6b97db11643dd2322ba6957`, [Vercel deployment Ready / Production / Current](https://vercel.com/1alsaads-projects/noorly-gifting/xTHzvRGFGYgA9zXa95NBxBoZuLRv) on `noorlynordic.com`. Only the storefront Accept cookie action has black fill; Decline and Save choices are outlined.
 - Vercel's daily deployment limit cleared; no paid upgrade was required. The connector still has project access errors, while the authenticated dashboard works.
-- Clarity project `z37qnt9bf3` is installed with explicit analytics consent, strict masking, default cookies off and private-route exclusions. First recording/heatmap receipt is not yet verified.
+- Clarity project `z37qnt9bf3` has verified real mobile heatmap data with masked text. The owner chose **heatmaps only**; do not approve the pending Brand Agent connection. Turning off Clarity Agents JS in Shopify remains an owner action unless subsequently confirmed. Current query/referrer exclusions mean paid ad traffic is not reliably covered by heatmaps.
 - Official Facebook & Instagram channel is connected to existing dataset `511816900240916` with explicitly owner-approved Maximum sharing, advanced matching and Conversions API. Shopify confirms Server + Web access. Actual native Purchase receipt and deduplication remain unverified.
+- Meta now reports recent server activity, but event-level CAPI statistics remain unconfirmed. The intended ad account is active/funded; all three published campaigns are paused and no published ads were returned. Catalog sand variants are staging/not visible and point to the checkout homepage. **Ads are not launch-ready.** See v1.7 for evidence and next actions.
 - Hosted Shipping policy and Terms of service now show 349/449 SEK. Hosted Privacy policy includes Clarity and Maximum Meta disclosures; maintain the custom appendix manually.
 - Checkout's automatic cookie popup is now enabled and verified saved after reload. With explicit owner approval, banner management is manual; Sweden and the current Swedish wording were preserved. Retest in a fresh private window; existing choices may be remembered.
 - CI passed 324 unit tests, 26 browser/accessibility tests, normal build, lint, types, formatting and production dependency audit. Canonical-domain manual testing is blocked by this device's newly registered domain filter; use an unrestricted device or authorized allowlisting.
