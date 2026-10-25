@@ -47,9 +47,60 @@ const whiteSandPhotos = [
   ],
 ] as const;
 
-export function whiteSandSupplierGallery(locale: Locale): ProductImage[] {
+function whiteSandSupplierGallery(locale: Locale): ProductImage[] {
   return whiteSandPhotos.map(([filename, sv, en]) => ({
     url: `/media/products/candle-sand/csand-11-supplier-${filename}`,
     alt: locale === "sv" ? sv : en,
   }));
+}
+
+// Each SKU's own supplier page was inspected on 2026-10-25. These are
+// the matching lit-bowl and two pouch photographs, not the generic white
+// styling/range shots that the supplier repeats on every colour page.
+const colourPhotos: Record<string, readonly string[]> = {
+  "CSand-01": ["5ghb.jpg", "5gau.jpg", "5gav.jpg"],
+  "CSand-02": ["5ghc.jpg", "5gb5.jpg", "5gb6.jpg"],
+  "CSand-03": ["5ghd.jpg", "5gbh.png", "5gbi.jpg"],
+  "CSand-04": ["5ghe.jpg", "5gbt.png", "5gbu.jpg"],
+  "CSand-05": ["5ghf.jpg", "5gc5.png", "5gc6.jpg"],
+  "CSand-06": ["5ghg.jpg", "5gcg.png", "5gch.jpg"],
+  "CSand-07": ["5ghj.jpg", "5gcr.png", "5gcs.jpg"],
+  "CSand-08": ["5ghk.jpg", "5gd2.png", "5gd3.jpg"],
+  "CSand-09": ["5ghl.jpg", "5gdf.png", "5gdg.jpg"],
+  "CSand-10": ["5ghm.jpg", "5gdt.png", "5gdu.jpg"],
+};
+
+export function candleSandSupplierGallery(
+  sku: string,
+  locale: Locale,
+  label: string,
+): ProductImage[] {
+  if (sku === "CSand-11") return whiteSandSupplierGallery(locale);
+  const photos = colourPhotos[sku];
+  if (!photos) return [];
+  const descriptions =
+    locale === "sv"
+      ? [
+          "ljussand med tända vekar i en träskål",
+          "300 g påse i dagsljus",
+          "300 g påse mot ljus bakgrund",
+        ]
+      : [
+          "candle sand with lit wicks in a wooden bowl",
+          "300 g pouch in daylight",
+          "300 g pouch against a light background",
+        ];
+  return [
+    ...photos.map((filename, index) => ({
+      url: `/media/products/candle-sand/${sku.toLowerCase()}-supplier-${filename}`,
+      alt: `${label}: ${descriptions[index]}`,
+    })),
+    {
+      url: "/media/products/candle-sand/csand-11-supplier-5gwo.jpg",
+      alt:
+        locale === "sv"
+          ? "Leverantörens allmänna bildguide: häll, placera veken, tänd och återanvänd ljussanden"
+          : "Supplier's general illustrated guide: pour, insert a wick, light and reuse candle sand",
+    },
+  ];
 }

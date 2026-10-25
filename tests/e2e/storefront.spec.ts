@@ -860,7 +860,7 @@ test("candle sand colour, gallery and cart stay matched on mobile", async ({
   await page.getByRole("button", { name: /^Image 2:/ }).click();
   await expect(page.locator(".gallery-main")).toHaveAttribute(
     "href",
-    /csand-07-2.webp$/,
+    /csand-07-supplier-5ghj.jpg$/,
   );
   await page.getByRole("button", { name: "Add to bag", exact: true }).click();
   await page.locator(".cart-next-step").click();

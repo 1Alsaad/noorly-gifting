@@ -4,7 +4,7 @@ import {
   launchSandChoices,
 } from "./launch-bundle";
 import type { Locale, LocalizedText, Product } from "@/types/commerce";
-import { whiteSandSupplierGallery } from "./candle-sand-gallery";
+import { candleSandSupplierGallery } from "./candle-sand-gallery";
 
 export const candleSandHandle = "candle-sand";
 export const teakBowlHandle = "teakb-37-dekorativ-teakskal";
@@ -175,9 +175,11 @@ export function presentCatalogProduct(
         images: [
           { url: choice.photo.url, alt: choice.photo.alt[locale] },
           ...bowlImages,
-          ...(choice.sku === "CSand-11"
-            ? whiteSandSupplierGallery(locale)
-            : []),
+          ...candleSandSupplierGallery(
+            choice.sku,
+            locale,
+            choice.label[locale],
+          ),
         ],
       };
     });
@@ -220,13 +222,14 @@ export function presentCatalogProduct(
         label: choice.label,
         color: choice.color,
         scent: choice.scent,
-        // Each colour keeps its own photographs; CSand-11 also has the
-        // owner's requested supplier carousel.
+        // Resolve photography by exact supplier SKU, including the two whites.
         images: [
           { url: choice.photo.url, alt: choice.photo.alt[locale] },
-          ...(choice.sku === "CSand-11"
-            ? whiteSandSupplierGallery(locale)
-            : []),
+          ...candleSandSupplierGallery(
+            choice.sku,
+            locale,
+            choice.label[locale],
+          ),
         ],
       };
     });

@@ -243,12 +243,37 @@ describe("separate products and the native bundle", () => {
     expect(screen.getByText(/449/)).toBeInTheDocument();
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
-    ).toHaveLength(0);
+    ).toHaveLength(5);
     expect(screen.getByText(/A candle vessel is not included/)).toBeVisible();
     await user.click(screen.getByRole("button", { name: "Add to bag" }));
     expect(addLines).toHaveBeenCalledWith([
       { merchandiseId: sand.product.variants[7].id, quantity: 1 },
     ]);
+  });
+
+  it("switches every colour to its own supplier gallery, including both whites", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <LaunchProductDetails launch={sand} locale="en" />,
+    );
+    for (const choice of launchSandChoices) {
+      await user.click(screen.getByRole("radio", { name: choice.label.en }));
+      const gallery = screen.getByRole("link", {
+        name: /Open full-size image/,
+      });
+      expect(gallery).toHaveAttribute("href", choice.photo.url);
+      expect(
+        container.querySelectorAll(".gallery-thumbnails button"),
+      ).toHaveLength(choice.sku === "CSand-11" ? 9 : 5);
+      await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
+      expect(gallery.getAttribute("href")).toContain(
+        `${choice.sku.toLowerCase()}-supplier-`,
+      );
+      expect(screen.getByRole("button", { name: /^Image 2:/ })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+    }
   });
 
   it("shows only bowl photographs and adds the bowl as one separate line", async () => {
@@ -337,7 +362,7 @@ describe("separate products and the native bundle", () => {
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[7].photo.url);
     expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
-      4,
+      8,
     );
     for (const [index, photo] of launchBundlePhotos.entries())
       expect(

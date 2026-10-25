@@ -33,7 +33,10 @@ describe("candle sand selection", () => {
     await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
-    ).toHaveAttribute("href", "/media/products/candle-sand/csand-07-2.webp");
+    ).toHaveAttribute(
+      "href",
+      "/media/products/candle-sand/csand-07-supplier-5ghj.jpg",
+    );
     await user.click(screen.getByRole("button", { name: "Add to bag" }));
     expect(addLines).toHaveBeenCalledWith([
       { merchandiseId: "candle-sand-07", quantity: 1 },
