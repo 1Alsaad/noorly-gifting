@@ -28,6 +28,8 @@ The official Facebook & Instagram Shopify channel is connected. I explicitly app
 
 Hosted Terms of service and Shipping policy now show 349/449 SEK. Hosted Privacy policy includes the Clarity/Maximum Meta appendix, with automatic rewriting disabled. Maintain this disclosure with future edits.
 
+Checkout's Show cookie banner in checkout setting was initially off and is now enabled, saved and verified after reload. Shopify required manual banner management to save it; I explicitly approved this while preserving Sweden and the current wording. Both were retained. Future region/content updates require manual review. A fresh private-window checkout test still needs to confirm the popup; existing consent may be remembered.
+
 REMAINING VERIFICATION
 The current device's network filter blocks the canonical website because the domain was newly registered. This is not evidence the site is unsafe. No bypass or alternate-domain redirect change was made. Use an unrestricted device or authorized allowlisting for live tests. Clarity is intentionally disabled on Vercel aliases, which cannot validate canonical-domain recording.
 

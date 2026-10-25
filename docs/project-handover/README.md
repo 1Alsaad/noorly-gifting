@@ -15,6 +15,7 @@ Use [the updated new-session prompt](Noorly_Continue_in_New_Chat_Prompt.md) to c
 - Clarity project `z37qnt9bf3` is installed with explicit analytics consent, strict masking, default cookies off and private-route exclusions. First recording/heatmap receipt is not yet verified.
 - Official Facebook & Instagram channel is connected to existing dataset `511816900240916` with explicitly owner-approved Maximum sharing, advanced matching and Conversions API. Shopify confirms Server + Web access. Actual native Purchase receipt and deduplication remain unverified.
 - Hosted Shipping policy and Terms of service now show 349/449 SEK. Hosted Privacy policy includes Clarity and Maximum Meta disclosures; maintain the custom appendix manually.
+- Checkout's automatic cookie popup is now enabled and verified saved after reload. With explicit owner approval, banner management is manual; Sweden and the current Swedish wording were preserved. Retest in a fresh private window; existing choices may be remembered.
 - CI passed 324 unit tests, 26 browser/accessibility tests, normal build, lint, types, formatting and production dependency audit. Canonical-domain manual testing is blocked by this device's newly registered domain filter; use an unrestricted device or authorized allowlisting.
 - Keep the original video, separate products, native bundles and inventory. Do not restore historical closed-sales gates or reset stock.
 
