@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const CONSENT_KEY = "stilla-consent-v1";
+// Policy revision: earlier interest-only consent cannot authorize shopping pixels.
+export const CONSENT_KEY = "noorly-consent-v2";
+const LEGACY_CONSENT_KEY = "stilla-consent-v1";
 export const CONSENT_EVENT = "stilla:consent";
 const MAX_AGE = 180 * 86400_000;
 export const consentSchema = z.object({
@@ -29,17 +31,25 @@ export function parseConsent(
     return null;
   }
 }
+function storedConsent(): string | null {
+  const current = window.localStorage.getItem(CONSENT_KEY);
+  if (current !== null) return current;
+  const raw = window.localStorage.getItem(LEGACY_CONSENT_KEY);
+  const legacy = parseConsent(raw);
+  // Respect earlier rejection; only positive choices require fresh consent.
+  return legacy && !legacy.analytics && !legacy.marketing ? raw : null;
+}
 export function getConsent(): Consent | null {
   if (typeof window === "undefined") return null;
   try {
-    return parseConsent(window.localStorage.getItem(CONSENT_KEY));
+    return parseConsent(storedConsent());
   } catch {
     return null;
   }
 }
 export function consentSnapshot(): string {
   try {
-    return window.localStorage.getItem(CONSENT_KEY) ?? "";
+    return storedConsent() ?? "";
   } catch {
     return "";
   }

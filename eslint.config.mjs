@@ -11,5 +11,6 @@ export default defineConfig([
     "playwright-report/**",
     "test-results/**",
     "next-env.d.ts",
+    "src/lib/analytics/vendor/shopify-analytics.js",
   ]),
 ]);

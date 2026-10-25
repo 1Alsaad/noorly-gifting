@@ -539,7 +539,7 @@ test("consent can be rejected, reopened, customized and revoked with focus resto
     .poll(() =>
       page.evaluate(
         () =>
-          JSON.parse(localStorage.getItem("stilla-consent-v1") ?? "{}")
+          JSON.parse(localStorage.getItem("noorly-consent-v2") ?? "{}")
             .analytics,
       ),
     )
@@ -553,7 +553,7 @@ test("consent can be rejected, reopened, customized and revoked with focus resto
     .poll(() =>
       page.evaluate(
         () =>
-          JSON.parse(localStorage.getItem("stilla-consent-v1") ?? "{}")
+          JSON.parse(localStorage.getItem("noorly-consent-v2") ?? "{}")
             .analytics,
       ),
     )

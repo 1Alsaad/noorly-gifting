@@ -18,7 +18,7 @@ export function contentSecurityPolicy(
     "img-src 'self' data: blob: https://cdn.shopify.com https://www.facebook.com",
     "font-src 'self'",
     "media-src 'self' blob: https://d2ol7oe51mr4n9.cloudfront.net",
-    `connect-src 'self' https://www.facebook.com https://connect.facebook.net https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com ${optionalOrigin(posthogHost)} ${optionalOrigin(sentryDsn)}${production ? "" : " ws: wss:"}`,
+    `connect-src 'self' https://monorail-edge.shopifysvc.com https://www.facebook.com https://connect.facebook.net https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com ${optionalOrigin(posthogHost)} ${optionalOrigin(sentryDsn)}${production ? "" : " ws: wss:"}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
