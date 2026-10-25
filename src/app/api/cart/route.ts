@@ -11,6 +11,7 @@ import {
 } from "@/lib/commerce/cart-cookie";
 import { CommerceError } from "@/lib/commerce/errors";
 import { enrichCartProducts } from "@/lib/commerce/cart-presentation";
+import { isCartLineAvailable } from "@/lib/commerce/cart-availability";
 import { encodeMockCart } from "@/lib/commerce/providers/mock/cookie";
 import {
   cartActionSchema,
@@ -93,10 +94,32 @@ function bundleLines(cart: Cart, lineId: string) {
       )
     : [line];
 }
+function validateMutationCart(
+  cart: Cart,
+  catalogue: Product[],
+  retainedUnavailableLineIds: ReadonlySet<string>,
+  options: NonNullable<Parameters<typeof validateCart>[2]> = {},
+) {
+  validateCart(cart, catalogue, {
+    ...options,
+    allowUnavailableItems:
+      options.allowUnavailableItems || retainedUnavailableLineIds.size > 0,
+  });
+  if (
+    !options.allowUnavailableItems &&
+    cart.lines.some(
+      (line) =>
+        !retainedUnavailableLineIds.has(line.id) &&
+        !isCartLineAvailable(line, { projected: options.projected }),
+    )
+  )
+    throw new CommerceError("unavailable_product");
+}
 function projectedAdd(
   cart: Cart,
   inputs: CartLineInput[],
   catalogue: Product[],
+  retainedUnavailableLineIds: ReadonlySet<string> = new Set(),
 ): Cart {
   const projected = structuredClone(cart);
   for (const input of inputs) {
@@ -128,7 +151,9 @@ function projectedAdd(
     (sum, line) => sum + line.quantity,
     0,
   );
-  validateCart(projected, catalogue, { projected: true });
+  validateMutationCart(projected, catalogue, retainedUnavailableLineIds, {
+    projected: true,
+  });
   return projected;
 }
 export async function GET() {
@@ -193,6 +218,7 @@ export async function POST(request: Request) {
     const catalogue = await getStorefrontCatalogue(provider);
     // Refresh availability and bilingual presentation from the catalogue before mutations.
     cart = enrichCartProducts(cart, catalogue);
+    const retainedUnavailableLineIds = new Set<string>();
     if (action.action === "replace_bundle") {
       const exists = cart.lines.some((line) =>
         line.attributes.some(
@@ -241,8 +267,27 @@ export async function POST(request: Request) {
       if (attributes.length)
         cart = await provider.updateCartAttributes(cart.id, attributes);
     } else if (action.action === "add") {
-      const projected = projectedAdd(cart, action.lines, catalogue);
-      if (!(await provider.validateAvailability(projected.lines)).available)
+      const incomingVariantIds = new Set(
+        action.lines.map((line) => line.merchandiseId),
+      );
+      // Keep unavailable old purchases visible for removal, without blocking an
+      // unrelated addition. Any variant being added still needs full validation.
+      for (const line of cart.lines)
+        if (
+          !incomingVariantIds.has(line.merchandiseId) &&
+          !isCartLineAvailable(line)
+        )
+          retainedUnavailableLineIds.add(line.id);
+      const projected = projectedAdd(
+        cart,
+        action.lines,
+        catalogue,
+        retainedUnavailableLineIds,
+      );
+      const purchasableLines = projected.lines.filter(
+        (line) => !retainedUnavailableLineIds.has(line.id),
+      );
+      if (!(await provider.validateAvailability(purchasableLines)).available)
         throw new CommerceError("unavailable_product", 409);
       cart = await provider.addCartLines(cart.id, action.lines);
     } else if (action.action === "update") {
@@ -342,7 +387,7 @@ export async function POST(request: Request) {
       return respond(enrichCartProducts(cart, catalogue), { url });
     }
     cart = enrichCartProducts(cart, catalogue);
-    validateCart(cart, catalogue, {
+    validateMutationCart(cart, catalogue, retainedUnavailableLineIds, {
       allowUnsupportedPurchaseOptions: action.action === "remove",
       allowUnavailableItems:
         action.action === "remove" || Boolean(cart.warnings?.length),

@@ -11,6 +11,7 @@ import { getDictionary } from "@/content/translations";
 import type { CartLine, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { useCart } from "./cart-provider";
+import { cartErrorAction, cartErrorMessage } from "./cart-errors";
 import { variantLabel } from "@/components/product/variant-picker";
 import {
   hasUnsupportedPurchaseOption,
@@ -20,6 +21,7 @@ import "./cart-components.css";
 export function CartView({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const { cart, loading, error, updateLine, removeLines, checkout } = useCart();
+  const errorAction = error ? cartErrorAction(error, locale) : undefined;
   const unsupportedPurchase = Boolean(
     cart?.lines.some(hasUnsupportedPurchaseOption),
   );
@@ -322,11 +324,15 @@ export function CartView({ locale }: { locale: Locale }) {
         )}
         {error && !(error === "cart_changed" && cart?.warnings?.length) && (
           <p role="alert" className="field-error">
-            {error === "cart_changed"
-              ? locale === "sv"
-                ? "Kontrollera din uppdaterade varukorg innan du fortsätter."
-                : "Review your updated bag before continuing."
-              : t.error}
+            {cartErrorMessage(error, locale)}
+            {errorAction && error === "invalid_origin" && (
+              <>
+                {" "}
+                <Link className="text-link" href={errorAction.href}>
+                  {errorAction.label} ↗
+                </Link>
+              </>
+            )}
           </p>
         )}
         <p className="small-label">{t.delivery}</p>

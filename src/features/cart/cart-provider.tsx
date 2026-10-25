@@ -24,11 +24,12 @@ import {
   getMetaCheckoutAttributes,
   trackMetaInitiateCheckout,
 } from "@/lib/analytics/meta";
+import { cartErrorCode, type CartErrorCode } from "./cart-errors";
 
 type CartContextValue = {
   cart: Cart | null;
   loading: boolean;
-  error: string | null;
+  error: CartErrorCode | null;
   addLines(lines: CartLineInput[]): Promise<void>;
   replaceBundle(bundleId: string, lines: CartLineInput[]): Promise<void>;
   updateLine(lineId: string, quantity: number): Promise<void>;
@@ -40,7 +41,7 @@ const CartContext = createContext<CartContextValue | null>(null);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<CartErrorCode | null>(null);
   const busy = useRef(false);
   const revision = useRef(0);
   useEffect(() => {
@@ -72,12 +73,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error("cart_update_failed");
+      if (!response.ok) throw new Error(cartErrorCode(data?.error));
       if (data.cart) setCart(data.cart);
       return data as { cart?: Cart; url?: string; reviewRequired?: boolean };
     } catch (e) {
-      setError("cart_update_failed");
-      throw e;
+      const code = cartErrorCode(e);
+      setError(code);
+      throw new Error(code);
     } finally {
       busy.current = false;
       setLoading(false);
