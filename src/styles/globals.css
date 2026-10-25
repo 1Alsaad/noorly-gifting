@@ -647,6 +647,9 @@ body {
   grid-template-columns: 1.2fr 1fr;
   gap: 7vw;
 }
+.product-detail > div {
+  min-width: 0;
+}
 .product-detail-image {
   position: relative;
   aspect-ratio: 1/1.13;
@@ -661,6 +664,72 @@ body {
 }
 .gallery-main img {
   object-fit: contain;
+}
+.gallery-main {
+  cursor: zoom-in;
+}
+.gallery-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgb(20 18 15 / 76%);
+}
+.gallery-lightbox {
+  position: fixed;
+  z-index: 111;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(94vw, 1000px);
+  max-height: 94dvh;
+  overflow-y: auto;
+  padding: clamp(12px, 2vw, 24px);
+  background: var(--ivory);
+  color: var(--ink);
+}
+.gallery-lightbox-header,
+.gallery-lightbox-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.gallery-lightbox-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+.gallery-lightbox button {
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 24px;
+  cursor: pointer;
+}
+.gallery-lightbox-image {
+  position: relative;
+  height: min(64dvh, 700px);
+  margin: 10px 0;
+  touch-action: pan-y pinch-zoom;
+}
+.gallery-lightbox-image img {
+  object-fit: contain;
+}
+.gallery-lightbox-controls {
+  justify-content: center;
+}
+.gallery-lightbox-controls p {
+  min-width: 70px;
+  text-align: center;
+  font-size: 14px;
+}
+.gallery-lightbox-caption {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
 }
 .gallery-zoom {
   position: absolute;

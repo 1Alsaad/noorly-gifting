@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -16,9 +16,12 @@ import {
 } from "@/content/launch-bundle";
 import type { LaunchProductState } from "@/lib/commerce/launch-product";
 
-const { addLines } = vi.hoisted(() => ({ addLines: vi.fn() }));
+const { addLines, checkout } = vi.hoisted(() => ({
+  addLines: vi.fn(),
+  checkout: vi.fn(),
+}));
 vi.mock("@/features/cart/cart-provider", () => ({
-  useCart: () => ({ addLines, loading: false }),
+  useCart: () => ({ addLines, checkout, loading: false }),
 }));
 vi.mock("@/lib/analytics/client", () => ({ trackEvent: vi.fn() }));
 
@@ -116,8 +119,96 @@ describe("separate products and the native bundle", () => {
   beforeEach(() => {
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "false");
     addLines.mockReset().mockResolvedValue(undefined);
+    checkout.mockReset().mockRejectedValue(new Error("checkout_unavailable"));
   });
   afterEach(() => vi.unstubAllEnvs());
+
+  it("carries the selected colour into the inline native bundle and retries without duplicating it", async () => {
+    const user = userEvent.setup();
+    render(
+      <LaunchProductDetails
+        launch={sand}
+        offers={[sand, bowl, bundle]}
+        locale="en"
+      />,
+    );
+    await user.click(
+      screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
+    );
+    const offers = within(
+      screen.getByRole("region", { name: "Your moment, your choice." }),
+    );
+    expect(offers.getByLabelText("Candle sand colour & scent")).toHaveValue(
+      sand.product.variants[7].id,
+    );
+    expect(offers.getByText(/Bundle price · Save.*250/)).toBeVisible();
+    expect(offers.getByText(/Separately today:.*999/)).toBeVisible();
+    const button = offers.getByRole("button", {
+      name: "Checkout with Luma + Alva",
+    });
+    await user.click(button);
+    await offers.findByRole("alert");
+    expect(addLines).toHaveBeenCalledWith([
+      { merchandiseId: bundle.product.variants[7].id, quantity: 1 },
+    ]);
+    await user.click(button);
+    await waitFor(() => expect(checkout).toHaveBeenCalledTimes(2));
+    expect(addLines).toHaveBeenCalledTimes(1);
+  });
+
+  it("lets the customer compare and buy the bowl without leaving the sand page", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <LaunchProductDetails
+        launch={sand}
+        offers={[sand, bowl, bundle]}
+        locale="en"
+      />,
+    );
+    const offers = within(
+      screen.getByRole("region", { name: "Your moment, your choice." }),
+    );
+    await user.selectOptions(
+      offers.getByLabelText("Candle sand colour & scent"),
+      sand.product.variants[2].id,
+    );
+    expect(
+      screen.getByRole("radio", { name: "Latte Beige · Pure Serenity" }),
+    ).toBeChecked();
+    expect(container.querySelector(".product-price")).toHaveTextContent("449");
+    await user.click(offers.getByRole("radio", { name: /^Alva / }));
+    await user.click(
+      offers.getByRole("button", { name: "Checkout with Alva" }),
+    );
+    await offers.findByRole("alert");
+    expect(addLines).toHaveBeenCalledWith([
+      { merchandiseId: bowl.product.variants[0].id, quantity: 1 },
+    ]);
+  });
+
+  it("disables a bundle when the exact matching colour is unavailable", async () => {
+    const user = userEvent.setup();
+    const unavailable = structuredClone(bundle);
+    unavailable.product.variants[2].available = false;
+    render(
+      <LaunchProductDetails
+        launch={sand}
+        offers={[sand, bowl, unavailable]}
+        locale="en"
+      />,
+    );
+    await user.click(
+      screen.getByRole("radio", { name: "Latte Beige · Pure Serenity" }),
+    );
+    const offers = within(
+      screen.getByRole("region", { name: "Your moment, your choice." }),
+    );
+    expect(
+      offers.getByRole("button", { name: "Checkout with Luma + Alva" }),
+    ).toBeDisabled();
+    expect(offers.getByRole("radio", { name: /Luma \+ Alva/ })).toBeDisabled();
+    expect(addLines).not.toHaveBeenCalled();
+  });
 
   it("keeps the selected colour, photo, standalone price and merchandise ID together", async () => {
     const user = userEvent.setup();
@@ -135,7 +226,14 @@ describe("separate products and the native bundle", () => {
     );
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
-    ).toHaveLength(0);
+    ).toHaveLength(9);
+    await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute(
+      "href",
+      "/media/products/candle-sand/csand-11-supplier-5ghn.jpg",
+    );
     await user.click(
       screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
     );
@@ -145,12 +243,37 @@ describe("separate products and the native bundle", () => {
     expect(screen.getByText(/449/)).toBeInTheDocument();
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
-    ).toHaveLength(0);
+    ).toHaveLength(5);
     expect(screen.getByText(/A candle vessel is not included/)).toBeVisible();
     await user.click(screen.getByRole("button", { name: "Add to bag" }));
     expect(addLines).toHaveBeenCalledWith([
       { merchandiseId: sand.product.variants[7].id, quantity: 1 },
     ]);
+  });
+
+  it("switches every colour to its own supplier gallery, including both whites", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <LaunchProductDetails launch={sand} locale="en" />,
+    );
+    for (const choice of launchSandChoices) {
+      await user.click(screen.getByRole("radio", { name: choice.label.en }));
+      const gallery = screen.getByRole("link", {
+        name: /Open full-size image/,
+      });
+      expect(gallery).toHaveAttribute("href", choice.photo.url);
+      expect(
+        container.querySelectorAll(".gallery-thumbnails button"),
+      ).toHaveLength(choice.sku === "CSand-11" ? 9 : 5);
+      await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
+      expect(gallery.getAttribute("href")).toContain(
+        `${choice.sku.toLowerCase()}-supplier-`,
+      );
+      expect(screen.getByRole("button", { name: /^Image 2:/ })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+    }
   });
 
   it("shows only bowl photographs and adds the bowl as one separate line", async () => {
@@ -199,7 +322,7 @@ describe("separate products and the native bundle", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Teak bowl + candle sand",
+        name: "Luma + Alva · Candle sand & teak bowl",
       }),
     ).toBeVisible();
     expect(screen.getAllByRole("radio")).toHaveLength(11);
@@ -211,8 +334,8 @@ describe("separate products and the native bundle", () => {
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[0].photo.url);
-    expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
-      4,
+    expect(screen.getAllByRole("button", { name: /^Image \d+:/ })).toHaveLength(
+      12,
     );
     await user.click(screen.getByRole("button", { name: "Add to bag" }));
     expect(addLines).toHaveBeenLastCalledWith([
@@ -239,7 +362,7 @@ describe("separate products and the native bundle", () => {
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[7].photo.url);
     expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
-      4,
+      8,
     );
     for (const [index, photo] of launchBundlePhotos.entries())
       expect(
@@ -279,7 +402,7 @@ describe("separate products and the native bundle", () => {
     expect(screen.getByText(/550/)).toBeVisible();
     expect(screen.getByText(/From.*699/)).toBeVisible();
     const bundleCard = screen
-      .getByRole("heading", { name: "Teak bowl + candle sand" })
+      .getByRole("heading", { name: "Luma + Alva · Candle sand & teak bowl" })
       .closest("article")!;
     expect(within(bundleCard).getAllByRole("img")).toHaveLength(2);
     expect(

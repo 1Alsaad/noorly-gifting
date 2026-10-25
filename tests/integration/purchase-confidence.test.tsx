@@ -9,6 +9,10 @@ import {
 } from "@/components/product/purchase-confidence";
 import { launchProductDefinitions } from "@/content/launch-catalog";
 import type { ProductVariant } from "@/types/commerce";
+import {
+  ProductBadges,
+  PaymentBadges,
+} from "@/components/product/product-badges";
 
 const variant: ProductVariant = {
   id: "bundle",
@@ -33,6 +37,36 @@ const variant: ProductVariant = {
 };
 
 describe("purchase confidence without unsupported claims", () => {
+  it("uses verified sand claims and the enabled payment methods without applying vegan to the bowl", () => {
+    const { rerender, container } = render(
+      <>
+        <ProductBadges
+          product={launchProductDefinitions[0].preview}
+          locale="en"
+        />
+        <PaymentBadges locale="en" />
+      </>,
+    );
+    expect(screen.getByText("Vegan candle sand")).toBeVisible();
+    expect(screen.getByText("Founded in Sweden")).toBeVisible();
+    for (const method of [
+      "Visa",
+      "Mastercard",
+      "Shop Pay",
+      "Apple Pay",
+      "Google Pay",
+    ])
+      expect(screen.getByText(method)).toBeVisible();
+    expect(container).not.toHaveTextContent(/Klarna|PayPal|made in Sweden/i);
+    rerender(
+      <ProductBadges
+        product={launchProductDefinitions[1].preview}
+        locale="en"
+      />,
+    );
+    expect(screen.getByText("Handmade teak bowl")).toBeVisible();
+    expect(container).not.toHaveTextContent(/vegan/i);
+  });
   it("scopes handmade to the bowls and does not invent environmental claims", () => {
     const { container } = render(<BrandProof locale="en" />);
     expect(screen.getByText("Founded in Sweden")).toBeVisible();
