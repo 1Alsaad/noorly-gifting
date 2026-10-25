@@ -83,6 +83,8 @@ describe("purchase confidence without unsupported claims", () => {
     expect(
       screen.getByRole("link", { name: /Return terms/, hidden: true }),
     ).toHaveAttribute("href", "/en/shipping-returns");
-    expect(container).not.toHaveTextContent(/free returns|24 hours|only.*left/i);
+    expect(container).not.toHaveTextContent(
+      /free returns|24 hours|only.*left/i,
+    );
   });
 });
