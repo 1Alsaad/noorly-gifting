@@ -15,7 +15,7 @@ export type CustomerPolicy = {
   sections: PolicySection[];
 };
 
-// Legal sources checked 24 October 2026: DAL 2005:59, chapter 2 §§2–15;
+// Legal sources checked 25 October 2026: DAL 2005:59, chapter 2 §§2–15;
 // Konsumentköplag 2022:260, chapters 2–5; Konsumentverket's current guidance.
 // Customer-account withdrawal requests are handled by Shopify, not this site.
 export const withdrawalFormUrl =
@@ -38,13 +38,16 @@ export function customerWithdrawalLink(locale: Locale): PolicyLink {
 export function customerPolicySections(locale: Locale) {
   const sv = locale === "sv";
   const email = brand.supportEmail;
-  const address = `${brand.address.street}, ${brand.address.postalCode} ${brand.address.city}, ${sv ? "Sverige" : "Sweden"}`;
+  const address =
+    brand.address.street && brand.address.postalCode && brand.address.city
+      ? `${brand.address.street}, ${brand.address.postalCode} ${brand.address.city}, ${sv ? "Sverige" : "Sweden"}`
+      : "";
   const seller: PolicySection = {
     id: "seller",
     heading: sv ? "Säljare och kontakt" : "Seller and contact",
     paragraphs: [
-      brand.legalCompanyName,
-      address,
+      brand.legalCompanyName || brand.name,
+      ...(address ? [address] : []),
       ...(brand.organizationNumber
         ? [
             `${sv ? "Organisationsnummer" : "Company registration number"}: ${brand.organizationNumber}`,
@@ -62,13 +65,13 @@ export function customerPolicySections(locale: Locale) {
     paragraphs: sv
       ? [
           "Ljussand och teakskål säljs separat. En påse ljussand med 300 g och fyra bomullsvekar kostar 199 kr utan doft eller 249 kr med doft. Den dekorativa teakskålen kostar 550 kr. Priserna inkluderar moms och leverans inom Sverige; ingen extra fraktavgift tillkommer.",
-          "Vi behandlar och skickar din beställning så snart som möjligt. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
+          "Produkterna säljs som förbeställning. Vi skickar din beställning så snart varan finns i lager hos oss. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
           "Om vi inte har avtalat om en annan leveranstid ska leveransen ske utan onödigt dröjsmål och senast 30 dagar efter att avtalet ingicks.",
           `Kontakta ${email} om leveransen dröjer eller paketet skadas eller försvinner. Vi ansvarar för leveransen tills du har tagit emot varan. Vid försening kan du kräva leverans och, när konsumentköplagens förutsättningar är uppfyllda, häva köpet och få tillbaka det du har betalat.`,
         ]
       : [
           "Candle sand and the teak bowl are sold separately. One 300 g pouch of candle sand with four cotton wicks costs SEK 199 unscented or SEK 249 scented. The decorative teak bowl costs SEK 550. Prices include VAT and delivery within Sweden, with no additional shipping charge.",
-          "We process and dispatch your order as soon as possible. You receive an order confirmation by email and tracking information when available.",
+          "Products are available to pre-order. We dispatch your order as soon as the goods arrive in stock with us. You receive an order confirmation by email and tracking information when available.",
           "Unless we have agreed on another delivery time, delivery must take place without unnecessary delay and no later than 30 days after the contract is concluded.",
           `Contact ${email} if delivery is delayed or your parcel is damaged or lost. We remain responsible for delivery until you receive the goods. For delays, you can request delivery and, where the conditions under Swedish consumer law are met, cancel the purchase and receive a refund.`,
         ],
@@ -86,8 +89,8 @@ export function customerPolicySections(locale: Locale) {
       ...(brand.customerService.customerAccountsUrl
         ? [
             sv
-              ? "Du kan använda länken Ångra avtalet här. Logga in med e-postadressen från ditt köp, välj beställningen och bekräfta vilka varor du vill ångra. Shopify skickar en bekräftelse via e-post när din begäran har tagits emot."
-              : "You can use Withdraw from your purchase. Sign in with the email address used for your purchase, select the order and confirm which items you wish to withdraw from. Shopify sends an email confirmation when your request is received.",
+              ? "Du kan använda länken Ångra avtalet här. Logga in med e-postadressen från ditt köp, välj beställningen och bekräfta vilka varor du vill ångra. Du får en bekräftelse via e-post när din begäran har tagits emot."
+              : "You can use Withdraw from your purchase. Sign in with the email address used for your purchase, select the order and confirm which items you wish to withdraw from. You receive an email confirmation when your request is received.",
           ]
         : []),
       sv
@@ -110,13 +113,19 @@ export function customerPolicySections(locale: Locale) {
     paragraphs: sv
       ? [
           "Skicka tillbaka varan utan onödigt dröjsmål och senast 14 dagar efter att du har meddelat oss att du ångrar köpet. Du betalar den direkta returfrakten när du använder ångerrätten. Packa varan omsorgsfullt och spara inlämningskvittot.",
-          `Returadress: ${brand.legalCompanyName}, ${address}. Kontakta ${email} om du behöver hjälp med returen.`,
-          "Du får undersöka varan. Om den hanteras mer än vad som behövs för att fastställa dess egenskaper och funktion kan vi göra avdrag för den faktiska värdeminskningen enligt lag. En öppnad förpackning innebär inte i sig att ångerrätten försvinner.",
+          address
+            ? `Returadress: ${brand.legalCompanyName || brand.name}, ${address}. Kontakta ${email} om du behöver hjälp med returen.`
+            : `Kontakta ${email} för returadress och returinstruktioner.`,
+          "Låt varan vara oanvänd och otänd om du överväger en retur. Behåll helst förpackningen oöppnad och skicka tillbaka alla medföljande delar, gärna i originalförpackningen.",
+          "En öppnad förpackning utesluter inte automatiskt lagstadgad ångerrätt. Om varan har tänts, förbrukats, skadats eller hanterats mer än nödvändigt för att fastställa dess egenskaper och funktion kan återbetalningen minskas med den faktiska värdeminskningen enligt lag.",
         ]
       : [
           "Return the goods without unnecessary delay and within 14 days of notifying us of your withdrawal. You pay the direct return postage when changing your mind. Pack the goods carefully and retain proof of posting.",
-          `Return address: ${brand.legalCompanyName}, ${address}. Contact ${email} if you need help with your return.`,
-          "You may inspect the goods. Handling beyond what is necessary to establish their characteristics and function may result in a deduction for the actual diminished value, as permitted by law. Opening the packaging does not by itself remove your right of withdrawal.",
+          address
+            ? `Return address: ${brand.legalCompanyName || brand.name}, ${address}. Contact ${email} if you need help with your return.`
+            : `Contact ${email} for the return address and return instructions.`,
+          "Keep the goods unused and unlit if you are considering a return. Preferably leave the packaging unopened and return all included parts, ideally in the original packaging.",
+          "Opening the packaging does not automatically exclude your statutory right of withdrawal. If goods have been lit, consumed, damaged or handled beyond what is necessary to establish their characteristics and function, the refund may be reduced by the actual diminished value as permitted by law.",
         ],
   };
   const refunds: PolicySection = {
@@ -158,17 +167,55 @@ export function customerPolicySections(locale: Locale) {
     heading: sv ? "Beställning och betalning" : "Orders and payment",
     paragraphs: sv
       ? [
-          "Dessa villkor gäller när du som konsument handlar hos Noorly AB med leverans inom Sverige. Produktens innehåll och valda alternativ framgår på produktsidan och i din beställning.",
+          "Dessa villkor gäller när du som konsument handlar hos Noorly med leverans inom Sverige. Produktens innehåll och valda alternativ framgår på produktsidan och i din beställning.",
           "Priser anges i svenska kronor inklusive moms. Ljussand och teakskål säljs som separata produkter, och leverans inom Sverige ingår. Kontrollera valda varor, färg och doft, leveransadress och totalbelopp innan du bekräftar köpet.",
-          "Betalning sker i Shopifys kassa med de betalningssätt som visas där. Du får en orderbekräftelse via e-post. Kontakta oss om någon uppgift i beställningen är fel.",
+          "Betalning sker i vår säkra kassa med de betalningssätt som visas där. Du får en orderbekräftelse via e-post. Kontakta oss om någon uppgift i beställningen är fel.",
         ]
       : [
-          "These terms apply when you buy from Noorly AB as a consumer for delivery within Sweden. The product contents and selected options are shown on the product page and in your order.",
+          "These terms apply when you buy from Noorly as a consumer for delivery within Sweden. The product contents and selected options are shown on the product page and in your order.",
           "Prices are in Swedish kronor and include VAT. Candle sand and the teak bowl are sold as separate products, and delivery within Sweden is included. Check your items, selected colour and scent, delivery address and total before confirming your purchase.",
-          "Payment is completed through Shopify checkout using the payment methods shown there. You receive an order confirmation by email. Contact us if any order detail is incorrect.",
+          "Payment is completed through our secure checkout using the payment methods shown there. You receive an order confirmation by email. Contact us if any order detail is incorrect.",
         ],
   };
-  return { seller, order, delivery, withdrawal, returns, refunds, complaints };
+  // Network Intelligence is enabled. Keep the named controller disclosure in
+  // terms/privacy, as required by the platform terms and data-processing terms.
+  const dataServices: PolicySection = {
+    id: "data-services",
+    heading: sv
+      ? "Handelsplattform och personuppgifter"
+      : "Commerce platform and personal data",
+    paragraphs: sv
+      ? [
+          "Vår butiks handelsplattform, kassa och orderhantering tillhandahålls och driftas av Shopify. Shopify samlar in och behandlar personuppgifter när du använder butiken eller handlar hos oss. Uppgifter delas med Shopify och andra tjänsteleverantörer som kan finnas i andra länder.",
+          "Shopify Network Intelligence är aktiverat. Shopify är självständigt personuppgiftsansvarig för utökade tjänster som analys, anpassning och annonsering, där uppgifter om dina interaktioner med vår butik kan kombineras med uppgifter från andra handlare och Shopify. Läs konsumentintegritetspolicyn och använd integritetsportalen för information om dina rättigheter, inklusive att återkalla samtycke eller invända där det är tillämpligt.",
+        ]
+      : [
+          "Our store’s commerce platform, checkout and order services are hosted and operated by Shopify. Shopify collects and processes personal data when you browse or buy from our store. Information is shared with Shopify and other service providers that may be in other countries.",
+          "Shopify Network Intelligence is enabled. Shopify acts as an independent controller for Enhanced Services such as analytics, personalization and advertising, which may combine information about your interactions with our store, other merchants and Shopify. Read the Consumer Privacy Policy and use the privacy portal for information about your rights, including withdrawing consent or objecting where applicable.",
+        ],
+    links: [
+      {
+        label: sv
+          ? "Shopifys konsumentintegritetspolicy"
+          : "Shopify Consumer Privacy Policy",
+        href: "https://www.shopify.com/legal/privacy/consumers",
+      },
+      {
+        label: sv ? "Shopifys integritetsportal" : "Shopify privacy portal",
+        href: "https://privacy.shopify.com/",
+      },
+    ],
+  };
+  return {
+    seller,
+    order,
+    delivery,
+    withdrawal,
+    returns,
+    refunds,
+    complaints,
+    dataServices,
+  };
 }
 
 export function getCustomerPolicy(
@@ -202,11 +249,12 @@ export function getCustomerPolicy(
       eyebrow,
       title: sv ? "Köpvillkor" : "Terms of sale",
       description: sv
-        ? "Villkor för ditt köp hos Noorly AB: betalning, leverans, ångerrätt och reklamation."
-        : "Terms for your purchase from Noorly AB: payment, delivery, withdrawal and complaints.",
+        ? "Villkor för ditt köp hos Noorly: betalning, leverans, ångerrätt och reklamation."
+        : "Terms for your purchase from Noorly: payment, delivery, withdrawal and complaints.",
       sections: [
         sections.seller,
         sections.order,
+        sections.dataServices,
         sections.delivery,
         sections.withdrawal,
         sections.returns,
@@ -252,8 +300,8 @@ export function getCustomerPolicy(
         ? "Så hanterar vi dina uppgifter"
         : "How we handle your information",
       description: sv
-        ? "Information om hur Noorly AB använder uppgifter för köp, kundservice och webbplatsens funktion."
-        : "How Noorly AB uses information for purchases, customer service and the operation of this website.",
+        ? "Information om hur Noorly använder uppgifter för köp, kundservice och webbplatsens funktion."
+        : "How Noorly uses information for purchases, customer service and the operation of this website.",
       sections: [
         {
           ...sections.seller,
@@ -267,33 +315,26 @@ export function getCustomerPolicy(
           paragraphs: sv
             ? [
                 "Vi använder de namn-, kontakt-, leverans- och orderuppgifter du lämnar för att hantera ditt köp, leverera varor, svara på frågor och hantera returer eller reklamationer. Behandlingen behövs för att fullgöra köpet och våra skyldigheter enligt lag. Uppgifter i andra förfrågningar används för att kunna svara på dem.",
-                "Shopify tillhandahåller kassa, betalnings- och ordertjänster samt kundkonton. De uppgifter som behövs för leveransen lämnas till transportören. Shopify beskriver sin egen behandling, sina internationella överföringar och tillämpliga skyddsåtgärder i sin integritetspolicy.",
+                "De uppgifter som behövs för leveransen lämnas till transportören.",
                 "Vi sparar uppgifter så länge de behövs för ditt köp, kundservice eller skyldigheter enligt lag. Kontakta oss om du vill veta mer om de uppgifter som rör dig.",
               ]
             : [
                 "We use the name, contact, delivery and order details you provide to handle your purchase, deliver goods, answer questions and manage returns or complaints. This processing is necessary to fulfil the purchase and our legal obligations. Information in other enquiries is used to respond to them.",
-                "Shopify provides checkout, payment and order services, and customer accounts. Information needed for delivery is shared with the carrier. Shopify describes its own processing, international transfers and applicable safeguards in its privacy policy.",
+                "Information needed for delivery is shared with the carrier.",
                 "We retain information for as long as it is needed for your purchase, customer service or legal obligations. Contact us for more information about the data relating to you.",
               ],
-          links: [
-            {
-              label: sv
-                ? "Shopifys integritetspolicy"
-                : "Shopify privacy policy",
-              href: "https://www.shopify.com/legal/privacy",
-            },
-          ],
         },
+        sections.dataServices,
         {
           id: "privacy-choices",
           heading: sv ? "Dina val och rättigheter" : "Your choices and rights",
           paragraphs: sv
             ? [
-                "Nödvändig lagring används för webbplatsens funktion, varukorgen och dina cookieval. Frivillig analys och marknadsföring på den här webbplatsen aktiveras bara med ditt samtycke. Du kan ändra framtida användning genom Cookieinställningar i sidfoten. Shopifys kassa och tjänster kan ha egna inställningar och information.",
+                "Nödvändig lagring används för webbplatsens funktion, varukorgen och dina cookieval. Frivillig analys och marknadsföring på den här webbplatsen aktiveras bara med ditt samtycke. Du kan ändra framtida användning genom Cookieinställningar i sidfoten. Kassan och anslutna tjänster kan ha egna inställningar och information.",
                 `Kontakta ${brand.supportEmail} om du vill begära tillgång till, rättelse eller radering av uppgifter, begränsa behandling, invända eller begära dataportabilitet. Rättigheterna gäller enligt förutsättningarna i dataskyddsreglerna. Du kan också lämna klagomål till Integritetsskyddsmyndigheten (IMY).`,
               ]
             : [
-                "Necessary storage supports the website, your cart and cookie preferences. Optional analytics and marketing on this website operate only with your consent. You can change future use through Cookie settings in the footer. Shopify checkout and services may provide their own settings and information.",
+                "Necessary storage supports the website, your cart and cookie preferences. Optional analytics and marketing on this website operate only with your consent. You can change future use through Cookie settings in the footer. Checkout and connected services may provide their own settings and information.",
                 `Contact ${brand.supportEmail} to request access, correction or deletion, restrict processing, object or request data portability. These rights apply under the conditions in data protection law. You can also complain to Sweden's data protection authority, IMY.`,
               ],
           links: [

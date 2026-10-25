@@ -1,4 +1,4 @@
-import { candleSandHandle, launchCatalogCopy } from "@/content/launch-catalog";
+import { candleSandHandle } from "@/content/launch-catalog";
 import type { CinematicScene } from "./types";
 
 export const winterScenes: CinematicScene[] = [
@@ -33,7 +33,6 @@ export const winterScenes: CinematicScene[] = [
         en: "In from the cold.\nInto something warmer.",
       },
     },
-    mediaNote: { sv: launchCatalogCopy.sv.film, en: launchCatalogCopy.en.film },
     hotspots: [],
     shopping: { productHandle: candleSandHandle, visibleFrom: 10 / 15 },
   },

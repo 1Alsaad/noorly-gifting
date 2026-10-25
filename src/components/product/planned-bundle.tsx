@@ -6,8 +6,6 @@ import {
   launchBundlePhotos,
   launchSandChoices,
   plannedLaunchBundle,
-  supplierBowlUrl,
-  supplierCandleSandUrl,
 } from "@/content/launch-bundle";
 import type {
   Locale,
@@ -175,9 +173,6 @@ export function PlannedBundleVisual({
         />
         {caption && (
           <div className="planned-bundle-photo-note">
-            <a href={supplierBowlUrl} target="_blank" rel="noopener noreferrer">
-              {launchBundleCopy[locale].photoSource} ↗
-            </a>
             <p>{caption}</p>
           </div>
         )}
@@ -189,18 +184,6 @@ export function PlannedBundleVisual({
       <span className="eyebrow">NOORLY</span>
       <span className="planned-bundle-mark">Ljusstund</span>
       <p>{launchBundleCopy[locale].photos}</p>
-      <div className="planned-bundle-source-links">
-        <a href={supplierBowlUrl} target="_blank" rel="noopener noreferrer">
-          {launchBundleCopy[locale].supplierLink} ↗
-        </a>
-        <a
-          href={supplierCandleSandUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {launchBundleCopy[locale].supplierSandLink} ↗
-        </a>
-      </div>
     </div>
   );
 }

@@ -1,11 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Home from "@/app/[locale]/page";
-import { ShoppingOverlay } from "@/components/cinematic/shopping-overlay";
 import { getDictionary } from "@/content/translations";
 import { launchProductDefinitions } from "@/content/launch-catalog";
 import { isPublicTestPreview } from "@/lib/commerce/launch";
-import type { Locale, Product } from "@/types/commerce";
+import type { Product } from "@/types/commerce";
 
 const { getProductByHandle } = vi.hoisted(() => ({
   getProductByHandle: vi.fn(),
@@ -19,24 +18,6 @@ vi.mock("@/features/cart/cart-provider", () => ({
 vi.mock("@/lib/analytics/client", () => ({ trackEvent: vi.fn() }));
 vi.mock("@/components/ui/structured-data", () => ({
   StructuredData: () => null,
-}));
-vi.mock("@/components/cinematic/cinematic-experience", () => ({
-  // The real shopping overlay is tested without the unrelated video/timing hooks.
-  CinematicExperience: ({
-    locale,
-    products,
-  }: {
-    locale: Locale;
-    products: Product[];
-  }) => (
-    <ShoppingOverlay
-      product={products[0]}
-      locale={locale}
-      visible
-      onDetails={() => {}}
-      onSkip={() => {}}
-    />
-  ),
 }));
 
 const products: Product[] = launchProductDefinitions.map(
@@ -92,13 +73,14 @@ describe("launch copy through the homepage and real release gates", () => {
       ).toHaveLength(2);
       expect(container).toHaveTextContent("300 g");
       expect(container.textContent).not.toMatch(
-        /planned set price|planerat setpris|ordering (?:is currently unavailable|and payment are not yet open)|beställning (?:är inte tillgänglig|och betalning är ännu inte öppna)|contents will be confirmed|exakta set|förbeställ|preorders/i,
+        /planned set price|planerat setpris|ordering (?:is currently unavailable|and payment are not yet open)|beställning (?:är inte tillgänglig|och betalning är ännu inte öppna)|contents will be confirmed|exakta set|stämningsfilm|concept film|Shopify|AWGifts|TeakB-37/i,
       );
+      expect(container.querySelector("video")).toBeNull();
       expect(isPublicTestPreview()).toBe(false);
 
       const shared = getDictionary(locale);
       expect(shared.deliveryText).toMatch(
-        locale === "sv" ? /så snart som möjligt/ : /as soon as possible/,
+        locale === "sv" ? /finns i lager hos oss/ : /in stock/,
       );
       expect(shared.deliveryText).not.toMatch(
         /estimated delivery window|beräknad leveransperiod/i,

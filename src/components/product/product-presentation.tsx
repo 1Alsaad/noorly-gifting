@@ -53,7 +53,9 @@ export function ProductPresentation({
                 .map((item) => (
                   <li key={item.id}>
                     <a href={item.images?.[0]?.url}>
-                      {variantLabel(item, locale)}
+                      {item.title === "Default Title"
+                        ? product.title[locale]
+                        : variantLabel(item, locale)}
                     </a>
                   </li>
                 ))}

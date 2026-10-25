@@ -93,7 +93,6 @@ export default async function ProductDetail({ params }: Props) {
                 name: product.title[locale],
                 description: product.description[locale],
                 image: product.images.map((image) => image.url),
-                sku: product.variants[0]?.sku ?? product.id,
                 ...(launch.purchasable
                   ? {
                       offers: product.variants
@@ -102,9 +101,8 @@ export default async function ProductDetail({ params }: Props) {
                           "@type": "Offer",
                           price: variant.price.amount,
                           priceCurrency: variant.price.currencyCode,
-                          sku: variant.sku,
                           url: `${brand.siteUrl}/${locale}/products/${handle}`,
-                          availability: "https://schema.org/InStock",
+                          availability: "https://schema.org/PreOrder",
                         })),
                     }
                   : {}),

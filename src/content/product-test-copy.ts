@@ -7,11 +7,11 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
   const sv = locale === "sv";
   const contact = brand.supportEmail;
   const delivery = sv
-    ? "Leverans inom Sverige ingår. Vi skickar din beställning så snart som möjligt."
-    : "Shipping within Sweden is included. We will dispatch your order as soon as possible.";
+    ? "Leverans inom Sverige ingår. Förbeställ nu. Vi skickar din beställning så snart produkten finns i lager hos oss."
+    : "Shipping within Sweden is included. Pre-order now. We will dispatch your order as soon as the product arrives in stock.";
   const care = sv
-    ? "Teakskålen är dekorativ och får inte användas direkt som ljuskärl. Följ tillverkarens anvisningar för ljussanden och använd ett separat lämpligt obrännbart och värmetåligt kärl för eventuell låga."
-    : "The teak bowl is decorative and must not be used directly as a candle vessel. Follow the candle-sand manufacturer's instructions and use a separate suitable noncombustible, heat-resistant container for any flame.";
+    ? "Använd ljussanden i ett stabilt, obrännbart och värmetåligt kärl avsett för ljus. Följ instruktionerna på förpackningen och lämna aldrig ett tänt ljus utan uppsikt."
+    : "Use candle sand in a stable, noncombustible, heat-resistant vessel designed for candles. Follow the instructions on the packaging and never leave a burning candle unattended.";
   return {
     ...t,
     preview: sv ? "Noorly · första upplagan" : "Noorly · first edition",
@@ -29,22 +29,14 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
         : "Discover candle sand in your favourite colour and decorative teak bowls for your home. Choose each product separately.",
       curatedLabel: sv ? "NOORLY · FÖRSTA UPPLAGAN" : "NOORLY · FIRST EDITION",
       curatedText: sv
-        ? "Välj färg och doft på din ljussand. Varje påse innehåller 300 g och fyra bomullsvekar. Den dekorativa TeakB-37-skålen säljs separat."
-        : "Choose your candle sand's colour and scent. Each pouch contains 300 g and four cotton wicks. The decorative TeakB-37 bowl is sold separately.",
+        ? "Välj färg och doft på din ljussand. Varje påse innehåller 300 g och fyra bomullsvekar. Den dekorativa teakskålen säljs separat."
+        : "Choose your candle sand's colour and scent. Each pouch contains 300 g and four cotton wicks. The decorative teak bowl is sold separately.",
       buildText: sv
         ? "Vår första upplaga består av ljussand och dekorativa teakskålar, som du köper var för sig."
         : "Our first edition features candle sand and decorative teak bowls, sold separately.",
       trust: sv
-        ? [
-            "Utvalt av Noorly",
-            "Tydlig produktinformation",
-            "Säker kassa hos Shopify",
-          ]
-        : [
-            "Selected by Noorly",
-            "Clear product information",
-            "Secure Shopify checkout",
-          ],
+        ? ["Utvalt av Noorly", "Tydlig produktinformation", "Säker betalning"]
+        : ["Selected by Noorly", "Clear product information", "Secure payment"],
       reviewsLabel: sv ? "VÅR FÖRSTA UPPLAGA" : "OUR FIRST EDITION",
       reviewsText: sv
         ? "Läs om innehållet och hur varje artikel ska användas på produktsidan."
@@ -89,8 +81,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
           ? "Vi använder nödvändig lagring för webbplatsens funktion, varukorgen och dina cookieval. Frivillig analys och marknadsföring aktiveras bara med ditt samtycke."
           : "Necessary storage supports the website, your cart and your cookie choices. Optional analytics and marketing operate only with your consent.",
         extra: sv
-          ? `När du kontaktar oss använder vi uppgifterna i din förfrågan för att kunna svara. Betalning hanteras i Shopifys kassa. Kontakta ${contact} för frågor om personuppgifter eller dina rättigheter.`
-          : `When you contact us, we use the information in your inquiry to respond. Payments are handled in Shopify checkout. Contact ${contact} for questions about personal data or your rights.`,
+          ? `När du kontaktar oss använder vi uppgifterna i din förfrågan för att kunna svara. Betalning hanteras i vår säkra kassa. Kontakta ${contact} för frågor om personuppgifter eller dina rättigheter.`
+          : `When you contact us, we use the information in your inquiry to respond. Payments are handled through our secure checkout. Contact ${contact} for questions about personal data or your rights.`,
       },
       cookies: {
         ...t.pages.cookies,
@@ -104,8 +96,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       terms: {
         ...t.pages.terms,
         text: sv
-          ? "På varje produktsida visas innehåll, pris och användningsinformation. Ljussand och teakskål säljs separat. Tillgängliga produkter kan läggas i varukorgen. Betalning hanteras i Shopifys kassa, där du granskar totalbeloppet och väljer bland de betalningssätt som erbjuds."
-          : "Each product page shows the contents, price and usage information. Candle sand and the teak bowl are sold separately. Available products can be added to your cart. Payment is handled in Shopify checkout, where you review the total and choose from the payment methods offered.",
+          ? "På varje produktsida visas innehåll, pris och användningsinformation. Ljussand och teakskål säljs separat och kan förbeställas. Betalning sker i vår säkra kassa, där du granskar totalbeloppet och väljer betalningssätt. Vi skickar din beställning så snart produkten finns i lager hos oss."
+          : "Each product page shows the contents, price and usage information. Candle sand and the teak bowl are sold separately and can be pre-ordered. Pay through our secure checkout, where you review the total and choose a payment method. We will dispatch your order as soon as the product arrives in stock.",
         extra: sv
           ? `Priser anges i SEK. Inga kortuppgifter samlas in på denna webbplats. Frågor om en beställning, ånger, retur eller reklamation skickas till ${contact}.`
           : `Prices are shown in SEK. This website does not collect card details. Email ${contact} about an order, cancellation, return or complaint.`,
@@ -115,22 +107,22 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       {
         q: sv ? "Hur beställer jag?" : "How do I order?",
         a: sv
-          ? "Välj produkt och, för ljussand, färg och doft. Lägg till den tillgängliga varan i varukorgen och fortsätt till Shopifys säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
-          : "Choose a product and, for candle sand, a colour and scent. Add the available item to your cart and continue to secure Shopify checkout. Review the contents, delivery information and total before paying.",
+          ? "Välj produkt och, för ljussand, färg och doft. Lägg varan i påsen och fortsätt till vår säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
+          : "Choose a product and, for candle sand, a colour and scent. Add the item to your bag and continue to our secure checkout. Review the contents, delivery information and total before paying.",
       },
       {
         q: sv
           ? "Vad ingår i produkterna?"
           : "What is included in each product?",
         a: sv
-          ? "Ljussanden säljs som en påse med 300 g i vald färg och doft, med fyra bomullsvekar. Teakskålen säljs separat och består av en dekorativ AWGifts TeakB-37-skål. Ett värmetåligt ljuskärl, presentbox och dekorationer ingår inte."
-          : "Candle sand is sold as one 300 g pouch in your chosen colour and scent, with four cotton wicks. The separately sold teak bowl is one decorative AWGifts TeakB-37 bowl. A heat-resistant candle vessel, gift box and styling decorations are not included.",
+          ? "Ljussanden säljs som en påse med 300 g i vald färg och doft, med fyra bomullsvekar. Teakskålen säljs separat. Presentbox, frukt och andra dekorationer ingår inte."
+          : "Candle sand is sold as one 300 g pouch in your chosen colour and scent, with four cotton wicks. The teak bowl is sold separately. A gift box, fruit and other styling decorations are not included.",
       },
       {
         q: sv
-          ? "Kan jag tända ljussand direkt i teakskålen?"
-          : "Can I burn candle sand directly in the teak bowl?",
-        a: care,
+          ? "När skickas min beställning?"
+          : "When will my order be dispatched?",
+        a: delivery,
       },
       {
         q: sv ? "Hur tar jag kontakt?" : "How can I get in touch?",

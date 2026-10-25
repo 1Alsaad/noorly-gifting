@@ -38,26 +38,60 @@ describe("customer policy routes", () => {
     ["sv", "privacy", "Så hanterar vi dina uppgifter"],
     ["en", "privacy", "How we handle your information"],
   ])(
-    "renders %s/%s with the actual seller and matching metadata",
+    "renders %s/%s with public brand contact details and matching metadata",
     async (locale, page, title) => {
       const params = Promise.resolve({ locale, page });
       const { container } = render(await InformationPage({ params }));
       expect(
         screen.getByRole("heading", { level: 1, name: title }),
       ).toBeInTheDocument();
-      expect(screen.getByText("Noorly AB")).toBeInTheDocument();
       expect(
         within(container.querySelector("#seller") as HTMLElement).getByText(
-          /Haga parkgata 3A, 723 36 Västerås/,
+          "NOORLY",
         ),
       ).toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: "support@noorlynordic.com" }),
       ).toHaveAttribute("href", "mailto:support@noorlynordic.com");
       expect(container).not.toHaveTextContent(
-        /placeholder|fiktiv|fictional|not open yet|inte öppen ännu|09[–-]16/i,
+        /\bNoorly AB\b|Haga parkgata|723 36|Västerås|placeholder|fiktiv|fictional|not open yet|inte öppen ännu|09[–-]16/i,
       );
-      expect((await generateMetadata({ params })).title).toBe(title);
+      const services = container.querySelector("#data-services");
+      if (page === "terms" || page === "privacy") {
+        expect(services).toHaveTextContent("Shopify Network Intelligence");
+        expect(services).toHaveTextContent(
+          locale === "sv"
+            ? "självständigt personuppgiftsansvarig"
+            : "independent controller",
+        );
+        expect(
+          within(services as HTMLElement).getByRole("link", {
+            name:
+              locale === "sv"
+                ? "Shopifys konsumentintegritetspolicy"
+                : "Shopify Consumer Privacy Policy",
+          }),
+        ).toHaveAttribute(
+          "href",
+          "https://www.shopify.com/legal/privacy/consumers",
+        );
+        expect(
+          within(services as HTMLElement).getByRole("link", {
+            name:
+              locale === "sv"
+                ? "Shopifys integritetsportal"
+                : "Shopify privacy portal",
+          }),
+        ).toHaveAttribute("href", "https://privacy.shopify.com/");
+      } else {
+        expect(services).toBeNull();
+      }
+      const customerCopy = container.cloneNode(true) as HTMLElement;
+      customerCopy.querySelector("#data-services")?.remove();
+      expect(customerCopy).not.toHaveTextContent(/Shopify/i);
+      const metadata = await generateMetadata({ params });
+      expect(metadata.title).toBe(title);
+      expect(metadata.description).not.toMatch(/\bNoorly AB\b|Shopify/i);
     },
   );
 
@@ -77,7 +111,8 @@ describe("customer policy routes", () => {
     );
     expect(delivery).toHaveTextContent("teakskålen kostar 550 kr");
     expect(delivery).toHaveTextContent("moms och leverans inom Sverige");
-    expect(delivery).toHaveTextContent("så snart som möjligt");
+    expect(delivery).toHaveTextContent("förbeställning");
+    expect(delivery).toHaveTextContent("så snart varan finns i lager hos oss");
     expect(delivery).toHaveTextContent(
       "senast 30 dagar efter att avtalet ingicks",
     );
@@ -97,8 +132,15 @@ describe("customer policy routes", () => {
       "senast 14 dagar efter att du har meddelat oss",
     );
     expect(returns).not.toHaveTextContent(
-      /godkänd retur|måste.*godkänna|approval/i,
+      /godkänd retur|måste.*godkänna|approval|Du får undersöka varan/i,
     );
+    expect(returns).toHaveTextContent("oanvänd och otänd");
+    expect(returns).toHaveTextContent("Behåll helst förpackningen oöppnad");
+    expect(returns).toHaveTextContent("faktiska värdeminskningen enligt lag");
+    expect(returns).toHaveTextContent(
+      "En öppnad förpackning utesluter inte automatiskt lagstadgad ångerrätt",
+    );
+    expect(returns).toHaveTextContent("för returadress och returinstruktioner");
     expect(refunds).toHaveTextContent(
       "senast 14 dagar efter att vi har tagit emot ditt ångermeddelande",
     );
@@ -110,7 +152,7 @@ describe("customer policy routes", () => {
     );
   });
 
-  it("links the configured Shopify withdrawal route from the footer and policy, with receipt information", async () => {
+  it("links the configured withdrawal route from the footer and policy, with receipt information", async () => {
     account.url = "https://account.example.test/orders";
     render(<Footer locale="sv" />);
     expect(
