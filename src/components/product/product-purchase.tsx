@@ -52,14 +52,23 @@ export function ProductPurchase({
   const purchaseId = `purchase-${product.handle}`;
   useEffect(() => {
     const target = purchaseRef.current;
-    if (!target || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(([entry]) => {
-      setPastPurchase(
-        !entry.isIntersecting && entry.boundingClientRect.top < 0,
-      );
-    });
-    observer.observe(target);
-    return () => observer.disconnect();
+    if (!target) return;
+    let frame = 0;
+    // Direct anchor/keyboard jumps can skip an intersection threshold entirely.
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        setPastPurchase(target.getBoundingClientRect().bottom <= 0);
+      });
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
   function choose(id: string) {
     setVariant(id);
