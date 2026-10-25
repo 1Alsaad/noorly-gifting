@@ -192,12 +192,6 @@ export function CartView({ locale }: { locale: Locale }) {
                                   label !== "Standard"
                                     ? ` · ${label}`
                                     : ""}
-                                  {component.variant.sku && (
-                                    <span className="small-label">
-                                      {" "}
-                                      · {component.variant.sku}
-                                    </span>
-                                  )}
                                 </li>
                               );
                             })}

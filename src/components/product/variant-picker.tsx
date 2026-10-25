@@ -79,7 +79,8 @@ export function VariantPicker({
             </span>
             <span className="swatch-name">
               {variant.color?.name[locale]}
-              {variant.sku === "CSand-11"
+              {variant.sku === "CSand-11" ||
+              variant.sku === "NOORLY-LJUSSTUND-CSand-11"
                 ? locale === "sv"
                   ? " · doftfri"
                   : " · unscented"

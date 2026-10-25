@@ -108,13 +108,7 @@ function presentVariant(
   return {
     ...variant,
     label: choice.label,
-    color:
-      choice.sku === "CSand-11" && variant.sku !== "CSand-11"
-        ? {
-            ...choice.color,
-            name: { sv: "Vit · doftfri", en: "White · unscented" },
-          }
-        : choice.color,
+    color: choice.color,
     scent: choice.scent,
     images: uniquePhotos([
       { url: choice.photo.url, alt: choice.photo.alt[locale] },

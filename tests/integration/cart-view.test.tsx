@@ -133,7 +133,8 @@ describe("cart controls and announcements", () => {
     expect(contents).toHaveTextContent("2 × Decorative teak bowl");
     expect(contents).toHaveTextContent("2 × Candle sand 300 g with four wicks");
     expect(contents).toHaveTextContent("Dusty Rose · Maison de Roses");
-    expect(contents).toHaveTextContent("CSand-07");
+    expect(contents).not.toHaveTextContent("CSand-07");
+    expect(contents).not.toHaveTextContent("TeakB-37");
     expect(
       screen.getByText(
         formatMoney({ amount: 1500, currencyCode: "SEK" }, "en"),

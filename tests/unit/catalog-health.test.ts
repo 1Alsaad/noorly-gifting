@@ -20,7 +20,7 @@ describe("public catalog health", () => {
     expect(lookup).not.toHaveBeenCalled();
   });
 
-  it("checks both fixed launch products and returns no product data", async () => {
+  it("checks every fixed launch product and returns no product data", async () => {
     lookup.mockImplementation(async (handle: string) => {
       const definition = launchProductDefinitions.find(
         (item) => item.handle === handle,
@@ -32,7 +32,7 @@ describe("public catalog health", () => {
     const response = await GET(
       new Request("https://example.com/api/health?catalog=1&handle=arbitrary"),
     );
-    expect(lookup).toHaveBeenCalledTimes(2);
+    expect(lookup).toHaveBeenCalledTimes(launchProductDefinitions.length);
     for (const { handle } of launchProductDefinitions)
       expect(lookup).toHaveBeenCalledWith(handle);
     expect(response.status).toBe(200);

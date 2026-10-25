@@ -25,15 +25,15 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
     home: {
       ...t.home,
       text: sv
-        ? "Upptäck ljussand i din favoritfärg och dekorativa teakskålar för hemmet. Välj varje produkt för sig."
-        : "Discover candle sand in your favourite colour and decorative teak bowls for your home. Choose each product separately.",
+        ? "Upptäck ljussand i din favoritfärg och dekorativa teakskålar för hemmet. Välj produkterna var för sig eller tillsammans i vårt paket."
+        : "Discover candle sand in your favourite colour and decorative teak bowls for your home. Choose the products individually or together in our bundle.",
       curatedLabel: sv ? "NOORLY · FÖRSTA UPPLAGAN" : "NOORLY · FIRST EDITION",
       curatedText: sv
-        ? "Välj färg och doft på din ljussand. Varje påse innehåller 300 g och fyra bomullsvekar. Den dekorativa teakskålen säljs separat."
-        : "Choose your candle sand's colour and scent. Each pouch contains 300 g and four cotton wicks. The decorative teak bowl is sold separately.",
+        ? "Välj färg och doft på din ljussand. Varje påse innehåller 300 g och fyra bomullsvekar. Välj till en dekorativ teakskål genom vårt paketerbjudande, eller köp produkterna var för sig."
+        : "Choose your candle sand's colour and scent. Each pouch contains 300 g and four cotton wicks. Choose our bundle to include a decorative teak bowl, or buy the products individually.",
       buildText: sv
-        ? "Vår första upplaga består av ljussand och dekorativa teakskålar, som du köper var för sig."
-        : "Our first edition features candle sand and decorative teak bowls, sold separately.",
+        ? "Vår första upplaga består av ljussand och dekorativa teakskålar. Välj enskilda produkter eller vårt paket med båda."
+        : "Our first edition features candle sand and decorative teak bowls, available individually or as a bundle.",
       trust: sv
         ? ["Utvalt av Noorly", "Tydlig produktinformation", "Säker betalning"]
         : ["Selected by Noorly", "Clear product information", "Secure payment"],
@@ -96,8 +96,8 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       terms: {
         ...t.pages.terms,
         text: sv
-          ? "På varje produktsida visas innehåll, pris och användningsinformation. Ljussand och teakskål säljs separat och kan förbeställas. Betalning sker i vår säkra kassa, där du granskar totalbeloppet och väljer betalningssätt. Vi skickar din beställning så snart produkten finns i lager hos oss."
-          : "Each product page shows the contents, price and usage information. Candle sand and the teak bowl are sold separately and can be pre-ordered. Pay through our secure checkout, where you review the total and choose a payment method. We will dispatch your order as soon as the product arrives in stock.",
+          ? "På varje produktsida visas innehåll, pris och användningsinformation. Ljussand och teakskål kan förbeställas var för sig eller tillsammans i vårt paket. Betalning sker i vår säkra kassa, där du granskar totalbeloppet och väljer betalningssätt. Vi skickar din beställning så snart produkten finns i lager hos oss."
+          : "Each product page shows the contents, price and usage information. Candle sand and the teak bowl can be pre-ordered individually or together in our bundle. Pay through our secure checkout, where you review the total and choose a payment method. We will dispatch your order as soon as the product arrives in stock.",
         extra: sv
           ? `Priser anges i SEK. Inga kortuppgifter samlas in på denna webbplats. Frågor om en beställning, ånger, retur eller reklamation skickas till ${contact}.`
           : `Prices are shown in SEK. This website does not collect card details. Email ${contact} about an order, cancellation, return or complaint.`,
@@ -107,16 +107,16 @@ export function applyBrandCopy(t: Dictionary, locale: Locale): Dictionary {
       {
         q: sv ? "Hur beställer jag?" : "How do I order?",
         a: sv
-          ? "Välj produkt och, för ljussand, färg och doft. Lägg varan i påsen och fortsätt till vår säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
-          : "Choose a product and, for candle sand, a colour and scent. Add the item to your bag and continue to our secure checkout. Review the contents, delivery information and total before paying.",
+          ? "Välj en enskild produkt eller vårt paket och välj färg och doft för ljussanden. Lägg varan i påsen och fortsätt till vår säkra kassa. Granska innehåll, leveransinformation och totalbelopp innan du betalar."
+          : "Choose an individual product or our bundle, then select the candle sand colour and scent. Add the item to your bag and continue to our secure checkout. Review the contents, delivery information and total before paying.",
       },
       {
         q: sv
           ? "Vad ingår i produkterna?"
           : "What is included in each product?",
         a: sv
-          ? "Ljussanden säljs som en påse med 300 g i vald färg och doft, med fyra bomullsvekar. Teakskålen säljs separat. Presentbox, frukt och andra dekorationer ingår inte."
-          : "Candle sand is sold as one 300 g pouch in your chosen colour and scent, with four cotton wicks. The teak bowl is sold separately. A gift box, fruit and other styling decorations are not included.",
+          ? "Ljussanden säljs som en påse med 300 g i vald färg och doft, med fyra bomullsvekar. Teakskålen kan köpas separat eller i vårt paket med en påse ljussand och fyra bomullsvekar. Presentbox, frukt och andra dekorationer ingår inte."
+          : "Candle sand is sold as one 300 g pouch in your chosen colour and scent, with four cotton wicks. The teak bowl is available separately or in our bundle with one pouch of candle sand and four cotton wicks. A gift box, fruit and other styling decorations are not included.",
       },
       {
         q: sv
@@ -139,8 +139,8 @@ export function applyProductTestCopy(
 ): Dictionary {
   const sv = locale === "sv";
   const note = sv
-    ? "Ljussand och dekorativa teakskålar säljs separat. Varje påse ljussand innehåller 300 g och fyra bomullsvekar. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
-    : "Candle sand and decorative teak bowls are sold separately. Each pouch of candle sand contains 300 g and four cotton wicks. Ordering and payment are not yet open in this preview.";
+    ? "Ljussand och dekorativa teakskålar finns som enskilda produkter och som paket. Varje påse ljussand innehåller 300 g och fyra bomullsvekar. Beställning och betalning är ännu inte öppna i denna förhandsvisning."
+    : "Candle sand and decorative teak bowls are available individually and as a bundle. Each pouch of candle sand contains 300 g and four cotton wicks. Ordering and payment are not yet open in this preview.";
   const contact = brand.supportEmail;
   return {
     ...t,

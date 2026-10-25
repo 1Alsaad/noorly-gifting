@@ -105,11 +105,16 @@ describe("customer policy routes", () => {
     const withdrawal = container.querySelector("#withdrawal") as HTMLElement;
     const returns = container.querySelector("#returns") as HTMLElement;
     const refunds = container.querySelector("#refunds") as HTMLElement;
-    expect(delivery).toHaveTextContent("Ljussand och teakskål säljs separat");
     expect(delivery).toHaveTextContent(
-      "199 kr utan doft eller 249 kr med doft",
+      "Ljussand och teakskål kan köpas var för sig eller tillsammans som paket",
+    );
+    expect(delivery).toHaveTextContent(
+      "219 kr utan doft eller 269 kr med doft",
     );
     expect(delivery).toHaveTextContent("teakskålen kostar 550 kr");
+    expect(delivery).toHaveTextContent(
+      "699 kr med vit, doftfri ljussand eller 749 kr med ljussand i vald färg och doft",
+    );
     expect(delivery).toHaveTextContent("moms och leverans inom Sverige");
     expect(delivery).toHaveTextContent("förbeställning");
     expect(delivery).toHaveTextContent("så snart varan finns i lager hos oss");
