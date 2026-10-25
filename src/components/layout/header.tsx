@@ -96,7 +96,9 @@ export function Header({ locale }: { locale: Locale }) {
                   href={item.href}
                   key={item.href}
                   onClick={(event) =>
-                    event.currentTarget.closest("details")?.removeAttribute("open")
+                    event.currentTarget
+                      .closest("details")
+                      ?.removeAttribute("open")
                   }
                 >
                   {item.label}

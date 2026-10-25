@@ -120,7 +120,9 @@ export function PurchaseAnswers({ locale }: { locale: Locale }) {
         </Link>
       </details>
       <details>
-        <summary>{sv ? "Retur & kundservice" : "Returns & customer care"}</summary>
+        <summary>
+          {sv ? "Retur & kundservice" : "Returns & customer care"}
+        </summary>
         <p>
           {sv
             ? "14 dagars ångerrätt efter mottagandet. Behåll varan oanvänd och otänd om du överväger en retur. Du betalar returfrakten vid ånger. Läs fullständiga villkor för ångerrätt, återbetalning och reklamation."

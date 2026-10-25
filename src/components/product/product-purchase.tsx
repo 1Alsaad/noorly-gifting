@@ -80,7 +80,9 @@ export function ProductPurchase({
     const target = purchaseRef.current;
     if (!target || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(([entry]) => {
-      setPastPurchase(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+      setPastPurchase(
+        !entry.isIntersecting && entry.boundingClientRect.top < 0,
+      );
     });
     observer.observe(target);
     return () => observer.disconnect();
@@ -145,7 +147,10 @@ export function ProductPurchase({
           ) : (
             <label className="variant-select">
               {t.chooseVariant}
-              <select value={variantId} onChange={(e) => choose(e.target.value)}>
+              <select
+                value={variantId}
+                onChange={(e) => choose(e.target.value)}
+              >
                 {product.variants.map((v) => (
                   <option value={v.id} key={v.id}>
                     {v.title}
@@ -155,9 +160,7 @@ export function ProductPurchase({
               </select>
             </label>
           ))}
-        {preorder && !preview && (
-          <PurchaseConfidence product={product} locale={locale} />
-        )}
+        {preorder && !preview && <PurchaseConfidence locale={locale} />}
         <div ref={purchaseRef}>
           {blocked ? (
             <>
@@ -181,12 +184,17 @@ export function ProductPurchase({
                   </>
                 )}
                 <a className="text-link" href="#product-photographs">
-                  {locale === "sv" ? "Se produktbilderna" : "View product photographs"}
+                  {locale === "sv"
+                    ? "Se produktbilderna"
+                    : "View product photographs"}
                   <ArrowDown size={16} />
                 </a>
               </div>
               {!preview && (
-                <button className="button button-dark add-to-cart-button" disabled>
+                <button
+                  className="button button-dark add-to-cart-button"
+                  disabled
+                >
                   {t.unavailable}
                 </button>
               )}
@@ -198,8 +206,15 @@ export function ProductPurchase({
               disabled={loading}
             >
               {added ? (
-                <><Check size={16} />{t.added}</>
-              ) : loading ? t.checking : t.add}
+                <>
+                  <Check size={16} />
+                  {t.added}
+                </>
+              ) : loading ? (
+                t.checking
+              ) : (
+                t.add
+              )}
             </button>
           )}
         </div>
@@ -209,7 +224,12 @@ export function ProductPurchase({
           <p className="field-error" role="alert">
             {cartErrorMessage(error, locale)}
             {errorAction && (
-              <>{" "}<Link className="text-link" href={errorAction.href}>{errorAction.label} ↗</Link></>
+              <>
+                {" "}
+                <Link className="text-link" href={errorAction.href}>
+                  {errorAction.label} ↗
+                </Link>
+              </>
             )}
           </p>
         )}
@@ -224,24 +244,56 @@ export function ProductPurchase({
       </div>
       {product.highlights && (
         <div className="product-highlights">
-          {product.highlights.map((h) => <span key={h[locale]}>{h[locale]}</span>)}
+          {product.highlights.map((h) => (
+            <span key={h[locale]}>{h[locale]}</span>
+          ))}
         </div>
       )}
       <p className="product-note">{t.deliveryText}</p>
       {preorder && !preview && product.handle !== launchBundleHandle && (
-        <Link className="purchase-bundle-link" href={`/${locale}/products/${launchBundleHandle}`}>
-          <strong>{locale === "sv" ? "Vill du ha både skål och ljussand?" : "Would you like both the bowl and candle sand?"}</strong>
-          {locale === "sv" ? "Se paketpriset och välj din färg & doft" : "See the bundle price and choose your colour & scent"} ↗
+        <Link
+          className="purchase-bundle-link"
+          href={`/${locale}/products/${launchBundleHandle}`}
+        >
+          <strong>
+            {locale === "sv"
+              ? "Vill du ha både skål och ljussand?"
+              : "Would you like both the bowl and candle sand?"}
+          </strong>
+          {locale === "sv"
+            ? "Se paketpriset och välj din färg & doft"
+            : "See the bundle price and choose your colour & scent"}{" "}
+          ↗
         </Link>
       )}
       {preorder && !preview && <PurchaseAnswers locale={locale} />}
       {preorder && !blocked && pastPurchase && (
-        <aside className="mobile-purchase-bar" aria-label={locale === "sv" ? "Ditt produktval" : "Your product selection"}>
+        <aside
+          className="mobile-purchase-bar"
+          aria-label={
+            locale === "sv" ? "Ditt produktval" : "Your product selection"
+          }
+        >
           <div>
-            <strong>{formatMoney(variant?.price ?? product.price, locale)}</strong>
-            <small>{variant && product.variants.length > 1 ? variantLabel(variant, locale) : product.title[locale]}</small>
+            <strong>
+              {formatMoney(variant?.price ?? product.price, locale)}
+            </strong>
+            <small>
+              {variant && product.variants.length > 1
+                ? variantLabel(variant, locale)
+                : product.title[locale]}
+            </small>
           </div>
-          <a className="button button-dark" href={`#${purchaseId}`} onClick={() => purchaseRef.current?.closest(".purchase-anchor")?.querySelector<HTMLElement>("input, select, button")?.focus()}>
+          <a
+            className="button button-dark"
+            href={`#${purchaseId}`}
+            onClick={() =>
+              purchaseRef.current
+                ?.closest(".purchase-anchor")
+                ?.querySelector<HTMLElement>("input:checked, select, button")
+                ?.focus()
+            }
+          >
             {locale === "sv" ? "Till mitt val" : "Back to my selection"}
             <ArrowRight size={15} aria-hidden="true" />
           </a>
