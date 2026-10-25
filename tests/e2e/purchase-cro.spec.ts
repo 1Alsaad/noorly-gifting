@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("mobile purchase shortcut preserves the selected colour and price", async ({
+test("mobile choices stay compact without enabling preview checkout", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -11,16 +11,11 @@ test("mobile purchase shortcut preserves the selected colour and price", async (
     name: "Dusty Rose · Maison de Roses",
   });
   await pink.check();
-  const price = await page.locator(".product-price").innerText();
-  await page.locator("footer").scrollIntoViewIfNeeded();
-  const bar = page.locator(".mobile-purchase-bar");
-  await expect(bar).toBeVisible();
-  await expect(bar).toContainText(price);
-  await expect(bar).toContainText("Dusty Rose · Maison de Roses");
-  await bar.getByRole("link", { name: "Back to my selection" }).click();
   await expect(pink).toBeChecked();
-  await expect(pink).toBeInViewport();
-  await expect(page.locator(".product-price")).toHaveText(price);
+  await expect(page.locator(".selected-variant")).toHaveText(
+    "Dusty Rose · Maison de Roses",
+  );
+  await expect(page.locator(".purchase-answers details[open]")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "Add to bag", exact: true }),
   ).toHaveCount(1);
@@ -28,4 +23,12 @@ test("mobile purchase shortcut preserves the selected colour and price", async (
   await expect(
     page.getByText(/An arrival date is not yet confirmed/),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Checkout", exact: true }),
+  ).toHaveCount(0);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
 });

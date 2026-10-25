@@ -21,11 +21,15 @@ export function AddToCart({
   locale,
   compact = false,
   variantId,
+  disabled = false,
+  onAdded,
 }: {
   product: Product;
   locale: Locale;
   compact?: boolean;
   variantId?: string;
+  disabled?: boolean;
+  onAdded?: () => void;
 }) {
   const { addLines, loading } = useCart();
   const [state, setState] = useState<
@@ -43,10 +47,11 @@ export function AddToCart({
   const canPurchase =
     product.available && !unsupportedPlan && Boolean(variant?.available);
   async function add() {
-    if (!variant || !canPurchase || loading) return;
+    if (!variant || !canPurchase || loading || disabled) return;
     setState({ status: "idle" });
     try {
       await addLines([{ merchandiseId: variant.id, quantity: 1 }]);
+      onAdded?.();
       setState({ status: "added" });
     } catch (error) {
       setState({ status: "error", code: cartErrorCode(error) });
@@ -65,7 +70,7 @@ export function AddToCart({
     <div className="add-control">
       <button
         className={compact ? "text-button" : "button button-dark"}
-        disabled={loading || !canPurchase}
+        disabled={disabled || loading || !canPurchase}
         onClick={add}
       >
         {!canPurchase

@@ -224,4 +224,34 @@ describe("cart state and mutation safety", () => {
     );
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
   });
+  it("tracks the returned checkout total rather than stale client cart state", async () => {
+    vi.mocked(trackEvent).mockClear();
+    const updated = {
+      ...fullCart,
+      total: { amount: 449, currencyCode: "SEK" as const },
+      totalQuantity: 2,
+    };
+    vi.spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(response(null))
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({ cart: updated, url: "/en/mock-checkout" }),
+        ),
+      );
+    render(
+      <CartProvider>
+        <Consumer />
+      </CartProvider>,
+    );
+    await act(async () => {
+      await Promise.resolve();
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Checkout" }));
+    await waitFor(() =>
+      expect(trackEvent).toHaveBeenCalledWith({
+        name: "begin_checkout",
+        properties: { locale: "en", currency: "SEK", value: 449, quantity: 2 },
+      }),
+    );
+  });
 });

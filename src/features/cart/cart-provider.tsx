@@ -166,18 +166,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
           properties: {
             locale,
             currency: "SEK",
-            value: cart?.total.amount,
-            quantity: cart?.totalQuantity,
+            value: data.cart?.total.amount,
+            quantity: data.cart?.totalQuantity,
           },
         });
-        trackMetaInitiateCheckout(cart?.total.amount);
+        trackMetaInitiateCheckout(data.cart?.total.amount);
         return data.url;
       } catch (e) {
         trackEvent({ name: "checkout_error", properties: { source: "cart" } });
         throw e;
       }
     },
-    [mutate, cart],
+    [mutate],
   );
   return (
     <CartContext.Provider

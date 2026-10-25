@@ -202,7 +202,7 @@ describe("the connected launch presentation", () => {
       screen.getByText(/One 300 g pouch and four cotton wicks/),
     ).toHaveTextContent("complete Ljusstund set has not yet been photographed");
     expect(
-      screen.getByText(/dispatch your order as soon as.*in stock/),
+      screen.getByText(/Ships when in stock. Date not yet confirmed/),
     ).toBeInTheDocument();
     expect(
       screen.queryByText(/will be confirmed|photos.*will follow/i),
