@@ -6,6 +6,7 @@ import {
   candleSandHandle,
   teakBowlHandle,
 } from "../../src/content/launch-catalog";
+import { installTestSceneMedia } from "./media-fixture";
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
@@ -51,19 +52,17 @@ async function addCandle(page: Page) {
   ).toBeVisible();
 }
 
-test("the home shows the real products and reaches the catalogue without a film", async ({
+test("the seasonal home renders conventional shopping and skips the cinematic story", async ({
   page,
 }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Little details. A moment of your own.",
+    /Step into\s+the season\./,
   );
   await rejectOptional(page);
-  await page
-    .getByRole("link", { name: "Explore the collection", exact: true })
-    .click();
+  await page.getByRole("link", { name: "Skip experience" }).first().click();
   await expect(page).toHaveURL(/\/en#gifts$/);
-  await expect(page.locator("main video")).toHaveCount(0);
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(page.locator("#gifts")).toBeInViewport();
   await expect(
     page
@@ -75,13 +74,72 @@ test("the home shows the real products and reaches the catalogue without a film"
   await expect(page.locator("#gifts").getByText(/From.*199/)).toBeVisible();
 });
 
+for (const linkName of ["Skip experience", "Explore the collection"]) {
+  test(`${linkName} keeps gifts in view when video metadata arrives late`, async ({
+    page,
+  }) => {
+    // Hold media responses so metadata cannot arrive before anchor navigation.
+    await page.route("**/*.mp4", () => {});
+    await page.goto("/en", { waitUntil: "domcontentloaded" });
+    await rejectOptional(page);
+    await expect(
+      page.locator('[data-scene="winter-entrance"] video'),
+    ).toHaveCount(1);
+    await page.getByRole("link", { name: linkName }).first().click();
+    await expect(page).toHaveURL(/\/en#gifts$/);
+
+    // Reproduce the late event that previously expanded a scene after skipping.
+    await page.evaluate(() => {
+      document
+        .querySelectorAll(".cinematic-experience video")
+        .forEach((video) => video.dispatchEvent(new Event("loadedmetadata")));
+    });
+    await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+    for (const scene of ["winter-entrance"]) {
+      await expect(page.locator(`[data-scene="${scene}"]`)).toHaveAttribute(
+        "data-enhanced",
+        "false",
+      );
+      await expect(page.locator(`[data-scene="${scene}"]`)).toHaveAttribute(
+        "data-pinned",
+        "false",
+      );
+    }
+    await expect(page.locator("#gifts")).toBeInViewport();
+  });
+}
+
+test("late metadata preserves the reserved scene ranges and gifts position", async ({
+  page,
+}) => {
+  await page.route("**/*.mp4", () => {});
+  await page.goto("/en", { waitUntil: "domcontentloaded" });
+  const entrance = page.locator('[data-scene="winter-entrance"]');
+  await expect(entrance).toHaveAttribute("data-pinned", "true");
+  await expect(entrance).toHaveAttribute("data-enhanced", "false");
+  await expect(entrance.locator("video")).toHaveCount(1);
+  const geometry = () =>
+    page.evaluate(() => ({
+      heights: [...document.querySelectorAll<HTMLElement>("[data-scene]")].map(
+        (scene) => scene.offsetHeight,
+      ),
+      gifts:
+        document.getElementById("gifts")!.getBoundingClientRect().top +
+        window.scrollY,
+    }));
+  const before = await geometry();
+  await entrance.locator("video").dispatchEvent("loadedmetadata");
+  await expect(entrance).toHaveAttribute("data-enhanced", "true");
+  expect(await geometry()).toEqual(before);
+});
+
 test("separate product pages are keyboard accessible and the former kit redirects to the catalogue", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
   await rejectOptional(page);
-  const link = page.locator(".catalog-home-actions .button");
+  const link = page.locator(".cinema-static-product-button");
   await link.scrollIntoViewIfNeeded();
   await link.focus();
   await page.keyboard.press("Enter");
@@ -103,6 +161,194 @@ test("separate product pages are keyboard accessible and the former kit redirect
   await page.goto("/en/products/" + launchBundleHandle);
   await expect(page).toHaveURL("/en/shop");
   await expect(page.locator("main article")).toHaveCount(2);
+});
+
+test("scroll progress seeks forward and backward with a deterministic test media adapter", async ({
+  page,
+}) => {
+  // This validates scroll/media integration independently of replaceable merchant video files.
+  // Real decoding, keyframes and bandwidth remain a media acceptance check before launch.
+  await installTestSceneMedia(page);
+  await page.goto("/en");
+  await rejectOptional(page);
+  const entrance = page.locator('[data-scene="winter-entrance"]');
+  await expect(entrance).toHaveAttribute("data-enhanced", "true");
+  await entrance.evaluate((scene: HTMLElement) =>
+    window.scrollTo(
+      0,
+      scene.getBoundingClientRect().top +
+        window.scrollY +
+        (scene.offsetHeight - window.innerHeight) * 0.7,
+    ),
+  );
+  await expect
+    .poll(async () => Number(await entrance.getAttribute("data-progress")))
+    .toBeGreaterThan(60);
+  const forwardTime = await entrance
+    .locator("video")
+    .evaluate((video: HTMLVideoElement) => video.currentTime);
+  expect(forwardTime).toBeGreaterThan(4);
+  await entrance.evaluate((scene: HTMLElement) =>
+    window.scrollTo(
+      0,
+      scene.getBoundingClientRect().top +
+        window.scrollY +
+        (scene.offsetHeight - window.innerHeight) * 0.2,
+    ),
+  );
+  await expect
+    .poll(async () => Number(await entrance.getAttribute("data-progress")))
+    .toBeLessThan(30);
+  expect(
+    await entrance
+      .locator("video")
+      .evaluate((video: HTMLVideoElement) => video.currentTime),
+  ).toBeLessThan(forwardTime);
+  await expect
+    .poll(() =>
+      entrance
+        .locator("video")
+        .evaluate((video: HTMLVideoElement) =>
+          Math.abs(video.currentTime - 14.96 * 0.2),
+        ),
+    )
+    .toBeLessThan(0.03);
+  // Force a single wheel-sized step; the video must render intermediate times
+  // even though the document itself moves immediately.
+  const step = await entrance.evaluate(async (scene: HTMLElement) => {
+    const video = scene.querySelector("video")!;
+    const before = video.currentTime;
+    const times = new Set<number>();
+    window.scrollBy({ top: 120, behavior: "instant" });
+    const started = performance.now();
+    await new Promise<void>((resolve) => {
+      const sample = (now: number) => {
+        times.add(video.currentTime);
+        if (now - started < 450) requestAnimationFrame(sample);
+        else resolve();
+      };
+      requestAnimationFrame(sample);
+    });
+    return { before, after: video.currentTime, updates: times.size };
+  });
+  expect(step.after).toBeGreaterThan(step.before);
+  expect(step.updates).toBeGreaterThan(3);
+  await entrance.evaluate((scene: HTMLElement) =>
+    window.scrollTo({
+      top: scene.offsetTop + (scene.offsetHeight - innerHeight) * 0.8,
+      behavior: "instant",
+    }),
+  );
+  const details = entrance
+    .locator(".cinema-shopping")
+    .getByRole("link", { name: "Choose colour & scent" });
+  await expect(details).toBeVisible();
+  await expect(details).toHaveAttribute(
+    "href",
+    "/en/products/" + candleSandHandle,
+  );
+  await expect(entrance.locator(".cinema-shopping button")).toHaveCount(0);
+});
+
+test("the continuous film clears copy for the orbit, shops during the hold, and hands off to the collection", async ({
+  page,
+}) => {
+  await installTestSceneMedia(page);
+  await page.goto("/en");
+  await rejectOptional(page);
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  const seek = async (progress: number) =>
+    scene.evaluate(
+      (element: HTMLElement, p) =>
+        window.scrollTo({
+          top: element.offsetTop + (element.offsetHeight - innerHeight) * p,
+          behavior: "instant",
+        }),
+      progress,
+    );
+  const opacity = (selector: string) =>
+    scene
+      .locator(selector)
+      .evaluate((element) => Number(getComputedStyle(element).opacity));
+  await expect(scene).toHaveAttribute("data-enhanced", "true");
+  await expect(page.locator(".cinema-scene")).toHaveCount(1);
+  await seek(0.2);
+  await expect.poll(() => opacity(".cinema-copy")).toBeLessThan(0.01);
+  await expect.poll(() => opacity(".cinema-story-beat")).toBeGreaterThan(0.99);
+  await scene
+    .locator(".cinema-actions")
+    .getByRole("link", { name: "Explore the collection" })
+    .focus();
+  await expect.poll(() => opacity(".cinema-copy")).toBe(1);
+
+  await scene.getByRole("link", { name: "Skip experience" }).focus();
+  await seek(0.5);
+  await expect.poll(() => opacity(".cinema-story-beat")).toBe(0);
+  const shopping = scene.locator(".cinema-shopping");
+  await expect(shopping).toHaveAttribute("inert", "");
+  await expect(
+    shopping.getByRole("button", { name: "Add to cart" }),
+  ).toHaveCount(0);
+  // Requested time alone must not reveal commerce before a decoded hold frame.
+  await scene.locator("video").evaluate((video) => {
+    video.dataset.holdDecode = "true";
+  });
+  await seek(0.8);
+  await expect
+    .poll(() =>
+      scene
+        .locator("video")
+        .evaluate((video: HTMLVideoElement) => video.currentTime),
+    )
+    .toBeGreaterThan(11.9);
+  await expect(shopping).toHaveAttribute("inert", "");
+  await scene.locator("video").evaluate((video) => {
+    delete video.dataset.holdDecode;
+    video.dispatchEvent(new Event("seeked"));
+  });
+  await expect(shopping).toHaveAttribute("data-visible", "true");
+  const accessibility = await new AxeBuilder({ page })
+    .include(".cinema-shopping")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(accessibility.violations).toEqual([]);
+
+  await expect(shopping.getByText(/From.*199/)).toBeVisible();
+  await expect(
+    shopping.getByText(/Ordering is currently unavailable/),
+  ).toHaveCount(0);
+  await expect(shopping.getByRole("button")).toHaveCount(0);
+  await scene.getByRole("link", { name: "Skip experience" }).focus();
+  await seek(0.4);
+  await expect(shopping).toHaveAttribute("inert", "");
+  // The collection rises over a stationary final frame.
+  await seek(1.08);
+  await expect(scene).toHaveAttribute("data-floating", "true");
+  expect(
+    await scene
+      .locator(".cinema-stage")
+      .evaluate((element) => element.getBoundingClientRect().top),
+  ).toBe(0);
+  const panel = await page
+    .locator(".cinema-collection-handoff")
+    .evaluate((element) => ({
+      top: element.getBoundingClientRect().top,
+      viewport: innerHeight,
+    }));
+  expect(panel.top).toBeGreaterThan(0);
+  expect(panel.top).toBeLessThan(panel.viewport);
+  await page.keyboard.press("ArrowLeft");
+  await shopping.getByRole("link", { name: "Choose colour & scent" }).focus();
+  expect(
+    await page
+      .locator(".cinema-collection-handoff")
+      .evaluate((element) => element.getBoundingClientRect().top - innerHeight),
+  ).toBeGreaterThanOrEqual(-1);
+  await seek(0.98);
+  await shopping.getByRole("link", { name: "Explore the collection" }).click();
+  await expect(page).toHaveURL(/#gifts$/);
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+  await expect(page.locator("#gifts")).toBeInViewport();
 });
 
 test("product variants, cart quantities and preview checkout work without optional consent", async ({
@@ -321,10 +567,12 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#main-content$/);
   await rejectOptional(page);
-  await expect(page.locator("main video")).toHaveCount(0);
-  await page
-    .getByRole("link", { name: "Explore the collection", exact: true })
-    .click();
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+  await expect(page.locator('[data-scene="winter-entrance"]')).toHaveAttribute(
+    "data-enhanced",
+    "false",
+  );
+  await page.getByRole("link", { name: "Skip experience" }).first().click();
   await expect(page.locator("#gifts")).toBeInViewport();
   await page
     .locator("#gifts")
@@ -384,10 +632,8 @@ test("the conventional catalogue remains useful without JavaScript", async ({
   const page = await context.newPage();
   try {
     await page.goto("/en");
-    await expect(page.locator("main video")).toHaveCount(0);
-    await page
-      .getByRole("link", { name: "Explore the collection", exact: true })
-      .click();
+    await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
+    await page.getByRole("link", { name: "Skip experience" }).first().click();
     await expect(page.locator("#gifts")).toBeInViewport();
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
@@ -433,6 +679,30 @@ test("locale links preserve the route and update the document language", async (
   ).toBeVisible();
 });
 
+test("unavailable cinematic videos restore posters and conventional product controls", async ({
+  page,
+}) => {
+  let attempted = 0;
+  await page.route("**/*.mp4", async (route) => {
+    attempted += 1;
+    await route.abort();
+  });
+  await page.goto("/en");
+  await rejectOptional(page);
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  await scene.scrollIntoViewIfNeeded();
+  await expect.poll(() => attempted).toBeGreaterThan(0);
+  await expect(scene).toHaveAttribute("data-enhanced", "false");
+  await expect(scene.locator("video")).toHaveCount(0);
+  await expect(scene.locator(".cinema-poster")).not.toHaveClass(
+    /cinema-poster-hidden/,
+  );
+  const link = scene.locator(".cinema-static-product-button");
+  await link.focus();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL("/en/products/" + candleSandHandle);
+});
+
 test("Save-Data suppresses video requests while keeping shopping available", async ({
   page,
 }) => {
@@ -451,59 +721,101 @@ test("Save-Data suppresses video requests while keeping shopping available", asy
   });
   await page.goto("/en");
   await rejectOptional(page);
-  const link = page.locator(".catalog-home-actions .button");
+  const link = page.locator(".cinema-static-product-button");
   await link.scrollIntoViewIfNeeded();
   await expect(link).toHaveAttribute(
     "href",
     "/en/products/" + candleSandHandle,
   );
-  await expect(page.locator("main video")).toHaveCount(0);
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   expect(requests).toEqual([]);
 });
 
-test("portrait home shows product photography and Swedish shopping links", async ({
+test("portrait shopping uses its own film and Swedish commerce copy", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await installTestSceneMedia(page);
   await page.goto("/sv");
   const reject = page.getByRole("button", {
     name: "Avvisa valfria",
     exact: true,
   });
   if (await reject.isVisible()) await reject.click();
-  const hero = page.locator(".catalog-home");
-  await expect(hero.getByRole("heading", { level: 1 })).toHaveText(
-    "Små detaljer. Din egen stund.",
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  await expect(scene).toHaveAttribute("data-enhanced", "true");
+  await expect(scene.locator("video")).toHaveAttribute(
+    "data-test-source",
+    /0e98a61d-fd67-4fee-8c28-793ca27c6fce.mp4$/,
   );
-  await expect(hero.getByRole("img")).toBeVisible();
-  await expect(page.locator("main video")).toHaveCount(0);
+  await scene.evaluate((element: HTMLElement) =>
+    window.scrollTo({
+      top: element.offsetTop + (element.offsetHeight - innerHeight) * 0.8,
+      behavior: "instant",
+    }),
+  );
+  const card = scene.locator(".cinema-shopping");
+  await expect(card).toHaveAttribute("data-visible", "true");
   await expect(
-    hero.getByRole("link", { name: "Välj färg & doft", exact: true }),
+    card.getByRole("heading", { name: "Ljussand · 300 g" }),
+  ).toBeVisible();
+  await expect(card.getByText(/Från.*199/)).toBeVisible();
+  await expect(card.getByRole("button")).toHaveCount(0);
+  // Visibility changes before the 240ms entrance transition finishes. Measure
+  // the settled layout while preserving the original viewport-clearance check.
+  await expect(card).toHaveCSS("transform", "none");
+  const geometry = await scene.evaluate((element) => {
+    const video = element.querySelector("video")!;
+    const media = element
+      .querySelector(".cinema-media")!
+      .getBoundingClientRect();
+    const panel = element
+      .querySelector(".cinema-shopping")!
+      .getBoundingClientRect();
+    return {
+      mediaBottom: media.bottom,
+      mediaHeight: media.height,
+      panelTop: panel.top,
+      panelBottom: panel.bottom,
+      viewport: innerHeight,
+      fit: getComputedStyle(video).objectFit,
+    };
+  });
+  expect(geometry.mediaBottom).toBeLessThanOrEqual(geometry.panelTop + 1);
+  expect(geometry.mediaHeight).toBeGreaterThan(300);
+  expect(geometry.panelBottom).toBeLessThan(geometry.viewport - 30);
+  expect(geometry.fit).toBe("contain");
+
+  await expect(
+    card.getByRole("link", { name: "Välj färg & doft", exact: true }),
   ).toHaveAttribute("href", "/sv/products/" + candleSandHandle);
-  await hero.getByRole("link", { name: "Upptäck kollektionen" }).click();
+  await card.getByRole("link", { name: "Upptäck kollektionen" }).click();
   await expect(page).toHaveURL(/#gifts$/);
+  await expect(scene).toHaveAttribute("data-pinned", "false");
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await expect(page.locator("#gifts")).toBeInViewport();
 });
 
-test("short-screen shopping keeps the photo and copy separate", async ({
+test("short-screen static shopping stays below editorial copy", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 568 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
   await rejectOptional(page);
-  const hero = page.locator(".catalog-home");
-  const geometry = await hero.evaluate((element) => {
+  const scene = page.locator('[data-scene="winter-entrance"]');
+  await expect(scene).toHaveAttribute("data-pinned", "false");
+  const geometry = await scene.evaluate((element) => {
     const copy = element
-      .querySelector(".catalog-home-copy")!
+      .querySelector(".cinema-scene-content")!
       .getBoundingClientRect();
-    const photo = element
-      .querySelector(".catalog-home-photo")!
+    const product = element
+      .querySelector(".cinema-static-product")!
       .getBoundingClientRect();
-    return { copyBottom: copy.bottom, photoTop: photo.top };
+    return { copyBottom: copy.bottom, productTop: product.top };
   });
-  expect(geometry.photoTop).toBeGreaterThan(geometry.copyBottom + 20);
-  const link = page.locator(".catalog-home-actions .button");
+  expect(geometry.productTop).toBeGreaterThan(geometry.copyBottom + 20);
+  const link = scene.locator(".cinema-static-product-button");
   await link.scrollIntoViewIfNeeded();
   await link.focus();
   await page.keyboard.press("Enter");
