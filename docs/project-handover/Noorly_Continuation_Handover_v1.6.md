@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.6
 
+> Superseded checkpoint: read [v1.7](Noorly_Continuation_Handover_v1.7.md) first for verified live heatmaps, the owner's heatmaps-only decision, the PR #39 release and current advertising blockers. The initial receipt statements below are historical.
+
 Updated 25 October 2026. Read this before v1.5. Preserve its product, stock, pricing, original video, launch and seller-identity decisions. Installation is not proof of provider receipt.
 
 ## Account installation
