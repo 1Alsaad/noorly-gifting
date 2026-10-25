@@ -72,6 +72,11 @@ Providers load/send only after analytics consent. Marketing is a stored preferen
 
 ## Replace media or extend content
 
+The daily Instagram and Facebook agent selects approved briefs, drafts and
+reviews Swedish captions, and journals publishing results in Redis. It is
+disabled until real media and publishing credentials are configured. See
+[daily social agent setup and recovery](docs/daily-social-agent.md).
+
 - **Cinematic media:** put the separate mobile/desktop MP4s and WebP posters at the paths in `winter-scenes.ts`. The video paths intentionally have no final video assets. See [media pipeline, budgets and replacement](docs/cinematic-media.md).
 - **New season:** add a typed `Season` and `CinematicScene[]`, update `LocalContentRepository` to select it, and supply localized editorial copy, theme, products and curated boxes. See [content management](docs/content-management.md).
 - **New hotspot:** add a typed hotspot with its product handle, stable progress interval, responsive normalized coordinates and translated accessible label to a scene. The entrance scene intentionally has none.
