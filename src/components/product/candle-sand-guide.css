@@ -1,0 +1,50 @@
+.candle-sand-guide {
+  padding-block: clamp(40px, 6vw, 80px);
+  border-top: 1px solid #d7cfc2;
+}
+.candle-sand-guide h2 {
+  max-width: 24ch;
+  font-size: clamp(30px, 3.5vw, 48px);
+  margin: 14px 0 30px;
+}
+.candle-sand-guide ol {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin: 0 0 28px;
+}
+.candle-sand-guide .guide-step {
+  display: block;
+  color: #52624f;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.candle-sand-guide h3 {
+  font-size: 23px;
+  margin-bottom: 12px;
+}
+.candle-sand-guide li p {
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 45ch;
+}
+.candle-sand-guide > .product-note {
+  max-width: 90ch;
+  margin-bottom: 24px;
+}
+.catalog-product-page > .candle-sand-guide {
+  padding-inline: 0;
+  margin-top: 44px;
+}
+@media (max-width: 680px) {
+  .candle-sand-guide ol {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .candle-sand-guide .guide-step {
+    margin-bottom: 8px;
+  }
+}

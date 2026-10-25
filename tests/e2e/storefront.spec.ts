@@ -57,7 +57,7 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
 }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /Step into\s+the season\./,
+    /Your colour\.\s+Your candle moment\./,
   );
   await rejectOptional(page);
   await page.getByRole("link", { name: "Skip experience" }).first().click();
