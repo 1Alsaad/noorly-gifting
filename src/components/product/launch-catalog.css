@@ -95,6 +95,9 @@
   gap: clamp(28px, 5vw, 78px);
   align-items: start;
 }
+.catalog-product-page.page-content {
+  padding-top: 28px;
+}
 .catalog-product-page .gallery-main {
   background: #eee9df;
 }
@@ -161,6 +164,12 @@
   }
 }
 @media (max-width: 680px) {
+  .catalog-product-page.page-content {
+    padding-top: 16px;
+  }
+  .catalog-product-page .breadcrumb {
+    display: none;
+  }
   .launch-catalog-grid {
     grid-template-columns: 1fr;
     gap: 48px;

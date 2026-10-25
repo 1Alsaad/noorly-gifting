@@ -6,6 +6,7 @@ import type { Locale, Product } from "@/types/commerce";
 import { ProductGallery } from "./product-gallery";
 import { ProductPurchase } from "./product-purchase";
 import { variantLabel } from "./variant-picker";
+import { launchProductDefinitions } from "@/content/launch-catalog";
 
 export function ProductPresentation({
   product,
@@ -27,8 +28,11 @@ export function ProductPresentation({
       : variant.images
     : product.images;
   const t = getDictionary(locale);
+  const simple = launchProductDefinitions.some(
+    ({ handle }) => handle === product.handle,
+  );
   return (
-    <div className="product-detail">
+    <div className={`product-detail${simple ? " product-detail-simple" : ""}`}>
       <div>
         <ProductGallery
           key={variantId}
@@ -40,7 +44,7 @@ export function ProductPresentation({
               : product.title[locale]
           }
         />
-        {product.included && (
+        {product.included && !simple && (
           <p className="product-note gallery-included">
             {product.included[locale]}
           </p>
@@ -64,12 +68,20 @@ export function ProductPresentation({
         )}
       </div>
       <div className="product-detail-copy">
-        <p className="eyebrow">
-          {product.category === "box" ? t.boxes : t.edition}
-        </p>
+        {!simple && (
+          <p className="eyebrow">
+            {product.category === "box" ? t.boxes : t.edition}
+          </p>
+        )}
         <h1>{product.title[locale]}</h1>
-        <p>{product.description[locale]}</p>
-        {product.highlights && (
+        {simple ? (
+          <p className="product-note purchase-contents">
+            {product.included?.[locale] ?? product.description[locale]}
+          </p>
+        ) : (
+          <p>{product.description[locale]}</p>
+        )}
+        {product.highlights && !simple && (
           <ul className="product-highlights">
             {product.highlights.map((item) => (
               <li key={item.en}>{item[locale]}</li>

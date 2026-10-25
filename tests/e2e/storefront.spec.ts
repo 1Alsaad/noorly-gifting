@@ -28,6 +28,7 @@ async function rejectOptional(page: Page) {
   if (await reject.isVisible()) await reject.click();
 }
 async function expectBowlGallery(page: Page) {
+  await page.getByText("About the photographs", { exact: true }).click();
   const firstPhoto = launchBundlePhotos[0];
   const gallery = page.locator("main .gallery-main");
   const image = gallery.locator("img");
@@ -154,7 +155,7 @@ test("separate products and the bundle are keyboard accessible", async ({
   ).toBeVisible();
   await expect(
     page.getByText(/wipe gently with a soft, dry cloth/),
-  ).toBeVisible();
+  ).toBeAttached();
   await expectBowlGallery(page);
   await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(3);
   await expect(page.getByRole("radio")).toHaveCount(0);

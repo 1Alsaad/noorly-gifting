@@ -14,12 +14,9 @@ import {
   launchProductDefinitions,
 } from "@/content/launch-catalog";
 import { launchBundleHandle } from "@/content/launch-bundle";
-import {
-  BundleValue,
-  ProductProof,
-  PurchaseAnswers,
-  PurchaseConfidence,
-} from "./purchase-confidence";
+import { BundleValue, PurchaseAnswers } from "./purchase-confidence";
+import { useProductCheckout } from "./use-product-checkout";
+import { cartErrorAction, cartErrorMessage } from "@/features/cart/cart-errors";
 
 export function ProductPurchase({
   product,
@@ -42,6 +39,18 @@ export function ProductPurchase({
     ({ handle }) => handle === product.handle,
   );
   const test = isProductTestMode();
+  const quick = useProductCheckout(locale);
+  const direct = preorder && !test && !product.previewOnly;
+  const checkoutLabel = quick.pending
+    ? locale === "sv"
+      ? "Öppnar kassan…"
+      : "Opening checkout…"
+    : locale === "sv"
+      ? "Till kassan"
+      : "Checkout";
+  const reviewAction = quick.error
+    ? cartErrorAction(quick.error, locale)
+    : undefined;
   const canPurchase =
     !test &&
     product.available &&
@@ -71,6 +80,7 @@ export function ProductPurchase({
     };
   }, []);
   function choose(id: string) {
+    quick.reset();
     setVariant(id);
     onVariantChange?.(id);
     trackEvent({
@@ -84,38 +94,39 @@ export function ProductPurchase({
   }
   return (
     <div className="purchase-panel">
-      {preorder && <ProductProof product={product} locale={locale} />}
       <p className="product-price" aria-live="polite">
         {formatMoney(selected?.price ?? product.price, locale)}
       </p>
       {preorder && !test && !product.previewOnly && (
         <p className="purchase-total-note">
           {locale === "sv"
-            ? "Inklusive moms och leverans inom Sverige. Ingen extra fraktavgift."
-            : "Includes VAT and Sweden delivery. No additional shipping charge."}
+            ? "Fri frakt i Sverige · Inkl. moms"
+            : "Free Sweden delivery · VAT included"}
         </p>
       )}
       {product.handle === launchBundleHandle && !test && (
         <BundleValue variant={selected} locale={locale} />
       )}
-      <p className="stock-label">
-        <span aria-hidden>●</span>{" "}
-        {test
-          ? productTestCopy[locale].note
-          : product.previewOnly
-            ? locale === "sv"
-              ? "Demopris · ej till försäljning"
-              : "Demo price · not on sale"
-            : unsupportedPlan
+      {(!direct || !canPurchase) && (
+        <p className="stock-label">
+          <span aria-hidden>●</span>{" "}
+          {test
+            ? productTestCopy[locale].note
+            : product.previewOnly
               ? locale === "sv"
-                ? "Det här köpalternativet är inte tillgängligt ännu."
-                : "This purchase option is not available yet."
-              : selected?.available && product.available
-                ? preorder
-                  ? launchCatalogCopy[locale].availability
-                  : t.available
-                : t.unavailable}
-      </p>
+                ? "Demopris · ej till försäljning"
+                : "Demo price · not on sale"
+              : unsupportedPlan
+                ? locale === "sv"
+                  ? "Det här köpalternativet är inte tillgängligt ännu."
+                  : "This purchase option is not available yet."
+                : selected?.available && product.available
+                  ? preorder
+                    ? launchCatalogCopy[locale].availability
+                    : t.available
+                  : t.unavailable}
+        </p>
+      )}
       <div id={purchaseId} className="purchase-anchor" tabIndex={-1}>
         {product.variants.some((variant) => variant.color) ? (
           <VariantPicker
@@ -123,12 +134,15 @@ export function ProductPurchase({
             locale={locale}
             value={variantId}
             onChange={choose}
+            simple={preorder}
+            disabled={quick.pending}
           />
         ) : (
           product.variants.length > 1 && (
             <label>
               {t.variant}
               <select
+                disabled={quick.pending}
                 value={variantId}
                 onChange={(event) => choose(event.target.value)}
               >
@@ -142,40 +156,71 @@ export function ProductPurchase({
             </label>
           )
         )}
-        {preorder && !test && <PurchaseConfidence locale={locale} />}
-        <p className="product-note purchase-delivery">
-          {t.deliveryText}{" "}
-          <Link href={`/${locale}/shipping-returns`}>
-            {t.footer.shipping} ↗
-          </Link>
-        </p>
-        <div ref={purchaseRef}>
-          <AddToCart
-            key={variantId}
-            product={product}
-            locale={locale}
-            variantId={variantId}
-          />
+        {direct && (
+          <p className="purchase-preorder stock-label">
+            <strong>{locale === "sv" ? "Förbeställning" : "Pre-order"}</strong>
+            {locale === "sv"
+              ? " · Skickas när varan är i lager. Datum ej bekräftat."
+              : " · Ships when in stock. Date not yet confirmed."}
+          </p>
+        )}
+        {!preorder && (
+          <p className="product-note purchase-delivery">
+            {t.deliveryText}{" "}
+            <Link href={`/${locale}/shipping-returns`}>
+              {t.footer.shipping} ↗
+            </Link>
+          </p>
+        )}
+        <div
+          ref={purchaseRef}
+          className={direct ? "purchase-actions" : undefined}
+        >
+          {direct && (
+            <button
+              className="button button-dark"
+              disabled={
+                !canPurchase ||
+                quick.pending ||
+                quick.loading ||
+                Boolean(reviewAction)
+              }
+              onClick={() => void quick.start(variantId, canPurchase)}
+            >
+              {canPurchase ? checkoutLabel : t.unavailable}
+              <ArrowRight size={17} aria-hidden="true" />
+            </button>
+          )}
+          {(!direct || canPurchase) && (
+            <AddToCart
+              key={variantId}
+              product={product}
+              locale={locale}
+              variantId={variantId}
+              compact={direct}
+              disabled={quick.pending}
+              onAdded={() => quick.markAdded(variantId)}
+            />
+          )}
+          {direct && quick.error && (
+            <div className="field-error" role="alert">
+              <p>{cartErrorMessage(quick.error, locale)}</p>
+              <Link
+                className="text-link"
+                href={reviewAction?.href ?? `/${locale}/cart`}
+              >
+                {reviewAction?.label ??
+                  (locale === "sv" ? "Öppna varukorgen" : "Open your bag")}{" "}
+                ↗
+              </Link>
+            </div>
+          )}
         </div>
       </div>
-      {preorder && !test && product.handle !== launchBundleHandle && (
-        <Link
-          className="purchase-bundle-link"
-          href={`/${locale}/products/${launchBundleHandle}`}
-        >
-          <strong>
-            {locale === "sv"
-              ? "Vill du ha både skål och ljussand?"
-              : "Would you like both the bowl and candle sand?"}
-          </strong>
-          {locale === "sv"
-            ? "Se paketpriset och välj din färg & doft"
-            : "See the bundle price and choose your colour & scent"}{" "}
-          ↗
-        </Link>
+      {preorder && !test && (
+        <PurchaseAnswers locale={locale} product={product} />
       )}
-      {preorder && !test && <PurchaseAnswers locale={locale} />}
-      {preorder && canPurchase && pastPurchase && (
+      {direct && canPurchase && pastPurchase && (
         <aside
           className="mobile-purchase-bar"
           aria-label={
@@ -192,19 +237,22 @@ export function ProductPurchase({
                 : product.title[locale]}
             </small>
           </div>
-          <a
+          <button
             className="button button-dark"
-            href={`#${purchaseId}`}
-            onClick={() =>
-              purchaseRef.current
-                ?.closest(".purchase-anchor")
-                ?.querySelector<HTMLElement>("input:checked, select, button")
-                ?.focus()
-            }
+            disabled={quick.pending || quick.loading || Boolean(reviewAction)}
+            onClick={() => void quick.start(variantId, canPurchase)}
           >
-            {locale === "sv" ? "Till mitt val" : "Back to my selection"}
+            {checkoutLabel}
             <ArrowRight size={15} aria-hidden="true" />
-          </a>
+          </button>
+          {quick.error && (
+            <p className="sticky-checkout-error" role="alert">
+              {cartErrorMessage(quick.error, locale)}{" "}
+              <Link href={reviewAction?.href ?? `/${locale}/cart`}>
+                {locale === "sv" ? "Öppna varukorgen" : "Open your bag"} ↗
+              </Link>
+            </p>
+          )}
         </aside>
       )}
     </div>

@@ -13,12 +13,16 @@ export function VariantPicker({
   value,
   onChange,
   compact = false,
+  simple = false,
+  disabled = false,
 }: {
   product: Product;
   locale: Locale;
   value: string;
   onChange: (value: string) => void;
   compact?: boolean;
+  simple?: boolean;
+  disabled?: boolean;
 }) {
   const id = useId();
   if (product.variants.length < 2) return null;
@@ -36,6 +40,7 @@ export function VariantPicker({
       <label className="cinema-variant-label">
         {label}
         <select
+          disabled={disabled}
           value={value}
           onChange={(event) => onChange(event.target.value)}
         >
@@ -50,7 +55,10 @@ export function VariantPicker({
     );
   const selected = product.variants.find((variant) => variant.id === value);
   return (
-    <fieldset className="variant-picker">
+    <fieldset
+      disabled={disabled}
+      className={`variant-picker${simple ? " variant-picker-simple" : ""}`}
+    >
       <legend>{label}</legend>
       <p className="selected-variant" aria-live="polite">
         {selected ? variantLabel(selected, locale) : ""}
@@ -89,11 +97,13 @@ export function VariantPicker({
           </label>
         ))}
       </div>
-      <p className="product-note">
-        {locale === "sv"
-          ? "Varje färg har en egen doft. Färger kan skilja sig mellan skärmar."
-          : "Each colour has its own fragrance. Colours may vary between screens."}
-      </p>
+      {!simple && (
+        <p className="product-note">
+          {locale === "sv"
+            ? "Varje färg har en egen doft. Färger kan skilja sig mellan skärmar."
+            : "Each colour has its own fragrance. Colours may vary between screens."}
+        </p>
+      )}
     </fieldset>
   );
 }

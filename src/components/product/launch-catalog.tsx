@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ProductCard } from "./product-card";
 import { ProductPresentation } from "./product-presentation";
-import { CandleSandGuide } from "./candle-sand-guide";
 import {
   candleSandHandle,
   launchCatalogCopy,
@@ -64,56 +63,30 @@ export function LaunchProductDetails({
         <span>{product.title[locale]}</span>
       </nav>
       <ProductPresentation key={product.id} product={product} locale={locale}>
-        <section className="catalog-use-note">
-          <h2>
+        <details className="catalog-photo-details">
+          <summary>
+            {locale === "sv" ? "Om produktbilderna" : "About the photographs"}
+          </summary>
+          <p className="product-note catalog-photo-note">
             {bundle
-              ? locale === "sv"
-                ? "Användning och skötsel"
-                : "Use and care"
+              ? launchCatalogCopy[locale].bundleCaption
               : sand
-                ? locale === "sv"
-                  ? "Så använder du ljussand"
-                  : "Using candle sand"
-                : locale === "sv"
-                  ? "Skötsel"
-                  : "Care"}
-          </h2>
-          <p>{product.care?.[locale]}</p>
-        </section>
-        <p className="product-note catalog-photo-note">
-          {bundle
-            ? launchCatalogCopy[locale].bundleCaption
-            : sand
-              ? launchCatalogCopy[locale].sandCaption
-              : launchCatalogCopy[locale].bowlCaption}
-        </p>
-      </ProductPresentation>
-      {!bundle && (
-        <aside className="catalog-bundle-offer">
-          <div>
-            <p className="eyebrow">
-              {locale === "sv" ? "VÅRT PAKET" : "OUR BUNDLE"}
-            </p>
-            <h2>
-              {locale === "sv"
-                ? "Teakskål + ljussand"
-                : "Teak bowl + candle sand"}
-            </h2>
-            <p>
-              {locale === "sv"
-                ? "Välj båda i ett paket: en dekorativ teakskål, 300 g ljussand i din färg och doft och fyra bomullsvekar."
-                : "Choose both in one bundle: a decorative teak bowl, 300 g of candle sand in your chosen colour and scent, and four cotton wicks."}
-            </p>
-          </div>
+                ? launchCatalogCopy[locale].sandCaption
+                : launchCatalogCopy[locale].bowlCaption}
+          </p>
+        </details>
+        {!bundle && (
           <Link
-            className="button button-dark"
+            className="text-link catalog-pair-link"
             href={`/${locale}/products/${launchBundleHandle}`}
           >
-            {launchCatalogCopy[locale].bundleCta} ↗
+            {locale === "sv"
+              ? "Se paketet med teakskål + ljussand"
+              : "See the teak bowl + candle sand bundle"}{" "}
+            ↗
           </Link>
-        </aside>
-      )}
-      {(sand || bundle) && <CandleSandGuide locale={locale} />}
+        )}
+      </ProductPresentation>
       <div className="catalog-back-link">
         <Link className="text-link" href={`/${locale}/shop`}>
           {locale === "sv" ? "Se alla produkter" : "Explore all products"} ↗

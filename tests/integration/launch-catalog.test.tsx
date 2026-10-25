@@ -124,7 +124,10 @@ describe("separate products and the native bundle", () => {
     const { container } = render(
       <LaunchProductDetails launch={sand} locale="en" />,
     );
-    expect(screen.getByRole("list", { name: "Product details" })).toBeVisible();
+    expect(container.querySelector(".purchase-contents")).toHaveTextContent(
+      "300 g candle sand + four cotton wicks",
+    );
+    expect(screen.getByRole("button", { name: "Checkout" })).toBeVisible();
     expect(screen.getAllByRole("radio")).toHaveLength(11);
     expect(screen.getByText(/349/)).toBeInTheDocument();
     expect(container.querySelector(".stock-label")).toHaveTextContent(
@@ -158,6 +161,7 @@ describe("separate products and the native bundle", () => {
       3,
     );
     expect(screen.getByText(/550/)).toBeInTheDocument();
+    await user.click(screen.getByText("Produkt & användning", { exact: true }));
     expect(
       screen.getByText(/torka försiktigt med en mjuk, torr trasa/),
     ).toBeVisible();
@@ -198,7 +202,6 @@ describe("separate products and the native bundle", () => {
         name: "Teak bowl + candle sand",
       }),
     ).toBeVisible();
-    expect(screen.getByText("Bundle price")).toBeVisible();
     expect(screen.getAllByRole("radio")).toHaveLength(11);
     expect(container.querySelector(".product-price")).toHaveTextContent("699");
     expect(container.querySelector(".bundle-value")).toHaveTextContent("200");
@@ -244,7 +247,7 @@ describe("separate products and the native bundle", () => {
           name: `Image ${index + 2}: ${photo.alt.en}`,
         }),
       ).toBeVisible();
-    expect(container.querySelector(".gallery-included")).toHaveTextContent(
+    expect(container.querySelector(".purchase-contents")).toHaveTextContent(
       "1 decorative teak bowl + 300 g candle sand",
     );
     await user.click(screen.getByRole("button", { name: "Add to bag" }));

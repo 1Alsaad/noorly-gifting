@@ -102,18 +102,39 @@ export function PurchaseConfidence({ locale }: { locale: Locale }) {
   );
 }
 
-export function PurchaseAnswers({ locale }: { locale: Locale }) {
+export function PurchaseAnswers({
+  locale,
+  product,
+}: {
+  locale: Locale;
+  product?: Product;
+}) {
   const sv = locale === "sv";
   return (
     <div className="purchase-answers">
+      {product && (
+        <details>
+          <summary>{sv ? "Produkt & användning" : "Product & use"}</summary>
+          <p>{product.description[locale]}</p>
+          <p>{product.care?.[locale]}</p>
+          {(product.handle === candleSandHandle ||
+            product.handle === launchBundleHandle) && (
+            <p>
+              {sv
+                ? "Tänd inte ljussand direkt i en träskål. Använd ett obrännbart, värmetåligt ljuskärl."
+                : "Never burn candle sand directly in a wooden bowl. Use a noncombustible, heat-resistant candle vessel."}
+            </p>
+          )}
+        </details>
+      )}
       <details>
         <summary>
           {sv ? "Leverans & förbeställning" : "Delivery & pre-orders"}
         </summary>
         <p>
           {sv
-            ? "Leverans inom Sverige ingår i priset. Vi skickar när produkterna finns i lager hos oss. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig."
-            : "Delivery within Sweden is included. We dispatch when the products arrive in stock. You receive an order confirmation by email and tracking information when available."}
+            ? "Leverans inom Sverige ingår i priset. Vi skickar när produkterna finns i lager hos oss. Ingen bekräftad lagerankomstdag ännu. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig."
+            : "Delivery within Sweden is included. We dispatch when the products arrive in stock. An arrival date is not yet confirmed. You receive an order confirmation by email and tracking information when available."}
         </p>
         <Link className="text-link" href={`/${locale}/shipping-returns`}>
           {sv ? "Läs leveransvillkoren" : "Read delivery terms"} ↗
