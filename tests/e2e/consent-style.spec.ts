@@ -26,12 +26,15 @@ for (const locale of ["sv", "en"] as const) {
       for (const button of [accept, reject]) {
         await expect(button).toBeVisible();
         await expect(button).toBeInViewport();
-        await expect(button).toHaveCSS("background-color", "rgb(0, 0, 0)");
-        await expect(button).toHaveCSS("color", "rgb(255, 255, 255)");
         const bounds = await button.boundingBox();
         expect(bounds).not.toBeNull();
         expect(bounds!.height).toBeGreaterThanOrEqual(44);
       }
+      await expect(accept).toHaveCSS("background-color", "rgb(0, 0, 0)");
+      await expect(accept).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(reject).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await expect(reject).toHaveCSS("color", "rgb(0, 0, 0)");
+      await expect(reject).toHaveCSS("border-color", "rgb(0, 0, 0)");
       const acceptBounds = await accept.boundingBox();
       const rejectBounds = await reject.boundingBox();
       expect(Math.abs(acceptBounds!.width - rejectBounds!.width)).toBeLessThan(
@@ -65,8 +68,8 @@ for (const locale of ["sv", "en"] as const) {
       await expect(marketing).not.toBeChecked();
       const save = dialog.getByRole("button", { name: copy.save, exact: true });
       await page.mouse.move(0, 0);
-      await expect(save).toHaveCSS("background-color", "rgb(0, 0, 0)");
-      await expect(save).toHaveCSS("color", "rgb(255, 255, 255)");
+      await expect(save).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+      await expect(save).toHaveCSS("color", "rgb(0, 0, 0)");
       await analytics.check();
       await save.click();
       await expect(dialog).toHaveCount(0);
