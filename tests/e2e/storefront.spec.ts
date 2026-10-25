@@ -509,7 +509,11 @@ test("consent can be rejected, reopened, customized and revoked with focus resto
 }) => {
   const optionalRequests: string[] = [];
   page.on("request", (request) => {
-    if (/googletagmanager|google-analytics|posthog/.test(request.url()))
+    if (
+      /googletagmanager|google-analytics|posthog|clarity\.ms|connect\.facebook\.net|facebook\.com\/tr|monorail-edge/.test(
+        request.url(),
+      )
+    )
       optionalRequests.push(request.url());
   });
   await page.goto("/en");
@@ -539,7 +543,7 @@ test("consent can be rejected, reopened, customized and revoked with focus resto
     .poll(() =>
       page.evaluate(
         () =>
-          JSON.parse(localStorage.getItem("noorly-consent-v2") ?? "{}")
+          JSON.parse(localStorage.getItem("noorly-consent-v3") ?? "{}")
             .analytics,
       ),
     )
@@ -553,7 +557,7 @@ test("consent can be rejected, reopened, customized and revoked with focus resto
     .poll(() =>
       page.evaluate(
         () =>
-          JSON.parse(localStorage.getItem("noorly-consent-v2") ?? "{}")
+          JSON.parse(localStorage.getItem("noorly-consent-v3") ?? "{}")
             .analytics,
       ),
     )

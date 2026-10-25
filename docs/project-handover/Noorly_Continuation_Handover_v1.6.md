@@ -10,6 +10,8 @@ Updated 25 October 2026. Read this before v1.5. Preserve its product, stock, pri
 - Shopify Customer events lists Facebook & Instagram with **Server + Web**, Optimized access and a data-access-granted entry. It requires analytics and marketing permission and respects data-sale opt-out. Shopify customer privacy shows the cookie banner enabled for Sweden and EU data hosting. Checkout retains its own consent interface; headless localStorage preferences are not claimed to be Shopify's native consent cookie.
 - The initial reconnect warning was addressed; Re-connect returned **Data sharing is connected for your Shopify and Meta account**. Verify refreshed status and actual event receipt rather than relying solely on that toast.
 - Vercel production public config: `NEXT_PUBLIC_CLARITY_PROJECT_ID=z37qnt9bf3`. Never commit credentials or private account information.
+- Existing active sand and bowl products were included in the Facebook & Instagram sales channel for the approved catalog sync. Shopify's native bundle was excluded by its channel workflow; component inventory was not modified.
+- Hosted Terms of service and Shipping policy now show **349/449 SEK**, verified by reopening the editors. Hosted Privacy policy retains its existing text and adds the same Clarity/Maximum Meta disclosures as the storefront. Automatic privacy-policy rewriting was disabled to retain the custom appendix. Future policy changes must maintain this disclosure.
 
 ## Implementation
 
