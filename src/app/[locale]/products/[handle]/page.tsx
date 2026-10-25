@@ -12,7 +12,10 @@ import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
-import { getLaunchProduct } from "@/lib/commerce/launch-product";
+import {
+  getLaunchProduct,
+  getLaunchProducts,
+} from "@/lib/commerce/launch-product";
 import { getDictionary, isLocale } from "@/content/translations";
 import { ProductPresentation } from "@/components/product/product-presentation";
 import { ProductCard } from "@/components/product/product-card";
@@ -75,7 +78,8 @@ export default async function ProductDetail({ params }: Props) {
       process.env.NOORLY_PUBLIC_PREVIEW === "true" ||
       handle !== candleSandHandle)
   ) {
-    const launch = await getLaunchProduct(handle);
+    const launches = await getLaunchProducts();
+    const launch = launches.find(({ product }) => product.handle === handle)!;
     const product = presentCatalogProduct(launch.product, locale);
     return (
       <>
@@ -115,7 +119,11 @@ export default async function ProductDetail({ params }: Props) {
             />
           </>
         )}
-        <LaunchProductDetails locale={locale} launch={launch} />
+        <LaunchProductDetails
+          locale={locale}
+          launch={launch}
+          offers={launches}
+        />
       </>
     );
   }

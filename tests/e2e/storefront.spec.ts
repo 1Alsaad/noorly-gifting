@@ -68,7 +68,7 @@ test("the seasonal home renders conventional shopping and skips the cinematic st
   await expect(
     page
       .locator("#gifts")
-      .getByRole("heading", { name: "Candle sand · 300 g" }),
+      .getByRole("heading", { name: "Luma · Candle sand 300 g" }),
   ).toBeVisible();
   await expect(page.locator('a[href*="build-a-box"]')).toHaveCount(0);
   await expect(page.locator("#gifts article")).toHaveCount(3);
@@ -149,7 +149,7 @@ test("separate products and the bundle are keyboard accessible", async ({
   await page.goto("/en/products/" + teakBowlHandle);
   await expect(
     page.getByRole("heading", {
-      name: "Decorative teak bowl",
+      name: "Alva · Decorative teak bowl",
       level: 1,
     }),
   ).toBeVisible();
@@ -162,7 +162,7 @@ test("separate products and the bundle are keyboard accessible", async ({
   await page.goto("/en/products/" + launchBundleHandle);
   await expect(page).toHaveURL("/en/products/" + launchBundleHandle);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Teak bowl + candle sand",
+    "Luma + Alva · Candle sand & teak bowl",
   );
   await expect(page.getByText(/699/)).toBeVisible();
   await expect(
@@ -649,7 +649,10 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await page.goto("/en/shop");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Candle sand · 300 g", exact: true }),
+      page.getByRole("heading", {
+        name: "Luma · Candle sand 300 g",
+        exact: true,
+      }),
     ).toBeVisible();
     await page.getByRole("link", { name: "Choose colour & scent" }).click();
     await expect(page).toHaveURL("/en/products/" + candleSandHandle);
@@ -768,7 +771,7 @@ test("portrait shopping uses its own film and Swedish commerce copy", async ({
   const card = scene.locator(".cinema-shopping");
   await expect(card).toHaveAttribute("data-visible", "true");
   await expect(
-    card.getByRole("heading", { name: "Ljussand · 300 g" }),
+    card.getByRole("heading", { name: "Luma · Ljussand 300 g" }),
   ).toBeVisible();
   await expect(card.getByText(/Från.*349/)).toBeVisible();
   await expect(card.getByRole("button")).toHaveCount(0);

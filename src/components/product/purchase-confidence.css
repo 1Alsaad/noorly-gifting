@@ -99,6 +99,99 @@
 }
 .purchase-anchor {
   scroll-margin-top: 110px;
+  display: flex;
+  flex-direction: column;
+}
+.purchase-variant-group {
+  min-width: 0;
+}
+.product-trust-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 12px;
+  list-style: none;
+  padding: 18px 0;
+  margin: 12px 0 0;
+  border-top: 1px solid #d7cfc2;
+}
+.product-trust-badges li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.product-trust-badges svg {
+  flex-shrink: 0;
+  color: #4c5945;
+}
+.purchase-payments {
+  text-align: center;
+  margin-top: 12px;
+}
+.purchase-payments p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  margin: 0 0 9px;
+}
+.purchase-payments ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.purchase-payments li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 28px;
+  padding: 4px 7px;
+  border: 1px solid #dedbd3;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #242424;
+}
+.purchase-payments .payment-visa {
+  font-style: italic;
+  font-size: 15px;
+  color: #17337b;
+}
+.purchase-payments .payment-shop {
+  background: #5433eb;
+  border-color: #5433eb;
+  color: white;
+}
+.mastercard-mark {
+  width: 21px;
+  height: 13px;
+  position: relative;
+}
+.mastercard-mark::before,
+.mastercard-mark::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #eb001b;
+}
+.mastercard-mark::before {
+  left: 0;
+}
+.mastercard-mark::after {
+  right: 0;
+  background: #f79e1b;
+  opacity: 0.85;
 }
 .product-detail-simple .product-detail-copy {
   padding-top: 0;
@@ -189,6 +282,15 @@
   display: none;
 }
 @media (max-width: 680px) {
+  .product-detail-simple .purchase-variant-group {
+    order: -1;
+  }
+  .product-detail-simple .purchase-price-group .product-price {
+    margin-top: 0;
+  }
+  .product-detail-simple .purchase-variant-group .variant-picker {
+    margin: 14px 0 18px;
+  }
   .mobile-purchase-bar {
     display: flex;
     flex-wrap: wrap;

@@ -47,9 +47,11 @@ export function LaunchCatalogGrid({
 export function LaunchProductDetails({
   launch,
   locale,
+  offers,
 }: {
   launch: LaunchProductState;
   locale: Locale;
+  offers?: LaunchProductState[];
 }) {
   const product = presentCatalogProduct(launch.product, locale);
   const t = getDictionary(locale);
@@ -62,7 +64,18 @@ export function LaunchProductDetails({
         <span aria-hidden>/</span>
         <span>{product.title[locale]}</span>
       </nav>
-      <ProductPresentation key={product.id} product={product} locale={locale}>
+      <ProductPresentation
+        key={product.id}
+        product={product}
+        locale={locale}
+        offers={
+          !bundle
+            ? offers?.map(({ product: item }) =>
+                presentCatalogProduct(item, locale),
+              )
+            : undefined
+        }
+      >
         <details className="catalog-photo-details">
           <summary>
             {locale === "sv" ? "Om produktbilderna" : "About the photographs"}
@@ -75,7 +88,7 @@ export function LaunchProductDetails({
                 : launchCatalogCopy[locale].bowlCaption}
           </p>
         </details>
-        {!bundle && (
+        {!bundle && !offers && (
           <Link
             className="text-link catalog-pair-link"
             href={`/${locale}/products/${launchBundleHandle}`}

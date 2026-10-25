@@ -48,24 +48,24 @@ export const launchCatalogCopy = {
 } as const;
 
 const sandTitle: LocalizedText = {
-  sv: "Ljussand · 300 g",
-  en: "Candle sand · 300 g",
+  sv: "Luma · Ljussand 300 g",
+  en: "Luma · Candle sand 300 g",
 };
 const sandDescription: LocalizedText = {
   sv: "Skapa en egen ljusstund med 300 g ljussand i vald färg och doft. Varje påse innehåller fyra bomullsvekar.",
   en: "Create your own candle moment with 300 g of candle sand in your chosen colour and scent. Each pouch includes four cotton wicks.",
 };
 const bowlTitle: LocalizedText = {
-  sv: "Dekorativ teakskål",
-  en: "Decorative teak bowl",
+  sv: "Alva · Dekorativ teakskål",
+  en: "Alva · Decorative teak bowl",
 };
 const bowlDescription: LocalizedText = {
   sv: "En dekorativ skål i teak med mjuka former och naturlig ådring. En enkel detalj för bordet, hyllan eller en omtänksam gåva.",
   en: "A decorative teak bowl with soft contours and natural grain. A simple detail for your table, shelf or a thoughtful gift.",
 };
 const bundleTitle: LocalizedText = {
-  sv: "Teakskål + ljussand",
-  en: "Teak bowl + candle sand",
+  sv: "Luma + Alva · Ljussand & teakskål",
+  en: "Luma + Alva · Candle sand & teak bowl",
 };
 const bundleDescription: LocalizedText = {
   sv: "Vårt paket med en dekorativ teakskål och 300 g ljussand i din färg och doft. Fyra bomullsvekar ingår.",
