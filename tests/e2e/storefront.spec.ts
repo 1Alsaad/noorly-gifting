@@ -903,7 +903,7 @@ test("candle sand photos and variants remain accessible without JavaScript", asy
     ).toHaveAttribute("href", /csand-07-0.webp$/);
     await expect(
       page.getByRole("link", { name: "Image 2 ·", exact: true }),
-    ).toHaveAttribute("href", /csand-11-2.webp$/);
+    ).toHaveAttribute("href", /csand-11-supplier-5ghn.jpg$/);
   } finally {
     await context.close();
   }
