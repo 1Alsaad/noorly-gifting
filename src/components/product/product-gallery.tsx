@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useRef, useState } from "react";
 import type { Locale, ProductImage } from "@/types/commerce";
 
 export function ProductGallery({
@@ -14,7 +15,13 @@ export function ProductGallery({
   title: string;
 }) {
   const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const touchStart = useRef<number | null>(null);
   const current = images[index] ?? images[0];
+  const move = (direction: number) =>
+    setIndex(
+      (previous) => (previous + direction + images.length) % images.length,
+    );
   if (!current)
     return (
       <div className="product-detail-image" role="img" aria-label={title}>
@@ -25,24 +32,108 @@ export function ProductGallery({
     );
   return (
     <div className="product-gallery">
-      <a
-        className="product-detail-image gallery-main"
-        href={current.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`${locale === "sv" ? "Öppna stor bild" : "Open full-size image"}: ${title}`}
-      >
-        <Image
-          src={current.url}
-          alt={current.alt}
-          fill
-          sizes="(max-width:760px) 90vw, 50vw"
-          priority
-        />
-        <span className="gallery-zoom">
-          {locale === "sv" ? "Visa större ↗" : "View larger ↗"}
-        </span>
-      </a>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Trigger asChild>
+          <a
+            className="product-detail-image gallery-main"
+            href={current.url}
+            onClick={(event) => {
+              event.preventDefault();
+              setOpen(true);
+            }}
+            aria-label={`${locale === "sv" ? "Öppna stor bild" : "Open full-size image"}: ${title}`}
+          >
+            <Image
+              src={current.url}
+              alt={current.alt}
+              fill
+              sizes="(max-width:760px) 90vw, 50vw"
+              priority
+            />
+            <span className="gallery-zoom">
+              {locale === "sv" ? "Visa större +" : "View larger +"}
+            </span>
+          </a>
+        </Dialog.Trigger>
+        <Dialog.Portal>
+          <Dialog.Overlay className="gallery-overlay" />
+          <Dialog.Content
+            className="gallery-lightbox"
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                event.preventDefault();
+                move(event.key === "ArrowLeft" ? -1 : 1);
+              }
+            }}
+          >
+            <div className="gallery-lightbox-header">
+              <Dialog.Title>{title}</Dialog.Title>
+              <Dialog.Close
+                className="gallery-lightbox-close"
+                aria-label={
+                  locale === "sv"
+                    ? "Stäng bildgalleriet"
+                    : "Close image gallery"
+                }
+              >
+                ×
+              </Dialog.Close>
+            </div>
+            <div
+              className="gallery-lightbox-image"
+              onTouchStart={(event) => {
+                touchStart.current = event.touches[0]?.clientX ?? null;
+              }}
+              onTouchEnd={(event) => {
+                const end = event.changedTouches[0]?.clientX;
+                if (touchStart.current !== null && end !== undefined) {
+                  const distance = end - touchStart.current;
+                  if (Math.abs(distance) > 50) move(distance < 0 ? 1 : -1);
+                }
+                touchStart.current = null;
+              }}
+              onTouchCancel={() => {
+                touchStart.current = null;
+              }}
+            >
+              <Image
+                src={current.url}
+                alt={current.alt}
+                fill
+                sizes="(max-width: 1000px) 94vw, 1000px"
+              />
+            </div>
+            <div className="gallery-lightbox-controls">
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => move(-1)}
+                  aria-label={
+                    locale === "sv" ? "Föregående bild" : "Previous image"
+                  }
+                >
+                  ←
+                </button>
+              )}
+              <p aria-live="polite">
+                {index + 1} / {images.length}
+              </p>
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => move(1)}
+                  aria-label={locale === "sv" ? "Nästa bild" : "Next image"}
+                >
+                  →
+                </button>
+              )}
+            </div>
+            <Dialog.Description className="gallery-lightbox-caption">
+              {current.alt}
+            </Dialog.Description>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
       {images.length > 1 && (
         <div
           className="gallery-thumbnails"

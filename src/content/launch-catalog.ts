@@ -4,6 +4,7 @@ import {
   launchSandChoices,
 } from "./launch-bundle";
 import type { Locale, LocalizedText, Product } from "@/types/commerce";
+import { whiteSandSupplierGallery } from "./candle-sand-gallery";
 
 export const candleSandHandle = "candle-sand";
 export const teakBowlHandle = "teakb-37-dekorativ-teakskal";
@@ -21,7 +22,7 @@ export const launchCatalogCopy = {
     imageNote:
       "Miljöbilden visar en stämning. Se produktbilderna för varje artikel.",
     sandCaption:
-      "Bilden visar påsen och vaxkornen för vald färg och doft. Skål och andra tillbehör ingår inte.",
+      "Produkt- och miljöbilder för vald färg och doft. Skål och andra tillbehör ingår inte.",
     bowlCaption:
       "Varje teakskål har sin egen form och ådring. Frukten på bilden är dekoration och ingår inte.",
     bundleCaption:
@@ -39,7 +40,7 @@ export const launchCatalogCopy = {
     imageNote:
       "Lifestyle imagery expresses a mood. See each item's product photographs.",
     sandCaption:
-      "The photograph shows the pouch and wax granules for the selected colour and scent. A bowl and other accessories are not included.",
+      "Product and styling photographs for the selected colour and scent. A bowl and other accessories are not included.",
     bowlCaption:
       "Each teak bowl has its own shape and grain. The fruit in the photograph is styling and is not included.",
     bundleCaption:
@@ -174,6 +175,9 @@ export function presentCatalogProduct(
         images: [
           { url: choice.photo.url, alt: choice.photo.alt[locale] },
           ...bowlImages,
+          ...(choice.sku === "CSand-11"
+            ? whiteSandSupplierGallery(locale)
+            : []),
         ],
       };
     });
@@ -216,9 +220,14 @@ export function presentCatalogProduct(
         label: choice.label,
         color: choice.color,
         scent: choice.scent,
-        // One selected variant, one corresponding photograph. Other colours
-        // and the decorative bowl do not belong in this variant's gallery.
-        images: [{ url: choice.photo.url, alt: choice.photo.alt[locale] }],
+        // Each colour keeps its own photographs; CSand-11 also has the
+        // owner's requested supplier carousel.
+        images: [
+          { url: choice.photo.url, alt: choice.photo.alt[locale] },
+          ...(choice.sku === "CSand-11"
+            ? whiteSandSupplierGallery(locale)
+            : []),
+        ],
       };
     });
     return {

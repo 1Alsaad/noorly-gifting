@@ -1,4 +1,53 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+
+test("enlarged photos stay on the product page and restore the selected image", async ({
+  page,
+  context,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/en/products/candle-sand");
+  const reject = page.getByRole("button", { name: "Reject optional" });
+  if (await reject.isVisible()) await reject.click();
+  const url = page.url();
+  const tabs = context.pages().length;
+  await page.getByRole("button", { name: /^Image 2:/ }).click();
+  const trigger = page.getByRole("link", { name: /Open full-size image/ });
+  await trigger.click();
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("img")).toHaveAttribute(
+    "src",
+    /csand-11-supplier-5ghn/,
+  );
+  await expect(page).toHaveURL(url);
+  expect(context.pages()).toHaveLength(tabs);
+  await dialog.getByRole("button", { name: "Next image" }).click();
+  await expect(dialog.getByRole("img")).toHaveAttribute(
+    "src",
+    /csand-11-supplier-5gef/,
+  );
+  await page.keyboard.press("ArrowLeft");
+  await expect(dialog.getByRole("img")).toHaveAttribute(
+    "src",
+    /csand-11-supplier-5ghn/,
+  );
+  expect(
+    (await new AxeBuilder({ page }).include('[role="dialog"]').analyze())
+      .violations,
+  ).toEqual([]);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute(
+    "href",
+    "/media/products/candle-sand/csand-11-supplier-5ghn.jpg",
+  );
+  await trigger.click();
+  await dialog.getByRole("button", { name: "Close image gallery" }).click();
+  await expect(dialog).toHaveCount(0);
+  await expect(page).toHaveURL(url);
+});
 
 test("mobile choices stay compact without enabling preview checkout", async ({
   page,
@@ -7,6 +56,17 @@ test("mobile choices stay compact without enabling preview checkout", async ({
   await page.goto("/en/products/candle-sand");
   const reject = page.getByRole("button", { name: "Reject optional" });
   if (await reject.isVisible()) await reject.click();
+  await expect(page.locator(".gallery-thumbnails button")).toHaveCount(9);
+  await page.getByRole("button", { name: /^Image 2:/ }).click();
+  await expect(page.locator(".gallery-main")).toHaveAttribute(
+    "href",
+    "/media/products/candle-sand/csand-11-supplier-5ghn.jpg",
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
   const pink = page.getByRole("radio", {
     name: "Dusty Rose · Maison de Roses",
   });

@@ -226,7 +226,14 @@ describe("separate products and the native bundle", () => {
     );
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
-    ).toHaveLength(0);
+    ).toHaveLength(9);
+    await user.click(screen.getByRole("button", { name: /^Image 2:/ }));
+    expect(
+      screen.getByRole("link", { name: /Open full-size image/ }),
+    ).toHaveAttribute(
+      "href",
+      "/media/products/candle-sand/csand-11-supplier-5ghn.jpg",
+    );
     await user.click(
       screen.getByRole("radio", { name: "Dusty Rose · Maison de Roses" }),
     );
@@ -302,8 +309,8 @@ describe("separate products and the native bundle", () => {
     expect(
       screen.getByRole("link", { name: /Open full-size image/ }),
     ).toHaveAttribute("href", launchSandChoices[0].photo.url);
-    expect(screen.getAllByRole("button", { name: /^Image \d:/ })).toHaveLength(
-      4,
+    expect(screen.getAllByRole("button", { name: /^Image \d+:/ })).toHaveLength(
+      12,
     );
     await user.click(screen.getByRole("button", { name: "Add to bag" }));
     expect(addLines).toHaveBeenLastCalledWith([

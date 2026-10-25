@@ -1,5 +1,6 @@
 import { isProductTestMode } from "@/config/product-test";
 import type { LocalizedText, Product, ProductVariant } from "@/types/commerce";
+import { whiteSandSupplierGallery } from "./candle-sand-gallery";
 
 const text = (sv: string, en: string): LocalizedText => ({ sv, en });
 
@@ -62,14 +63,18 @@ const variants: ProductVariant[] = options.map(
         url: `/media/products/candle-sand/csand-${code}-0.webp`,
         alt: `Candle sand — ${en}, ${scentEn}: pouch and wax granules`,
       },
-      {
-        url: `/media/products/candle-sand/csand-${code}-2.webp`,
-        alt: `Candle sand — ${en}, ${scentEn}: 300 g pouch`,
-      },
-      {
-        url: `/media/products/candle-sand/csand-${code}-1.webp`,
-        alt: `Candle sand — ${en}, ${scentEn}: supplier styling photograph; vessel not included`,
-      },
+      ...(code === "11"
+        ? whiteSandSupplierGallery("en")
+        : [
+            {
+              url: `/media/products/candle-sand/csand-${code}-2.webp`,
+              alt: `Candle sand — ${en}, ${scentEn}: 300 g pouch`,
+            },
+            {
+              url: `/media/products/candle-sand/csand-${code}-1.webp`,
+              alt: `Candle sand — ${en}, ${scentEn}: supplier styling photograph; vessel not included`,
+            },
+          ]),
     ],
   }),
 );
