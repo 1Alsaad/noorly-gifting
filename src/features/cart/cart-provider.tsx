@@ -1,5 +1,6 @@
 "use client";
 
+import { trackMetaAddToCart } from "@/lib/analytics/meta-cart";
 import { isProductTestMode } from "@/config/product-test";
 import {
   createContext,
@@ -92,6 +93,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setError("cart_changed");
         throw new Error("cart_changed");
       }
+      trackMetaAddToCart(data.cart, lines);
       trackEvent({
         name: "add_to_cart",
         properties: {

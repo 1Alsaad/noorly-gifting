@@ -7,3 +7,4 @@ coverage
 next-env.d.ts
 work
 public
+src/lib/analytics/vendor/shopify-analytics.js

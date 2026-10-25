@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { trackEvent } from "@/lib/analytics/client";
 import { CONSENT_EVENT } from "@/lib/analytics/consent";
+import { trackShopifyProductView } from "@/lib/analytics/shopify";
 import { trackMetaViewContent } from "@/lib/analytics/meta";
 export function TrackView({
   name,
@@ -23,11 +24,24 @@ export function TrackView({
     if (name !== "product_viewed") return;
     const details = JSON.parse(serialized) as {
       product_handle?: string;
+      product_id?: string;
       value?: number;
     };
     if (!details.product_handle) return;
     let sent = false;
+    let shopifySent = false;
     const onConsent = () => {
+      if (
+        !shopifySent &&
+        details.product_id &&
+        details.product_handle &&
+        details.value !== undefined
+      )
+        shopifySent = trackShopifyProductView(
+          details.product_id,
+          details.product_handle,
+          details.value,
+        );
       if (!sent && details.product_handle)
         sent = trackMetaViewContent(details.product_handle, details.value);
     };
