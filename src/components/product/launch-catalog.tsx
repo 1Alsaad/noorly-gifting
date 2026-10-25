@@ -66,8 +66,8 @@ export function LaunchProductDetails({
                 ? "Så använder du ljussand"
                 : "Using candle sand"
               : locale === "sv"
-                ? "För dekoration"
-                : "For decoration"}
+                ? "Skötsel"
+                : "Care"}
           </h2>
           <p>{product.care?.[locale]}</p>
         </section>

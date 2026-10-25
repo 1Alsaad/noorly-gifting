@@ -55,14 +55,16 @@ describe("the connected launch presentation", () => {
   });
   afterEach(() => vi.unstubAllEnvs());
 
-  it("shows the authenticated supplier bowl photos in order and distinguishes them from the complete kit", async () => {
+  it("shows the bowl photos in order and distinguishes them from the complete kit", async () => {
     const user = userEvent.setup();
     render(<PlannedBundleDetails locale="en" />);
     const fullSize = screen.getByRole("link", { name: /Open full-size image/ });
     expect(fullSize).toHaveAttribute("href", launchBundlePhotos[0].url);
     expect(
-      screen.getByText(/teak-bowl photographs show model TeakB-37/),
-    ).toHaveTextContent("fruit is styling and is not included");
+      screen.getByText(/Each teak bowl has its own shape and grain/),
+    ).toHaveTextContent(
+      "fruit in the photograph is styling and is not included",
+    );
     expect(
       screen.getByText(/complete Ljusstund set has not yet been photographed/),
     ).toBeInTheDocument();
@@ -95,7 +97,7 @@ describe("the connected launch presentation", () => {
     ]);
   });
 
-  it("retains supplier attribution for the processed image URL returned by the live Shopify product", () => {
+  it("uses clean product copy for the processed image URL returned by the live product", () => {
     render(
       <PlannedBundleDetails
         locale="en"
@@ -114,11 +116,11 @@ describe("the connected launch presentation", () => {
       />,
     );
     expect(
-      screen.getByText(/teak-bowl photographs show model TeakB-37/),
+      screen.getByText(/Each teak bowl has its own shape and grain/),
     ).toHaveTextContent("complete Ljusstund set has not yet been photographed");
     expect(
       screen.getByRole("img", {
-        name: /Supplier photograph of the decorative TeakB-37 bowl/,
+        name: /Decorative teak bowl with natural grain/,
       }),
     ).toBeInTheDocument();
   });
@@ -200,7 +202,7 @@ describe("the connected launch presentation", () => {
       screen.getByText(/One 300 g pouch and four cotton wicks/),
     ).toHaveTextContent("complete Ljusstund set has not yet been photographed");
     expect(
-      screen.getByText(/dispatch your order as soon as possible/),
+      screen.getByText(/dispatch your order as soon as.*in stock/),
     ).toBeInTheDocument();
     expect(
       screen.queryByText(/will be confirmed|photos.*will follow/i),

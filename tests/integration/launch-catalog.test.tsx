@@ -79,6 +79,9 @@ describe("separate merchant product pages", () => {
     );
     expect(screen.getAllByRole("radio")).toHaveLength(11);
     expect(screen.getByText(/199/)).toBeInTheDocument();
+    expect(container.querySelector(".stock-label")).toHaveTextContent(
+      "Pre-order",
+    );
     expect(
       container.querySelectorAll(".gallery-thumbnails button"),
     ).toHaveLength(0);
@@ -108,7 +111,7 @@ describe("separate merchant product pages", () => {
     );
     expect(screen.getByText(/550/)).toBeInTheDocument();
     expect(
-      screen.getByText(/Tänd aldrig ljussand eller vekar direkt i träskålen/),
+      screen.getByText(/torka försiktigt med en mjuk, torr trasa/),
     ).toBeVisible();
     await user.click(screen.getByRole("button", { name: "Lägg i påsen" }));
     expect(addLines).toHaveBeenCalledWith([

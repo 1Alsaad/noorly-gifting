@@ -8,6 +8,10 @@ import { formatMoney } from "@/lib/utils/money";
 import { AddToCart } from "@/components/commerce/add-to-cart";
 import { trackEvent } from "@/lib/analytics/client";
 import { VariantPicker } from "./variant-picker";
+import {
+  launchCatalogCopy,
+  launchProductDefinitions,
+} from "@/content/launch-catalog";
 export function ProductPurchase({
   product,
   locale,
@@ -25,6 +29,9 @@ export function ProductPurchase({
   const selected = product.variants.find((v) => v.id === variantId);
   const unsupportedPlan =
     product.requiresSellingPlan || product.hasSellingPlans;
+  const preorder = launchProductDefinitions.some(
+    ({ handle }) => handle === product.handle,
+  );
   return (
     <div className="purchase-panel">
       <p className="product-price">
@@ -43,7 +50,9 @@ export function ProductPurchase({
                 ? "Det här köpalternativet är inte tillgängligt ännu."
                 : "This purchase option is not available yet."
               : selected?.available && product.available
-                ? t.available
+                ? preorder
+                  ? launchCatalogCopy[locale].availability
+                  : t.available
                 : t.unavailable}
       </p>
       {product.variants.some((variant) => variant.color) ? (

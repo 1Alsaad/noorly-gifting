@@ -12,13 +12,13 @@ export const launchCatalogCopy = {
       "Välj ljussand i din färg och doft, eller en dekorativ teakskål med naturlig karaktär. Produkterna köps var för sig.",
     cta: "Välj färg & doft",
     bowlCta: "Upptäck teakskålen",
-    film: "Stämningsfilm. Produkterna i filmen återger inte det exakta sortimentet.",
+    availability: "Förbeställning",
     imageNote:
       "Miljöbilden visar en stämning. Se produktbilderna för varje artikel.",
     sandCaption:
       "Bilden visar påsen och vaxkornen för vald färg och doft. Skål och andra tillbehör ingår inte.",
     bowlCaption:
-      "Leverantörens bilder visar TeakB-37. Form och ådring varierar naturligt. Frukten är dekoration och ingår inte.",
+      "Varje teakskål har sin egen form och ådring. Frukten på bilden är dekoration och ingår inte.",
   },
   en: {
     label: "NOORLY · SELECTED FOR SLOWER MOMENTS",
@@ -27,13 +27,13 @@ export const launchCatalogCopy = {
       "Choose candle sand in your colour and scent, or a decorative teak bowl with natural character. Each product is sold separately.",
     cta: "Choose colour & scent",
     bowlCta: "Discover the teak bowl",
-    film: "Concept film. The products in the film do not depict the exact range.",
+    availability: "Pre-order",
     imageNote:
       "Lifestyle imagery expresses a mood. See each item's product photographs.",
     sandCaption:
       "The photograph shows the pouch and wax granules for the selected colour and scent. A bowl and other accessories are not included.",
     bowlCaption:
-      "The supplier's photographs show TeakB-37. Shape and grain vary naturally. The fruit is styling and is not included.",
+      "Each teak bowl has its own shape and grain. The fruit in the photograph is styling and is not included.",
   },
 } as const;
 
@@ -46,8 +46,8 @@ const sandDescription: LocalizedText = {
   en: "Create your own candle moment with 300 g of candle sand in your chosen colour and scent. Each pouch includes four cotton wicks.",
 };
 const bowlTitle: LocalizedText = {
-  sv: "Dekorativ teakskål · TeakB-37",
-  en: "Decorative teak bowl · TeakB-37",
+  sv: "Dekorativ teakskål",
+  en: "Decorative teak bowl",
 };
 const bowlDescription: LocalizedText = {
   sv: "En dekorativ skål i teak med mjuka former och naturlig ådring. En enkel detalj för bordet, hyllan eller en omtänksam gåva.",
@@ -151,8 +151,8 @@ export function presentCatalogProduct(
         { sv: "Fyra vekar ingår", en: "Four wicks included" },
       ],
       care: {
-        sv: "Använd ett stabilt, obrännbart och värmetåligt ljuskärl. Tänd aldrig ljussand direkt i en träskål. Följ tillverkarens instruktioner på förpackningen och lämna aldrig levande ljus utan uppsikt.",
-        en: "Use a stable, noncombustible, heat-resistant candle vessel. Never burn candle sand directly in a wooden bowl. Follow the manufacturer's instructions on the packaging and never leave a burning candle unattended.",
+        sv: "Använd ett stabilt, obrännbart och värmetåligt ljuskärl. Följ instruktionerna på förpackningen och lämna aldrig levande ljus utan uppsikt.",
+        en: "Use a stable, noncombustible, heat-resistant candle vessel. Follow the instructions on the packaging and never leave a burning candle unattended.",
       },
     };
   }
@@ -168,16 +168,16 @@ export function presentCatalogProduct(
       images,
       variants: product.variants.map((variant) => ({ ...variant, images })),
       included: {
-        sv: "En dekorativ teakskål, modell TeakB-37. Ljussand, vekar och dekoration ingår inte.",
-        en: "One decorative teak bowl, model TeakB-37. Candle sand, wicks and styling accessories are not included.",
+        sv: "En dekorativ teakskål. Ljussand, vekar och dekoration ingår inte.",
+        en: "One decorative teak bowl. Candle sand, wicks and styling accessories are not included.",
       },
       highlights: [
         { sv: "Naturlig teak", en: "Natural teak" },
         { sv: "Varierande form och ådring", en: "Individual shape and grain" },
       ],
       care: {
-        sv: "Skålen är dekorativ och är inte ett värmetåligt ljuskärl. Tänd aldrig ljussand eller vekar direkt i träskålen. Följ leverantörens skötselanvisningar.",
-        en: "This is a decorative bowl, not a heat-resistant candle vessel. Never burn candle sand or wicks directly in the wooden bowl. Follow the supplier's care instructions.",
+        sv: "Hantera varsamt och torka försiktigt med en mjuk, torr trasa.",
+        en: "Handle with care and wipe gently with a soft, dry cloth.",
       },
     };
   }

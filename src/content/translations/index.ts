@@ -42,7 +42,7 @@ const en = {
   checking: "Preparing checkout…",
   mockCheckoutTitle: "Your preview bag is ready.",
   mockCheckoutText:
-    "This is a demonstration checkout. No payment is collected and no order has been placed. Connect Shopify to accept real orders.",
+    "This is a demonstration checkout. No payment is collected and no order has been placed.",
   returnShop: "Return to the collection",
   cartUpdated: "Your bag has been updated",
   giftMessage: "Your personal message",
@@ -234,25 +234,25 @@ const en = {
       title: "Thoughtful by design.",
       text: "We are working towards WCAG 2.2 AA. The foundation includes keyboard navigation, visible focus, accessible dialogs, clear labels and an equivalent shopping experience with reduced motion.",
       extra:
-        "The cinematic story can be skipped. If video is unavailable or you prefer reduced motion, static imagery and the complete catalogue remain available. Automated checks do not replace a complete accessibility audit; contact customer service about barriers.",
+        "All products are available through the standard shop, with still photographs and clear product options. Automated checks do not replace a complete accessibility audit; contact customer service about barriers.",
     },
   },
   faqs: [
     {
       q: "Can I order from this website?",
-      a: "This is a clearly marked preview. Real orders become available after the merchant connects Shopify and completes launch checks.",
+      a: "This is a clearly marked preview. Real orders become available when the shop opens for purchases.",
     },
     {
       q: "Can I include a personal message?",
       a: "Yes. Add up to 280 characters to your own gift box, and review or edit it in your bag.",
     },
     {
-      q: "Do I need to watch the cinematic story?",
-      a: "Every gift is available through the standard shop. Skip the story any time, or use reduced motion in your device settings.",
+      q: "Where can I see all the products?",
+      a: "Visit the shop to see each product, its photographs and available options.",
     },
     {
       q: "How are payments handled?",
-      a: "Configured production payments are collected by Shopify-hosted checkout. No card information is collected on this website.",
+      a: "Payments are handled through our secure checkout. No card information is collected on this website.",
     },
   ],
   notFound: {
@@ -312,7 +312,7 @@ const sv: Dictionary = {
   checking: "Förbereder kassan…",
   mockCheckoutTitle: "Din påse är redo för förhandsvisning.",
   mockCheckoutText:
-    "Det här är en demokassa. Ingen betalning tas emot och ingen beställning har lagts. Anslut Shopify för riktiga köp.",
+    "Det här är en demokassa. Ingen betalning tas emot och ingen beställning har lagts.",
   returnShop: "Tillbaka till kollektionen",
   cartUpdated: "Din påse har uppdaterats",
   giftMessage: "Din personliga hälsning",
@@ -503,25 +503,25 @@ const sv: Dictionary = {
       title: "Omtanke i formen.",
       text: "Vi arbetar mot WCAG 2.2 AA. Grunden inkluderar tangentbordsnavigering, synligt fokus, tillgängliga dialoger, tydliga etiketter och en komplett upplevelse med minskad rörelse.",
       extra:
-        "Den filmiska berättelsen kan hoppas över. När video saknas eller du föredrar minskad rörelse finns stillbilder och hela sortimentet kvar. Automatiska kontroller ersätter inte en fullständig granskning. Kontakta kundservice vid hinder.",
+        "Alla produkter finns i butiken med stillbilder och tydliga produktval. Automatiska kontroller ersätter inte en fullständig tillgänglighetsgranskning. Kontakta kundservice vid hinder.",
     },
   },
   faqs: [
     {
       q: "Kan jag beställa från den här webbplatsen?",
-      a: "Det här är en tydligt märkt förhandsvisning. Riktiga beställningar blir tillgängliga när säljaren ansluter Shopify och genomför lanseringskontrollerna.",
+      a: "Det här är en tydligt märkt förhandsvisning. Riktiga beställningar blir tillgängliga när butiken öppnar för köp.",
     },
     {
       q: "Kan jag lägga till en personlig hälsning?",
       a: "Ja. Lägg till högst 280 tecken i din egen presentbox, och granska eller ändra den i påsen.",
     },
     {
-      q: "Måste jag se den filmiska berättelsen?",
-      a: "Alla gåvor finns i den vanliga butiken. Hoppa över berättelsen när du vill, eller aktivera minskad rörelse på din enhet.",
+      q: "Var hittar jag alla produkter?",
+      a: "I butiken hittar du varje produkt, dess bilder och tillgängliga alternativ.",
     },
     {
       q: "Hur fungerar betalningen?",
-      a: "I produktion hanteras betalningar i Shopifys säkra kassa. Inga kortuppgifter samlas in på den här webbplatsen.",
+      a: "Betalning hanteras i vår säkra kassa. Inga kortuppgifter samlas in på den här webbplatsen.",
     },
   ],
   notFound: {

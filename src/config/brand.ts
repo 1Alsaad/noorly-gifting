@@ -2,7 +2,7 @@ import type { Locale } from "@/types/commerce";
 
 export const brand = {
   name: process.env.NEXT_PUBLIC_BRAND_NAME || "NOORLY",
-  legalCompanyName: "Noorly AB",
+  legalCompanyName: "",
   organizationNumber: "",
   domain: "noorlynordic.com",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://noorlynordic.com",
@@ -27,9 +27,9 @@ export const brand = {
     interface: "Arial, Helvetica, sans-serif",
   },
   address: {
-    street: "Haga parkgata 3A",
-    postalCode: "723 36",
-    city: "Västerås",
+    street: "",
+    postalCode: "",
+    city: "",
     country: "SE",
   },
   customerService: {

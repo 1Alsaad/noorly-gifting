@@ -20,8 +20,10 @@ describe("Noorly public stock and product copy", () => {
         copy.provenance,
         copy.contents.join(" "),
       ].join(" ");
-      expect(text).toContain("TeakB-37");
-      expect(text).not.toMatch(/ELYSIA|Candledust|Nordic Lights|Dark Honey/);
+      expect(text).toMatch(/teak/i);
+      expect(text).not.toMatch(
+        /TeakB-37|AWGifts|ELYSIA|Candledust|Nordic Lights|Dark Honey/,
+      );
       expect(copy.provenance).toMatch(
         locale === "sv" ? /träskålen/i : /wooden bowl/i,
       );
@@ -65,7 +67,13 @@ describe("Noorly public stock and product copy", () => {
     const termsText = terms?.sections
       .flatMap((section) => section.paragraphs)
       .join(" ");
-    expect(termsText).toContain("Shopify checkout");
+    expect(termsText).toContain("checkout");
+    expect(
+      terms?.sections
+        .filter((section) => section.id !== "data-services")
+        .flatMap((section) => section.paragraphs)
+        .join(" "),
+    ).not.toContain("Shopify");
     expect(termsText).not.toMatch(/not open|fictional|no purchase/i);
     expect(live.pages.cookies.text).not.toMatch(/no marketing provider/i);
     expect(live.footer.rights).toBe("NOORLY");
