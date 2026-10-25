@@ -38,9 +38,16 @@ The intended account contained three paused published campaigns:
 - `120252042618440015`: Ljusstund presale, 3,000 SEK lifetime budget, DRAFT / DO NOT PUBLISH in its name.
 - `120251947281020015`: all-product tests, 50 SEK/day shared campaign budget, HOLD.
 
-Only one published ad set was returned: `120251947284140015`, candle sand, Sweden, website PURCHASE optimization using the correct dataset, paused, scheduled 23–27 October. **The published ad query returned no ads.** Unpublished Ads Manager drafts could not be retrieved: the draft endpoint returned INVALID_ARGUMENT. Inspect those directly in Ads Manager before assuming no staged work exists. Delivery-error lookup on the existing campaigns/ad set returned no errors; that does not make an empty or outdated campaign launch-ready.
+Only one published ad set was returned: `120251947284140015`, candle sand, Sweden, website PURCHASE optimization using the correct dataset, paused, scheduled 23–27 October. **The published ad query returned no ads.** The draft endpoint returned INVALID_ARGUMENT, so the signed-in Ads Manager UI was used to inspect the staged work. Delivery-error lookup on the published campaigns/ad set returned no errors; that does not establish draft readiness.
 
-Before launch, reconcile the old campaign names/offers and schedule with the current 349/449 SEK sand and 699/749 SEK bundle prices, prepare/review actual ads and landing URLs, set one deliberate current test budget, and verify the purchase path. Do not activate the three historical campaigns together. The 4,000 SEK allocation remains planning context, not launch approval.
+Ads Manager showed five unpublished items: campaign `120252008338040015`, two ad sets and two ads. Both ads were inspected without publishing:
+
+- `120252008431640015`, **02 | Vinterduon | Gift | SV | HOLD**: destination `https://erinra.com/products/candle-sand`, text offering **2 × 300 g for 449 kr**, correct `noorlygifts` Instagram identity, AI-media disclosure checked. The editor said the pixel was not connected to erinra.com.
+- `120252008338050015`, **01 | Hemmamys | Pure Serenity | SV | HOLD**: the same wrong destination and outdated two-pack offer. The Instagram field was invalid and said access was required to advertise for `f_roma04`; previews became unavailable. Its text says the scene is AI-styled, while the AI-media checkbox was unchecked. Meta's Add animation enhancement was also on. Resolve identity, offer, destination and disclosure, then review actual visuals/placements before launch.
+
+Neither ad was published, activated, rewritten or deliberately changed during this audit. The editor's close prompt said draft changes were saved automatically; **Close**, not Publish or Discard draft, was selected to preserve existing staged work. No creative visual approval is claimed from the incomplete previews.
+
+Before launch, correct the draft ads' wrong domain, outdated offer, Instagram identity and disclosure, reconcile campaign names/schedule with the current 349/449 SEK sand and 699/749 SEK bundle prices, review visuals and placements, set one deliberate current test budget, and verify the purchase path. Do not activate the three historical campaigns together. The 4,000 SEK allocation remains planning context, not launch approval.
 
 ### Catalog limitations
 
@@ -52,7 +59,7 @@ Catalog `2504892520035407`, **Shopify Product Catalog (tzwngp-h1.myshopify.com) 
 - No bowl item was returned. The earlier Shopify publishing operation is not proof that Meta has a usable bowl listing.
 - Dynamic-ads health failed its visibility check. General catalog diagnostics returned no rows, but item-level results establish the problem. The pixel is connected; match-rate history contained zero matching evidence and cannot validate current product-ID matching.
 
-These are catalog-ad blockers. They do not imply that a reviewed standalone website ad requires an approved catalog, but actual ads and the purchase checks are still missing.
+These are catalog-ad blockers. They do not imply that a reviewed standalone website ad requires an approved catalog, but the draft-ad corrections and purchase checks remain outstanding.
 
 ## Production release
 
@@ -67,7 +74,7 @@ The owner asked to review the latest supplier email. M1 Candles' 25 October repl
 ## Next actions
 
 1. Confirm the owner's Clarity Agents JS disable/save action; keep the project-link request unapproved under the heatmaps-only instruction.
-2. Review any unpublished Ads Manager drafts, build/review current ads, and reconcile the schedule and single test budget. Obtain explicit launch authorization before spending.
+2. Correct the two inspected Ads Manager drafts, review visuals/placements, and reconcile the schedule and single test budget. Obtain explicit launch authorization before spending.
 3. Repair/verify catalog product destinations and visibility if catalog ads are intended; check that the bowl appears and event content IDs match.
 4. Verify native Purchase value/currency and deduplication on a legitimate consenting order. No fabricated conversions or real-money test order is authorized.
 5. Address paid-traffic heatmap coverage deliberately before using Clarity to judge ad landings. Keep strict masking, consent and private-page exclusions.
