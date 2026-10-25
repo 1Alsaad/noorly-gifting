@@ -1,5 +1,7 @@
 # Privacy implementation and legal review
 
+Current state: [handover v1.6](project-handover/Noorly_Continuation_Handover_v1.6.md) supersedes historical no-marketing/no-replay statements below. Consent key is `noorly-consent-v3`; positive older permissions are not reused. Clarity requires explicit Analytics consent and strict masking. Native checkout Meta Maximum uses its own consent gate. The site's privacy/cookie content describes both providers; withdrawal is not retroactive deletion.
+
 The privacy, cookie and terms pages are **draft placeholders**. They require the operating company's legal identity, actual providers, retention periods, contact details and qualified review before launch. This implementation is a technical foundation; it is not a compliance certification.
 
 Swedish default copy and English copy are centralized. The consent layer follows the practical design principles described by [PTS cookie guidance](https://www.pts.se/internet-och-telefoni/kakor-cookies/) and [IMY consent guidance](https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/rattslig-grund/samtycke/): an explicit choice and an accessible means of changing that choice. Verify the current guidance and the actual deployment with legal counsel.

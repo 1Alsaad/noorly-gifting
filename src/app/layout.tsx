@@ -39,7 +39,7 @@ export default async function RootLayout({
   const h = await headers();
   const locale = h.get("x-locale") === "en" ? "en" : "sv";
   return (
-    <html lang={locale}>
+    <html lang={locale} data-clarity-mask="true">
       <body>{children}</body>
     </html>
   );

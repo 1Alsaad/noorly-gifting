@@ -227,6 +227,83 @@ export function getCustomerPolicy(
   const sv = locale === "sv";
   const sections = customerPolicySections(locale);
   const eyebrow = sv ? "KUNDSERVICE" : "CUSTOMER CARE";
+  const meta: PolicySection = {
+    id: "meta-marketing",
+    heading: sv ? "Meta och annonsmätning" : "Meta and advertising measurement",
+    paragraphs: sv
+      ? [
+          "Med ditt samtycke använder vi Meta för att mäta annonser och matcha besök och köp. Butikssidorna skickar sidvisningar, produktvisningar, varukorgshändelser och påbörjad kassa via Meta Pixel. Kassans anslutning använder nivån Maximum med Meta Pixel, avancerad matchning och Conversions API, och kan använda nya tekniker som ingår i denna nivå.",
+          "Kontaktuppgifter som namn, e-postadress, telefonnummer och plats samt webbläsar-, besöks- och köpdata kan delas med Meta för konverteringsmatchning och annonsoptimering, enligt dina samtyckesval. Matchningsuppgifter kan hashkodas före överföring; det gör dem inte anonyma. Meta kan behandla uppgifter i andra länder. Läs Metas integritetspolicy för information om lagring, användning och rättigheter.",
+          "Du kan neka eller återkalla Marknadsföring i Cookieinställningar. Kassan har egna samtyckesinställningar som du också kan ändra där. Meta-pixeln i kassan kräver tillstånd för både analys och marknadsföring och respekterar avstående från dataförsäljning. Meta kan använda _fbp och _fbc (upp till 90 dagar). Ett avslag hindrar inte köp. Återkallelse stoppar framtida insamling men raderar inte automatiskt redan överförda uppgifter.",
+        ]
+      : [
+          "With your consent, we use Meta to measure advertising and match visits and purchases. Shopping pages send page views, product views, cart events and checkout starts through Meta Pixel. The checkout connection uses Maximum sharing with Meta Pixel, advanced matching and Conversions API, and may use new technologies included in that level.",
+          "Contact details such as name, email, phone number and location, together with browser, browsing and purchase information, may be shared with Meta for conversion matching and ad optimization according to your consent choices. Matching details may be hashed before transfer; this does not make them anonymous. Meta may process data in other countries. Its privacy policy explains retention, use and your rights.",
+          "Reject or withdraw Marketing in Cookie settings. Checkout has its own consent settings, which you can also change there. The checkout Meta pixel requires both analytics and marketing permission and respects a data-sale opt-out. Meta may use _fbp and _fbc (up to 90 days). Rejecting does not prevent shopping. Withdrawal stops future collection but does not automatically erase previously transferred information.",
+        ],
+    links: [
+      {
+        label: sv ? "Metas integritetspolicy" : "Meta privacy policy",
+        href: "https://www.facebook.com/privacy/policy/",
+      },
+    ],
+  };
+  const heatmaps: PolicySection = {
+    id: "heatmaps",
+    heading: sv
+      ? "Värmekartor och sessionsinspelningar"
+      : "Heatmaps and session recordings",
+    paragraphs: sv
+      ? [
+          "Med ditt samtycke till Analys använder vi Microsoft Clarity för att förstå klick, scrollning och hur publika butikssidor används. Microsoft får teknisk information om webbläsare och enhet, sidans adress och maskerade interaktioner. Detta hjälper oss att förbättra webbplatsen.",
+          "All text och bildinnehåll maskeras i inspelningar. Formulär, varukorg, konto, administration och kassa är undantagna, liksom besök med frågeparametrar i adressen. Vi skickar inte namn, e-post, orderuppgifter eller ett eget kund-ID till Clarity. Microsofts annonslagring aktiveras inte av denna funktion.",
+          "Clarity kan använda _clck (upp till ett år) och _clsk (upp till ett dygn) för att koppla ihop besök och sidvisningar. Inspelningar sparas normalt i 30 dagar; värmekartor och vissa sparade inspelningar kan finnas i upp till 9 månader. Du kan neka eller återkalla Analys i Cookieinställningar. Då stoppas insamlingen och dessa cookies tas bort; sidan kan laddas om. Återkallelse raderar inte automatiskt redan insamlade uppgifter. Kontakta oss för frågor eller rättighetsbegäran.",
+          "Microsoft kan behandla uppgifter i andra länder enligt sin integritetspolicy. Läs Microsofts information om behandling, lagring och dina rättigheter via länkarna nedan.",
+        ]
+      : [
+          "With your Analytics consent, we use Microsoft Clarity to understand clicks, scrolling and use of public shopping pages. Microsoft receives technical browser/device information, the page address and masked interactions to help us improve the website.",
+          "All text and image content is masked in recordings. Forms, cart, account, administration and checkout are excluded, as are visits with query parameters in the address. We do not send names, email addresses, order details or a custom customer ID to Clarity. This feature does not enable Microsoft advertising storage.",
+          "Clarity may use _clck (up to one year) and _clsk (up to one day) to link visits and page views. Recordings are normally retained for 30 days; heatmaps and some saved recordings may be retained for up to 9 months. Reject or withdraw Analytics in Cookie settings to stop collection and delete these cookies; the page may reload. Withdrawal does not automatically erase previously collected data. Contact us with questions or rights requests.",
+          "Microsoft may process data in other countries under its privacy policy. The links below explain Microsoft's processing, retention and your rights.",
+        ],
+    links: [
+      {
+        label: sv
+          ? "Microsofts integritetspolicy"
+          : "Microsoft Privacy Statement",
+        href: "https://privacy.microsoft.com/privacystatement",
+      },
+      {
+        label: sv ? "Clarity och datalagring" : "Clarity data retention",
+        href: "https://learn.microsoft.com/en-us/clarity/data-retention",
+      },
+    ],
+  };
+  if (page === "cookies")
+    return {
+      eyebrow: sv ? "DINA VAL" : "YOUR CHOICES",
+      title: sv ? "Cookies och dina val" : "Cookies and your choices",
+      description: sv
+        ? "Nödvändiga funktioner och separata val för analys och marknadsföring."
+        : "Necessary functions and separate analytics and marketing choices.",
+      sections: [
+        {
+          id: "cookie-choices",
+          heading: sv ? "Du bestämmer" : "You decide",
+          paragraphs: sv
+            ? [
+                "Nödvändig lagring håller varukorg, säkerhet och cookieval igång. Valen sparas i upp till 180 dagar. Analys och marknadsföring är frivilliga och separata. Du kan handla även om du avvisar båda och ändra dina val i Cookieinställningar i sidfoten.",
+                "Shopify-analys mäter sid- och produktvisningar. Våra slumpmässiga besöks-ID:n sparas i upp till 180 dagar och sessions-ID:n förnyas efter 30 minuters inaktivitet. De tas bort vid återkallelse. Meta-pixeln mäter shoppinghändelser för annonsutvärdering endast med marknadsföringssamtycke. Kassans egna integritetsval gäller där.",
+              ]
+            : [
+                "Necessary storage keeps your cart, security and cookie choices working. Choices are stored for up to 180 days. Analytics and marketing are optional, separate categories. You can shop after rejecting both and change your choices using Cookie settings in the footer.",
+                "Shopify analytics measures page and product views. Our random visitor IDs last up to 180 days; session IDs renew after 30 minutes of inactivity. These IDs are deleted on withdrawal. The Meta pixel measures shopping events for ad evaluation only with marketing consent. Checkout has its own privacy choices.",
+              ],
+        },
+        heatmaps,
+        meta,
+      ],
+    };
   if (page === "shipping-returns") {
     return {
       eyebrow,
@@ -348,6 +425,8 @@ export function getCustomerPolicy(
             },
           ],
         },
+        heatmaps,
+        meta,
       ],
     };
   }

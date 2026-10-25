@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.5
 
+Superseded by [v1.6](Noorly_Continuation_Handover_v1.6.md). The blockers and incomplete setup below are historical.
+
 Updated 25 October 2026, Europe/Stockholm. This is the current continuation entry point. Read it before v1.4, v1.3 and the original Word documents. Latest explicit owner decisions and verified account evidence override older plans. This documentation update does not itself install tracking or verify a production release.
 
 ## Current position: live, saved and unfinished
