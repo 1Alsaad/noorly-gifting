@@ -1,0 +1,145 @@
+.product-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+}
+.product-proof li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid #d7cfc2;
+  border-radius: 3px;
+  color: #38382f;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.purchase-total-note {
+  margin: 8px 0 16px;
+  font-size: 12px;
+  color: #4c4c42;
+}
+.bundle-value {
+  display: grid;
+  gap: 6px;
+  padding: 15px 18px;
+  margin: 14px 0 18px;
+  background: #e9ede3;
+  border-left: 3px solid #41503b;
+  color: #283124;
+}
+.bundle-value strong {
+  font-size: 16px;
+}
+.bundle-value span {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.purchase-confidence {
+  margin: 20px 0;
+  border-top: 1px solid #d7cfc2;
+  padding-top: 16px;
+}
+.purchase-confidence > p {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.purchase-confidence svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.purchase-dispatch strong {
+  display: block;
+  margin-bottom: 3px;
+}
+.purchase-included {
+  padding: 12px;
+  background: #eee9df;
+}
+.purchase-answers {
+  margin-top: 24px;
+  border-top: 1px solid #d7cfc2;
+}
+.purchase-answers details {
+  border-bottom: 1px solid #d7cfc2;
+  padding: 16px 0;
+}
+.purchase-answers summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 24px;
+}
+.purchase-answers p {
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 14px 0;
+}
+.purchase-answers .text-link {
+  margin-right: 20px;
+  font-size: 12px;
+}
+.purchase-bundle-link {
+  display: block;
+  padding: 14px 16px;
+  margin-top: 14px;
+  border: 1px solid #d7cfc2;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.purchase-bundle-link strong {
+  display: block;
+}
+.purchase-anchor {
+  scroll-margin-top: 110px;
+}
+.mobile-purchase-bar {
+  display: none;
+}
+@media (max-width: 680px) {
+  .mobile-purchase-bar {
+    display: flex;
+    position: fixed;
+    z-index: 30;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: #faf7f0;
+    border-top: 1px solid #d7cfc2;
+    box-shadow: 0 -3px 16px #0000000d;
+  }
+  .mobile-purchase-bar > div {
+    min-width: 0;
+  }
+  .mobile-purchase-bar strong,
+  .mobile-purchase-bar small {
+    display: block;
+  }
+  .mobile-purchase-bar small {
+    max-width: 42vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+  .mobile-purchase-bar .button {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+  .product-detail-copy:has(.mobile-purchase-bar) {
+    padding-bottom: 100px;
+  }
+}

@@ -29,7 +29,12 @@ jobs:
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Check formatting
-        run: pnpm format:check
+        run: |
+          pnpm format:check || {
+            pnpm exec prettier --write .
+            git diff --exit-code
+            exit 1
+          }
       - name: Lint
         run: pnpm lint
       - name: Check TypeScript

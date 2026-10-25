@@ -1,0 +1,31 @@
+.brand-proof {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  gap: 10px clamp(20px, 4vw, 60px);
+  padding: 10px 20px;
+  background: #25251f;
+  color: #fffdf7;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+.brand-proof > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.brand-proof svg {
+  flex-shrink: 0;
+}
+@media (max-width: 680px) {
+  .brand-proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 14px;
+    padding: 9px 16px;
+    font-size: 10px;
+  }
+  .brand-proof > span {
+    justify-content: center;
+  }
+}
