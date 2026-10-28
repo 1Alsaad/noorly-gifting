@@ -39,6 +39,7 @@ The host still uses Docker Engine to run these application containers. That is s
 - `deploy/compose.yaml`: PostgreSQL, one eve service, persistent volumes, restart policy and bounded logs; optional HTTPS proxy.
 - `deploy/runtime.env.example`: blank runtime-secret template. Copy it to `deploy/runtime.env` on the host. Populate independently generated secrets of at least 32 characters. Use URL-safe characters for the database password.
 - `deploy/Caddyfile`: preserves every request path, including `/eve/` and `/.well-known/workflow/`. Set `OPS_PUBLIC_HOST` to an existing Noorly subdomain and point DNS to the server. Caddy can obtain and renew HTTPS certificates. [Caddy HTTPS requirements](https://caddyserver.com/docs/automatic-https)
+- `deploy/backup.py`: a Linux host helper that captures an encrypted paired snapshot of PostgreSQL and eve's local workflow state. It uses PostgreSQL 17 clients inside the existing database container; no host PostgreSQL client or application Docker socket is needed.
 
 Prerequisites are an owner-controlled Linux host, Docker Engine with Compose, sufficient disk/RAM, correct system time, runtime credentials, and access to the existing domain's DNS. Only expose 80/443 publicly; restrict SSH to the administrator. PostgreSQL has no public port, and direct application port 3000 binds to loopback. The current storefront remains on its existing host until separately deployed and verified.
 
@@ -62,6 +63,30 @@ docker compose --env-file deploy/runtime.env -f deploy/compose.yaml --profile ht
 The application should remain in observation mode. Verify `/health`, authenticated dashboard access, a rejected unauthenticated write, database persistence after restart, workflow recovery, and a scheduled no-spend cycle. Confirm the registered channel exposes the dashboard routes on this origin. Inspect one full backend-only agent turn before enabling any paid model or connector; source inspection alone does not prove that a deployed turn completes.
 
 Keep an encrypted off-host backup of PostgreSQL and the workflow volume, and test recovery before live operations. Replacing a container must preserve its volumes. Docker `down -v` destroys them and must not be used for an ordinary update. Rebuild after dependency changes; do not claim tested ARM compatibility until the image has built and passed these checks on the selected VM.
+
+## Paired deployment backups
+
+Install **Python 3 and age on the Linux host**, in addition to Docker Engine and a current Compose release supporting `start --wait`. On Ubuntu/Debian, these are ordinary distribution packages: `sudo apt-get install python3 age`. The app container does not require either dependency. The helper deliberately uses `pg_dump` and `pg_restore` from `postgres:17-alpine`, avoiding Bookworm's older default PostgreSQL client. [age installation and encryption](https://github.com/FiloSottile/age#installation), [Compose start](https://docs.docker.com/reference/cli/docker/compose/start/).
+
+Create an age identity in an owner-controlled secure environment and retain its private identity in the owner's secure vault, outside the server being backed up. Give the server only the public `age1...` recipient. Losing the private identity makes the encrypted backups unrecoverable. Choose an existing private host directory with enough free space for a database dump, workflow copy, compressed bundle and encrypted archive. Configure a verified off-host transfer to an authorized backup destination; no destination, upload credentials, retention or recurring backup job is created by this repository.
+
+From `operations/`, run as the host administrator with Docker access:
+
+```sh
+sudo python3 deploy/backup.py --directory /absolute/private/backup-directory --recipient age1YOUR_PUBLIC_RECIPIENT
+```
+
+The helper validates the recipient and PostgreSQL 17 client before stopping work. A host lock prevents overlapping backups, including jobs using different destinations. It stops the single operations container, waits until the writer has exited, takes a custom-format database dump, checks its archive index, and copies `.eve/.workflow-data` from the stopped container. Both stores therefore belong to the same quiescent application state. No other application or manual process may write these stores during the snapshot. The helper then starts the same container and waits for its health check before compressing and encrypting the captured copy. An application that was already stopped remains stopped.
+
+Each completed `noorly-*.tar.gz.age` contains `database.dump`, `workflow/` and a checksum manifest recording the container image ID. Plaintext exists briefly only in a private temporary directory on the host and is removed when the helper exits normally or with a handled error. A failed snapshot/encryption publishes no completed archive. SIGTERM/SIGHUP and ordinary interruptions attempt to restore the prior running state; a restart failure exits nonzero and requires immediate operator attention. A forced process kill, host crash or power loss can leave the writer stopped or temporary data behind. Docker's `unless-stopped` policy does not undo this deliberate stop. The host monitor must check service health; after confirming the service was running before interruption, recover with `docker compose --env-file deploy/runtime.env -f deploy/compose.yaml start --wait --wait-timeout 120 operations` from `operations/`. Clean up only verified abandoned snapshot directories. Monitoring/recovery automation remains a deployment prerequisite. Keep backup downtime below the heartbeat allowance; a gap over twenty minutes correctly restarts observation.
+
+**A local encrypted archive is not disaster recovery.** Transfer the completed file off-host, verify its checksum after transfer, monitor failures and available disk space, and apply an agreed retention policy before enabling a recurring job. Keep the matching application image/release and runtime secrets recoverable separately. Never put the private age identity or raw runtime secrets into ordinary project notes.
+
+For a restore drill, decrypt into a private directory on an isolated recovery host, inspect the manifest, and verify its database/workflow checksums. Restore `database.dump` with PostgreSQL 17 `pg_restore` into a new empty database. Restore `workflow/` into a separate workflow volume owned by the app's `node` user (UID/GID 1000 in the supplied image). Use the matching application image and preserve one writer. Start without external provider credentials or live webhooks, verify persisted jobs and records, then reconcile Shopify/supplier/Buffer effects before reconnecting any live integration. A restored workflow can resume unfinished work: never start a second connected copy of the production state. The existing database-only restore test is not a substitute for this paired cloud recovery drill.
+
+`npm run backup` remains a database-only utility for environments with PostgreSQL client tools installed. Do not run it inside the operations image and assume the result is durable: that image has no PostgreSQL client or persistent backup directory. The host helper above is the supported Compose deployment path.
+
+Bounded helper checks, with Docker and age simulated, can be run using `python3 -m unittest discover -s deploy/tests -p 'test_*.py'`. They verify writer ordering, restart behavior and failure cleanup; they do not test real Docker, encryption, ARM execution or restore.
 
 ## Validation status
 
