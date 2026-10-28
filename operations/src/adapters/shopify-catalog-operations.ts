@@ -1,0 +1,12 @@
+// Shopify Admin API 2026-07; validated with the official Shopify AI Toolkit before integration.
+export const SHOPIFY_CATALOG_OPERATIONS = {
+  media: `query OpsCatalogMedia($id: ID!, $after: String) { product(id: $id) { id updatedAt media(first: 100, after: $after) { nodes { id mediaContentType status ... on MediaImage { image { url } } } pageInfo { hasNextPage endCursor } } } }`,
+  product: `query OpsCatalogProduct($identifier: ProductIdentifierInput!) { productByIdentifier(identifier: $identifier) { id handle title descriptionHtml status updatedAt tags variants(first: 100) { nodes { id price inventoryItem { id sku tracked } } pageInfo { hasNextPage endCursor } } } }`,
+  createDraft: `mutation OpsCreateDraft($product: ProductCreateInput!) { productCreate(product: $product) { product { id handle status } userErrors { field message } } }`,
+  updatePrices: `mutation OpsUpdatePrices($productId: ID!, $variants: [ProductVariantsBulkInput!]!) { productVariantsBulkUpdate(productId: $productId, variants: $variants, allowPartialUpdates: false) { productVariants { id price } userErrors { field message } } }`,
+  status: `mutation OpsCatalogStatus($product: ProductUpdateInput!) { productUpdate(product: $product) { product { id status updatedAt } userErrors { field message } } }`,
+  publication: `query OpsPublicationState($id: ID!, $publicationId: ID!) { product(id: $id) { id status publishedOnPublication(publicationId: $publicationId) } }`,
+  publish: `mutation OpsPublishProduct($id: ID!, $input: [PublicationInput!]!) { publishablePublish(id: $id, input: $input) { userErrors { field message } } }`,
+  inventory: `query OpsSupplierStock($id: ID!, $locationId: ID!) { inventoryItem(id: $id) { id sku tracked inventoryLevel(locationId: $locationId) { id updatedAt location { id } quantities(names: ["available"]) { name quantity } } } }`,
+  accounting: `query OpsOrderAccounting($id: ID!) { order(id: $id) { id name test updatedAt displayFinancialStatus totalReceivedSet { shopMoney { amount currencyCode } } totalRefundedSet { shopMoney { amount currencyCode } } transactions { id kind status test processedAt amountSet { shopMoney { amount currencyCode } } } refunds { id createdAt totalRefundedSet { shopMoney { amount currencyCode } } } lineItems(first: 100) { nodes { id quantity product { id } variant { id } discountedTotalSet { shopMoney { amount currencyCode } } } pageInfo { hasNextPage endCursor } } } }`,
+};

@@ -1,4 +1,10 @@
 pnpm-lock.yaml
+operations/package-lock.json
+operations/.eve
+operations/.output
+operations/.vercel
+operations/.data
+operations/.workflow-data
 .next
 node_modules
 playwright-report

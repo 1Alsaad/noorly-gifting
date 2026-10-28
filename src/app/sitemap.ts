@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { brand } from "@/config/brand";
 import { getCommerceProvider } from "@/lib/commerce";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
+import { getStorefrontCatalogue } from "@/lib/commerce/launch-product";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
 export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (
@@ -10,11 +12,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify"
   )
     return [];
-  const products = await getCommerceProvider().getProducts();
+  const managed = await getManagedCatalog();
+  const products = await getStorefrontCatalogue(getCommerceProvider());
   const paths = [
     "",
     "/shop",
-    "/collections/winter",
+    ...(!managed ? ["/collections/winter"] : []),
     "/about",
     "/faq",
     "/shipping-returns",

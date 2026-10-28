@@ -1,0 +1,82 @@
+name: noorly-operations
+
+services:
+  database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: noorly_operations
+      POSTGRES_USER: noorly
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in deploy/runtime.env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U noorly -d noorly_operations"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  operations:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: noorly-operations:local
+    restart: unless-stopped
+    init: true
+    env_file:
+      - runtime.env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      OPS_DEMO: "false"
+      DATABASE_URL: postgresql://noorly:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in deploy/runtime.env}@database:5432/noorly_operations
+    depends_on:
+      database:
+        condition: service_healthy
+    # Direct access stays local; the optional proxy is the public entry point.
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - workflow-data:/app/.eve/.workflow-data
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+  proxy:
+    image: caddy:2-alpine
+    profiles: [https]
+    restart: unless-stopped
+    environment:
+      OPS_PUBLIC_HOST: ${OPS_PUBLIC_HOST:-localhost}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      operations:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  postgres-data:
+  workflow-data:
+  caddy-data:
+  caddy-config:

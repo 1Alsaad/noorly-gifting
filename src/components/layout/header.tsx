@@ -11,7 +11,13 @@ import type { Locale } from "@/types/commerce";
 import { useCart } from "@/features/cart/cart-provider";
 import { trackEvent } from "@/lib/analytics/client";
 import { BrandProof } from "./brand-proof";
-export function Header({ locale }: { locale: Locale }) {
+export function Header({
+  locale,
+  managed = false,
+}: {
+  locale: Locale;
+  managed?: boolean;
+}) {
   const t = getDictionary(locale);
   const { cart } = useCart();
   const path = usePathname();
@@ -22,15 +28,19 @@ export function Header({ locale }: { locale: Locale }) {
     (query ? `?${query}` : "");
   const nav = [
     { href: `/${locale}/shop`, label: t.shop },
-    {
-      href: `/${locale}/products/${launchBundleHandle}`,
-      label: locale === "sv" ? "Paket" : "Bundle",
-    },
+    ...(!managed
+      ? [
+          {
+            href: `/${locale}/products/${launchBundleHandle}`,
+            label: locale === "sv" ? "Paket" : "Bundle",
+          },
+        ]
+      : []),
     { href: `/${locale}/about`, label: t.about },
   ];
   return (
     <>
-      <BrandProof locale={locale} />
+      <BrandProof locale={locale} managed={managed} />
       <header className="site-header">
         <Link
           className="wordmark"
@@ -69,11 +79,13 @@ export function Header({ locale }: { locale: Locale }) {
           {isProductTestMode() ? (
             <Link
               className="bag-link"
-              href={launchCatalogHref(locale)}
-              aria-label={launchCatalogCopy[locale].cta}
+              href={managed ? `/${locale}/shop` : launchCatalogHref(locale)}
+              aria-label={managed ? t.shop : launchCatalogCopy[locale].cta}
             >
               <ArrowUpRight size={19} />
-              <span className="bag-label">{launchCatalogCopy[locale].cta}</span>
+              <span className="bag-label">
+                {managed ? t.shop : launchCatalogCopy[locale].cta}
+              </span>
             </Link>
           ) : (
             <Link

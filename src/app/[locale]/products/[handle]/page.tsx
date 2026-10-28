@@ -23,10 +23,22 @@ import { StructuredData } from "@/components/ui/structured-data";
 import { TrackView } from "@/components/analytics/track-view";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
 type Props = { params: Promise<{ locale: string; handle: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
+  const managed = await getManagedCatalog();
+  if (managed) {
+    if (!managed.products.some((item) => item.handle === handle)) return {};
+    const { product } = await getLaunchProduct(handle);
+    return pageMetadata(
+      locale,
+      `/products/${handle}`,
+      product.title[locale],
+      product.description[locale],
+    );
+  }
   if (handle === legacyLaunchBundleHandle)
     return pageMetadata(
       locale,
@@ -67,6 +79,52 @@ export async function generateMetadata({ params }: Props) {
 export default async function ProductDetail({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
+  const managed = await getManagedCatalog();
+  if (managed) {
+    if (!managed.products.some((item) => item.handle === handle)) notFound();
+    const launch = await getLaunchProduct(handle);
+    const product = launch.product;
+    return (
+      <>
+        <TrackView
+          name="product_viewed"
+          properties={{
+            locale,
+            product_id: product.id,
+            product_handle: handle,
+            currency: "SEK",
+            value: product.price.amount,
+          }}
+        />
+        <StructuredData
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.title[locale],
+            description: product.description[locale],
+            image: product.images.map((image) => image.url),
+            ...(launch.purchasable
+              ? {
+                  offers: product.variants
+                    .filter((variant) => variant.available)
+                    .map((variant) => ({
+                      "@type": "Offer",
+                      price: variant.price.amount,
+                      priceCurrency: "SEK",
+                      url: `${brand.siteUrl}/${locale}/products/${handle}`,
+                      availability:
+                        product.managedCatalog?.availability === "preorder"
+                          ? "https://schema.org/PreOrder"
+                          : "https://schema.org/InStock",
+                    })),
+                }
+              : {}),
+          }}
+        />
+        <LaunchProductDetails locale={locale} launch={launch} />
+      </>
+    );
+  }
   if (handle === legacyLaunchBundleHandle)
     redirect(`/${locale}/products/${launchBundleHandle}`);
   const provider = getCommerceProvider();

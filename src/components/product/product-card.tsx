@@ -17,7 +17,8 @@ export function ProductCard({
   index?: number;
 }) {
   const t = getDictionary(locale);
-  const bundle = product.handle === launchBundleHandle;
+  const bundle =
+    !product.managedCatalog && product.handle === launchBundleHandle;
   return (
     <article className={`product-card product-${product.handle}`}>
       <Link
@@ -106,9 +107,11 @@ export function ProductCard({
               ))}
           </span>
           <span>
-            {locale === "sv"
-              ? "11 färg- & doftval"
-              : "11 colour & scent options"}{" "}
+            {product.managedCatalog
+              ? `${product.variants.length} ${locale === "sv" ? "alternativ" : "options"}`
+              : locale === "sv"
+                ? "11 färg- & doftval"
+                : "11 colour & scent options"}{" "}
             ↗
           </span>
         </Link>

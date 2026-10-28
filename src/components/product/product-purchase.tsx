@@ -38,12 +38,15 @@ export function ProductPurchase({
   const selected = product.variants.find((v) => v.id === variantId);
   const unsupportedPlan =
     product.requiresSellingPlan || product.hasSellingPlans;
-  const preorder = launchProductDefinitions.some(
-    ({ handle }) => handle === product.handle,
-  );
+  const preorder =
+    !product.managedCatalog &&
+    launchProductDefinitions.some(({ handle }) => handle === product.handle);
   const test = isProductTestMode();
   const quick = useProductCheckout(locale);
-  const direct = preorder && !test && !product.previewOnly;
+  const direct =
+    (preorder || Boolean(product.managedCatalog)) &&
+    !test &&
+    !product.previewOnly;
   const checkoutLabel = quick.pending
     ? locale === "sv"
       ? "Öppnar kassan…"
@@ -115,9 +118,9 @@ export function ProductPurchase({
                 : "Free Sweden delivery · VAT included"}
             </p>
           )}
-          {product.handle === launchBundleHandle && !test && (
-            <BundleValue variant={selected} locale={locale} />
-          )}
+          {!product.managedCatalog &&
+            product.handle === launchBundleHandle &&
+            !test && <BundleValue variant={selected} locale={locale} />}
           {(!direct || !canPurchase) && (
             <p className="stock-label">
               <span aria-hidden>●</span>{" "}
@@ -170,7 +173,7 @@ export function ProductPurchase({
           )}
         </div>
         <div className="purchase-checkout-group">
-          {direct && (
+          {direct && !product.managedCatalog && (
             <p className="purchase-preorder stock-label">
               <strong>
                 {locale === "sv" ? "Förbeställning" : "Pre-order"}
@@ -182,7 +185,12 @@ export function ProductPurchase({
           )}
           {!preorder && (
             <p className="product-note purchase-delivery">
-              {t.deliveryText}{" "}
+              {product.managedCatalog?.availability === "preorder" && (
+                <strong>
+                  {locale === "sv" ? "Förbeställning · " : "Pre-order · "}
+                </strong>
+              )}
+              {product.managedCatalog?.delivery[locale] ?? t.deliveryText}{" "}
               <Link href={`/${locale}/shipping-returns`}>
                 {t.footer.shipping} ↗
               </Link>

@@ -223,9 +223,30 @@ export function customerPolicySections(locale: Locale) {
 export function getCustomerPolicy(
   locale: Locale,
   page: string,
+  managedCatalog = false,
 ): CustomerPolicy | undefined {
   const sv = locale === "sv";
   const sections = customerPolicySections(locale);
+  if (managedCatalog) {
+    // Preserve the established consumer terms while removing superseded SKU prices
+    // and blanket shipping promises when the approved catalog changes.
+    sections.delivery.paragraphs.splice(
+      0,
+      3,
+      ...(sv
+        ? [
+            "Produktens innehåll, aktuella pris och leveransinformation visas på produktsidan. Eventuell frakt och det totala beloppet visas i kassan före köp.",
+            "En förbeställning är tydligt märkt på produktsidan. Se produktens leveransinformation innan du beställer. Du får en orderbekräftelse via e-post och spårningsinformation när sådan finns tillgänglig.",
+          ]
+        : [
+            "The product page shows its contents, current price and delivery information. Any shipping charge and the complete total are shown in checkout before purchase.",
+            "Pre-orders are clearly identified on the product page. Check the product's delivery information before ordering. You receive an order confirmation by email and tracking information when available.",
+          ]),
+    );
+    sections.order.paragraphs[1] = sv
+      ? "Priser anges i svenska kronor. Kontrollera valda produkter och alternativ, leveransadress, fraktkostnad och totalbelopp i kassan innan du bekräftar köpet."
+      : "Prices are shown in Swedish kronor. Check the selected products and options, delivery address, shipping charge and complete checkout total before confirming your purchase.";
+  }
   const eyebrow = sv ? "KUNDSERVICE" : "CUSTOMER CARE";
   const meta: PolicySection = {
     id: "meta-marketing",
@@ -310,9 +331,13 @@ export function getCustomerPolicy(
       title: sv
         ? "Leverans, ångerrätt och retur"
         : "Delivery, withdrawal and returns",
-      description: sv
-        ? "Leverans inom Sverige ingår. Här hittar du information om leverans, 14 dagars ångerrätt, returer och reklamation."
-        : "Delivery within Sweden is included. Find delivery information, your 14-day right of withdrawal, returns and complaints here.",
+      description: managedCatalog
+        ? sv
+          ? "Information om leverans, ångerrätt, returer och reklamation."
+          : "Delivery, withdrawal, returns and complaints information."
+        : sv
+          ? "Leverans inom Sverige ingår. Här hittar du information om leverans, 14 dagars ångerrätt, returer och reklamation."
+          : "Delivery within Sweden is included. Find delivery information, your 14-day right of withdrawal, returns and complaints here.",
       sections: [
         sections.delivery,
         sections.withdrawal,

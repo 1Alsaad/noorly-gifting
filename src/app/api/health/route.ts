@@ -3,6 +3,10 @@ import { getEnv } from "@/lib/env/server";
 import { getCommerceProvider } from "@/lib/commerce";
 import { CommerceError } from "@/lib/commerce/errors";
 import { launchProductDefinitions } from "@/content/launch-catalog";
+import {
+  getManagedCatalog,
+  applyManagedProduct,
+} from "@/lib/commerce/managed-catalog";
 
 const publicCatalogErrors = new Set([
   "provider_unavailable",
@@ -23,13 +27,32 @@ export async function GET(request: Request) {
     if (new URL(request.url).searchParams.get("catalog") === "1") {
       try {
         const provider = getCommerceProvider();
+        const managed = await getManagedCatalog();
         const products = await Promise.all(
-          launchProductDefinitions.map(async ({ id, handle }) => {
-            const product = await provider.getProductByHandle(handle);
-            if (product && (product.id !== id || product.handle !== handle))
-              throw new CommerceError("invalid_launch_product", 502);
-            return product;
-          }),
+          (managed?.products ?? launchProductDefinitions).map(
+            async ({ id, handle }) => {
+              const product = await provider.getProductByHandle(handle);
+              if (product && (product.id !== id || product.handle !== handle))
+                throw new CommerceError("invalid_launch_product", 502);
+              if (managed && product) {
+                if (provider.name !== "shopify")
+                  throw new CommerceError(
+                    "managed_catalog_requires_shopify",
+                    503,
+                  );
+                const definition = managed.products.find(
+                  (item) => item.id === id,
+                )!;
+                applyManagedProduct(
+                  product,
+                  definition,
+                  managed.version,
+                  false,
+                );
+              }
+              return product;
+            },
+          ),
         );
         const complete = products.every(Boolean);
         return Response.json(

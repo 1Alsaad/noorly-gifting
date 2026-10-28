@@ -7,6 +7,7 @@ export default defineConfig([
   globalIgnores([
     ".next/**",
     "node_modules/**",
+    "operations/**",
     "work/**",
     "playwright-report/**",
     "test-results/**",

@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
 import { getDictionary, isLocale } from "@/content/translations";
 import { getContentRepository } from "@/lib/content";
 import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
@@ -29,6 +30,7 @@ export default async function CollectionPage({
 }) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
+  if (await getManagedCatalog()) redirect(`/${locale}/shop`);
   const season = await getContentRepository().getSeasonBySlug(handle);
   if (!season) notFound();
   const launches = await getLaunchProducts();

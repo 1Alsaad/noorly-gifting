@@ -154,6 +154,7 @@ export function presentCatalogProduct(
   product: Product,
   locale: Locale,
 ): Product {
+  if (product.managedCatalog) return product;
   if (product.handle === launchBundleHandle) {
     const bowlImages = launchBundlePhotos.map((photo) => ({
       url: photo.url,

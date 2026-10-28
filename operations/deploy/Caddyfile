@@ -1,0 +1,4 @@
+{$OPS_PUBLIC_HOST} {
+    # Preserve all paths, including /eve/ and /.well-known/workflow/.
+    reverse_proxy operations:3000
+}

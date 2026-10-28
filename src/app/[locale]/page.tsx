@@ -14,6 +14,8 @@ import { CinematicExperience } from "@/components/cinematic/cinematic-experience
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
+import { managedCatalogCopy } from "@/content/managed-catalog-copy";
 export async function generateMetadata({
   params,
 }: {
@@ -21,6 +23,13 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
+  if (await getManagedCatalog())
+    return pageMetadata(
+      locale,
+      "",
+      managedCatalogCopy[locale].title,
+      managedCatalogCopy[locale].description,
+    );
   const t = getDictionary(locale);
   return pageMetadata(
     locale,
@@ -37,6 +46,33 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
+  const managed = await getManagedCatalog();
+  if (managed) {
+    const launches = await getLaunchProducts();
+    const copy = managedCatalogCopy[locale];
+    return (
+      <div className="section-wrap page-content">
+        <StructuredData
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: brand.name,
+            url: brand.siteUrl,
+          }}
+        />
+        <div className="page-heading">
+          <p className="eyebrow">{copy.label}</p>
+          <h1>{copy.title}</h1>
+          <p>{copy.description}</p>
+        </div>
+        {launches.length ? (
+          <LaunchCatalogGrid locale={locale} launches={launches} />
+        ) : (
+          <p>{copy.empty}</p>
+        )}
+      </div>
+    );
+  }
   const [season, launches] = await Promise.all([
     getContentRepository().getActiveSeason(),
     getLaunchProducts(),

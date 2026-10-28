@@ -5,7 +5,13 @@ import { getDictionary } from "@/content/translations";
 import type { Locale } from "@/types/commerce";
 import { ConsentSettingsButton } from "@/components/consent/consent-banner";
 import { customerWithdrawalLink } from "@/content/customer-policies";
-export function Footer({ locale }: { locale: Locale }) {
+export function Footer({
+  locale,
+  managed = false,
+}: {
+  locale: Locale;
+  managed?: boolean;
+}) {
   const t = getDictionary(locale);
   const withdrawal = customerWithdrawalLink(locale);
   const groups = [
@@ -13,7 +19,7 @@ export function Footer({ locale }: { locale: Locale }) {
       title: t.footer.explore,
       links: [
         ["shop", t.shop],
-        ["collections/winter", t.collection],
+        ...(!managed ? [["collections/winter", t.collection]] : []),
         ["corporate-gifting", t.corporate],
       ],
     },
