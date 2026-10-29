@@ -11,6 +11,7 @@ import { isProductTestMode } from "@/config/product-test";
 import { getCommerceProvider } from "@/lib/commerce";
 import { CommerceError } from "@/lib/commerce/errors";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
+import { applyManagedProduct, getManagedCatalog } from "./managed-catalog";
 import type {
   CommerceProvider,
   Product,
@@ -156,6 +157,28 @@ export async function resolveLaunchProduct(
   > = getCommerceProvider(),
   handle: string = candleSandHandle,
 ): Promise<LaunchProductState> {
+  const managed = await getManagedCatalog();
+  if (managed) {
+    const definition = managed.products.find((item) => item.handle === handle);
+    if (!definition) throw new CommerceError("invalid_launch_product", 404);
+    if (provider.name !== "shopify")
+      throw new CommerceError("managed_catalog_requires_shopify", 503);
+    const found = await provider.getProductByHandle(handle);
+    if (!found) throw new CommerceError("invalid_launch_product", 404);
+    const salesOpen = isStorefrontOpen() && !isProductTestMode();
+    const product = applyManagedProduct(
+      found,
+      definition,
+      managed.version,
+      salesOpen,
+    );
+    return {
+      product,
+      source: "shopify",
+      salesOpen,
+      purchasable: product.available,
+    };
+  }
   const definition = launchProductDefinitions.find(
     (candidate) => candidate.handle === handle,
   );
@@ -191,17 +214,54 @@ export const getLaunchProduct = cache((handle: string = candleSandHandle) =>
   resolveLaunchProduct(getCommerceProvider(), handle),
 );
 
-export const getLaunchProducts = cache(() =>
-  Promise.all(
+export const getLaunchProducts = cache(async () => {
+  const managed = await getManagedCatalog();
+  if (managed) {
+    const provider = getCommerceProvider();
+    if (provider.name !== "shopify")
+      throw new CommerceError("managed_catalog_requires_shopify", 503);
+    const salesOpen = isStorefrontOpen() && !isProductTestMode();
+    return Promise.all(
+      managed.products.map(async (definition) => {
+        const found = await provider.getProductByHandle(definition.handle);
+        if (!found) throw new CommerceError("managed_catalog_unpublished", 503);
+        const product = applyManagedProduct(
+          found,
+          definition,
+          managed.version,
+          salesOpen,
+        );
+        return {
+          product,
+          source: "shopify" as const,
+          salesOpen,
+          purchasable: product.available,
+        };
+      }),
+    );
+  }
+  return Promise.all(
     launchProductDefinitions.map(({ handle }) => getLaunchProduct(handle)),
-  ),
-);
+  );
+});
 
 /** Limit the public catalogue to the verified separate products and native set. */
 export async function getStorefrontCatalogue(
   provider: Pick<CommerceProvider, "name" | "getProducts">,
 ) {
+  const managed = await getManagedCatalog();
   const products = await provider.getProducts();
+  if (managed) {
+    if (provider.name !== "shopify")
+      throw new CommerceError("managed_catalog_requires_shopify", 503);
+    const salesOpen = isStorefrontOpen() && !isProductTestMode();
+    return managed.products.flatMap((definition) => {
+      const found = products.find((product) => product.id === definition.id);
+      return found
+        ? [applyManagedProduct(found, definition, managed.version, salesOpen)]
+        : [];
+    });
+  }
   return provider.name === "shopify" &&
     process.env.NOORLY_PUBLIC_PREVIEW === "true"
     ? products

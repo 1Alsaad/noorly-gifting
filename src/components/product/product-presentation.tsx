@@ -32,9 +32,9 @@ export function ProductPresentation({
       : variant.images
     : product.images;
   const t = getDictionary(locale);
-  const simple = launchProductDefinitions.some(
-    ({ handle }) => handle === product.handle,
-  );
+  const simple =
+    Boolean(product.managedCatalog) ||
+    launchProductDefinitions.some(({ handle }) => handle === product.handle);
   return (
     <>
       <div

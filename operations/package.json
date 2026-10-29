@@ -1,0 +1,45 @@
+{
+  "name": "noorly-operations",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "imports": {
+    "#*": "./agent/*",
+    "#evals/*": "./evals/*"
+  },
+  "scripts": {
+    "build": "eve build",
+    "deploy": "eve deploy",
+    "dev": "eve dev",
+    "eval": "eve eval",
+    "start": "eve start",
+    "typecheck": "tsc",
+    "test": "tsx --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "migrate": "tsx scripts/migrate.ts",
+    "preflight": "tsx scripts/preflight.ts",
+    "serve:dashboard": "tsx scripts/serve.ts",
+    "backup": "tsx scripts/backup.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/provider": "4.0.26",
+    "@vercel/connect": "2.5.2",
+    "ai": "7.0.137",
+    "eve": "0.85.0",
+    "pg": "8.16.3",
+    "zod": "4.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "@types/pg": "8.15.5",
+    "tsx": "4.20.6",
+    "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "overrides": {
+    "zod": "$zod",
+    "undici": "8.12.2"
+  }
+}

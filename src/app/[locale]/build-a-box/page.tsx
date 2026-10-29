@@ -3,6 +3,7 @@ import { getCommerceProvider } from "@/lib/commerce";
 import { getDictionary, isLocale } from "@/content/translations";
 import { BoxBuilder } from "@/features/box-builder/box-builder";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
 export async function generateMetadata({
   params,
 }: {
@@ -27,6 +28,7 @@ export default async function BuildPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  if (await getManagedCatalog()) redirect(`/${locale}/shop`);
   if (process.env.NOORLY_PUBLIC_PREVIEW === "true") redirect(`/${locale}/shop`);
   const query = await searchParams;
   const t = getDictionary(locale);

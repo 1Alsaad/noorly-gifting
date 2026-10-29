@@ -12,6 +12,7 @@ import type { Locale } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { launchBundleHandle } from "@/content/launch-bundle";
 import "./launch-catalog.css";
+import { managedCatalogCopy } from "@/content/managed-catalog-copy";
 
 export function LaunchCatalogGrid({
   launches,
@@ -32,11 +33,13 @@ export function LaunchCatalogGrid({
             className="text-link catalog-product-cta"
             href={`/${locale}/products/${product.handle}`}
           >
-            {product.handle === candleSandHandle
-              ? launchCatalogCopy[locale].cta
-              : product.handle === launchBundleHandle
-                ? launchCatalogCopy[locale].bundleCta
-                : launchCatalogCopy[locale].bowlCta}{" "}
+            {product.managedCatalog
+              ? managedCatalogCopy[locale].cta
+              : product.handle === candleSandHandle
+                ? launchCatalogCopy[locale].cta
+                : product.handle === launchBundleHandle
+                  ? launchCatalogCopy[locale].bundleCta
+                  : launchCatalogCopy[locale].bowlCta}{" "}
             ↗
           </Link>
         </div>
@@ -56,6 +59,36 @@ export function LaunchProductDetails({
 }) {
   const product = presentCatalogProduct(launch.product, locale);
   const t = getDictionary(locale);
+  if (product.managedCatalog) {
+    return (
+      <div className="section-wrap page-content catalog-product-page">
+        <nav className="breadcrumb" aria-label={t.shop}>
+          <Link href={`/${locale}/shop`}>{t.shop}</Link>
+          <span aria-hidden>/</span>
+          <span>{product.title[locale]}</span>
+        </nav>
+        <ProductPresentation
+          key={`${product.id}-${product.managedCatalog.version}`}
+          product={product}
+          locale={locale}
+        >
+          {product.care && (
+            <details className="product-materials">
+              <summary>
+                {locale === "sv" ? "Användning och skötsel" : "Use and care"}
+              </summary>
+              <p>{product.care[locale]}</p>
+            </details>
+          )}
+        </ProductPresentation>
+        <div className="catalog-back-link">
+          <Link className="text-link" href={`/${locale}/shop`}>
+            {locale === "sv" ? "Se alla produkter" : "Explore all products"} ↗
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const sand = product.handle === candleSandHandle;
   const bundle = product.handle === launchBundleHandle;
   return (

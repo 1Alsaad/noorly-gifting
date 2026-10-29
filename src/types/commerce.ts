@@ -36,6 +36,12 @@ export interface ProductVariantComponent {
 export type ProductCategory =
   "box" | "signature" | "extra" | "card" | "packaging";
 export interface Product {
+  /** Authenticated operations metadata. Prices and stock still come from Shopify. */
+  managedCatalog?: {
+    version: number;
+    availability: "in_stock" | "preorder";
+    delivery: LocalizedText;
+  };
   id: string;
   handle: string;
   title: LocalizedText;

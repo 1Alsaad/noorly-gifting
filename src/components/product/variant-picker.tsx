@@ -27,13 +27,17 @@ export function VariantPicker({
   const id = useId();
   if (product.variants.length < 2) return null;
   const colours = product.variants.every((variant) => variant.color);
-  const label = colours
+  const label = product.managedCatalog
     ? locale === "sv"
-      ? "Färg & doft"
-      : "Colour & scent"
-    : locale === "sv"
       ? "Utförande"
-      : "Variant";
+      : "Variant"
+    : colours
+      ? locale === "sv"
+        ? "Färg & doft"
+        : "Colour & scent"
+      : locale === "sv"
+        ? "Utförande"
+        : "Variant";
   const unavailable = locale === "sv" ? "Tillfälligt slut" : "Unavailable";
   if (compact || !colours)
     return (
@@ -87,8 +91,9 @@ export function VariantPicker({
             </span>
             <span className="swatch-name">
               {variant.color?.name[locale]}
-              {variant.sku === "CSand-11" ||
-              variant.sku === "NOORLY-LJUSSTUND-CSand-11"
+              {!product.managedCatalog &&
+              (variant.sku === "CSand-11" ||
+                variant.sku === "NOORLY-LJUSSTUND-CSand-11")
                 ? locale === "sv"
                   ? " · doftfri"
                   : " · unscented"
@@ -99,9 +104,13 @@ export function VariantPicker({
       </div>
       {!simple && (
         <p className="product-note">
-          {locale === "sv"
-            ? "Varje färg har en egen doft. Färger kan skilja sig mellan skärmar."
-            : "Each colour has its own fragrance. Colours may vary between screens."}
+          {product.managedCatalog
+            ? locale === "sv"
+              ? "Färger kan skilja sig mellan skärmar."
+              : "Colours may vary between screens."
+            : locale === "sv"
+              ? "Varje färg har en egen doft. Färger kan skilja sig mellan skärmar."
+              : "Each colour has its own fragrance. Colours may vary between screens."}
         </p>
       )}
     </fieldset>

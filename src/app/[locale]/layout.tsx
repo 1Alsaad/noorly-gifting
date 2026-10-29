@@ -9,6 +9,7 @@ import { HeatmapProvider } from "@/components/analytics/heatmap-provider";
 import { isPublicTestPreview, isStorefrontOpen } from "@/lib/commerce/launch";
 import { hasAdminPreviewSession } from "@/lib/security/admin-preview";
 import "@/styles/admin-preview.css";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
 export const dynamic = "force-dynamic";
 export default async function LocaleLayout({
   children,
@@ -24,6 +25,7 @@ export default async function LocaleLayout({
   if (!isStorefrontOpen() && !adminPreview && !publicTestPreview)
     redirect("/admin-preview");
   const t = getDictionary(locale);
+  const managed = Boolean(await getManagedCatalog());
   return (
     <CartProvider>
       {adminPreview && (
@@ -58,9 +60,9 @@ export default async function LocaleLayout({
       </a>
       {!adminPreview && <AnalyticsProvider locale={locale} />}
       {!adminPreview && <HeatmapProvider />}
-      <Header locale={locale} />
+      <Header locale={locale} managed={managed} />
       <main id="main-content">{children}</main>
-      <Footer locale={locale} />
+      <Footer locale={locale} managed={managed} />
       {!adminPreview && <ConsentBanner locale={locale} />}
       {process.env.NEXT_PUBLIC_COMMERCE_PROVIDER !== "shopify" && (
         <div className="preview-ribbon">{t.preview}</div>

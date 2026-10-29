@@ -1,0 +1,17 @@
+node_modules
+.git
+.env
+.env.*
+**/.env
+**/.env.*
+deploy/runtime.env
+deploy/*.secret
+.eve
+.output
+.data
+.workflow-data
+coverage
+*.log
+backups
+**/*.pem
+**/*.key

@@ -5,6 +5,8 @@ import { launchCatalogCopy } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { TrackView } from "@/components/analytics/track-view";
+import { getManagedCatalog } from "@/lib/commerce/managed-catalog";
+import { managedCatalogCopy } from "@/content/managed-catalog-copy";
 export async function generateMetadata({
   params,
 }: {
@@ -12,11 +14,12 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
+  const managed = await getManagedCatalog();
   return pageMetadata(
     locale,
     "/shop",
     getDictionary(locale).shop,
-    launchCatalogCopy[locale].description,
+    (managed ? managedCatalogCopy : launchCatalogCopy)[locale].description,
   );
 }
 export default async function Shop({
@@ -27,6 +30,7 @@ export default async function Shop({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
+  const managed = await getManagedCatalog();
   const launches = await getLaunchProducts();
   return (
     <div className="section-wrap page-content">
@@ -37,9 +41,15 @@ export default async function Shop({
       <div className="page-heading">
         <p className="eyebrow">{t.edition}</p>
         <h1>{t.shop}</h1>
-        <p>{launchCatalogCopy[locale].description}</p>
+        <p>
+          {
+            (managed ? managedCatalogCopy : launchCatalogCopy)[locale]
+              .description
+          }
+        </p>
       </div>
       <LaunchCatalogGrid locale={locale} launches={launches} />
+      {managed && !launches.length && <p>{managedCatalogCopy[locale].empty}</p>}
     </div>
   );
 }
