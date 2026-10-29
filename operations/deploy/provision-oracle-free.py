@@ -43,6 +43,7 @@ import uuid
 REGION = "eu-stockholm-1"
 SHAPE = "VM.Standard.A1.Flex"
 TAG = "noorly-provision-run"
+ROLE_TAG = "noorly-provision-role"
 NAME = "noorly-operations"
 VCN_CIDR = "10.77.0.0/16"
 SUBNET_CIDR = "10.77.1.0/24"
@@ -180,11 +181,17 @@ class Provisioner:
     def listing(self, *arguments):
         return items(self.cli(*arguments, "--all"))
 
-    def owned(self, resource):
-        return resource.get("freeform-tags", {}).get(TAG) == self.state["run"]
+    def owned(self, resource, key):
+        # OCI may copy a VCN's tags to its automatic default route/security tables.
+        # A run tag alone therefore does not identify the resource we requested.
+        # Exact names also permit safe recovery of pre-role-tag VCNs/gateways.
+        tags = resource.get("freeform-tags") or {}
+        return (tags.get(TAG) == self.state["run"]
+                and resource.get("display-name") == NAME + "-" + key
+                and tags.get(ROLE_TAG, key) == key)
 
     def reconcile(self, key, resources):
-        candidates = [r for r in resources if self.owned(r)]
+        candidates = [r for r in resources if self.owned(r, key)]
         require(len(candidates) <= 1, f"Multiple tagged {key} resources found; manual reconciliation required.")
         existing_id = self.state["resources"].get(key)
         if existing_id:
@@ -219,7 +226,7 @@ class Provisioner:
         self.state["ad"] = self.ad
         instances = self.listing("compute", "instance", "list", "--compartment-id", self.tenancy)
         managed = self.reconcile("instance", instances)
-        require(not [i for i in instances if i.get("lifecycle-state") != "TERMINATED" and not self.owned(i)],
+        require(not [i for i in instances if i.get("lifecycle-state") != "TERMINATED" and not self.owned(i, "instance")],
                 "Existing unrelated compute found; this script will not allocate additional compute.")
         boot_ids = set()
         if managed:
@@ -239,7 +246,7 @@ class Provisioner:
                 "Managed boot performance is not the fixed default 10 VPUs; inspect it before continuing.")
         vcns = self.listing("network", "vcn", "list", "--compartment-id", self.tenancy)
         self.reconcile("vcn", vcns)
-        require(not [v for v in vcns if v.get("lifecycle-state") != "TERMINATED" and not self.owned(v)],
+        require(not [v for v in vcns if v.get("lifecycle-state") != "TERMINATED" and not self.owned(v, "vcn")],
                 "Existing unrelated network found; fresh-tenancy deployment stopped.")
         images = self.listing("compute", "image", "list", "--compartment-id", self.tenancy, "--shape", SHAPE,
                               "--operating-system", "Canonical Ubuntu", "--operating-system-version", "24.04")
@@ -266,7 +273,7 @@ class Provisioner:
             time.sleep(3)
             found = [r for r in self.listing(*family, "list", "--compartment-id", self.tenancy, *scope)
                      if r.get("id") == resource["id"]]
-            require(len(found) == 1 and self.owned(found[0]), f"Cannot verify managed {key} while waiting.")
+            require(len(found) == 1 and self.owned(found[0], key), f"Cannot verify managed {key} while waiting.")
             resource = found[0]
         raise Stop(f"Managed {key} is still provisioning. State is saved; rerun to resume without creating a duplicate.")
 
@@ -286,7 +293,7 @@ class Provisioner:
         self.save()
         action = "launch" if key == "instance" else "create"
         result = self.cli(*family, action, "--compartment-id", self.tenancy, "--display-name", NAME + "-" + key,
-                          "--freeform-tags", json.dumps({TAG: self.state["run"]}), *fields)
+                          "--freeform-tags", json.dumps({TAG: self.state["run"], ROLE_TAG: key}), *fields)
         resource = result.get("data")
         require(isinstance(resource, dict) and resource.get("id"), f"The {key} create outcome is uncertain; saved pending state retained.")
         self.state["resources"][key] = resource["id"]

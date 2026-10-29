@@ -24,7 +24,7 @@ def provisioner():
 
 
 def vcn():
-    return {"id": "vcn-id", "cidr-block": provision.VCN_CIDR,
+    return {"id": "vcn-id", "display-name": provision.NAME + "-vcn", "cidr-block": provision.VCN_CIDR,
             "freeform-tags": {provision.TAG: "test-run"}, "lifecycle-state": "AVAILABLE"}
 
 
@@ -90,12 +90,43 @@ class ProvisioningTests(unittest.TestCase):
         p = provisioner()
         p.state["pending"]["instance"] = {"submitted_at": "earlier"}
         p.listing = Mock(return_value=[{"id": "instance-id", "shape": provision.SHAPE,
+                                     "display-name": provision.NAME + "-instance",
                                      "lifecycle-state": "RUNNING", "freeform-tags": {provision.TAG: "test-run"}}])
         p.cli = Mock(side_effect=AssertionError("must never relaunch"))
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(p.ensure("instance", ("compute", "instance"), [], {"shape": provision.SHAPE}), "instance-id")
         self.assertFalse(p.state["pending"])
         p.cli.assert_not_called()
+
+    def test_default_tables_inheriting_run_tags_are_never_adopted(self):
+        for role in ("route", "security"):
+            for inherited in ({provision.TAG: "test-run"},
+                              {provision.TAG: "test-run", provision.ROLE_TAG: "vcn"}):
+                with self.subTest(role=role, inherited=inherited):
+                    p = provisioner()
+                    default = {"id": "default-id", "display-name": "Default table for " + provision.NAME + "-vcn",
+                               "lifecycle-state": "AVAILABLE", "freeform-tags": inherited}
+                    self.assertIsNone(p.reconcile(role, [default]))
+                    self.assertNotIn(role, p.state["resources"])
+                    explicit = {"id": "explicit-id", "display-name": provision.NAME + "-" + role,
+                                "lifecycle-state": "AVAILABLE", "freeform-tags": {
+                                    provision.TAG: "test-run", provision.ROLE_TAG: role}}
+                    self.assertEqual(p.reconcile(role, [default, explicit])["id"], "explicit-id")
+
+    def test_incorrectly_saved_default_table_is_held_for_manual_reconciliation(self):
+        p = provisioner()
+        p.state["resources"]["route"] = "default-id"
+        default = {"id": "default-id", "display-name": "Default Route Table for " + provision.NAME + "-vcn",
+                   "lifecycle-state": "AVAILABLE", "freeform-tags": {provision.TAG: "test-run"}}
+        with self.assertRaisesRegex(provision.Stop, "absent or has changed ownership"):
+            p.reconcile("route", [default])
+        self.assertEqual(p.state["resources"]["route"], "default-id")
+
+    def test_exact_name_cannot_override_an_incorrect_role_tag(self):
+        p = provisioner()
+        resource = {"id": "wrong-role", "display-name": provision.NAME + "-route",
+                    "freeform-tags": {provision.TAG: "test-run", provision.ROLE_TAG: "vcn"}}
+        self.assertFalse(p.owned(resource, "route"))
 
     def test_drift_missing_or_duplicate_resources_stop(self):
         for resources, saved in [([dict(vcn(), **{"cidr-block": "0.0.0.0/0"})], {}),
