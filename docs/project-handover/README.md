@@ -1,14 +1,24 @@
 # Noorly project handover
 
-Latest consolidated update: 25 October 2026, Europe/Stockholm.
+Latest continuation update: 30 October 2026, Europe/Stockholm.
 
 ## Start here
 
-Read [Continuation Handover v1.7](Noorly_Continuation_Handover_v1.7.md) first. It records verified live heatmaps, the owner's heatmaps-only decision, new Meta server-activity metadata and the advertising launch blockers. v1.6 remains the detailed installation record.
+Read [Continuation Handover v1.8](Noorly_Continuation_Handover_v1.8.md) first, then the [30 October supplier-sourcing handover](Noorly_Candle_Sand_Sourcing_2026-10-30.md). They record the quote outreach, Third Color WhatsApp offer, Candellic reply, private Google Doc and existing 6 November follow-up task. [v1.7](Noorly_Continuation_Handover_v1.7.md) remains the dated tracking/advertising audit; v1.6 holds installation detail.
 
 Use [the updated new-session prompt](Noorly_Continue_in_New_Chat_Prompt.md) to continue with the connected tools. Actual tool access must be checked in the new session; an enabled app does not establish a working signed-in browser or completed deployment.
 
-## Current checkpoint
+## Current sourcing checkpoint — 30 October 2026
+
+- Eight suppliers plus Hertwill were emailed; Henan Rodge remains **NOT SENT**. The [private quote ledger](https://docs.google.com/document/d/1slDREQhtWWIbB3ViBo77KLD83BejpS2anZt5ssiR01o) holds contacts, source messages, delivery details and full comparisons.
+- Third Color's user-relayed WhatsApp offer is US$3.90 per 500 g logo bag, MOQ 20, with US$90 freight / US$168 stated total. Direct customer delivery is offered, but shipment scope, individual-parcel rates and tax/duty inclusions remain unconfirmed. Further Third Color follow-up is left to the owner's WhatsApp conversation unless requested.
+- Candellic confirmed Sweden shipping and was answered with the white Daffodil / 650 g quote basis; prices and dropshipping terms are pending. No paid sample or order was accepted.
+- Existing task **Noorly supplier replies** is enabled for **6 November morning, Europe/Stockholm**, flexible around 08:00, to check Gmail and update the same Doc. Do not duplicate it or treat it as permission for new sends.
+- Current main was observed at `0976480a7d7b37596f34f086aae55a83b3221ea8` ([PR #43](https://github.com/1Alsaad/noorly-gifting/pull/43)); production was not re-audited. This handover is documentation only and does not change products, prices, inventory or ads.
+
+## Earlier application checkpoint — 25 October 2026
+
+The observations below are preserved history, not a fresh 30 October audit. Main has advanced beyond the PR #39 deployment recorded here; verify current live state before acting.
 
 - Last verified application release: [PR #39](https://github.com/1Alsaad/noorly-gifting/pull/39), source `7d295fe125f80efdb6b97db11643dd2322ba6957`, [Vercel deployment Ready / Production / Current](https://vercel.com/1alsaads-projects/noorly-gifting/xTHzvRGFGYgA9zXa95NBxBoZuLRv) on `noorlynordic.com`. Only the storefront Accept cookie action has black fill; Decline and Save choices are outlined.
 - Vercel's daily deployment limit cleared; no paid upgrade was required. The connector still has project access errors, while the authenticated dashboard works.
@@ -31,7 +41,7 @@ Earlier context remains in [v1.4](Noorly_Continuation_Handover_v1.4.md), [v1.3](
 
 ## Standing decisions
 
-Current website: `https://noorlynordic.com`; checkout: `https://checkout.noorlynordic.com`. Sand is 349 SEK unscented / 449 SEK scented; bowl 550 SEK; native bundles 699/749 SEK. Preserve explicit dispatch-on-stock-arrival messaging and do not change Shopify quantities.
+Canonical website: `https://noorlynordic.com`; checkout: `https://checkout.noorlynordic.com`. Last recorded retail pricing is sand 349 SEK unscented / 449 SEK scented; bowl 550 SEK; native bundles 699/749 SEK. Verify current live prices before changing them; supplier research did not modify the offer. Preserve explicit dispatch-on-stock-arrival messaging and do not change Shopify quantities.
 
 The total advertising allocation remains 4,000 SEK: up to 2,000 for an initial 4–5-day first-offer screen, review day four, and 2,000 for justified continuation or one different offer. Actual spend needs reconciliation. No ad activation, paid subscription/upgrade, supplier order or real-money test purchase is authorised by a handover or tracking task.
 
