@@ -2,7 +2,7 @@
 import { isProductTestMode, productTestCopy } from "@/config/product-test";
 import Link from "next/link";
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { getDictionary } from "@/content/translations";
 import { formatMoney } from "@/lib/utils/money";
@@ -184,7 +184,13 @@ export function ProductPurchase({
             <p className="product-note purchase-delivery">
               {t.deliveryText}{" "}
               <Link href={`/${locale}/shipping-returns`}>
-                {t.footer.shipping} ↗
+                {t.footer.shipping}{" "}
+                <ArrowUpRight
+                  size={16}
+                  aria-hidden="true"
+                  focusable="false"
+                  className="inline-block shrink-0 align-text-bottom"
+                />
               </Link>
             </p>
           )}
@@ -229,7 +235,12 @@ export function ProductPurchase({
                     (locale === "sv"
                       ? "Öppna varukorgen"
                       : "Open your bag")}{" "}
-                  ↗
+                  <ArrowUpRight
+                    size={16}
+                    aria-hidden="true"
+                    focusable="false"
+                    className="inline-block shrink-0 align-text-bottom"
+                  />
                 </Link>
               </div>
             )}
@@ -270,7 +281,13 @@ export function ProductPurchase({
             <p className="sticky-checkout-error" role="alert">
               {cartErrorMessage(quick.error, locale)}{" "}
               <Link href={reviewAction?.href ?? `/${locale}/cart`}>
-                {locale === "sv" ? "Öppna varukorgen" : "Open your bag"} ↗
+                {locale === "sv" ? "Öppna varukorgen" : "Open your bag"}{" "}
+                <ArrowUpRight
+                  size={16}
+                  aria-hidden="true"
+                  focusable="false"
+                  className="inline-block shrink-0 align-text-bottom"
+                />
               </Link>
             </p>
           )}

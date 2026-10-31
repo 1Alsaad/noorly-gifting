@@ -135,11 +135,12 @@ export function ProductGallery({
                 <button
                   type="button"
                   onClick={() => move(-1)}
+                  style={{ display: "grid", placeItems: "center" }}
                   aria-label={
                     locale === "sv" ? "Föregående bild" : "Previous image"
                   }
                 >
-                  ←
+                  <ChevronLeft size={22} aria-hidden="true" />
                 </button>
               )}
               <p aria-live="polite">
@@ -149,9 +150,10 @@ export function ProductGallery({
                 <button
                   type="button"
                   onClick={() => move(1)}
+                  style={{ display: "grid", placeItems: "center" }}
                   aria-label={locale === "sv" ? "Nästa bild" : "Next image"}
                 >
-                  →
+                  <ChevronRight size={22} aria-hidden="true" />
                 </button>
               )}
             </div>

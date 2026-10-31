@@ -85,13 +85,11 @@
 .colour-studio__picture {
   position: relative;
   z-index: 1;
-  width: min(42vw, 590px);
-  margin-top: 60px;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 47% 53% 47% 53% / 51% 44% 56% 49%;
-  transform: rotate(-8deg);
-  box-shadow: 0 25px 55px -28px rgb(53 26 26 / 30%);
+  width: min(32vw, 420px);
+  margin: 24px 0;
+  aspect-ratio: 2 / 3;
+  transform: rotate(-6deg);
+  filter: drop-shadow(0 22px 24px rgb(53 26 26 / 18%));
   animation: colour-studio-arrive 350ms ease-out both;
 }
 
@@ -99,7 +97,13 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+.colour-studio__concept {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .colour-studio__contents {
@@ -320,7 +324,7 @@
   }
 
   .colour-studio__picture {
-    width: 57vw;
+    width: 40vw;
   }
 
   .colour-studio__contents {
@@ -361,7 +365,7 @@
   }
 
   .colour-studio__stage {
-    min-height: 78vw;
+    min-height: 100vw;
     margin: 6px -22px 0;
   }
 
@@ -375,9 +379,9 @@
   }
 
   .colour-studio__picture {
-    width: 64vw;
+    width: 58vw;
     max-width: 470px;
-    margin-top: 55px;
+    margin: 26px 0;
   }
 
   .colour-studio__contents {
@@ -445,7 +449,7 @@
   }
   to {
     opacity: 1;
-    transform: rotate(-8deg) scale(1);
+    transform: rotate(-6deg) scale(1);
   }
 }
 

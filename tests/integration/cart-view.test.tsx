@@ -53,7 +53,7 @@ describe("cart controls and announcements", () => {
       screen.getByRole("link", { name: "Discover the gifts" }),
     ).toHaveAttribute("href", "/en/shop");
     expect(
-      screen.getByRole("button", { name: "Continue to secure checkout" }),
+      screen.getByRole("button", { name: "Continue to checkout" }),
     ).toBeDisabled();
   });
   it("changes individual quantities and exposes a live cart update summary", () => {
@@ -109,14 +109,14 @@ describe("cart controls and announcements", () => {
     expect(screen.getByText("Image unavailable")).toBeVisible();
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Continue to secure checkout" }),
+      screen.getByRole("button", { name: "Continue to checkout" }),
     ).toBeEnabled();
   });
   it("blocks unsupported plan checkout while keeping removal available", () => {
     state.cart!.lines[0].sellingPlanId = "gid://shopify/SellingPlan/1";
     render(<CartView locale="en" />);
     expect(
-      screen.getByRole("button", { name: "Continue to secure checkout" }),
+      screen.getByRole("button", { name: "Continue to checkout" }),
     ).toBeDisabled();
     expect(screen.getByRole("alert")).toHaveTextContent("purchase option");
     fireEvent.click(
@@ -161,7 +161,7 @@ describe("cart controls and announcements", () => {
     state.cart.lines[0].components!.pop();
     render(<CartView locale="en" />);
     expect(
-      screen.getByRole("button", { name: "Continue to secure checkout" }),
+      screen.getByRole("button", { name: "Continue to checkout" }),
     ).toBeDisabled();
     fireEvent.click(
       screen.getByRole("button", { name: "Remove: Noorly Ljusstund" }),
@@ -181,7 +181,7 @@ describe("cart controls and announcements", () => {
       "The requested quantity is no longer in stock",
     );
     expect(
-      screen.getByRole("button", { name: "Continue to secure checkout" }),
+      screen.getByRole("button", { name: "Continue to checkout" }),
     ).toBeEnabled();
   });
 });

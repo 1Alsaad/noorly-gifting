@@ -10,6 +10,7 @@ import {
 } from "@/content/launch-catalog";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import {
@@ -212,7 +213,13 @@ export default async function ProductDetail({ params, searchParams }: Props) {
           <h2>{t.delivery}</h2>
           <p>{t.deliveryText}</p>
           <Link className="text-link" href={`/${locale}/shipping-returns`}>
-            {t.footer.shipping} ↗
+            {t.footer.shipping}{" "}
+            <ArrowUpRight
+              size={16}
+              aria-hidden="true"
+              focusable="false"
+              className="inline-block shrink-0 align-text-bottom"
+            />
           </Link>
         </div>
         <details className="product-materials">

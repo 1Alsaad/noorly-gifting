@@ -186,7 +186,7 @@ describe("actionable cart error feedback", () => {
       </CartProvider>,
     );
     const checkout = screen.getByRole("button", {
-      name: "Continue to secure checkout",
+      name: "Continue to checkout",
     });
     await waitFor(() => expect(checkout).toBeEnabled());
     fireEvent.click(checkout);

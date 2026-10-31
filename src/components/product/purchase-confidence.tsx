@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, Hand, Truck, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Check, Hand, Truck, ShieldCheck } from "lucide-react";
 import type { Locale, Product, ProductVariant } from "@/types/commerce";
 import { candleSandHandle, teakBowlHandle } from "@/content/launch-catalog";
 import { launchBundleHandle } from "@/content/launch-bundle";
@@ -137,7 +137,13 @@ export function PurchaseAnswers({
             : "Delivery within Sweden is included. We dispatch when the products arrive in stock. An arrival date is not yet confirmed. You receive an order confirmation by email and tracking information when available."}
         </p>
         <Link className="text-link" href={`/${locale}/shipping-returns`}>
-          {sv ? "Läs leveransvillkoren" : "Read delivery terms"} ↗
+          {sv ? "Läs leveransvillkoren" : "Read delivery terms"}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
       </details>
       <details>
@@ -150,10 +156,22 @@ export function PurchaseAnswers({
             : "14-day withdrawal period after receipt. Keep goods unused and unlit when considering a return. You pay return postage when changing your mind. Read the full withdrawal, refund and faulty-goods terms."}
         </p>
         <Link className="text-link" href={`/${locale}/shipping-returns`}>
-          {sv ? "Returvillkor" : "Return terms"} ↗
+          {sv ? "Returvillkor" : "Return terms"}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
         <Link className="text-link" href={`/${locale}/contact`}>
-          {sv ? "Kontakta Noorly" : "Contact Noorly"} ↗
+          {sv ? "Kontakta Noorly" : "Contact Noorly"}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
       </details>
     </div>

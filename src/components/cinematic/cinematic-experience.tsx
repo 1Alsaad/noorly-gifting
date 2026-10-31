@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties } from "react";
 import { flushSync } from "react-dom";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { useCart } from "@/features/cart/cart-provider";
 import { useSceneMedia } from "@/features/seasonal-experience/use-scene-media";
@@ -294,7 +295,7 @@ function Scene({
       }}
     >
       {copy.skip}
-      <span aria-hidden="true"> ↗</span>
+      <ArrowUpRight className="cinema-arrow" size={15} aria-hidden="true" />
     </a>
   );
 
@@ -414,11 +415,19 @@ function Scene({
                   href={launchCatalogHref(locale)}
                 >
                   {launchCatalogCopy[locale].cta}
-                  <span aria-hidden="true">↗</span>
+                  <ArrowUpRight
+                    className="cinema-arrow"
+                    size={17}
+                    aria-hidden="true"
+                  />
                 </Link>
                 <a className="cinema-text-link" href="#gifts" onClick={onSkip}>
                   {copy.explore}
-                  <span aria-hidden="true"> ↗</span>
+                  <ArrowUpRight
+                    className="cinema-arrow"
+                    size={15}
+                    aria-hidden="true"
+                  />
                 </a>
               </div>
             )}
@@ -434,7 +443,11 @@ function Scene({
             <p className="cinema-closing-title">{scene.copy.closing[locale]}</p>
             <a className="cinema-text-link" href="#gifts" onClick={onSkip}>
               {copy.explore}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight
+                className="cinema-arrow"
+                size={15}
+                aria-hidden="true"
+              />
             </a>
           </div>
         )}
@@ -483,7 +496,11 @@ function Scene({
                     {price}
                   </span>
                 </span>
-                <span aria-hidden="true">↗</span>
+                <ArrowUpRight
+                  className="cinema-arrow"
+                  size={20}
+                  aria-hidden="true"
+                />
               </Link>
             ) : (
               <button
@@ -506,7 +523,11 @@ function Scene({
               className="cinema-static-product-link"
             >
               {copy.shopNow}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight
+                className="cinema-arrow"
+                size={14}
+                aria-hidden="true"
+              />
             </Link>
           </div>
         )}
@@ -524,14 +545,23 @@ function Scene({
           </span>
           {first && (
             <span className="cinema-scroll-cue">
-              <span aria-hidden="true">↓</span>
+              <ArrowDown
+                className="cinema-arrow"
+                size={23}
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
               {enhanced ? copy.scroll : copy.static}
             </span>
           )}
           {!first && (
             <Link className="cinema-shop-route" href={`/${locale}/shop`}>
               {copy.shop}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight
+                className="cinema-arrow"
+                size={15}
+                aria-hidden="true"
+              />
             </Link>
           )}
         </div>

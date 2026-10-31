@@ -1,5 +1,5 @@
 import { expect, test, type Locator } from "@playwright/test";
-import { launchSandChoices } from "../../src/content/launch-bundle";
+import { colourStories } from "../../src/content/colour-story";
 
 test("colour choices work by keyboard without motion and carry through to the mobile product page", async ({
   page,
@@ -42,6 +42,12 @@ test("colour choices work by keyboard without motion and carry through to the mo
     await page.evaluate(() => document.fonts.ready);
   };
   await expectLoadedPhoto();
+  await expect(
+    studio.getByText(
+      "Packaging concept. The current packaging is shown on the product page.",
+      { exact: true },
+    ),
+  ).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   if (process.env.CI) {
     await studio.screenshot({
@@ -78,13 +84,16 @@ test("colour choices work by keyboard without motion and carry through to the mo
   await page.keyboard.press("Enter");
   await expect(rose).toHaveAttribute("aria-pressed", "true");
   await expect(honey).toHaveAttribute("aria-pressed", "false");
-  const choice = launchSandChoices.find(({ sku }) => sku === "CSand-07")!;
-  await expect(photo).toHaveAttribute("alt", choice.photo.alt.en);
+  const choice = colourStories.find(({ sku }) => sku === "CSand-07")!;
+  await expect(photo).toHaveAttribute(
+    "alt",
+    "Noorly Luma Dusty Rose – packaging concept",
+  );
   expect(
     await photo.evaluate((image: HTMLImageElement) =>
       new URL(image.src).searchParams.get("url"),
     ),
-  ).toBe(choice.photo.url);
+  ).toBe(choice.pouch);
   await expectLoadedPhoto();
   await expect
     .poll(() =>

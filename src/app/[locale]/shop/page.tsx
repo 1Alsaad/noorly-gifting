@@ -36,7 +36,7 @@ export default async function Shop({
     ({ product }) => product.handle === "candle-sand",
   )?.product;
   const featuredColours = colourStories
-    .slice(0, 3)
+    .slice(0, 4)
     .filter(
       (story) =>
         !sandProduct ||
@@ -70,35 +70,50 @@ export default async function Shop({
             {launches.length} {locale === "sv" ? "produkter" : "products"}
           </span>
         </div>
-        <nav
-          className="shop-colour-preview"
-          aria-label={locale === "sv" ? "Upptäck en färg" : "Explore a colour"}
-        >
-          {featuredColours.map((story) => {
-            const choice = launchSandChoices.find(
-              (choice) => choice.sku === story.sku,
-            )!;
-            return (
-              <Link
-                key={story.sku}
-                href={colourProductHref(locale, story.sku)}
-                style={{ backgroundColor: story.background }}
-              >
-                <Image
-                  src={choice.photo.url}
-                  alt={choice.photo.alt[locale]}
-                  width={800}
-                  height={800}
-                  sizes="(max-width: 680px) 30vw, 16vw"
-                />
-                <span>
+        <figure className="shop-packaging">
+          <Image
+            src="/media/packaging/noorly-pouch-family-concept.webp"
+            alt={
+              locale === "sv"
+                ? "Noorlys förpackningskoncept i gammalrosa, honung, mockabrun och vit"
+                : "Noorly packaging concept in dusty rose, honey, mocha brown and white"
+            }
+            width={1536}
+            height={1024}
+            sizes="(max-width: 680px) 90vw, 50vw"
+            loading="eager"
+          />
+          <figcaption>
+            {locale === "sv"
+              ? "Förpackningskoncept. Nuvarande förpackning visas på produktsidan."
+              : "Packaging concept. The current packaging is shown on the product page."}
+          </figcaption>
+          <nav
+            className="shop-packaging__colours"
+            aria-label={
+              locale === "sv" ? "Upptäck en färg" : "Explore a colour"
+            }
+          >
+            {featuredColours.map((story) => {
+              const choice = launchSandChoices.find(
+                (choice) => choice.sku === story.sku,
+              )!;
+              return (
+                <Link
+                  key={story.sku}
+                  href={colourProductHref(locale, story.sku)}
+                  style={{
+                    backgroundColor: story.background,
+                    color: story.ink,
+                  }}
+                >
                   {choice.color.name[locale]}
                   <ArrowUpRight size={15} aria-hidden="true" />
-                </span>
-              </Link>
-            );
-          })}
-        </nav>
+                </Link>
+              );
+            })}
+          </nav>
+        </figure>
       </div>
       <LaunchCatalogGrid locale={locale} launches={launches} />
       <aside className="shop-assistance">

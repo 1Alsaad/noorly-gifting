@@ -354,6 +354,21 @@
   font-size: 11px;
   line-height: 1.7;
 }
+.cinema-arrow {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+:is(
+    .cinema-text-link,
+    .cinema-skip,
+    .cinema-shop-route,
+    .cinema-static-product-link,
+    .cinema-details-link
+  )
+  > .cinema-arrow {
+  margin-inline-start: 6px;
+}
 .cinema-text-link {
   border-bottom: 1px solid rgb(246 242 233 / 50%);
   padding: 10px 0;
@@ -390,10 +405,6 @@
   font-size: 8px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-.cinema-scroll-cue > span {
-  font-size: 23px;
-  font-weight: 300;
 }
 .cinema-skip {
   padding: 12px 0;

@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.8
 
+**Latest storefront update, 31 October:** see [Packaging application and Safari icons](Noorly_Packaging_Application_2026-10-31.md) for the approved Noorly pouch concept imagery, SVG arrow fix and shorter checkout action. New pouch visuals are explicitly concepts; current supplier packaging remains shown on product pages.
+
 **Latest design follow-up, 31 October:** see [Colour story](Noorly_Colour_Story_2026-10-31.md) for the owner's Dribbble references, bold variant-based visual chapters and exact-colour product links. The original scroll-controlled video remains a standing requirement.
 
 **Storefront follow-up, 31 October:** see [Storefront refresh](Noorly_Storefront_Refresh_2026-10-31.md) for the owner's video/browser repair and ecommerce design request, implementation, and verification limits. This does not change the supplier work below.
