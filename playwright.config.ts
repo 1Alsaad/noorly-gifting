@@ -17,12 +17,12 @@ export default defineConfig({
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     {
       name: "firefox",
-      testMatch: "**/storefront-video.spec.ts",
+      testMatch: ["**/storefront-video.spec.ts", "**/storefront-icons.spec.ts"],
       use: { ...devices["Desktop Firefox"] },
     },
     {
       name: "webkit",
-      testMatch: "**/storefront-video.spec.ts",
+      testMatch: ["**/storefront-video.spec.ts", "**/storefront-icons.spec.ts"],
       use: { ...devices["Desktop Safari"] },
     },
   ],

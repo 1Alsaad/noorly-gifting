@@ -45,11 +45,18 @@ describe("the interactive colour studio", () => {
   });
 
   it.each(["sv", "en"] as const)(
-    "keeps each selected colour, supplier photo, exact price and product link together in %s",
+    "keeps each selected colour, labelled packaging concept, exact price and product link together in %s",
     async (locale) => {
       const user = userEvent.setup();
       render(<ColourStudio locale={locale} product={product} />);
-      for (const [index, { sku }] of colourStories.entries()) {
+      expect(
+        screen.getByText(
+          locale === "sv"
+            ? "Förpackningskoncept. Nuvarande förpackning visas på produktsidan."
+            : "Packaging concept. The current packaging is shown on the product page.",
+        ),
+      ).toBeVisible();
+      for (const [index, { sku, pouch }] of colourStories.entries()) {
         const choice = launchSandChoices.find((item) => item.sku === sku)!;
         const name = choice.color.name[locale];
         const button = screen.getByRole("button", { name });
@@ -59,9 +66,9 @@ describe("the interactive colour studio", () => {
           1,
         );
         const image = screen.getByRole("img", {
-          name: choice.photo.alt[locale],
+          name: `Noorly Luma ${name} – ${locale === "sv" ? "förpackningskoncept" : "packaging concept"}`,
         });
-        expect(originalImageSource(image)).toBe(choice.photo.url);
+        expect(originalImageSource(image)).toBe(pouch);
         expect(
           screen.getByText(new RegExp(String(prices[index]))),
         ).toBeVisible();

@@ -60,7 +60,7 @@ describe("Noorly public stock and product copy", () => {
   it("keeps live purchase labels and the factual service copy without reviving closed-sale terms", () => {
     vi.stubEnv("NEXT_PUBLIC_PRODUCT_TEST_MODE", "false");
     const live = getDictionary("en");
-    expect(live.checkout).toBe("Continue to secure checkout");
+    expect(live.checkout).toBe("Continue to checkout");
     expect(live.deliveryText).toContain("Shipping within Sweden is included");
     expect(live.deliveryText).not.toContain("Ljusstund");
     const terms = getCustomerPolicy("en", "terms");

@@ -44,8 +44,11 @@ export function ColourStudio({
   const colour = selected.choice.color.name[locale];
   const scent = selected.choice.scent[locale];
   const photo = {
-    url: selected.choice.photo.url,
-    alt: selected.choice.photo.alt[locale],
+    url: selected.pouch,
+    alt:
+      locale === "sv"
+        ? `Noorly Luma ${colour} – förpackningskoncept`
+        : `Noorly Luma ${colour} – packaging concept`,
   };
   const price =
     !sandProduct?.previewOnly &&
@@ -101,8 +104,8 @@ export function ColourStudio({
               src={photo.url}
               alt={photo.alt}
               width={800}
-              height={800}
-              sizes="(max-width: 680px) 86vw, (max-width: 1000px) 62vw, 650px"
+              height={1200}
+              sizes="(max-width: 680px) 58vw, (max-width: 1000px) 40vw, 420px"
             />
           </div>
           <p className="colour-studio__contents">
@@ -110,6 +113,12 @@ export function ColourStudio({
             <span>{locale === "sv" ? "+ 4 vekar" : "+ 4 wicks"}</span>
           </p>
         </div>
+
+        <p className="colour-studio__concept">
+          {locale === "sv"
+            ? "Förpackningskoncept. Nuvarande förpackning visas på produktsidan."
+            : "Packaging concept. The current packaging is shown on the product page."}
+        </p>
 
         <div className="colour-studio__footer">
           <div className="colour-studio__selection">

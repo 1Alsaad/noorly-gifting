@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import type { Locale } from "@/types/commerce";
 import { candleSandHandle } from "@/content/launch-catalog";
@@ -103,7 +104,13 @@ export function CandleSandGuide({
           className="button button-dark"
           href={`/${locale}/products/${candleSandHandle}`}
         >
-          {t.cta} ↗
+          {t.cta}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
       )}
     </section>

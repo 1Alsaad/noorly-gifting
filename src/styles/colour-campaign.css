@@ -183,46 +183,41 @@
   margin-top: 22px;
   border-bottom: 1px solid currentColor;
 }
-.shop-colour-preview {
-  display: flex;
-  align-items: center;
-  width: 50%;
-  gap: 12px;
-  padding-block: 24px;
-}
-.shop-colour-preview a {
-  display: block;
-  flex: 1;
+.shop-packaging {
+  width: 54%;
   min-width: 0;
-  border-radius: 100px 100px 12px 12px;
-  overflow: hidden;
-  transform: rotate(-7deg) translateY(12px);
-  box-shadow: 0 12px 20px -15px #49351a80;
-  transition: transform 180ms ease;
+  margin: 0;
 }
-.shop-colour-preview a:nth-child(2) {
-  transform: translateY(-18px);
-}
-.shop-colour-preview a:nth-child(3) {
-  transform: rotate(7deg) translateY(12px);
-}
-.shop-colour-preview img {
+.shop-packaging > img {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
-.shop-colour-preview span {
+.shop-packaging figcaption {
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+.shop-packaging__colours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.shop-packaging__colours a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
-  padding: 15px 10px;
-  background: #fff9f1;
-  color: #49351a;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
   font-size: 10px;
   font-weight: 700;
 }
-.shop-colour-preview svg {
+.shop-packaging__colours svg {
   flex-shrink: 0;
 }
 .noorly-store .shop-assistance {
@@ -331,20 +326,6 @@
   font-weight: 800;
   letter-spacing: -0.09em;
 }
-@media (hover: hover) and (pointer: fine) {
-  .shop-colour-preview a:hover {
-    transform: translateY(-12px);
-  }
-}
-@media (max-width: 1000px) {
-  .shop-colour-preview {
-    gap: 6px;
-  }
-  .shop-colour-preview span {
-    padding: 10px 6px;
-    font-size: 9px;
-  }
-}
 @media (max-width: 680px) {
   .noorly-store .storefront-collection .section-heading h2 {
     font-size: 42px;
@@ -387,14 +368,9 @@
   .noorly-store .shop-heading h1 {
     font-size: 52px;
   }
-  .shop-colour-preview {
+  .shop-packaging {
     width: 100%;
     margin-top: 28px;
-    padding: 16px 0 6px;
-    gap: 8px;
-  }
-  .shop-colour-preview span {
-    font-size: 9px;
   }
   .noorly-store .shop-assistance {
     padding: 26px;
@@ -422,13 +398,5 @@
   .footer-signature {
     margin-bottom: 34px;
     padding-bottom: 30px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .shop-colour-preview a {
-    transition: none;
-  }
-  .shop-colour-preview a:hover {
-    transform: none;
   }
 }

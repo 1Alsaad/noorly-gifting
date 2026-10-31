@@ -38,7 +38,7 @@ const en = {
   empty: "Your bag is waiting for a little thoughtfulness.",
   browse: "Discover the gifts",
   tax: "Shipping and taxes are calculated securely at checkout. Every charge is shown before you pay.",
-  checkout: "Continue to secure checkout",
+  checkout: "Continue to checkout",
   checking: "Preparing checkout…",
   mockCheckoutTitle: "Your preview bag is ready.",
   mockCheckoutText:
@@ -308,7 +308,7 @@ const sv: Dictionary = {
   empty: "Din påse väntar på lite omtanke.",
   browse: "Upptäck gåvorna",
   tax: "Frakt och skatt beräknas i den säkra kassan. Du ser hela beloppet innan du betalar.",
-  checkout: "Fortsätt till säker kassa",
+  checkout: "Fortsätt till kassa",
   checking: "Förbereder kassan…",
   mockCheckoutTitle: "Din påse är redo för förhandsvisning.",
   mockCheckoutText:

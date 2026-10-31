@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { getCommerceProvider } from "@/lib/commerce";
 import { getEnv } from "@/lib/env/server";
@@ -101,7 +102,12 @@ export default async function InterestPage({
           />
           <Link className="text-link" href={`/${locale}/shop`}>
             {locale === "sv" ? "Utforska produkterna" : "Explore the products"}{" "}
-            ↗
+            <ArrowUpRight
+              size={16}
+              aria-hidden="true"
+              focusable="false"
+              className="inline-block shrink-0 align-text-bottom"
+            />
           </Link>
         </div>
       </div>

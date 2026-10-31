@@ -5,6 +5,7 @@ export const colourStories = [
   {
     sku: "CSand-07",
     tone: "rose",
+    pouch: "/media/packaging/noorly-pouch-rose-concept.webp",
     background: "#ef9ba9",
     ink: "#4b1e2d",
     word: { sv: "ROSA", en: "ROSE" },
@@ -16,6 +17,7 @@ export const colourStories = [
   {
     sku: "CSand-08",
     tone: "honey",
+    pouch: "/media/packaging/noorly-pouch-honey-concept.webp",
     background: "#f3d35c",
     ink: "#49351a",
     word: { sv: "HONUNG", en: "HONEY" },
@@ -24,6 +26,7 @@ export const colourStories = [
   {
     sku: "CSand-01",
     tone: "mocha",
+    pouch: "/media/packaging/noorly-pouch-mocha-concept.webp",
     background: "#9b6045",
     ink: "#fff6e9",
     word: { sv: "MOCKA", en: "MOCHA" },
@@ -32,6 +35,7 @@ export const colourStories = [
   {
     sku: "CSand-11",
     tone: "ivory",
+    pouch: "/media/packaging/noorly-pouch-ivory-concept.webp",
     background: "#ede6d4",
     ink: "#353a2e",
     word: { sv: "VIT", en: "WHITE" },

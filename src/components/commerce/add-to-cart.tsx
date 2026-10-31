@@ -107,7 +107,13 @@ export function AddToCart({
           className="text-link cart-next-step"
           href={errorAction?.href ?? `/${locale}/cart`}
         >
-          {errorAction?.label ?? t.cart} ↗
+          {errorAction?.label ?? t.cart}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
       )}
     </div>

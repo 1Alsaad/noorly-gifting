@@ -12,6 +12,7 @@ import {
 } from "@/content/launch-catalog";
 import { useState } from "react";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { formatMoney } from "@/lib/utils/money";
 import { VariantPicker } from "@/components/product/variant-picker";
 import { useCart } from "@/features/cart/cart-provider";
@@ -167,7 +168,12 @@ export function ShoppingOverlay({
       <div className="cinema-shopping-links">
         {status === "added" && (
           <Link href={`/${locale}/cart`} className="cinema-details-link">
-            {locale === "sv" ? "Till varukorgen" : "View cart"} ↗
+            {locale === "sv" ? "Till varukorgen" : "View cart"}
+            <ArrowUpRight
+              className="cinema-arrow"
+              size={15}
+              aria-hidden="true"
+            />
           </Link>
         )}
         <button

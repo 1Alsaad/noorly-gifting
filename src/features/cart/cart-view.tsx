@@ -9,6 +9,7 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   Minus,
   Plus,
   ShoppingBag,
@@ -120,7 +121,7 @@ export function CartView({ locale }: { locale: Locale }) {
               </p>
               <Link className="button button-dark" href={`/${locale}/shop`}>
                 {t.browse}
-                <ArrowRight size={16} />
+                <ArrowRight size={16} aria-hidden="true" focusable="false" />
               </Link>
             </div>
           ) : (
@@ -334,7 +335,7 @@ export function CartView({ locale }: { locale: Locale }) {
             onClick={pay}
           >
             {loading ? t.checking : t.checkout}
-            <ArrowRight size={16} />
+            <ArrowRight size={16} aria-hidden="true" focusable="false" />
           </button>
           {unsupportedPurchase && (
             <p role="alert" className="field-error">
@@ -357,7 +358,13 @@ export function CartView({ locale }: { locale: Locale }) {
                 <>
                   {" "}
                   <Link className="text-link" href={errorAction.href}>
-                    {errorAction.label} ↗
+                    {errorAction.label}{" "}
+                    <ArrowUpRight
+                      size={16}
+                      aria-hidden="true"
+                      focusable="false"
+                      className="inline-block shrink-0 align-text-bottom"
+                    />
                   </Link>
                 </>
               )}

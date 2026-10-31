@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import type { Locale, Product } from "@/types/commerce";
 import { candleSandHandle, teakBowlHandle } from "@/content/launch-catalog";
 import { launchBundleHandle } from "@/content/launch-bundle";
@@ -233,7 +233,13 @@ export function ProductOffers({
           <div className="field-error" role="alert">
             <p>{cartErrorMessage(quick.error, locale)}</p>
             <Link href={action?.href ?? `/${locale}/cart`}>
-              {action?.label ?? (sv ? "Öppna varukorgen" : "Open your bag")} ↗
+              {action?.label ?? (sv ? "Öppna varukorgen" : "Open your bag")}{" "}
+              <ArrowUpRight
+                size={16}
+                aria-hidden="true"
+                focusable="false"
+                className="inline-block shrink-0 align-text-bottom"
+              />
             </Link>
           </div>
         )}

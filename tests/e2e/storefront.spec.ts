@@ -150,7 +150,7 @@ test("product variants, cart quantities and preview checkout work without option
     .click();
   await expect(page.getByLabel("Quantity", { exact: true })).toHaveText("1");
   await page
-    .getByRole("button", { name: "Continue to secure checkout", exact: true })
+    .getByRole("button", { name: "Continue to checkout", exact: true })
     .click();
   await expect(page).toHaveURL("/en/mock-checkout");
   await expect(
@@ -263,7 +263,7 @@ test("a six-step box survives refresh, groups its lines and can be edited before
     "A new note, with the same thoughtful box.",
   );
   await page
-    .getByRole("button", { name: "Continue to secure checkout", exact: true })
+    .getByRole("button", { name: "Continue to checkout", exact: true })
     .click();
   await expect(page).toHaveURL("/en/mock-checkout");
 });

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { ProductCard } from "./product-card";
 import { ProductPresentation } from "./product-presentation";
 import { ProductInspiration } from "./product-inspiration";
@@ -37,7 +38,12 @@ export function LaunchCatalogGrid({
               : product.handle === launchBundleHandle
                 ? launchCatalogCopy[locale].bundleCta
                 : launchCatalogCopy[locale].bowlCta}{" "}
-            ↗
+            <ArrowUpRight
+              size={16}
+              aria-hidden="true"
+              focusable="false"
+              className="inline-block shrink-0 align-text-bottom"
+            />
           </Link>
         </div>
       ))}
@@ -100,14 +106,25 @@ export function LaunchProductDetails({
             {locale === "sv"
               ? "Se paketet med teakskål + ljussand"
               : "See the teak bowl + candle sand bundle"}{" "}
-            ↗
+            <ArrowUpRight
+              size={16}
+              aria-hidden="true"
+              focusable="false"
+              className="inline-block shrink-0 align-text-bottom"
+            />
           </Link>
         )}
       </ProductPresentation>
       <ProductInspiration locale={locale} />
       <div className="catalog-back-link">
         <Link className="text-link" href={`/${locale}/shop`}>
-          {locale === "sv" ? "Se alla produkter" : "Explore all products"} ↗
+          {locale === "sv" ? "Se alla produkter" : "Explore all products"}{" "}
+          <ArrowUpRight
+            size={16}
+            aria-hidden="true"
+            focusable="false"
+            className="inline-block shrink-0 align-text-bottom"
+          />
         </Link>
       </div>
     </div>

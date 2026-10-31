@@ -9,6 +9,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { useCart } from "@/features/cart/cart-provider";
 import { cinematicCopy } from "@/features/seasonal-experience/copy";
 import { trackEvent } from "@/lib/analytics/client";
@@ -164,7 +165,11 @@ export function ProductDrawer({
                 href={`/${locale}/build-a-box?product=${encodeURIComponent(product.handle)}`}
               >
                 {copy.addToBox}
-                <span aria-hidden="true">↗</span>
+                <ArrowUpRight
+                  className="cinema-arrow"
+                  size={17}
+                  aria-hidden="true"
+                />
               </Link>
             )}
             <p className="cinema-delivery">
@@ -177,7 +182,11 @@ export function ProductDrawer({
               href={`/${locale}/products/${product.handle}`}
             >
               {copy.details}
-              <span aria-hidden="true"> ↗</span>
+              <ArrowUpRight
+                className="cinema-arrow"
+                size={15}
+                aria-hidden="true"
+              />
             </Link>
           </div>
         </Dialog.Content>
