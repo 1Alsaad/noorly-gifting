@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.8
 
+**Storefront follow-up, 31 October:** see [Storefront refresh](Noorly_Storefront_Refresh_2026-10-31.md) for the owner's video/browser repair and ecommerce design request, implementation, and verification limits. This does not change the supplier work below.
+
 Updated **30 October 2026**, Europe/Stockholm, for the candle-sand sourcing session. Read this first, then the [supplier handover](Noorly_Candle_Sand_Sourcing_2026-10-30.md) and the private quote ledger. This checkpoint adds supplier/reply continuity; it does not re-audit live commerce, analytics or advertising.
 
 ## Immediate objective

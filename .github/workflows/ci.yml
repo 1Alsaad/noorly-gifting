@@ -48,8 +48,8 @@ jobs:
           CART_COOKIE_SECRET: "ci-preview-only-dummy-secret-never-use-in-production"
           NEXT_PUBLIC_COMMERCE_PROVIDER: mock
           DEPLOYMENT_ENV: preview
-      - name: Install Chromium
-        run: pnpm exec playwright install --with-deps chromium
+      - name: Install browser engines
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
       - name: Browser and accessibility tests
         run: pnpm test:e2e
         env:

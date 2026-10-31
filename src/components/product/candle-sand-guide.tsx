@@ -5,43 +5,43 @@ import "./candle-sand-guide.css";
 
 const copy = {
   sv: {
-    label: "NYFIKEN PÅ LJUSSAND?",
-    title: "En liten guide till din ljusstund.",
+    label: "SÅ FUNGERAR DET",
+    title: "Lär känna ljussand",
     steps: [
       [
         "Välj din färg & doft",
-        "Varje färg har sin egen doft. Vill du ha det doftfritt? Välj vit, doftfri ljussand.",
+        "11 val, även vit och doftfri. 300 g och fyra vekar ingår.",
       ],
       [
-        "Använd ett lämpligt kärl",
-        "Du behöver ett obrännbart, värmetåligt kärl avsett för ljus. Tänd inte ljussand direkt i en träskål.",
+        "Välj rätt kärl",
+        "Använd ett obrännbart, värmetåligt ljuskärl. Tänd aldrig direkt i en träskål.",
       ],
       [
-        "Följ påsens anvisningar",
-        "300 g ljussand och fyra bomullsvekar ingår. Följ produktens instruktioner för vekar och användning. Lämna aldrig ett tänt ljus utan uppsikt.",
+        "Tänd med omtanke",
+        "Följ påsens instruktioner. Lämna aldrig ett tänt ljus utan uppsikt.",
       ],
     ],
-    note: "Skålen i filmen är en del av miljön. Ljussanden säljs separat; se produktbilder och innehåll för ditt val.",
+    note: "Ljussand säljs separat. En dekorativ teakskål ingår endast i paketet.",
     cta: "Hitta din färg & doft",
   },
   en: {
-    label: "NEW TO CANDLE SAND?",
-    title: "A little guide to your candle moment.",
+    label: "HOW IT WORKS",
+    title: "Meet candle sand",
     steps: [
       [
         "Choose your colour & scent",
-        "Each colour has its own fragrance. Prefer no fragrance? Choose white, unscented candle sand.",
+        "11 options, including white and unscented. 300 g and four wicks included.",
       ],
       [
-        "Use a suitable vessel",
-        "You need a noncombustible, heat-resistant vessel designed for candles. Never burn candle sand directly in a wooden bowl.",
+        "Choose the right vessel",
+        "Use a noncombustible, heat-resistant candle vessel. Never burn directly in a wooden bowl.",
       ],
       [
-        "Follow the pouch instructions",
-        "300 g of candle sand and four cotton wicks are included. Follow the product instructions for wicks and use. Never leave a lit candle unattended.",
+        "Light with care",
+        "Follow the pouch instructions. Never leave a lit candle unattended.",
       ],
     ],
-    note: "The bowl in the film is part of the setting. Candle sand is sold separately; check the product photographs and contents for your selection.",
+    note: "Candle sand is sold separately. A decorative teak bowl is included only in the bundle.",
     cta: "Find your colour & scent",
   },
 } as const;

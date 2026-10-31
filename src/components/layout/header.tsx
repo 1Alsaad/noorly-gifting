@@ -1,5 +1,10 @@
 "use client";
-import { launchCatalogCopy, launchCatalogHref } from "@/content/launch-catalog";
+import {
+  candleSandHandle,
+  teakBowlHandle,
+  launchCatalogCopy,
+  launchCatalogHref,
+} from "@/content/launch-catalog";
 import { launchBundleHandle } from "@/content/launch-bundle";
 import { isProductTestMode } from "@/config/product-test";
 import Link from "next/link";
@@ -21,12 +26,22 @@ export function Header({ locale }: { locale: Locale }) {
     path.replace(/^\/(sv|en)(?=\/|$)/, `/${other}`) +
     (query ? `?${query}` : "");
   const nav = [
-    { href: `/${locale}/shop`, label: t.shop },
+    {
+      href: `/${locale}/shop`,
+      label: locale === "sv" ? "Alla produkter" : "Shop all",
+    },
+    {
+      href: `/${locale}/products/${candleSandHandle}`,
+      label: locale === "sv" ? "Ljussand" : "Candle sand",
+    },
+    {
+      href: `/${locale}/products/${teakBowlHandle}`,
+      label: locale === "sv" ? "Teakskålar" : "Teak bowls",
+    },
     {
       href: `/${locale}/products/${launchBundleHandle}`,
       label: locale === "sv" ? "Paket" : "Bundle",
     },
-    { href: `/${locale}/about`, label: t.about },
   ];
   return (
     <>
@@ -35,7 +50,7 @@ export function Header({ locale }: { locale: Locale }) {
         <Link
           className="wordmark"
           href={`/${locale}`}
-          aria-label={`${brand.name} — ${t.about}`}
+          aria-label={`${brand.name} — ${locale === "sv" ? "Startsida" : "Home"}`}
         >
           {brand.name}
         </Link>

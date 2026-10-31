@@ -393,10 +393,10 @@ describe("separate products and the native bundle", () => {
       screen.getByRole("link", { name: /Choose colour & scent/ }),
     ).toHaveAttribute("href", "/en/products/candle-sand");
     expect(
-      screen.getByRole("link", { name: /Discover the teak bowl/ }),
+      screen.getByRole("link", { name: /View the teak bowl/ }),
     ).toHaveAttribute("href", "/en/products/teakb-37-dekorativ-teakskal");
     expect(
-      screen.getByRole("link", { name: /Choose your bundle/ }),
+      screen.getByRole("link", { name: /View the bundle/ }),
     ).toHaveAttribute("href", `/en/products/${launchBundleHandle}`);
     expect(screen.getByText(/From.*349/)).toBeVisible();
     expect(screen.getByText(/550/)).toBeVisible();

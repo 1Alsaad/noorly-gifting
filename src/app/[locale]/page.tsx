@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Gift, Package, Clock3, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getContentRepository } from "@/lib/content";
 import { getDictionary, isLocale } from "@/content/translations";
@@ -10,10 +10,12 @@ import {
   presentCatalogProduct,
 } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
-import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
+import { StorefrontHero } from "@/components/home/storefront-hero";
+import { PurchaseAnswers } from "@/components/product/purchase-confidence";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
+import "@/components/home/storefront.css";
 export async function generateMetadata({
   params,
 }: {
@@ -21,11 +23,10 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const t = getDictionary(locale);
   return pageMetadata(
     locale,
     "",
-    t.home.title.replace("\n", " "),
+    locale === "sv" ? "Ljussand & teakskålar" : "Candle sand & teak bowls",
     launchCatalogCopy[locale].description,
   );
 }
@@ -44,16 +45,6 @@ export default async function Home({
   const products = launches.map(({ product }) =>
     presentCatalogProduct(product, locale),
   );
-  const trustIcons = [Gift, Package, Clock3];
-  const trust = launches.some((launch) => launch.source === "shopify")
-    ? locale === "sv"
-      ? ["Utvalt av Noorly", "Se innehåll och produktbilder", "Säker betalning"]
-      : [
-          "Selected by Noorly",
-          "Explore the contents and photographs",
-          "Secure payment",
-        ]
-    : t.home.trust;
   return (
     <>
       <StructuredData
@@ -64,64 +55,41 @@ export default async function Home({
           url: brand.siteUrl,
         }}
       />
-      <CinematicExperience
+      <StorefrontHero
         locale={locale}
         products={products}
         scenes={season.scenes}
       />
-      <div className="cinema-collection-handoff">
-        <div className="trust-bar">
-          {trust.map((text, i) => {
-            const Icon = trustIcons[i];
-            return (
-              <div key={text}>
-                <Icon size={18} strokeWidth={1.2} />
-                <span>{text}</span>
-              </div>
-            );
-          })}
-        </div>
+      <div className="storefront-shopping">
         <section
-          className="section-wrap collection-section"
+          className="section-wrap collection-section storefront-collection"
           id="gifts"
           tabIndex={-1}
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">{launchCatalogCopy[locale].label}</p>
               <h2>{launchCatalogCopy[locale].title}</h2>
               <p>{launchCatalogCopy[locale].description}</p>
-              <p className="product-note">{t.deliveryText}</p>
             </div>
+            <Link className="text-link" href={`/${locale}/shop`}>
+              {locale === "sv" ? "Se alla produkter" : "Shop all"}
+              <ArrowUpRight size={17} />
+            </Link>
           </div>
           <LaunchCatalogGrid locale={locale} launches={launches} />
+          <p className="storefront-dispatch">{t.deliveryText}</p>
         </section>
       </div>
-      <CandleSandGuide locale={locale} showLink />
-      <section className="story-section section-wrap">
-        <p className="eyebrow">{t.home.storyLabel}</p>
-        <h2>{t.home.storyTitle}</h2>
-        <p>{t.home.storyText}</p>
-        <Link className="text-link" href={`/${locale}/about`}>
-          {t.home.storyCta}
-          <ArrowUpRight size={17} />
-        </Link>
-        <div className="story-mark" aria-hidden>
-          ∗
-        </div>
-      </section>
-      <section className="corporate-callout section-wrap">
+      <CandleSandGuide locale={locale} />
+      <section className="storefront-faq section-wrap">
         <div>
-          <p className="eyebrow">{t.corporate}</p>
-          <h2>{t.home.corporateTitle}</h2>
-        </div>
-        <div>
-          <p>{t.home.corporateText}</p>
-          <Link className="text-link" href={`/${locale}/corporate-gifting`}>
-            {t.corporate}
-            <ArrowRight size={17} />
+          <h2>{locale === "sv" ? "Bra att veta" : "Good to know"}</h2>
+          <Link className="text-link" href={`/${locale}/contact`}>
+            {locale === "sv" ? "Kontakta oss" : "Contact us"}
+            <ArrowUpRight size={17} />
           </Link>
         </div>
+        <PurchaseAnswers locale={locale} />
       </section>
     </>
   );

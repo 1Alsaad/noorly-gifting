@@ -140,7 +140,7 @@ summary {
   align-items: center;
 }
 .site-header {
-  height: 94px;
+  height: 78px;
   padding: 0 4.5vw;
   display: flex;
   align-items: center;
@@ -167,7 +167,7 @@ summary {
 .desktop-nav {
   display: flex;
   gap: 34px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .desktop-nav a {
   padding: 16px 0;
