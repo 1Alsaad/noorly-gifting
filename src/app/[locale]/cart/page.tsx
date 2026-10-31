@@ -32,10 +32,9 @@ export default async function CartPage({
   if (isPublicTestPreview()) redirect(`/${locale}/shop`);
   const t = getDictionary(locale);
   return (
-    <div className="section-wrap page-content">
+    <div className="section-wrap page-content cart-page">
       <TrackView name="cart_viewed" properties={{ locale }} />
       <div className="page-heading">
-        <p className="eyebrow">{t.edition}</p>
         <h1>{t.cart}</h1>
       </div>
       <CartView locale={locale} />

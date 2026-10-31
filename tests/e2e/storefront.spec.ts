@@ -446,13 +446,17 @@ test("locale links preserve the route and update the document language", async (
   await expect(page).toHaveURL("/en/shop");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(
-    page.getByRole("heading", { level: 1, name: "All gifts", exact: true }),
+    page.getByRole("heading", { level: 1, name: "Shop all", exact: true }),
   ).toBeVisible();
   await page.getByRole("link", { name: "Language: SV", exact: true }).click();
   await expect(page).toHaveURL("/sv/shop");
   await expect(page.locator("html")).toHaveAttribute("lang", "sv");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Alla gåvor", exact: true }),
+    page.getByRole("heading", {
+      level: 1,
+      name: "Alla produkter",
+      exact: true,
+    }),
   ).toBeVisible();
 });
 

@@ -5,34 +5,44 @@ import { getDictionary } from "@/content/translations";
 import type { Locale } from "@/types/commerce";
 import { ConsentSettingsButton } from "@/components/consent/consent-banner";
 import { customerWithdrawalLink } from "@/content/customer-policies";
+import { candleSandHandle, teakBowlHandle } from "@/content/launch-catalog";
+import { launchBundleHandle } from "@/content/launch-bundle";
 export function Footer({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
   const withdrawal = customerWithdrawalLink(locale);
   const groups = [
     {
-      title: t.footer.explore,
+      title: locale === "sv" ? "Handla" : "Shop",
       links: [
-        ["shop", t.shop],
-        ["collections/winter", t.collection],
-        ["corporate-gifting", t.corporate],
+        ["shop", locale === "sv" ? "Alla produkter" : "Shop all"],
+        [
+          `products/${candleSandHandle}`,
+          locale === "sv" ? "Ljussand" : "Candle sand",
+        ],
+        [
+          `products/${teakBowlHandle}`,
+          locale === "sv" ? "Teakskålar" : "Teak bowls",
+        ],
+        [
+          `products/${launchBundleHandle}`,
+          locale === "sv" ? "Paket" : "Bundle",
+        ],
       ],
     },
     {
       title: t.footer.help,
       links: [
-        ["about", t.about],
         ["faq", t.footer.faq],
         ["contact", t.footer.contact],
         ["shipping-returns", t.footer.shipping],
-        ["accessibility", t.footer.accessibility],
       ],
     },
     {
-      title: t.footer.details,
+      title: locale === "sv" ? "Noorly" : "Noorly",
       links: [
-        ["privacy", t.footer.privacy],
-        ["cookies", t.footer.cookies],
-        ["terms", t.footer.terms],
+        ["about", locale === "sv" ? "Om oss" : "Our story"],
+        ["corporate-gifting", t.corporate],
+        ["accessibility", t.footer.accessibility],
       ],
     },
   ];
@@ -43,7 +53,11 @@ export function Footer({ locale }: { locale: Locale }) {
           <Link href={`/${locale}`} className="wordmark">
             {brand.name}
           </Link>
-          <p>{t.footer.text}</p>
+          <p>
+            {locale === "sv"
+              ? "Ljussand, naturlig teak och små stunder hemma."
+              : "Candle sand, natural teak and little moments at home."}
+          </p>
           <a className="footer-email" href={`mailto:${brand.supportEmail}`}>
             {brand.supportEmail}
             <ArrowUpRight size={15} />
@@ -69,8 +83,12 @@ export function Footer({ locale }: { locale: Locale }) {
       </div>
       <div className="footer-bottom">
         <span>© 2026 {t.footer.rights}</span>
+        <nav className="footer-legal" aria-label={t.footer.details}>
+          <Link href={`/${locale}/privacy`}>{t.footer.privacy}</Link>
+          <Link href={`/${locale}/terms`}>{t.footer.terms}</Link>
+          <Link href={`/${locale}/cookies`}>{t.footer.cookies}</Link>
+        </nav>
         <ConsentSettingsButton locale={locale} />
-        <span>{t.edition}</span>
       </div>
     </footer>
   );

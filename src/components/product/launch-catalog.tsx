@@ -23,7 +23,7 @@ export function LaunchCatalogGrid({
   return (
     <div className="launch-catalog-grid">
       {launches.map(({ product }) => (
-        <div key={product.id}>
+        <div className="catalog-tile" key={product.id}>
           <ProductCard
             product={presentCatalogProduct(product, locale)}
             locale={locale}

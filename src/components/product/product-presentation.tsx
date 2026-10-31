@@ -8,6 +8,7 @@ import { ProductPurchase } from "./product-purchase";
 import { variantLabel } from "./variant-picker";
 import { launchProductDefinitions } from "@/content/launch-catalog";
 import { ProductOffers } from "./product-offers";
+import "./product-shopping.css";
 
 export function ProductPresentation({
   product,
@@ -38,9 +39,9 @@ export function ProductPresentation({
   return (
     <>
       <div
-        className={`product-detail${simple ? " product-detail-simple" : ""}`}
+        className={`product-detail product-shopping${simple ? " product-detail-simple" : ""}`}
       >
-        <div>
+        <div className="product-shopping-gallery">
           <ProductGallery
             key={variantId}
             images={galleryImages}
@@ -80,14 +81,16 @@ export function ProductPresentation({
               {product.category === "box" ? t.boxes : t.edition}
             </p>
           )}
-          <h1>{product.title[locale]}</h1>
-          {simple ? (
-            <p className="product-note purchase-contents">
-              {product.included?.[locale] ?? product.description[locale]}
-            </p>
-          ) : (
-            <p>{product.description[locale]}</p>
-          )}
+          <div className="product-shopping-heading">
+            <h1>{product.title[locale]}</h1>
+            {simple ? (
+              <p className="product-note purchase-contents">
+                {product.included?.[locale] ?? product.description[locale]}
+              </p>
+            ) : (
+              <p>{product.description[locale]}</p>
+            )}
+          </div>
           {product.highlights && !simple && (
             <ul className="product-highlights">
               {product.highlights.map((item) => (
@@ -102,7 +105,7 @@ export function ProductPresentation({
             onVariantChange={setVariantId}
             stickyBoundary={offersRef}
           />
-          {children}
+          <div className="product-shopping-details">{children}</div>
         </div>
       </div>
       {offers && (
