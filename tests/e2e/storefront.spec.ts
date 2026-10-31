@@ -9,6 +9,7 @@ import {
 import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { capturePageForReview } from "./visual-review";
 
 test.beforeEach(async ({ page }, info) => {
   // Isolate rate-limit counters between independent browser sessions without changing production limits.
@@ -28,14 +29,27 @@ async function rejectOptional(page: Page) {
 }
 async function expectBowlGallery(page: Page) {
   await page.getByText("About the photographs", { exact: true }).click();
-  const firstPhoto = launchBundlePhotos[0];
   const gallery = page.locator("main .gallery-main");
   const image = gallery.locator("img");
   await expect(image).toBeVisible();
-  await expect(image).toHaveAttribute("alt", firstPhoto.alt.en);
-  await expect(gallery).toHaveAttribute("href", firstPhoto.url);
+  await expect(image).toHaveAttribute(
+    "alt",
+    "Alva decorative teak bowl, styled product image",
+  );
+  await expect(gallery).toHaveAttribute(
+    "href",
+    "/media/products/alva/noorly-alva-studio.webp",
+  );
   const imageSource = new URL((await image.getAttribute("src"))!, page.url());
-  expect(imageSource.searchParams.get("url")).toBe(firstPhoto.url);
+  expect(imageSource.searchParams.get("url")).toBe(
+    "/media/products/alva/noorly-alva-studio.webp",
+  );
+  await expect(
+    page.getByText(
+      "Styled product image. Explore the other photos for bowl details.",
+      { exact: true },
+    ),
+  ).toBeVisible();
   await expect(page.locator("main .catalog-photo-note")).toHaveText(
     "Each bowl has a unique shape and grain. Fruit and styling accessories are not included.",
   );
@@ -101,7 +115,19 @@ test("separate products and the bundle are keyboard accessible", async ({
     page.getByText(/wipe gently with a soft, dry cloth/),
   ).toBeAttached();
   await expectBowlGallery(page);
-  await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(3);
+  await expect(page.locator("main .gallery-thumbnails button")).toHaveCount(4);
+  for (const [index, photo] of launchBundlePhotos.entries()) {
+    await page
+      .getByRole("button", {
+        name: `Image ${index + 2}: ${photo.alt.en}`,
+        exact: true,
+      })
+      .click();
+    await expect(page.locator("main .gallery-main")).toHaveAttribute(
+      "href",
+      photo.url,
+    );
+  }
   await expect(page.locator(".product-detail").getByRole("radio")).toHaveCount(
     0,
   );
@@ -123,7 +149,7 @@ test("separate products and the bundle are keyboard accessible", async ({
 
 test("product variants, cart quantities and preview checkout work without optional consent", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.goto("/en/products/winter-candle");
   await rejectOptional(page);
   await page.getByLabel("Choose an option").selectOption("winter-candle-large");
@@ -149,6 +175,22 @@ test("product variants, cart quantities and preview checkout work without option
     .getByRole("button", { name: "Quantity −: Winter Candle", exact: true })
     .click();
   await expect(page.getByLabel("Quantity", { exact: true })).toHaveText("1");
+  for (const viewport of [
+    { width: 1440, height: 1000 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth - innerWidth,
+      ),
+    ).toBeLessThanOrEqual(1);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `cart-filled-${viewport.width}.png`,
+    );
+  }
   await page
     .getByRole("button", { name: "Continue to checkout", exact: true })
     .click();
@@ -367,6 +409,9 @@ test("important shopping pages pass automated WCAG accessibility checks", async 
     "/en/products/" + teakBowlHandle,
     "/en/collections/winter",
     "/en/cart",
+    "/en/about",
+    "/en/faq",
+    "/en/contact",
   ]) {
     await test.step(`accessibility ${path}`, async () => {
       await page.goto(path);
@@ -427,7 +472,7 @@ test("the conventional catalogue remains useful without JavaScript", async ({
     await expectBowlGallery(page);
     for (const [index, photo] of launchBundlePhotos.entries()) {
       await expect(
-        page.getByRole("link", { name: `Image ${index + 1} ·`, exact: true }),
+        page.getByRole("link", { name: `Image ${index + 2} ·`, exact: true }),
       ).toHaveAttribute("href", photo.url);
     }
   } finally {

@@ -48,11 +48,11 @@ export function Header({ locale }: { locale: Locale }) {
       <BrandProof locale={locale} />
       <header className="site-header">
         <Link
-          className="wordmark"
+          className="wordmark campaign-wordmark"
           href={`/${locale}`}
           aria-label={`${brand.name} — ${locale === "sv" ? "Startsida" : "Home"}`}
         >
-          {brand.name}
+          noorly.
         </Link>
         <nav className="desktop-nav" aria-label={t.shop}>
           {nav.map((item) => (

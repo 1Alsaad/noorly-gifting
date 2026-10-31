@@ -109,9 +109,13 @@ test("inline offers fit a narrow phone and keep preview purchases disabled", asy
     offers.getByRole("button", { name: "Checkout with Luma + Alva" }),
   ).toBeDisabled();
   const inspiration = page.getByRole("region", { name: "Home inspiration" });
-  await expect(inspiration.getByRole("img")).toHaveCount(3);
+  await expect(inspiration.getByRole("img")).toHaveCount(1);
+  await expect(inspiration.getByRole("img")).toHaveAttribute(
+    "src",
+    /noorly-alva-editorial/,
+  );
   await expect(
-    page.getByText(/Styled inspiration\..*Accessories are not included/),
+    page.getByText(/Styled scene\..*Accessories are not included/),
   ).toBeVisible();
   expect(
     await page.evaluate(

@@ -84,16 +84,19 @@ export function ProductOffers({
   const money = (amount: number) =>
     formatMoney({ amount, currencyCode: "SEK" }, locale);
   const photos = [
-    bowl.images[0],
+    {
+      url: "/media/products/alva/noorly-alva-studio.webp",
+      alt: sv
+        ? "Alva dekorativ teakskål, stylad produktbild"
+        : "Alva decorative teak bowl, styled product image",
+    },
     selectedSand?.images?.[0] ?? sand.images[0],
   ].filter(Boolean);
   return (
     <section className="product-offers" aria-labelledby={`${id}-title`}>
       <div className="offer-intro">
         <p className="eyebrow">
-          {sv
-            ? "Fint var för sig. Bättre tillsammans."
-            : "Lovely alone. Better together."}
+          {sv ? "KOMPLETTERA DIN STUND" : "MAKE IT A PAIR"}
         </p>
         <h2 id={`${id}-title`}>
           {sv ? "Din stund, ditt val." : "Your moment, your choice."}

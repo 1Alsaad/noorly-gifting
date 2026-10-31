@@ -53,8 +53,12 @@ export function Footer({ locale }: { locale: Locale }) {
       </div>
       <div className="footer-top">
         <div>
-          <Link href={`/${locale}`} className="wordmark">
-            {brand.name}
+          <Link
+            href={`/${locale}`}
+            className="wordmark campaign-wordmark"
+            aria-label={brand.name}
+          >
+            noorly.
           </Link>
           <p>
             {locale === "sv"

@@ -117,6 +117,11 @@ test("colour choices work by keyboard without motion and carry through to the mo
     await studio.screenshot({
       path: testInfo.outputPath("colour-studio-mobile-390.png"),
     });
+    const material = page.locator(".material-story");
+    await loadSectionImages(material);
+    await material.screenshot({
+      path: testInfo.outputPath("material-story-mobile-390.png"),
+    });
   }
 
   await studio.getByRole("link", { name: "Discover Dusty Rose" }).click();

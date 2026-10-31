@@ -3,17 +3,19 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
+import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import type { Locale, ProductImage } from "@/types/commerce";
 
 export function ProductGallery({
   images,
   locale,
   title,
+  styledImageUrl,
 }: {
   images: ProductImage[];
   locale: Locale;
   title: string;
+  styledImageUrl?: string;
 }) {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -37,7 +39,7 @@ export function ProductGallery({
         <div className="gallery-stage">
           <Dialog.Trigger asChild>
             <a
-              className="product-detail-image gallery-main"
+              className={`product-detail-image gallery-main${current.url === styledImageUrl ? " is-styled" : ""}`}
               href={current.url}
               onClick={(event) => {
                 event.preventDefault();
@@ -103,7 +105,7 @@ export function ProductGallery({
                     : "Close image gallery"
                 }
               >
-                ×
+                <X size={22} aria-hidden="true" />
               </Dialog.Close>
             </div>
             <div
@@ -184,6 +186,13 @@ export function ProductGallery({
       <p className="gallery-caption">
         {index + 1} / {images.length} · {title}
       </p>
+      {current.url === styledImageUrl && (
+        <p className="gallery-image-credit">
+          {locale === "sv"
+            ? "Stylad produktbild. Se fler bilder för skålens detaljer."
+            : "Styled product image. Explore the other photos for bowl details."}
+        </p>
+      )}
       <noscript>
         <p>
           {images.map((image, i) => (
