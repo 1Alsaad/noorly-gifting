@@ -175,7 +175,8 @@ function HeroVideo({
   function togglePlayback() {
     const video = videoRef.current;
     if (!video) return;
-    if (!video.paused && !video.ended) {
+    // Match the displayed action: paused becomes false before buffering ends.
+    if (playing && !failed) {
       userPaused.current = true;
       video.pause();
       return;

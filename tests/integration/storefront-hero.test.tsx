@@ -92,6 +92,32 @@ describe("storefront hero playback", () => {
     expect(screen.getByRole("button", { name: "Play video" })).toBeVisible();
   });
 
+  it("honours the visible Play action while autoplay is still buffering", async () => {
+    let finishAutoplay: () => void = () => {};
+    vi.mocked(HTMLMediaElement.prototype.play).mockImplementationOnce(function (
+      this: HTMLMediaElement,
+    ) {
+      started.add(this);
+      paused.delete(this);
+      // Browsers clear paused before a decoded frame produces `playing`.
+      return new Promise<void>((resolve) => {
+        finishAutoplay = resolve;
+      });
+    });
+    const { container } = renderHero();
+    expect(container.querySelector("video")!.paused).toBe(false);
+    expect(screen.getByRole("button", { name: "Play video" })).toBeVisible();
+    const pauseCalls = vi.mocked(HTMLMediaElement.prototype.pause).mock.calls
+      .length;
+
+    fireEvent.click(screen.getByRole("button", { name: "Play video" }));
+
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(2);
+    expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(pauseCalls);
+    expect(screen.getByRole("button", { name: "Pause video" })).toBeVisible();
+    await act(async () => finishAutoplay());
+  });
+
   it.each(["reduced motion", "data saver"])(
     "respects %s while allowing explicit playback",
     (preference) => {

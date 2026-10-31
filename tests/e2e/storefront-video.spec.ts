@@ -69,6 +69,9 @@ for (const viewport of [
   }) => {
     test.setTimeout(90_000);
     await page.setViewportSize(viewport);
+    // Decode the original MP4 through an explicit gesture; autoplay policy is
+    // covered separately so buffering cannot race the Play/Pause control here.
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/en");
     await rejectOptional(page);
     const video = page.locator(".storefront-hero video");
@@ -79,7 +82,8 @@ for (const viewport of [
     await expect(video).toHaveJSProperty("muted", true);
     await expect(video).toHaveJSProperty("playsInline", true);
     const play = page.getByRole("button", { name: "Play video", exact: true });
-    if (await play.isVisible()) await play.click();
+    await expect(play).toBeVisible();
+    await play.click();
     await expect
       .poll(
         () =>
