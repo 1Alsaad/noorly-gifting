@@ -59,6 +59,7 @@ export function Header({ locale }: { locale: Locale }) {
             <Link
               href={item.href}
               key={item.href}
+              aria-current={path === item.href ? "page" : undefined}
               onClick={() =>
                 trackEvent({
                   name: "navigation_clicked",
@@ -110,6 +111,7 @@ export function Header({ locale }: { locale: Locale }) {
                 <Link
                   href={item.href}
                   key={item.href}
+                  aria-current={path === item.href ? "page" : undefined}
                   onClick={(event) =>
                     event.currentTarget
                       .closest("details")
@@ -117,8 +119,31 @@ export function Header({ locale }: { locale: Locale }) {
                   }
                 >
                   {item.label}
+                  <ArrowUpRight size={18} aria-hidden="true" />
                 </Link>
               ))}
+              <div className="mobile-menu-help">
+                <Link
+                  href={`/${locale}/about`}
+                  onClick={(event) =>
+                    event.currentTarget
+                      .closest("details")
+                      ?.removeAttribute("open")
+                  }
+                >
+                  {locale === "sv" ? "Om Noorly" : "About Noorly"}
+                </Link>
+                <Link
+                  href={`/${locale}/contact`}
+                  onClick={(event) =>
+                    event.currentTarget
+                      .closest("details")
+                      ?.removeAttribute("open")
+                  }
+                >
+                  {locale === "sv" ? "Kundservice" : "Customer care"}
+                </Link>
+              </div>
             </nav>
           </details>
         </div>

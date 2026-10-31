@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { brand } from "@/config/brand";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
 import "@/styles/globals.css";
+import "@/styles/retail.css";
 export const metadata: Metadata = {
   metadataBase: new URL(brand.siteUrl),
   title: { default: brand.name, template: `%s · ${brand.name}` },
@@ -39,8 +40,8 @@ export default async function RootLayout({
   const h = await headers();
   const locale = h.get("x-locale") === "en" ? "en" : "sv";
   return (
-    <html lang={locale} data-clarity-mask="true">
-      <body>{children}</body>
+    <html lang={locale} data-clarity-mask="true" data-scroll-behavior="smooth">
+      <body className="noorly-store">{children}</body>
     </html>
   );
 }

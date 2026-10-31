@@ -2,6 +2,8 @@
 
 The owner requested Safari video repair, a more conventional ecommerce layout inspired by Scandlights and MyObvi, less text, and removal of customer-facing AI wording. The owner explicitly clarified that the original scroll-controlled video must remain, with no play/pause/stop controls in either the main experience or its fallback.
 
+The subsequent rest-of-site layout changes are recorded in [Retail layout refresh](Noorly_Retail_Layout_Refresh_2026-10-31.md).
+
 ## Implementation
 
 - The homepage uses the original `CinematicExperience`, original desktop/mobile footage and scroll choreography. Scrolling moves the paused video forwards or backwards; it does not autoplay or loop. The temporary `StorefrontHero` and its player controls were removed.

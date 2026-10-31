@@ -1,11 +1,19 @@
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Mail } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale } from "@/content/translations";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { StructuredData } from "@/components/ui/structured-data";
 import { getCustomerPolicy } from "@/content/customer-policies";
-import { CustomerPolicyContent } from "@/components/content/customer-policy";
+import {
+  CustomerCareNavigation,
+  CustomerPolicyContent,
+} from "@/components/content/customer-policy";
+import { launchBundlePhotos } from "@/content/launch-bundle";
+import "@/styles/customer-pages.css";
+
 type Props = { params: Promise<{ locale: string; page: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, page } = await params;
@@ -22,50 +30,115 @@ export default async function InformationPage({ params }: Props) {
   const { locale, page } = await params;
   if (!isLocale(locale)) notFound();
   const policy = getCustomerPolicy(locale, page);
-  if (policy) return <CustomerPolicyContent policy={policy} />;
+  if (policy)
+    return (
+      <CustomerPolicyContent policy={policy} locale={locale} page={page} />
+    );
   const t = getDictionary(locale);
   if (!Object.hasOwn(t.pages, page)) notFound();
   const content = t.pages[page as keyof typeof t.pages];
+  const sv = locale === "sv";
+  const about = page === "about";
+  const faq = page === "faq";
+  const title = about
+    ? sv
+      ? "Om Noorly"
+      : "About Noorly"
+    : faq
+      ? sv
+        ? "Vanliga frågor"
+        : "Frequently asked questions"
+      : content.title;
   return (
-    <div className="section-wrap page-content information-page">
-      <div className="page-heading">
-        <p className="eyebrow">{content.eyebrow}</p>
-        <h1>{content.title}</h1>
+    <div
+      className={`section-wrap customer-pages${about ? " customer-about" : ""}`}
+    >
+      <div className="customer-page-heading">
+        <p className="eyebrow">{about ? "NOORLY" : content.eyebrow}</p>
+        <h1>{title}</h1>
+        {!about && <p>{content.text}</p>}
       </div>
-      <div className="prose">
-        <p className="prose-lead">{content.text}</p>
-        <p>{content.extra}</p>
-        {page === "faq" && (
-          <>
-            <StructuredData
-              data={{
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                mainEntity: t.faqs.map((f) => ({
-                  "@type": "Question",
-                  name: f.q,
-                  acceptedAnswer: { "@type": "Answer", text: f.a },
-                })),
-              }}
+      {!about && <CustomerCareNavigation locale={locale} activePage={page} />}
+      {about ? (
+        <section className="customer-about-story">
+          <div className="customer-about-image">
+            <Image
+              src={launchBundlePhotos[0].url}
+              alt={launchBundlePhotos[0].alt[locale]}
+              width={900}
+              height={900}
+              sizes="(max-width: 760px) 90vw, 44vw"
             />
-            {t.faqs.map((f) => (
-              <details className="faq-item" key={f.q}>
-                <summary>{f.q}</summary>
-                <p>{f.a}</p>
-              </details>
-            ))}
-          </>
-        )}
-        <p>
-          <Link href={`/${locale}/shop`} className="text-link">
-            {t.browse} ↗
-          </Link>
-        </p>
-        <p>
-          <a href={`mailto:${brand.supportEmail}`} className="text-link">
-            {t.footer.contact}: {brand.supportEmail} ↗
+          </div>
+          <div className="customer-about-copy">
+            <h2>
+              {sv ? "En plats för det enkla." : "Room for the simple things."}
+            </h2>
+            <p>{content.text}</p>
+            <p>{content.extra}</p>
+            <Link className="button button-dark" href={`/${locale}/shop`}>
+              {sv ? "Upptäck kollektionen" : "Explore the collection"}
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <div className="customer-information-layout">
+          <div className="customer-information-body">
+            {faq ? (
+              <>
+                <StructuredData
+                  data={{
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    mainEntity: t.faqs.map((f) => ({
+                      "@type": "Question",
+                      name: f.q,
+                      acceptedAnswer: { "@type": "Answer", text: f.a },
+                    })),
+                  }}
+                />
+                <div className="customer-faq-list">
+                  {t.faqs.map((f) => (
+                    <details className="faq-item" key={f.q}>
+                      <summary>{f.q}</summary>
+                      <p>{f.a}</p>
+                    </details>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <p>{content.extra}</p>
+            )}
+          </div>
+          <aside className="customer-contact-card">
+            <Mail size={25} strokeWidth={1.4} aria-hidden="true" />
+            <h2>{sv ? "Vi hjälper dig gärna" : "We’re here to help"}</h2>
+            <p>
+              {faq
+                ? content.extra
+                : sv
+                  ? "Hör av dig om du har en fråga eller behöver hjälp."
+                  : "Get in touch with a question or if you need a hand."}
+            </p>
+            <Link className="text-link" href={`/${locale}/contact`}>
+              {sv ? "Kontakta oss" : "Contact us"}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </Link>
+          </aside>
+        </div>
+      )}
+      <div className="customer-page-bottom">
+        <Link className="text-link" href={`/${locale}/shop`}>
+          {t.browse}
+          <ArrowRight size={17} aria-hidden="true" />
+        </Link>
+        {about && (
+          <a className="text-link" href={`mailto:${brand.supportEmail}`}>
+            {brand.supportEmail}
+            <ArrowUpRight size={17} aria-hidden="true" />
           </a>
-        </p>
+        )}
       </div>
     </div>
   );

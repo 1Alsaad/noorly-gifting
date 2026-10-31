@@ -3,6 +3,7 @@
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import type { Locale, ProductImage } from "@/types/commerce";
 
 export function ProductGallery({
@@ -33,32 +34,58 @@ export function ProductGallery({
   return (
     <div className="product-gallery">
       <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Trigger asChild>
-          <a
-            className="product-detail-image gallery-main"
-            href={current.url}
-            onClick={(event) => {
-              event.preventDefault();
-              setOpen(true);
-            }}
-            aria-label={`${locale === "sv" ? "Öppna stor bild" : "Open full-size image"}: ${title}`}
-          >
-            <Image
-              src={current.url}
-              alt={current.alt}
-              fill
-              sizes="(max-width:760px) 90vw, 50vw"
-              priority
-            />
-            <span className="gallery-zoom">
-              {locale === "sv" ? "Visa större +" : "View larger +"}
-            </span>
-          </a>
-        </Dialog.Trigger>
+        <div className="gallery-stage">
+          <Dialog.Trigger asChild>
+            <a
+              className="product-detail-image gallery-main"
+              href={current.url}
+              onClick={(event) => {
+                event.preventDefault();
+                setOpen(true);
+              }}
+              aria-label={`${locale === "sv" ? "Öppna stor bild" : "Open full-size image"}: ${title}`}
+            >
+              <Image
+                src={current.url}
+                alt={current.alt}
+                fill
+                sizes="(max-width:760px) 94vw, (max-width:1200px) 52vw, 660px"
+                priority
+              />
+              <span className="gallery-position" aria-hidden="true">
+                {index + 1} / {images.length}
+              </span>
+              <span className="gallery-zoom">
+                <Expand size={14} aria-hidden="true" />
+                {locale === "sv" ? "Visa större +" : "View larger +"}
+              </span>
+            </a>
+          </Dialog.Trigger>
+          {images.length > 1 && (
+            <div className="gallery-navigation">
+              <button
+                type="button"
+                onClick={() => move(-1)}
+                aria-label={
+                  locale === "sv" ? "Föregående bild" : "Previous image"
+                }
+              >
+                <ChevronLeft size={20} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={() => move(1)}
+                aria-label={locale === "sv" ? "Nästa bild" : "Next image"}
+              >
+                <ChevronRight size={20} aria-hidden="true" />
+              </button>
+            </div>
+          )}
+        </div>
         <Dialog.Portal>
-          <Dialog.Overlay className="gallery-overlay" />
+          <Dialog.Overlay className="gallery-overlay product-shopping-overlay" />
           <Dialog.Content
-            className="gallery-lightbox"
+            className="gallery-lightbox product-shopping-lightbox"
             onKeyDown={(event) => {
               if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                 event.preventDefault();

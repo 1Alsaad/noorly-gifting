@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { Product, Locale } from "@/types/commerce";
 import { formatMoney } from "@/lib/utils/money";
 import { getDictionary } from "@/content/translations";
-import { candleSandHandle } from "@/content/launch-catalog";
+import { candleSandHandle, teakBowlHandle } from "@/content/launch-catalog";
 import { launchBundleHandle } from "@/content/launch-bundle";
 export function ProductCard({
   product,
@@ -18,6 +18,7 @@ export function ProductCard({
 }) {
   const t = getDictionary(locale);
   const bundle = product.handle === launchBundleHandle;
+  const colours = product.variants.filter((variant) => variant.color);
   return (
     <article className={`product-card product-${product.handle}`}>
       <Link
@@ -58,9 +59,15 @@ export function ProductCard({
               : "Bundle"
             : index !== undefined
               ? `0${index + 1}`
-              : product.category === "box"
-                ? t.boxes
-                : t.items}
+              : product.handle === candleSandHandle
+                ? "300 g"
+                : product.category === "box"
+                  ? t.boxes
+                  : product.handle === teakBowlHandle
+                    ? locale === "sv"
+                      ? "Dekorativ teak"
+                      : "Decorative teak"
+                    : t.items}
         </span>
         <span className="product-arrow">
           <ArrowUpRight size={20} />
@@ -86,30 +93,22 @@ export function ProductCard({
       {isProductTestMode() && product.category === "box" && (
         <p className="product-note">{productTestCopy[locale].concept}</p>
       )}
-      {product.variants.some((variant) => variant.color) && (
+      {colours.length > 0 && (
         <Link
           className="product-colour-summary"
           href={`/${locale}/products/${product.handle}`}
         >
           <span className="product-mini-swatches" aria-hidden="true">
-            {product.variants
-              .filter(
-                (variant) =>
-                  variant.sku !== "CSand-11" &&
-                  variant.sku !== "NOORLY-LJUSSTUND-CSand-11",
-              )
-              .map((variant) => (
-                <i
-                  key={variant.id}
-                  style={{ backgroundColor: variant.color?.hex }}
-                />
-              ))}
+            {colours.slice(0, 5).map((variant) => (
+              <i
+                key={variant.id}
+                style={{ backgroundColor: variant.color?.hex }}
+              />
+            ))}
           </span>
           <span>
-            {locale === "sv"
-              ? "11 färg- & doftval"
-              : "11 colour & scent options"}{" "}
-            ↗
+            {colours.length}{" "}
+            {locale === "sv" ? "färg- & doftval" : "colour & scent options"}
           </span>
         </Link>
       )}

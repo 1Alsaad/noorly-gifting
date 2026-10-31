@@ -69,6 +69,7 @@ export function VariantPicker({
             key={variant.id}
             title={variantLabel(variant, locale)}
             className="variant-swatch"
+            data-available={variant.available}
           >
             <input
               type="radio"

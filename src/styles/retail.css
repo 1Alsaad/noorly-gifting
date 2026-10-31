@@ -1,0 +1,495 @@
+.noorly-store {
+  --ivory: #faf8f3;
+  --paper: #eee8de;
+  --ink: #292725;
+  --muted: #68615a;
+  --line: #ded8cf;
+  --burgundy: #582a2f;
+  padding-bottom: 0;
+}
+.noorly-store:has(.preview-ribbon) {
+  padding-bottom: 25px;
+}
+.noorly-store .section-wrap {
+  max-width: 1440px;
+  padding-inline: clamp(20px, 4.5vw, 64px);
+}
+.noorly-store .site-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 28px;
+  height: 78px;
+  padding-inline: clamp(20px, 4.5vw, 64px);
+  background: #fffefa;
+  border-color: #e9e4dc;
+}
+.noorly-store .site-header > .wordmark {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 36px;
+  letter-spacing: 0.12em;
+}
+.noorly-store .desktop-nav {
+  grid-column: 1;
+  grid-row: 1;
+  gap: 22px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.noorly-store .desktop-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 7px;
+  text-decoration-thickness: 1px;
+}
+.noorly-store .header-actions {
+  grid-column: 3;
+  justify-content: end;
+  gap: 22px;
+}
+.noorly-store .bag-count {
+  background: var(--burgundy);
+  color: white;
+  border: 0;
+  font-size: 10px;
+}
+.noorly-store .brand-proof {
+  background: var(--burgundy);
+  padding-block: 8px;
+  font-size: 10px;
+  letter-spacing: 0.015em;
+}
+.noorly-store .page-content {
+  padding-top: 36px;
+  padding-bottom: 72px;
+}
+.noorly-store .breadcrumb {
+  margin-bottom: 28px;
+  font-size: 11px;
+}
+.noorly-store .shop-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 0 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--line);
+}
+.noorly-store .shop-heading h1 {
+  font-size: clamp(36px, 4vw, 54px);
+  margin: 0 0 12px;
+  letter-spacing: -0.035em;
+}
+.shop-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.shop-count {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--muted);
+  padding-bottom: 2px;
+}
+.noorly-store .launch-catalog-grid {
+  max-width: none;
+  gap: 24px;
+  align-items: stretch;
+}
+.noorly-store .launch-catalog-grid > .catalog-tile {
+  min-width: 0;
+  gap: 0;
+  padding: 0 0 20px;
+  background: #fffefa;
+  border: 1px solid #e9e4dc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.noorly-store .launch-catalog-grid .product-image {
+  background: #f0ece5;
+  aspect-ratio: 1;
+}
+.noorly-store .launch-catalog-grid .product-image > img {
+  padding: 0;
+  object-fit: cover;
+}
+.noorly-store
+  .launch-catalog-grid
+  .product-teakb-37-dekorativ-teakskal
+  .product-image
+  > img {
+  padding: 16px;
+  object-fit: contain;
+  background: #f5f2eb;
+}
+.noorly-store .launch-catalog-grid .product-number {
+  background: #fffefa;
+  color: var(--ink);
+  padding: 5px 10px;
+  border-radius: 3px;
+  top: 14px;
+  left: 14px;
+  font-size: 10px;
+  letter-spacing: 0;
+}
+.noorly-store .launch-catalog-grid .product-caption {
+  padding: 20px 20px 0;
+  gap: 9px;
+}
+.noorly-store .launch-catalog-grid .product-caption h3 {
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.4;
+  min-height: 2.8em;
+  letter-spacing: -0.025em;
+}
+.noorly-store .launch-catalog-grid .product-caption > span {
+  font-size: 16px;
+  font-weight: 500;
+}
+.noorly-store .launch-catalog-grid .product-card > p {
+  margin: 10px 20px 0;
+  max-width: none;
+  min-height: 3em;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.noorly-store .launch-catalog-grid .product-colour-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin: 14px 20px 0;
+  padding: 0;
+  min-height: 32px;
+  font-size: 11px;
+}
+.noorly-store .product-mini-swatches {
+  gap: 0;
+}
+.noorly-store .product-mini-swatches i {
+  width: 17px;
+  height: 17px;
+  border: 2px solid #fffefa;
+  box-shadow: 0 0 0 1px #d8d1c6;
+  margin-right: -3px;
+}
+.noorly-store .launch-catalog-grid .catalog-product-cta {
+  width: calc(100% - 40px);
+  margin: auto 20px 0;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--burgundy);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+.noorly-store .launch-catalog-grid .product-card {
+  padding-bottom: 20px;
+}
+.noorly-store .catalog-product-cta:hover {
+  background: #713a42;
+}
+.noorly-store .bundle-card-photos {
+  inset: 0;
+  gap: 2px;
+  background: #e8e2d8;
+}
+.noorly-store .bundle-card-photo {
+  background: #f5f2eb;
+}
+.noorly-store .bundle-card-photo img {
+  padding: 6px;
+  object-fit: contain;
+}
+.shop-assistance {
+  margin-top: 44px;
+  padding: 28px 32px;
+  background: var(--paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  border-radius: 6px;
+}
+.shop-assistance h2 {
+  font-size: 27px;
+  margin: 0 0 6px;
+}
+.shop-assistance p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+.shop-assistance .text-link {
+  flex-shrink: 0;
+}
+.noorly-store .storefront-collection {
+  padding-block: 56px;
+}
+.noorly-store .storefront-collection .section-heading h2 {
+  font-size: clamp(30px, 3vw, 42px);
+}
+.noorly-store .storefront-dispatch {
+  margin-top: 24px;
+  padding-top: 16px;
+}
+.noorly-store .collection-hero {
+  min-height: 360px;
+  height: 42vw;
+  max-height: 480px;
+}
+.noorly-store .collection-hero h1 {
+  font-size: clamp(38px, 5vw, 64px);
+}
+.noorly-store .site-footer {
+  padding: 56px clamp(20px, 4.5vw, 64px) 24px;
+  background: #302b28;
+  color: #faf6ef;
+}
+.noorly-store .footer-top {
+  max-width: 1312px;
+  margin: 0 auto 44px;
+  grid-template-columns: 1.8fr 1fr 1.2fr 1fr;
+  gap: 40px;
+}
+.noorly-store .footer-top .wordmark {
+  font-size: 36px;
+}
+.noorly-store .footer-top > div:first-child > p {
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 29ch;
+  margin: 20px 0;
+  color: #d9d1c8;
+}
+.noorly-store .footer-email {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.noorly-store .footer-top h2 {
+  color: #fffaf3;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  margin-bottom: 18px;
+}
+.noorly-store .footer-top li {
+  font-size: 12px;
+  margin: 10px 0;
+  color: #ded6cc;
+}
+.noorly-store .footer-top li a {
+  display: inline-block;
+  padding-block: 3px;
+}
+.noorly-store .footer-bottom {
+  max-width: 1312px;
+  margin: auto;
+  border-color: #65584e;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: #d9d1c8;
+}
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.noorly-store .footer-bottom button {
+  color: inherit;
+  font-size: 11px;
+}
+.noorly-store .site-footer :focus-visible {
+  outline-color: #fff;
+}
+@media (max-width: 1150px) {
+  .noorly-store .site-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .noorly-store .desktop-nav {
+    gap: 18px;
+  }
+  .noorly-store .header-actions {
+    gap: 18px;
+  }
+  .noorly-store .site-header > .wordmark {
+    font-size: 32px;
+  }
+  .noorly-store .bag-label {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .noorly-store .desktop-nav {
+    display: none;
+  }
+  .noorly-store .mobile-menu {
+    display: block;
+  }
+  .noorly-store .mobile-menu summary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-height: 44px;
+    list-style: none;
+    cursor: pointer;
+  }
+  .noorly-store .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .noorly-store .mobile-menu nav {
+    position: absolute;
+    top: 78px;
+    left: 0;
+    right: 0;
+    max-height: calc(100dvh - 140px);
+    overflow: auto;
+    padding: 16px 24px 24px;
+    border-block: 1px solid var(--line);
+    background: #fffefa;
+    box-shadow: 0 15px 20px #29272512;
+  }
+  .noorly-store .mobile-menu nav > a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 17px 0;
+    font-size: 19px;
+    border-bottom: 1px solid #eee8de;
+  }
+  .mobile-menu-help {
+    padding-top: 16px;
+    display: flex;
+    gap: 24px;
+  }
+  .noorly-store .mobile-menu-help a {
+    padding: 8px 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .noorly-store .footer-top {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .noorly-store .footer-top > div:first-child {
+    grid-column: 1 / -1;
+  }
+  .noorly-store .footer-top > div:first-child > p {
+    max-width: none;
+  }
+}
+@media (max-width: 680px) {
+  .noorly-store .site-header {
+    height: 70px;
+  }
+  .noorly-store .mobile-menu nav {
+    top: 70px;
+  }
+  .noorly-store .site-header > .wordmark {
+    font-size: 28px;
+  }
+  .noorly-store .header-actions {
+    gap: 12px;
+  }
+  .noorly-store .brand-proof {
+    padding: 7px 16px;
+    gap: 4px 12px;
+    font-size: 9px;
+  }
+  .noorly-store .page-content {
+    padding-top: 24px;
+    padding-bottom: 44px;
+  }
+  .noorly-store .shop-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0 0 22px;
+    margin-bottom: 20px;
+  }
+  .shop-heading p {
+    max-width: 32ch;
+    font-size: 13px;
+  }
+  .noorly-store .launch-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .noorly-store .launch-catalog-grid > .catalog-tile {
+    padding-bottom: 12px;
+    border-radius: 5px;
+  }
+  .noorly-store .launch-catalog-grid .product-caption {
+    padding: 12px 12px 0;
+    gap: 8px;
+  }
+  .noorly-store .launch-catalog-grid .product-caption h3 {
+    font-size: 14px;
+    min-height: 4.2em;
+  }
+  .noorly-store .launch-catalog-grid .product-caption > span {
+    font-size: 14px;
+  }
+  .noorly-store .launch-catalog-grid .product-card > p {
+    display: none;
+  }
+  .noorly-store .launch-catalog-grid .product-card {
+    padding-bottom: 14px;
+  }
+  .noorly-store .launch-catalog-grid .product-colour-summary {
+    margin: 10px 12px 0;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .noorly-store .launch-catalog-grid .product-number {
+    top: 8px;
+    left: 8px;
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  .noorly-store .launch-catalog-grid .catalog-product-cta {
+    width: calc(100% - 24px);
+    margin-inline: 12px;
+    padding: 10px 6px;
+    font-size: 11px;
+    gap: 6px;
+  }
+  .shop-assistance {
+    margin-top: 28px;
+    padding: 24px;
+    display: block;
+  }
+  .shop-assistance .text-link {
+    margin-top: 12px;
+  }
+  .noorly-store .storefront-collection {
+    padding-block: 36px;
+  }
+  .noorly-store .collection-hero {
+    min-height: 320px;
+    height: auto;
+  }
+  .noorly-store .footer-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 20px;
+    margin-bottom: 32px;
+  }
+  .noorly-store .footer-top > div:first-child {
+    grid-column: 1 / -1;
+  }
+  .noorly-store .footer-bottom {
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .noorly-store .footer-bottom button {
+    padding: 0;
+    min-height: 32px;
+  }
+}
