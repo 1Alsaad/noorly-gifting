@@ -76,7 +76,8 @@ for (const viewport of [
     await rejectOptional(page);
     const video = page.locator(".storefront-hero video");
     await expect(video).toHaveJSProperty("muted", true);
-    await expect(video).toHaveJSProperty("playsInline", true);
+    // Check the HTML attribute: Firefox does not expose playsInline natively.
+    await expect(video).toHaveAttribute("playsinline", "");
     const play = page.getByRole("button", { name: "Play video", exact: true });
     await expect(play).toBeVisible();
     await play.click();
