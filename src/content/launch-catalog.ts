@@ -11,40 +11,37 @@ export const teakBowlHandle = "teakb-37-dekorativ-teakskal";
 
 export const launchCatalogCopy = {
   sv: {
-    label: "NOORLY · UTVALT FÖR LUGNA STUNDER",
-    title: "Små detaljer. Din egen stund.",
+    label: "NOORLY",
+    title: "Ljussand & teakskålar",
     description:
-      "Välj ljussand i din färg och doft, en dekorativ teakskål eller vårt paket med båda.",
+      "Välj ljussand, en dekorativ teakskål eller ett paket med båda.",
     cta: "Välj färg & doft",
-    bowlCta: "Upptäck teakskålen",
-    bundleCta: "Välj ditt paket",
+    bowlCta: "Se teakskålen",
+    bundleCta: "Se paketet",
     availability: "Förbeställning",
-    imageNote:
-      "Miljöbilden visar en stämning. Se produktbilderna för varje artikel.",
-    sandCaption:
-      "Produkt- och miljöbilder för vald färg och doft. Skål och andra tillbehör ingår inte.",
+    imageNote: "Inspirationsbild. Se produktbilderna för varje artikel.",
+    sandCaption: "Vald färg och doft. Skål och tillbehör ingår inte.",
     bowlCaption:
-      "Varje teakskål har sin egen form och ådring. Frukten på bilden är dekoration och ingår inte.",
+      "Varje skål har unik form och ådring. Frukt och dekoration ingår inte.",
     bundleCaption:
-      "Bilderna visar den valda ljussanden och teakskålen var för sig. En skål, en påse med 300 g ljussand och fyra bomullsvekar ingår. Frukt, presentask och andra dekorationer ingår inte.",
+      "1 dekorativ teakskål, 300 g ljussand och fyra bomullsvekar ingår. Presentask och dekoration ingår inte.",
   },
   en: {
-    label: "NOORLY · SELECTED FOR SLOWER MOMENTS",
-    title: "Little details. A moment of your own.",
+    label: "NOORLY",
+    title: "Candle sand & teak bowls",
     description:
-      "Choose candle sand in your colour and scent, a decorative teak bowl, or our bundle with both.",
+      "Choose candle sand, a decorative teak bowl, or a bundle with both.",
     cta: "Choose colour & scent",
-    bowlCta: "Discover the teak bowl",
-    bundleCta: "Choose your bundle",
+    bowlCta: "View the teak bowl",
+    bundleCta: "View the bundle",
     availability: "Pre-order",
-    imageNote:
-      "Lifestyle imagery expresses a mood. See each item's product photographs.",
+    imageNote: "Styled inspiration. See each item's product photographs.",
     sandCaption:
-      "Product and styling photographs for the selected colour and scent. A bowl and other accessories are not included.",
+      "Selected colour and scent. Bowl and accessories are not included.",
     bowlCaption:
-      "Each teak bowl has its own shape and grain. The fruit in the photograph is styling and is not included.",
+      "Each bowl has a unique shape and grain. Fruit and styling accessories are not included.",
     bundleCaption:
-      "The photographs show the selected candle sand and teak bowl separately. One bowl, one 300 g pouch of candle sand and four cotton wicks are included. Fruit, a gift box and other styling accessories are not included.",
+      "1 decorative teak bowl, 300 g candle sand and four cotton wicks are included. Gift box and styling accessories are not included.",
   },
 } as const;
 
@@ -53,24 +50,24 @@ const sandTitle: LocalizedText = {
   en: "Luma · Candle sand 300 g",
 };
 const sandDescription: LocalizedText = {
-  sv: "Skapa en egen ljusstund med 300 g ljussand i vald färg och doft. Varje påse innehåller fyra bomullsvekar.",
-  en: "Create your own candle moment with 300 g of candle sand in your chosen colour and scent. Each pouch includes four cotton wicks.",
+  sv: "300 g ljussand i din färg och doft. Fyra bomullsvekar ingår.",
+  en: "300 g candle sand in your colour and scent. Four cotton wicks included.",
 };
 const bowlTitle: LocalizedText = {
   sv: "Alva · Dekorativ teakskål",
   en: "Alva · Decorative teak bowl",
 };
 const bowlDescription: LocalizedText = {
-  sv: "En dekorativ skål i teak med mjuka former och naturlig ådring. En enkel detalj för bordet, hyllan eller en omtänksam gåva.",
-  en: "A decorative teak bowl with soft contours and natural grain. A simple detail for your table, shelf or a thoughtful gift.",
+  sv: "Dekorativ teakskål med naturlig form och ådring.",
+  en: "A decorative teak bowl with natural contours and grain.",
 };
 const bundleTitle: LocalizedText = {
   sv: "Luma + Alva · Ljussand & teakskål",
   en: "Luma + Alva · Candle sand & teak bowl",
 };
 const bundleDescription: LocalizedText = {
-  sv: "Vårt paket med en dekorativ teakskål och 300 g ljussand i din färg och doft. Fyra bomullsvekar ingår.",
-  en: "Our bundle with one decorative teak bowl and 300 g of candle sand in your chosen colour and scent. Four cotton wicks are included.",
+  sv: "En dekorativ teakskål, 300 g ljussand och fyra bomullsvekar.",
+  en: "One decorative teak bowl, 300 g candle sand and four cotton wicks.",
 };
 
 /** Read-only fallback photographs and copy. Shopify alone supplies sellable variants. */

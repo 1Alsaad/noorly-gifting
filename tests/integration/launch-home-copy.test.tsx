@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Home from "@/app/[locale]/page";
-import { ShoppingOverlay } from "@/components/cinematic/shopping-overlay";
 import { getDictionary } from "@/content/translations";
 import { launchProductDefinitions } from "@/content/launch-catalog";
 import { isPublicTestPreview } from "@/lib/commerce/launch";
-import type { Locale, Product } from "@/types/commerce";
+import type { Product } from "@/types/commerce";
+import { getLaunchProducts } from "@/lib/commerce/launch-product";
 
 const { getProductByHandle } = vi.hoisted(() => ({
   getProductByHandle: vi.fn(),
@@ -20,23 +20,9 @@ vi.mock("@/lib/analytics/client", () => ({ trackEvent: vi.fn() }));
 vi.mock("@/components/ui/structured-data", () => ({
   StructuredData: () => null,
 }));
-vi.mock("@/components/cinematic/cinematic-experience", () => ({
-  // The real shopping overlay is tested without the unrelated video/timing hooks.
-  CinematicExperience: ({
-    locale,
-    products,
-  }: {
-    locale: Locale;
-    products: Product[];
-  }) => (
-    <ShoppingOverlay
-      product={products[0]}
-      locale={locale}
-      visible
-      onDetails={() => {}}
-      onSkip={() => {}}
-    />
-  ),
+vi.mock("@/components/home/storefront-hero", () => ({
+  // Playback is covered separately; this suite checks the real catalogue gates.
+  StorefrontHero: () => <section data-testid="storefront-hero" />,
 }));
 
 const products: Product[] = launchProductDefinitions.map(
@@ -84,7 +70,7 @@ describe("launch copy through the homepage and real release gates", () => {
         locale === "sv" ? "Välj färg & doft" : "Choose colour & scent";
       expect(
         screen.getAllByRole("link", { name: new RegExp(purchaseLabel) }),
-      ).toHaveLength(2);
+      ).toHaveLength(1);
       expect(screen.getAllByText(/349/).length).toBeGreaterThan(0);
       expect(screen.getByText(/550/)).toBeInTheDocument();
       expect(
@@ -119,7 +105,11 @@ describe("launch copy through the homepage and real release gates", () => {
     );
     expect(isPublicTestPreview()).toBe(true);
     expect(screen.queryByRole("button", { name: /Add to bag/ })).toBeNull();
-    expect(screen.getAllByText("Ordering is not open")[0]).toBeInTheDocument();
+    expect(
+      (await getLaunchProducts()).every(
+        (launch) => !launch.salesOpen && !launch.purchasable,
+      ),
+    ).toBe(true);
     expect(container).toHaveTextContent("300 g");
     expect(container.textContent).not.toMatch(
       /contents will be confirmed|finalising the set contents/i,

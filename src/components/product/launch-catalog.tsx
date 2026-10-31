@@ -29,7 +29,7 @@ export function LaunchCatalogGrid({
             locale={locale}
           />
           <Link
-            className="text-link catalog-product-cta"
+            className="button button-dark catalog-product-cta"
             href={`/${locale}/products/${product.handle}`}
           >
             {product.handle === candleSandHandle
