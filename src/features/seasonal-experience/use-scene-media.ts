@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   clampProgress,
   dampProgress,
@@ -9,6 +9,7 @@ import {
   scenePresentation,
 } from "./progress";
 import { createVideoScrubber } from "./video-scrubber";
+import type { MediaScrubber } from "./types";
 
 type Connection = EventTarget & { saveData?: boolean; effectiveType?: string };
 
@@ -19,6 +20,7 @@ export function useSceneMedia(
 ) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const scrubberRef = useRef<MediaScrubber | null>(null);
   const [motionAllowed, setMotionAllowed] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [near, setNear] = useState(false);
@@ -93,11 +95,39 @@ export function useSceneMedia(
   const canLoadVideo =
     !disabled && near && motionAllowed && mediaState !== "failed";
 
+  const onFrame = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || video.readyState < 2 || video.seeking) return;
+    setMediaState("ready");
+    setHasFrame(true);
+    setFrameProgress(
+      clampProgress(video.currentTime / progressToTime(1, video.duration)),
+    );
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!canLoadVideo || frozen || !video) return;
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
+    // Start listening before the first frame exists. Metadata alone is not a
+    // decoded frame, and queued scroll input must survive late media readiness.
+    const scrubber = createVideoScrubber(video, {
+      onFrame,
+      onFailure: () => setMediaState("failed"),
+    });
+    scrubberRef.current = scrubber;
+    return () => {
+      scrubber.destroy();
+      if (scrubberRef.current === scrubber) scrubberRef.current = null;
+    };
+  }, [canLoadVideo, frozen, mobile, onFrame]);
+
   useEffect(() => {
     const video = videoRef.current;
     const section = sectionRef.current;
     if (!pinned || !active || frozen || !section) return;
-    const scrubber = enhanced && video ? createVideoScrubber(video) : null;
     let frame: number | null = null;
     let disposed = false;
     const readGeometry = () => {
@@ -140,7 +170,7 @@ export function useSceneMedia(
       // The incoming scene is opaque before the outgoing section leaves view.
       if (geometry.reveal === 1) currentReveal = 1;
       previous = now;
-      scrubber?.setProgress(current);
+      scrubberRef.current?.setProgress(current);
       // Hotspots and analytics follow the same eased timeline as the video.
       setProgress(current);
       setPresentation({
@@ -166,7 +196,6 @@ export function useSceneMedia(
       if (frame !== null) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      scrubber?.destroy();
     };
   }, [active, enhanced, pinned, frozen, first]);
 
@@ -183,20 +212,13 @@ export function useSceneMedia(
     frameProgress,
     progress,
     reducedMotion: !motionAllowed,
-    onMetadata: () => setMediaState("ready"),
+    onMetadata: onFrame,
     onLoadStart: () => {
       setMediaState("poster");
       setHasFrame(false);
       setFrameProgress(0);
     },
-    onFrame: () => {
-      const video = videoRef.current;
-      if (!video || video.readyState < 2) return;
-      setHasFrame(true);
-      setFrameProgress(
-        clampProgress(video.currentTime / progressToTime(1, video.duration)),
-      );
-    },
+    onFrame,
     onMediaError: () => setMediaState("failed"),
   };
 }

@@ -24,7 +24,10 @@ const candleHotspot: Hotspot = {
 };
 
 describe("cinematic progress and media", () => {
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.useRealTimers();
+  });
 
   it("maps document geometry to bounded progress in either scroll direction", () => {
     expect(sceneProgress(100, 2300, 1000)).toBe(0);
@@ -208,5 +211,116 @@ describe("cinematic progress and media", () => {
     scrubber.setProgress(1);
     expect(request).toHaveBeenCalledOnce();
     expect(video.currentTime).toBe(0);
+  });
+
+  it("retains scroll progress until late metadata and resumes on media readiness", () => {
+    let paint: FrameRequestCallback | undefined;
+    vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+      paint = callback;
+      return 1;
+    });
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
+    const onFrame = vi.fn();
+    const video = Object.assign(new EventTarget(), {
+      readyState: 0,
+      seeking: false,
+      currentTime: 0,
+      duration: Number.NaN,
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement, {
+      onFrame,
+    });
+    scrubber.setProgress(0.8);
+    expect(video.currentTime).toBe(0);
+    video.duration = 8;
+    video.readyState = 1;
+    video.dispatchEvent(new Event("loadedmetadata"));
+    expect(onFrame).not.toHaveBeenCalled();
+    paint?.(16);
+    expect(video.currentTime).toBeCloseTo(6.368);
+
+    video.seeking = true;
+    scrubber.setProgress(0.2);
+    video.seeking = false;
+    video.readyState = 2;
+    video.dispatchEvent(new Event("canplay"));
+    paint?.(32);
+    expect(video.currentTime).toBeCloseTo(1.592);
+    expect(onFrame).toHaveBeenCalled();
+    scrubber.destroy();
+  });
+
+  it("primes the opening frame with a paused seek without playing the film", () => {
+    vi.stubGlobal(
+      "requestAnimationFrame",
+      vi.fn(() => 1),
+    );
+    vi.stubGlobal("cancelAnimationFrame", vi.fn());
+    const onFrame = vi.fn();
+    const video = Object.assign(new EventTarget(), {
+      readyState: 1,
+      seeking: false,
+      currentTime: 0,
+      duration: 15,
+      play: vi.fn(),
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement, {
+      onFrame,
+    });
+    expect(video.currentTime).toBe(0.001);
+    expect(video.play).not.toHaveBeenCalled();
+    expect(onFrame).not.toHaveBeenCalled();
+    video.readyState = 2;
+    video.dispatchEvent(new Event("loadeddata"));
+    expect(onFrame).toHaveBeenCalledOnce();
+    scrubber.destroy();
+  });
+
+  it("falls back once after a stalled seek even when scroll input continues", () => {
+    vi.useFakeTimers();
+    const onFailure = vi.fn();
+    const video = Object.assign(new EventTarget(), {
+      readyState: 1,
+      seeking: true,
+      currentTime: 0,
+      duration: 8,
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement, {
+      onFailure,
+      timeoutMs: 100,
+    });
+    scrubber.setProgress(0.8);
+    vi.advanceTimersByTime(60);
+    scrubber.setProgress(0.2);
+    vi.advanceTimersByTime(40);
+    expect(onFailure).toHaveBeenCalledOnce();
+    video.seeking = false;
+    scrubber.setProgress(1);
+    expect(video.currentTime).toBe(0);
+    vi.advanceTimersByTime(200);
+    expect(onFailure).toHaveBeenCalledOnce();
+    scrubber.destroy();
+  });
+
+  it("does not leave a loading watchdog behind when the scene is disposed", () => {
+    vi.useFakeTimers();
+    const onFailure = vi.fn();
+    const video = Object.assign(new EventTarget(), {
+      readyState: 0,
+      seeking: false,
+      currentTime: 0,
+      duration: Number.NaN,
+      pause: vi.fn(),
+    });
+    const scrubber = createVideoScrubber(video as unknown as HTMLVideoElement, {
+      onFailure,
+      timeoutMs: 100,
+    });
+    scrubber.destroy();
+    vi.advanceTimersByTime(200);
+    expect(onFailure).not.toHaveBeenCalled();
   });
 });

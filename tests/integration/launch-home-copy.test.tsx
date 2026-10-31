@@ -20,9 +20,9 @@ vi.mock("@/lib/analytics/client", () => ({ trackEvent: vi.fn() }));
 vi.mock("@/components/ui/structured-data", () => ({
   StructuredData: () => null,
 }));
-vi.mock("@/components/home/storefront-hero", () => ({
-  // Playback is covered separately; this suite checks the real catalogue gates.
-  StorefrontHero: () => <section data-testid="storefront-hero" />,
+vi.mock("@/components/cinematic/cinematic-experience", () => ({
+  // Scroll media is covered separately; this suite checks the real catalogue gates.
+  CinematicExperience: () => <section data-testid="cinematic-experience" />,
 }));
 
 const products: Product[] = launchProductDefinitions.map(

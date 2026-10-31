@@ -55,11 +55,11 @@ async function addCandle(page: Page) {
 test("the home leads directly to the three products", async ({ page }) => {
   await page.goto("/en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    /A warmer glow\.\s+Your way\./,
+    /Your colour\.\s+Your candle moment\./,
   );
   await rejectOptional(page);
   await page
-    .getByRole("link", { name: "Shop the collection", exact: true })
+    .getByRole("link", { name: "Skip experience", exact: true })
     .click();
   await expect(page).toHaveURL(/\/en#gifts$/);
   await expect(page.locator("#gifts")).toBeInViewport();
@@ -341,12 +341,9 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#main-content$/);
   await rejectOptional(page);
-  await expect(page.locator(".storefront-hero video")).not.toHaveAttribute(
-    "autoplay",
-    "",
-  );
+  await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
   await page
-    .getByRole("link", { name: "Shop the collection", exact: true })
+    .getByRole("link", { name: "Skip experience", exact: true })
     .click();
   await expect(page.locator("#gifts")).toBeInViewport();
   await page
@@ -407,12 +404,9 @@ test("the conventional catalogue remains useful without JavaScript", async ({
   const page = await context.newPage();
   try {
     await page.goto("/en");
-    await expect(page.locator(".storefront-hero video")).not.toHaveAttribute(
-      "src",
-      /\.mp4/,
-    );
+    await expect(page.locator(".cinematic-experience video")).toHaveCount(0);
     await page
-      .getByRole("link", { name: "Shop the collection", exact: true })
+      .getByRole("link", { name: "Skip experience", exact: true })
       .click();
     await expect(page.locator("#gifts")).toBeInViewport();
     await page.goto("/en/shop");
