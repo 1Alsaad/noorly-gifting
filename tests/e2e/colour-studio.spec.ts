@@ -57,6 +57,12 @@ test("colour choices work by keyboard without motion and carry through to the mo
     }
   }
 
+  await page.setViewportSize({ width: 320, height: 720 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth - innerWidth,
+    ),
+  ).toBeLessThanOrEqual(1);
   await page.setViewportSize({ width: 390, height: 844 });
   const rose = studio.getByRole("button", { name: "Dusty Rose", exact: true });
   await rose.focus();

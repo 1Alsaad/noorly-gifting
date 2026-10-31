@@ -116,13 +116,33 @@
   background: #f1db84;
 }
 .noorly-store .bundle-card-photos {
+  display: block;
   background: #e6a9ad;
-  padding: 10px;
-  gap: 8px;
+  padding: 0;
 }
 .noorly-store .bundle-card-photo {
-  border-radius: 7px;
+  position: absolute;
+  border-radius: 10px;
   background: #fff9f1;
+  overflow: hidden;
+  box-shadow: 0 10px 20px -14px #4b1e2d80;
+}
+.noorly-store .bundle-card-photo:first-child {
+  width: 62%;
+  height: 62%;
+  left: 4%;
+  top: 12%;
+  transform: rotate(-8deg);
+}
+.noorly-store .bundle-card-photo:last-child {
+  width: 52%;
+  height: 52%;
+  right: 3%;
+  bottom: 10%;
+  transform: rotate(8deg);
+}
+.noorly-store .bundle-card-photo img {
+  padding: 0;
 }
 .noorly-store .shop-heading {
   align-items: center;
@@ -247,12 +267,12 @@
 }
 .candle-sand-guide__texture img {
   display: block;
-  width: 200%;
+  width: 300%;
   max-width: none;
   height: auto;
   position: absolute;
   bottom: -5%;
-  left: -50%;
+  left: -100%;
 }
 .noorly-store .candle-sand-guide--editorial ol {
   display: block;
@@ -306,7 +326,7 @@
   padding-bottom: 40px;
   border-bottom: 1px solid #f8d8dc55;
   font-family: var(--sans);
-  font-size: clamp(120px, 23vw, 340px);
+  font-size: clamp(80px, 28vw, 340px);
   line-height: 0.78;
   font-weight: 800;
   letter-spacing: -0.09em;

@@ -108,13 +108,14 @@
   position: absolute;
   z-index: 2;
   right: 8%;
-  top: 10%;
+  top: 52%;
   width: 114px;
   aspect-ratio: 1;
   margin: 0;
   border: 1px solid currentColor;
   border-radius: 50%;
   text-align: center;
+  background: var(--studio-background);
   transform: rotate(12deg);
 }
 
@@ -324,7 +325,7 @@
 
   .colour-studio__contents {
     right: 2%;
-    top: 6%;
+    top: 52%;
     width: 96px;
   }
 
@@ -380,7 +381,7 @@
   }
 
   .colour-studio__contents {
-    top: 4%;
+    top: 42%;
     right: 7%;
     width: 70px;
   }

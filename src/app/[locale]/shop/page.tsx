@@ -32,6 +32,17 @@ export default async function Shop({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const launches = await getLaunchProducts();
+  const sandProduct = launches.find(
+    ({ product }) => product.handle === "candle-sand",
+  )?.product;
+  const featuredColours = colourStories
+    .slice(0, 3)
+    .filter(
+      (story) =>
+        !sandProduct ||
+        sandProduct.previewOnly ||
+        sandProduct.variants.some((variant) => variant.sku === story.sku),
+    );
   return (
     <div className="section-wrap page-content shop-page">
       <TrackView
@@ -63,7 +74,7 @@ export default async function Shop({
           className="shop-colour-preview"
           aria-label={locale === "sv" ? "Upptäck en färg" : "Explore a colour"}
         >
-          {colourStories.slice(0, 3).map((story) => {
+          {featuredColours.map((story) => {
             const choice = launchSandChoices.find(
               (choice) => choice.sku === story.sku,
             )!;

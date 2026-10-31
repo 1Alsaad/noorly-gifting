@@ -40,6 +40,7 @@ export function ColourStudio({
   const variant = sandProduct?.variants.find(
     (item) => item.sku === selected.sku,
   );
+  const missingVariant = !!sandProduct && !sandProduct.previewOnly && !variant;
   const colour = selected.choice.color.name[locale];
   const scent = selected.choice.scent[locale];
   const photo = {
@@ -61,6 +62,7 @@ export function ColourStudio({
 
   return (
     <section
+      id="colour-studio"
       className="colour-studio"
       style={style}
       aria-labelledby={titleId}
@@ -155,7 +157,15 @@ export function ColourStudio({
                 {studioChoices.map((story) => (
                   <a
                     key={story.sku}
-                    href={colourProductHref(locale, story.sku)}
+                    href={
+                      sandProduct &&
+                      !sandProduct.previewOnly &&
+                      !sandProduct.variants.some(
+                        (item) => item.sku === story.sku,
+                      )
+                        ? `/${locale}/products/${candleSandHandle}`
+                        : colourProductHref(locale, story.sku)
+                    }
                   >
                     {story.choice.color.name[locale]}
                   </a>
@@ -177,7 +187,7 @@ export function ColourStudio({
                   <span className="colour-studio__price">{price}</span>
                 ) : null}
               </p>
-              {variant && !variant.available && (
+              {(missingVariant || (variant && !variant.available)) && (
                 <p className="colour-studio__availability">
                   {locale === "sv"
                     ? "Tillfälligt slut"
@@ -187,9 +197,19 @@ export function ColourStudio({
             </div>
             <Link
               className="colour-studio__cta"
-              href={colourProductHref(locale, selected.sku)}
+              href={
+                missingVariant
+                  ? `/${locale}/products/${candleSandHandle}`
+                  : colourProductHref(locale, selected.sku)
+              }
             >
-              {locale === "sv" ? `Upptäck ${colour}` : `Discover ${colour}`}
+              {missingVariant
+                ? locale === "sv"
+                  ? "Se tillgängliga färger"
+                  : "See available colours"
+                : locale === "sv"
+                  ? `Upptäck ${colour}`
+                  : `Discover ${colour}`}
               <ArrowUpRight size={21} strokeWidth={1.6} aria-hidden="true" />
             </Link>
           </div>

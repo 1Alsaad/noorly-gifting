@@ -92,6 +92,13 @@ describe("the interactive colour studio", () => {
     await user.click(rose);
     expect(rose).toHaveAttribute("aria-pressed", "true");
     expect(screen.queryByText(/349|449|459|479/)).toBeNull();
+    expect(screen.getByText("Currently unavailable")).toBeVisible();
+    expect(
+      screen.getByRole("link", { name: "See available colours" }),
+    ).toHaveAttribute("href", "/en/products/candle-sand");
+    expect(
+      screen.queryByRole("link", { name: "Discover Dusty Rose" }),
+    ).toBeNull();
     await user.click(screen.getByRole("button", { name: "White" }));
     expect(screen.getByText(/349/)).toBeVisible();
     expect(
