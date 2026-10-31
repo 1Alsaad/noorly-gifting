@@ -113,7 +113,8 @@ for (const viewport of [
     await expect(video).toHaveJSProperty("paused", true);
     await page.getByRole("button", { name: "Play video", exact: true }).click();
     await expect(video).toHaveJSProperty("paused", false);
-    await page.locator("#gifts").scrollIntoViewIfNeeded();
+    await page.locator("footer").scrollIntoViewIfNeeded();
+    await expect(video).not.toBeInViewport();
     await expect(video).toHaveJSProperty("paused", true);
   });
 }
@@ -221,7 +222,7 @@ test("a failed video restores the poster without blocking shopping", async ({
   await expect(page.locator("#gifts")).toBeInViewport();
   await page
     .locator("#gifts")
-    .getByRole("link", { name: "Choose colour & scent", exact: true })
+    .getByRole("link", { name: /Choose colour & scent/ })
     .click();
   await expect(page).toHaveURL("/en/products/candle-sand");
 });

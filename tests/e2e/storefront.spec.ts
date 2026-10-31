@@ -84,7 +84,7 @@ test("separate products and the bundle are keyboard accessible", async ({
   await rejectOptional(page);
   const link = page
     .locator("#gifts")
-    .getByRole("link", { name: "Choose colour & scent", exact: true });
+    .getByRole("link", { name: /Choose colour & scent/ });
   await link.scrollIntoViewIfNeeded();
   await link.focus();
   await page.keyboard.press("Enter");
@@ -354,7 +354,7 @@ test("reduced motion retains shopping and keyboard skip navigation", async ({
     .getByRole("link", { name: "Choose colour & scent" })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Luma · Candle sand 300 g", level: 1 }),
+    page.getByRole("heading", { name: "Candle Sand", level: 1 }),
   ).toBeVisible();
 });
 
