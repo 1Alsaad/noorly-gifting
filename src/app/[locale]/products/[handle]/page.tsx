@@ -23,7 +23,10 @@ import { StructuredData } from "@/components/ui/structured-data";
 import { TrackView } from "@/components/analytics/track-view";
 import { brand } from "@/config/brand";
 import { pageMetadata } from "@/lib/seo/metadata";
-type Props = { params: Promise<{ locale: string; handle: string }> };
+type Props = {
+  params: Promise<{ locale: string; handle: string }>;
+  searchParams?: Promise<{ colour?: string | string[] }>;
+};
 export async function generateMetadata({ params }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) return {};
@@ -64,9 +67,12 @@ export async function generateMetadata({ params }: Props) {
       )
     : {};
 }
-export default async function ProductDetail({ params }: Props) {
+export default async function ProductDetail({ params, searchParams }: Props) {
   const { locale, handle } = await params;
   if (!isLocale(locale)) notFound();
+  const query = await searchParams;
+  const initialVariantSku =
+    typeof query?.colour === "string" ? query.colour : undefined;
   if (handle === legacyLaunchBundleHandle)
     redirect(`/${locale}/products/${launchBundleHandle}`);
   const provider = getCommerceProvider();
@@ -123,6 +129,7 @@ export default async function ProductDetail({ params }: Props) {
           locale={locale}
           launch={launch}
           offers={launches}
+          initialVariantSku={initialVariantSku}
         />
       </>
     );
@@ -195,7 +202,12 @@ export default async function ProductDetail({ params }: Props) {
         <span aria-hidden>/</span>
         <span>{product.title[locale]}</span>
       </nav>
-      <ProductPresentation product={product} locale={locale}>
+      <ProductPresentation
+        key={`${product.id}:${initialVariantSku ?? "default"}`}
+        product={product}
+        locale={locale}
+        initialVariantSku={initialVariantSku}
+      >
         <div className="delivery-note">
           <h2>{t.delivery}</h2>
           <p>{t.deliveryText}</p>

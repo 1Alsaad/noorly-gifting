@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Locale } from "@/types/commerce";
 import { candleSandHandle } from "@/content/launch-catalog";
 import "./candle-sand-guide.css";
@@ -49,18 +50,42 @@ const copy = {
 export function CandleSandGuide({
   locale,
   showLink = false,
+  editorial = false,
 }: {
   locale: Locale;
   showLink?: boolean;
+  editorial?: boolean;
 }) {
   const t = copy[locale];
   return (
     <section
-      className="candle-sand-guide section-wrap"
+      className={`candle-sand-guide section-wrap${editorial ? " candle-sand-guide--editorial" : ""}`}
       aria-labelledby="candle-sand-guide-title"
     >
-      <p className="eyebrow">{t.label}</p>
-      <h2 id="candle-sand-guide-title">{t.title}</h2>
+      <div className="candle-sand-guide__intro">
+        <p className={editorial ? "campaign-chapter" : "eyebrow"}>
+          {editorial && <span>04</span>}
+          {t.label}
+        </p>
+        <h2 id="candle-sand-guide-title">
+          {editorial
+            ? locale === "sv"
+              ? "Små korn. Din ljusstund."
+              : "Little grains. Your moment."
+            : t.title}
+        </h2>
+        {editorial && (
+          <div className="candle-sand-guide__texture" aria-hidden="true">
+            <Image
+              src="/media/products/candle-sand/csand-08-0.webp"
+              alt=""
+              width={800}
+              height={800}
+              sizes="(max-width: 680px) 90vw, 38vw"
+            />
+          </div>
+        )}
+      </div>
       <ol>
         {t.steps.map(([title, description], index) => (
           <li key={title}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { getDictionary } from "@/content/translations";
 import type { Locale, Product } from "@/types/commerce";
 import { ProductGallery } from "./product-gallery";
@@ -8,6 +8,7 @@ import { ProductPurchase } from "./product-purchase";
 import { variantLabel } from "./variant-picker";
 import { launchProductDefinitions } from "@/content/launch-catalog";
 import { ProductOffers } from "./product-offers";
+import { colourStory } from "@/content/colour-story";
 import "./product-shopping.css";
 
 export function ProductPresentation({
@@ -15,15 +16,31 @@ export function ProductPresentation({
   locale,
   children,
   offers,
+  initialVariantSku,
 }: {
   product: Product;
   locale: Locale;
   children: ReactNode;
   offers?: Product[];
+  initialVariantSku?: string;
 }) {
-  const [variantId, setVariantId] = useState(product.variants[0]?.id ?? "");
+  const [variantId, setVariantId] = useState(
+    () =>
+      (initialVariantSku
+        ? product.variants.find((item) => item.sku === initialVariantSku)?.id
+        : undefined) ??
+      product.variants[0]?.id ??
+      "",
+  );
   const offersRef = useRef<HTMLDivElement>(null);
   const variant = product.variants.find((item) => item.id === variantId);
+  const story = colourStory(variant?.sku);
+  const actualColour = variant?.color?.hex ?? "";
+  const galleryTone =
+    story?.background ??
+    (/^#[\da-f]{3}(?:[\da-f]{3})?$/i.test(actualColour)
+      ? actualColour
+      : "#ede6d4");
   const galleryImages = variant?.images?.length
     ? product.variants.length === 1
       ? [...variant.images, ...product.images].filter(
@@ -40,6 +57,8 @@ export function ProductPresentation({
     <>
       <div
         className={`product-detail product-shopping${simple ? " product-detail-simple" : ""}`}
+        data-colour-story={story?.tone ?? "custom"}
+        style={{ "--product-gallery-tone": galleryTone } as CSSProperties}
       >
         <div className="product-shopping-gallery">
           <ProductGallery

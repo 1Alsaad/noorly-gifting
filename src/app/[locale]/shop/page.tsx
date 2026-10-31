@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { getDictionary, isLocale } from "@/content/translations";
 import { LaunchCatalogGrid } from "@/components/product/launch-catalog";
@@ -7,6 +8,8 @@ import { launchCatalogCopy } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { TrackView } from "@/components/analytics/track-view";
+import { colourProductHref, colourStories } from "@/content/colour-story";
+import { launchSandChoices } from "@/content/launch-bundle";
 export async function generateMetadata({
   params,
 }: {
@@ -29,6 +32,17 @@ export default async function Shop({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const launches = await getLaunchProducts();
+  const sandProduct = launches.find(
+    ({ product }) => product.handle === "candle-sand",
+  )?.product;
+  const featuredColours = colourStories
+    .slice(0, 3)
+    .filter(
+      (story) =>
+        !sandProduct ||
+        sandProduct.previewOnly ||
+        sandProduct.variants.some((variant) => variant.sku === story.sku),
+    );
   return (
     <div className="section-wrap page-content shop-page">
       <TrackView
@@ -45,12 +59,46 @@ export default async function Shop({
       </nav>
       <div className="shop-heading">
         <div>
+          <p className="shop-kicker">
+            {locale === "sv"
+              ? "Lite färg i vardagen."
+              : "A little everyday colour."}
+          </p>
           <h1>{locale === "sv" ? "Alla produkter" : "Shop all"}</h1>
           <p>{launchCatalogCopy[locale].description}</p>
+          <span className="shop-count">
+            {launches.length} {locale === "sv" ? "produkter" : "products"}
+          </span>
         </div>
-        <span className="shop-count">
-          {launches.length} {locale === "sv" ? "produkter" : "products"}
-        </span>
+        <nav
+          className="shop-colour-preview"
+          aria-label={locale === "sv" ? "Upptäck en färg" : "Explore a colour"}
+        >
+          {featuredColours.map((story) => {
+            const choice = launchSandChoices.find(
+              (choice) => choice.sku === story.sku,
+            )!;
+            return (
+              <Link
+                key={story.sku}
+                href={colourProductHref(locale, story.sku)}
+                style={{ backgroundColor: story.background }}
+              >
+                <Image
+                  src={choice.photo.url}
+                  alt={choice.photo.alt[locale]}
+                  width={800}
+                  height={800}
+                  sizes="(max-width: 680px) 30vw, 16vw"
+                />
+                <span>
+                  {choice.color.name[locale]}
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
       <LaunchCatalogGrid locale={locale} launches={launches} />
       <aside className="shop-assistance">
