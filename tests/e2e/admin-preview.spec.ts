@@ -12,9 +12,9 @@ test("admin storefront requires login and logout revokes this browser session", 
   await password.fill("test-only-generated-password-1234567890");
   await page.getByRole("button", { name: "Visa förhandsvisningen" }).click();
   await expect(page).toHaveURL(/\/sv$/);
-  await expect(page.locator(".storefront-hero")).toHaveCount(1);
-  await expect(page.locator("h1#storefront-hero-title")).toHaveText(
-    /Varmare stunder\.\s+På ditt sätt\./,
+  await expect(page.locator('[data-scene="winter-entrance"]')).toHaveCount(1);
+  await expect(page.locator("h1#winter-entrance-title")).toHaveText(
+    /Din färg\.\s+Din ljusstund\./,
   );
   await expect(page.getByRole("link", { name: "Annonsutkast" })).toHaveCount(0);
   await page.goto("/admin-preview");

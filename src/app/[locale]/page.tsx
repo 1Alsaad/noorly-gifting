@@ -10,7 +10,7 @@ import {
   presentCatalogProduct,
 } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
-import { StorefrontHero } from "@/components/home/storefront-hero";
+import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
 import { PurchaseAnswers } from "@/components/product/purchase-confidence";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
@@ -55,12 +55,12 @@ export default async function Home({
           url: brand.siteUrl,
         }}
       />
-      <StorefrontHero
+      <CinematicExperience
         locale={locale}
         products={products}
         scenes={season.scenes}
       />
-      <div className="storefront-shopping">
+      <div className="storefront-shopping cinema-collection-handoff">
         <section
           className="section-wrap collection-section storefront-collection"
           id="gifts"
