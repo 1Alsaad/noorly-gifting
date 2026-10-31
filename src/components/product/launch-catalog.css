@@ -388,6 +388,9 @@
   font-size: 11px;
   margin: 12px 0;
 }
+.product-offers .purchase-preorder.stock-label {
+  color: #4b1e2d;
+}
 @media (max-width: 980px) and (min-width: 681px) {
   .product-offers {
     gap: 28px;
