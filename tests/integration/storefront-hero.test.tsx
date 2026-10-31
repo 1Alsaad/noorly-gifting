@@ -126,12 +126,13 @@ describe("storefront hero playback", () => {
       narrow = true;
       const { container } = renderHero();
       const video = container.querySelector("video")!;
-      expect(video.src).toBe(winterScenes[0].media.mobile.video);
+      expect(video).not.toHaveAttribute("src");
       expect(video.autoplay).toBe(false);
       expect(video.preload).toBe("none");
       expect(HTMLMediaElement.prototype.play).not.toHaveBeenCalled();
       fireEvent.click(screen.getByRole("button", { name: "Play video" }));
       expect(HTMLMediaElement.prototype.play).toHaveBeenCalledTimes(1);
+      expect(video.src).toBe(winterScenes[0].media.mobile.video);
       expect(video.muted).toBe(true);
       expect(video.playsInline).toBe(true);
     },

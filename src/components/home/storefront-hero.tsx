@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { candleSandHandle } from "@/content/launch-catalog";
 import type { CinematicScene } from "@/features/seasonal-experience/types";
@@ -117,7 +118,13 @@ function HeroVideo({
     ? scene.media.mobile
     : scene.media.desktop;
   const autoAllowed = preferences.endsWith("motion");
-  const source = preferences === "initial" ? undefined : media.video;
+  const [manualRequested, setManualRequested] = useState(false);
+  // WebKit may request media even with preload="none". Do not expose a source
+  // in static mode until the visitor explicitly asks to play it.
+  const source =
+    preferences !== "initial" && (autoAllowed || manualRequested)
+      ? media.video
+      : undefined;
   const videoRef = useRef<HTMLVideoElement>(null);
   const manualPlayback = useRef(false);
   const userPaused = useRef(false);
@@ -182,8 +189,10 @@ function HeroVideo({
       return;
     }
     userPaused.current = false;
-    manualPlayback.current = true;
+    video.defaultMuted = true;
     video.muted = true;
+    if (!source) flushSync(() => setManualRequested(true));
+    manualPlayback.current = true;
     if (video.error) video.load();
     // Keep play() in the click handler to retain Safari's user activation.
     void video.play().catch(() => setPlaying(false));
@@ -241,7 +250,7 @@ function HeroVideo({
         type="button"
         className="storefront-video-toggle"
         onClick={togglePlayback}
-        disabled={!source}
+        disabled={preferences === "initial"}
         aria-label={failed ? t.retry : playing ? t.pause : t.play}
       >
         {playing ? (

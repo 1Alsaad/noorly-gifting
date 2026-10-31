@@ -75,15 +75,15 @@ for (const viewport of [
     await page.goto("/en");
     await rejectOptional(page);
     const video = page.locator(".storefront-hero video");
-    await expect(video).toHaveAttribute(
-      "src",
-      new RegExp(viewport.clip.replace(/\./g, "\\.") + "$"),
-    );
     await expect(video).toHaveJSProperty("muted", true);
     await expect(video).toHaveJSProperty("playsInline", true);
     const play = page.getByRole("button", { name: "Play video", exact: true });
     await expect(play).toBeVisible();
     await play.click();
+    await expect(video).toHaveAttribute(
+      "src",
+      new RegExp(viewport.clip.replace(/\./g, "\\.") + "$"),
+    );
     await expect
       .poll(
         () =>
@@ -194,6 +194,7 @@ for (const preference of ["reduced motion", "Save-Data"]) {
     await expect(video).toHaveAttribute("preload", "none");
     await expect(video).not.toHaveAttribute("autoplay", "");
     await expect(video).toHaveJSProperty("paused", true);
+    await expect(video).not.toHaveAttribute("src", /\.mp4/);
     expect(requests).toEqual([]);
     await page.getByRole("button", { name: "Play video", exact: true }).click();
     await expect(
