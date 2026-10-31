@@ -48,6 +48,9 @@ export function Footer({ locale }: { locale: Locale }) {
   ];
   return (
     <footer className="site-footer">
+      <div className="footer-signature" aria-hidden="true">
+        noorly.
+      </div>
       <div className="footer-top">
         <div>
           <Link href={`/${locale}`} className="wordmark">

@@ -49,10 +49,12 @@ export function LaunchProductDetails({
   launch,
   locale,
   offers,
+  initialVariantSku,
 }: {
   launch: LaunchProductState;
   locale: Locale;
   offers?: LaunchProductState[];
+  initialVariantSku?: string;
 }) {
   const product = presentCatalogProduct(launch.product, locale);
   const t = getDictionary(locale);
@@ -66,9 +68,10 @@ export function LaunchProductDetails({
         <span>{product.title[locale]}</span>
       </nav>
       <ProductPresentation
-        key={product.id}
+        key={`${product.id}:${initialVariantSku ?? "default"}`}
         product={product}
         locale={locale}
+        initialVariantSku={initialVariantSku}
         offers={
           !bundle
             ? offers?.map(({ product: item }) =>

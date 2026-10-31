@@ -1,0 +1,249 @@
+.material-story {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #dbb766;
+  color: #3d291c;
+}
+
+.material-story__inner {
+  width: min(100%, 1600px);
+  margin-inline: auto;
+  padding: 45px 5vw 58px;
+}
+
+.material-story__chapter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 25px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.material-story__chapter span {
+  display: inline-grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  letter-spacing: 0;
+}
+
+.material-story__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: 5%;
+}
+
+.material-story__visual {
+  position: relative;
+  min-width: 0;
+  padding-bottom: 90px;
+  margin-left: -4vw;
+}
+
+.material-story__word {
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: 4%;
+  font-family: var(--sans);
+  font-size: clamp(150px, 21.5vw, 320px);
+  font-weight: 900;
+  letter-spacing: -0.09em;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+}
+
+.material-story__picture {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #fff;
+  transform: rotate(-9deg);
+}
+
+.material-story__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.material-story__content {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  padding: 40px 0;
+}
+
+.material-story__name {
+  margin: 0 0 21px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.material-story__content h2 {
+  margin: 0 0 28px;
+  font-family: var(--sans);
+  font-size: clamp(52px, 6.3vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.075em;
+  line-height: 0.94;
+}
+
+.material-story__description {
+  max-width: 300px;
+  margin: 0 0 30px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.material-story__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 44px;
+  min-height: 53px;
+  padding: 14px 24px;
+  border: 1px solid #3d291c;
+  border-radius: 999px;
+  background: #3d291c;
+  color: #fff5de;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  transition: transform 180ms ease;
+}
+
+.material-story__cta svg {
+  flex-shrink: 0;
+}
+
+.material-story__cta:focus-visible {
+  outline: 2px solid #3d291c;
+  outline-offset: 6px;
+}
+
+.material-story__note {
+  max-width: 290px;
+  margin: 22px 0 0;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .material-story__cta:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (min-width: 1600px) {
+  .material-story__inner {
+    padding-inline: 80px;
+  }
+
+  .material-story__visual {
+    margin-left: -64px;
+  }
+}
+
+@media (max-width: 1000px) and (min-width: 761px) {
+  .material-story__layout {
+    gap: 4%;
+  }
+
+  .material-story__content h2 {
+    font-size: 6vw;
+  }
+
+  .material-story__visual {
+    padding-bottom: 65px;
+  }
+}
+
+@media (max-width: 760px) {
+  .material-story__inner {
+    padding: 30px 22px 40px;
+  }
+
+  .material-story__chapter {
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 10px;
+  }
+
+  .material-story__chapter span {
+    width: 30px;
+    height: 30px;
+  }
+
+  .material-story__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .material-story__visual {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding-bottom: 13vw;
+  }
+
+  .material-story__word {
+    left: 1%;
+    font-size: min(35vw, 220px);
+  }
+
+  .material-story__picture {
+    width: 92%;
+    margin-left: 1%;
+  }
+
+  .material-story__content {
+    padding: 0;
+  }
+
+  .material-story__name {
+    margin-bottom: 16px;
+  }
+
+  .material-story__content h2 {
+    margin-bottom: 22px;
+    font-size: clamp(52px, 12vw, 80px);
+  }
+
+  .material-story__description {
+    max-width: 340px;
+    margin-bottom: 24px;
+  }
+
+  .material-story__cta {
+    width: 100%;
+  }
+
+  .material-story__note {
+    max-width: 350px;
+    margin-top: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .material-story__cta {
+    transition: none;
+  }
+
+  .material-story__cta:hover {
+    transform: none;
+  }
+}

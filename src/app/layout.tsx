@@ -4,6 +4,7 @@ import { brand } from "@/config/brand";
 import { isStorefrontOpen } from "@/lib/commerce/launch";
 import "@/styles/globals.css";
 import "@/styles/retail.css";
+import "@/styles/colour-campaign.css";
 export const metadata: Metadata = {
   metadataBase: new URL(brand.siteUrl),
   title: { default: brand.name, template: `%s · ${brand.name}` },

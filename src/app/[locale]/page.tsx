@@ -11,6 +11,8 @@ import {
 } from "@/content/launch-catalog";
 import { getLaunchProducts } from "@/lib/commerce/launch-product";
 import { CinematicExperience } from "@/components/cinematic/cinematic-experience";
+import { ColourStudio } from "@/components/home/colour-studio";
+import { MaterialStory } from "@/components/home/material-story";
 import { PurchaseAnswers } from "@/components/product/purchase-confidence";
 import { StructuredData } from "@/components/ui/structured-data";
 import { brand } from "@/config/brand";
@@ -61,6 +63,10 @@ export default async function Home({
         scenes={season.scenes}
       />
       <div className="storefront-shopping cinema-collection-handoff">
+        <ColourStudio
+          locale={locale}
+          product={products.find((product) => product.handle === "candle-sand")}
+        />
         <section
           className="section-wrap collection-section storefront-collection"
           id="gifts"
@@ -68,6 +74,10 @@ export default async function Home({
         >
           <div className="section-heading">
             <div>
+              <p className="campaign-chapter">
+                <span>02</span>
+                {locale === "sv" ? "Kollektionen" : "The collection"}
+              </p>
               <h2>{launchCatalogCopy[locale].title}</h2>
               <p>{launchCatalogCopy[locale].description}</p>
             </div>
@@ -80,7 +90,8 @@ export default async function Home({
           <p className="storefront-dispatch">{t.deliveryText}</p>
         </section>
       </div>
-      <CandleSandGuide locale={locale} />
+      <MaterialStory locale={locale} />
+      <CandleSandGuide locale={locale} editorial />
       <section className="storefront-faq section-wrap">
         <div>
           <h2>{locale === "sv" ? "Bra att veta" : "Good to know"}</h2>
