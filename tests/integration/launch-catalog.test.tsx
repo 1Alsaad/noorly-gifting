@@ -276,13 +276,32 @@ describe("separate products and the native bundle", () => {
     }
   });
 
-  it("shows only bowl photographs and adds the bowl as one separate line", async () => {
+  it("leads with the styled bowl image, retains supplier detail photos and adds one separate bowl", async () => {
     const user = userEvent.setup();
     render(<LaunchProductDetails launch={bowl} locale="sv" />);
     expect(screen.queryByRole("radio")).toBeNull();
     expect(screen.getAllByRole("button", { name: /^Bild \d:/ })).toHaveLength(
-      3,
+      4,
     );
+    const gallery = screen.getByRole("link", { name: /Öppna stor bild/ });
+    expect(gallery).toHaveAttribute(
+      "href",
+      "/media/products/alva/noorly-alva-studio.webp",
+    );
+    expect(
+      screen.getByText(
+        "Stylad produktbild. Se fler bilder för skålens detaljer.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    for (const [index, photo] of launchBundlePhotos.entries()) {
+      await user.click(
+        screen.getByRole("button", {
+          name: `Bild ${index + 2}: ${photo.alt.sv}`,
+        }),
+      );
+      expect(gallery).toHaveAttribute("href", photo.url);
+    }
     expect(screen.getByText(/550/)).toBeInTheDocument();
     await user.click(screen.getByText("Produkt & användning", { exact: true }));
     expect(
@@ -412,7 +431,7 @@ describe("separate products and the native bundle", () => {
     ).toBeVisible();
     expect(
       within(bundleCard).getByRole("img", {
-        name: launchBundlePhotos[0].alt.en,
+        name: "Alva decorative teak bowl – styled studio image with natural grain and an undulating rim",
       }),
     ).toBeVisible();
   });

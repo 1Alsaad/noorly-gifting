@@ -18,6 +18,14 @@ export function ProductCard({
 }) {
   const t = getDictionary(locale);
   const bundle = product.handle === launchBundleHandle;
+  const bowl = product.handle === teakBowlHandle;
+  const studioBowl = {
+    url: "/media/products/alva/noorly-alva-studio.webp",
+    alt:
+      locale === "sv"
+        ? "Alva dekorativ teakskål – studiobild med naturlig ådring och vågformad kant"
+        : "Alva decorative teak bowl – styled studio image with natural grain and an undulating rim",
+  };
   const colours = product.variants.filter((variant) => variant.color);
   return (
     <article className={`product-card product-${product.handle}`}>
@@ -27,7 +35,7 @@ export function ProductCard({
       >
         {bundle && product.images.length >= 2 ? (
           <span className="bundle-card-photos">
-            {product.images.slice(0, 2).map((image) => (
+            {[product.images[0], studioBowl].map((image) => (
               <span className="bundle-card-photo" key={image.url}>
                 <Image
                   src={image.url}
@@ -40,8 +48,12 @@ export function ProductCard({
           </span>
         ) : product.images[0] ? (
           <Image
-            src={product.images[0].url}
-            alt={product.images[0].alt || product.title[locale]}
+            src={bowl ? studioBowl.url : product.images[0].url}
+            alt={
+              bowl
+                ? studioBowl.alt
+                : product.images[0].alt || product.title[locale]
+            }
             fill
             sizes="(max-width: 680px) 90vw, (max-width: 1000px) 45vw, 30vw"
           />
@@ -72,6 +84,11 @@ export function ProductCard({
         <span className="product-arrow">
           <ArrowUpRight size={20} />
         </span>
+        {bowl && (
+          <span className="product-image-note">
+            {locale === "sv" ? "Studiobild" : "Styled image"}
+          </span>
+        )}
       </Link>
       <div className="product-caption">
         <h3>

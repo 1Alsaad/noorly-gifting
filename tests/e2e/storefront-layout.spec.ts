@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { candleSand } from "../../src/content/candle-sand";
 import { launchProductDefinitions } from "../../src/content/launch-catalog";
+import { capturePageForReview } from "./visual-review";
 
 async function rejectOptional(page: Page) {
   const button = page.getByRole("button", {
@@ -24,8 +25,8 @@ for (const viewport of [
 ]) {
   test(`${viewport.name} navigation and product cards lead to readable product pages`, async ({
     page,
-  }) => {
-    test.setTimeout(90_000);
+  }, testInfo) => {
+    test.setTimeout(120_000);
     await page.setViewportSize(viewport);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/en");
@@ -73,6 +74,11 @@ for (const viewport of [
         );
       }
     }
+    await capturePageForReview(
+      page,
+      testInfo,
+      `shop-${viewport.name}-${viewport.width}.png`,
+    );
 
     for (const { handle } of launchProductDefinitions) {
       const href = `/en/products/${handle}`;
@@ -88,20 +94,36 @@ for (const viewport of [
         page.getByRole("link", { name: /Open full-size image/ }),
       ).toBeVisible();
       await expectNoHorizontalOverflow(page);
+      await capturePageForReview(
+        page,
+        testInfo,
+        `product-${handle}-${viewport.name}-${viewport.width}.png`,
+      );
       await page.goto("/en/shop");
     }
   });
 
   test(`${viewport.name} customer care links and FAQ disclosures remain usable`, async ({
     page,
-  }) => {
+  }, testInfo) => {
+    test.setTimeout(120_000);
     await page.setViewportSize(viewport);
+    await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/en/shop");
     await rejectOptional(page);
     const footer = page.getByRole("contentinfo");
+    const main = page.getByRole("main");
+    await footer.locator('a[href="/en/about"]').click();
+    await expect(page).toHaveURL("/en/about");
+    await expect(main.getByRole("heading", { level: 1 })).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `about-${viewport.name}-${viewport.width}.png`,
+    );
     await footer.locator('a[href="/en/faq"]').click();
     await expect(page).toHaveURL("/en/faq");
-    const main = page.getByRole("main");
     const question = main.locator("details").first();
     await expect(question).not.toHaveAttribute("open", "");
     await question.locator("summary").focus();
@@ -109,6 +131,11 @@ for (const viewport of [
     await expect(question).toHaveAttribute("open", "");
     await expect(question.locator("p").first()).toBeVisible();
     await expectNoHorizontalOverflow(page);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `faq-expanded-${viewport.name}-${viewport.width}.png`,
+    );
 
     await footer.locator('a[href="/en/contact"]').click();
     await expect(page).toHaveURL("/en/contact");
@@ -117,14 +144,29 @@ for (const viewport of [
       main.locator('a[href="mailto:support@noorlynordic.com"]').first(),
     ).toBeVisible();
     await expectNoHorizontalOverflow(page);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `contact-${viewport.name}-${viewport.width}.png`,
+    );
 
     await footer.locator('a[href="/en/shipping-returns"]').click();
     await expect(page).toHaveURL("/en/shipping-returns");
     await expect(main.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoHorizontalOverflow(page);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `shipping-${viewport.name}-${viewport.width}.png`,
+    );
     await page.goto("/en/cart");
     await expect(main.getByRole("heading", { level: 1 })).toBeVisible();
     await expectNoHorizontalOverflow(page);
+    await capturePageForReview(
+      page,
+      testInfo,
+      `cart-empty-${viewport.name}-${viewport.width}.png`,
+    );
   });
 }
 

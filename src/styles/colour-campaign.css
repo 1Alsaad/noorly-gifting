@@ -105,9 +105,9 @@
   .product-teakb-37-dekorativ-teakskal
   .product-image
   > img {
-  background: #fff;
-  clip-path: circle(43%);
-  padding: 20px;
+  padding: 0;
+  object-fit: cover;
+  background: #d8ad68;
 }
 .noorly-store
   .launch-catalog-grid
@@ -143,6 +143,39 @@
 }
 .noorly-store .bundle-card-photo img {
   padding: 0;
+  object-fit: cover;
+}
+.product-image-note {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  color: #3d291c;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.noorly-store .site-header > .campaign-wordmark,
+.noorly-store .footer-top .campaign-wordmark {
+  font-family: var(--sans);
+  font-size: 44px;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -0.065em;
+  text-transform: none;
+  color: #4b1e2d;
+}
+.noorly-store .footer-top .campaign-wordmark {
+  color: inherit;
+  font-size: 36px;
+}
+.noorly-store .mobile-menu nav {
+  background: #f7d9de;
+  color: #4b1e2d;
+}
+.noorly-store .mobile-menu nav > a {
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  border-color: #4b1e2d25;
 }
 .noorly-store .shop-heading {
   align-items: center;
@@ -327,6 +360,9 @@
   letter-spacing: -0.09em;
 }
 @media (max-width: 680px) {
+  .noorly-store .site-header > .campaign-wordmark {
+    font-size: 36px;
+  }
   .noorly-store .storefront-collection .section-heading h2 {
     font-size: 42px;
   }

@@ -6,7 +6,12 @@ import type { Locale, Product } from "@/types/commerce";
 import { ProductGallery } from "./product-gallery";
 import { ProductPurchase } from "./product-purchase";
 import { variantLabel } from "./variant-picker";
-import { launchProductDefinitions } from "@/content/launch-catalog";
+import {
+  candleSandHandle,
+  launchProductDefinitions,
+  teakBowlHandle,
+} from "@/content/launch-catalog";
+import { launchBundleHandle } from "@/content/launch-bundle";
 import { ProductOffers } from "./product-offers";
 import { colourStory } from "@/content/colour-story";
 import "./product-shopping.css";
@@ -53,17 +58,52 @@ export function ProductPresentation({
   const simple = launchProductDefinitions.some(
     ({ handle }) => handle === product.handle,
   );
+  const bowl = product.handle === teakBowlHandle;
+  const bundle = product.handle === launchBundleHandle;
+  const sand = product.handle === candleSandHandle;
+  const titleParts = simple ? product.title[locale].split(" · ") : [];
+  const productName = titleParts[0];
+  const productDetail = titleParts.slice(1).join(" · ");
+  const bowlStudioImage = {
+    url: "/media/products/alva/noorly-alva-studio.webp",
+    alt:
+      locale === "sv"
+        ? "Alva dekorativ teakskål, stylad produktbild"
+        : "Alva decorative teak bowl, styled product image",
+  };
   return (
     <>
       <div
         className={`product-detail product-shopping${simple ? " product-detail-simple" : ""}`}
         data-colour-story={story?.tone ?? "custom"}
-        style={{ "--product-gallery-tone": galleryTone } as CSSProperties}
+        data-product-kind={bowl ? "bowl" : bundle ? "bundle" : "sand"}
+        style={
+          {
+            "--product-gallery-tone": bowl ? "#f3d35c" : galleryTone,
+          } as CSSProperties
+        }
       >
         <div className="product-shopping-gallery">
+          {simple && (
+            <div className="product-stage-label" aria-hidden="true">
+              <span>NOORLY / {productName}</span>
+              <span>
+                {bowl
+                  ? locale === "sv"
+                    ? "NATURLIG TEAK"
+                    : "NATURAL TEAK"
+                  : bundle
+                    ? locale === "sv"
+                      ? "TVÅ FAVORITER"
+                      : "TWO FAVOURITES"
+                    : "300 G"}
+              </span>
+            </div>
+          )}
           <ProductGallery
             key={variantId}
-            images={galleryImages}
+            images={bowl ? [bowlStudioImage, ...galleryImages] : galleryImages}
+            styledImageUrl={bowl ? bowlStudioImage.url : undefined}
             locale={locale}
             title={
               variant?.color
@@ -101,7 +141,33 @@ export function ProductPresentation({
             </p>
           )}
           <div className="product-shopping-heading">
-            <h1>{product.title[locale]}</h1>
+            {simple && (
+              <p className="product-shopping-kicker">
+                {bowl
+                  ? locale === "sv"
+                    ? "FORMAD AV NATUREN"
+                    : "SHAPED BY NATURE"
+                  : sand
+                    ? locale === "sv"
+                      ? "FÄRG FÖR DIN VARDAG"
+                      : "COLOUR FOR YOUR EVERYDAY"
+                    : locale === "sv"
+                      ? "ETT PAR FÖR DITT HEM"
+                      : "A PAIR FOR YOUR HOME"}
+              </p>
+            )}
+            <h1>
+              {simple && productDetail ? (
+                <>
+                  <span className="product-title-name">{productName}</span>{" "}
+                  <span className="product-title-detail">
+                    · {productDetail}
+                  </span>
+                </>
+              ) : (
+                product.title[locale]
+              )}
+            </h1>
             {simple ? (
               <p className="product-note purchase-contents">
                 {product.included?.[locale] ?? product.description[locale]}

@@ -8,6 +8,7 @@ import { isLocale } from "@/content/translations";
 import { InterestForm } from "@/components/forms/interest-form";
 import { productTestCopy } from "@/config/product-test";
 import { pageMetadata } from "@/lib/seo/metadata";
+import "@/styles/customer-pages.css";
 
 export async function generateMetadata({
   params,
@@ -60,12 +61,14 @@ export default async function InterestPage({
   );
   const image = variant?.images?.[0] ?? product.images[0];
   return (
-    <section className="section-wrap page-content">
-      <p className="eyebrow">{copy.label}</p>
-      <h1>{copy.title}</h1>
-      <p className="section-intro">{copy.intro}</p>
-      <div className="product-detail">
-        <div>
+    <section className="section-wrap customer-pages customer-interest">
+      <div className="customer-page-heading">
+        <p className="eyebrow">{copy.label}</p>
+        <h1>{copy.title}</h1>
+        <p>{copy.intro}</p>
+      </div>
+      <div className="customer-interest-layout">
+        <div className="customer-interest-image">
           <Image
             src={image.url}
             alt={image.alt}
@@ -75,7 +78,7 @@ export default async function InterestPage({
             style={{ width: "100%", height: "auto" }}
           />
         </div>
-        <div>
+        <div className="customer-interest-copy">
           <h2>{product.title[locale]}</h2>
           {variant && <p>{variant.label?.[locale] ?? variant.title}</p>}
           <p>{product.description[locale]}</p>

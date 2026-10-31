@@ -1,13 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { launchBundlePhotos } from "@/content/launch-bundle";
 import { teakBowlHandle } from "@/content/launch-catalog";
 import type { Locale } from "@/types/commerce";
 import "./material-story.css";
 
 export function MaterialStory({ locale }: { locale: Locale }) {
-  const photo = launchBundlePhotos[0];
   const copy =
     locale === "sv"
       ? {
@@ -39,18 +37,27 @@ export function MaterialStory({ locale }: { locale: Locale }) {
         <div className="material-story__layout">
           <div className="material-story__visual">
             <span className="material-story__word" aria-hidden="true">
-              TEAK
+              ALVA
             </span>
             <div className="material-story__picture">
               <Image
-                src={photo.url}
-                alt={photo.alt[locale]}
+                src="/media/products/alva/noorly-alva-studio.webp"
+                alt={
+                  locale === "sv"
+                    ? "Alva teakskål med vågformad kant och naturlig ådring, i en varm studiobild"
+                    : "Alva teak bowl with an undulating rim and natural grain in a warm studio setting"
+                }
                 width={1000}
                 height={1000}
                 sizes="(max-width: 760px) 90vw, (max-width: 1400px) 52vw, 740px"
                 className="material-story__photo"
               />
             </div>
+            <p className="material-story__caption">
+              {locale === "sv"
+                ? "Studiobild. Varje skål har sin egen form och ådring."
+                : "Styled studio image. Every bowl has its own shape and grain."}
+            </p>
           </div>
           <div className="material-story__content">
             <p className="material-story__name">{copy.name}</p>

@@ -1,5 +1,7 @@
 # Noorly continuation handover — v1.8
 
+**Latest design completion, 31 October:** see [Full storefront design and Alva imagery](Noorly_Full_Storefront_Design_2026-10-31.md) for the product/help/cart page refresh, coordinated wordmark and new reference-based bowl studio/editorial images. All original bowl supplier photos remain accessible on the product page.
+
 **Latest storefront update, 31 October:** see [Packaging application and Safari icons](Noorly_Packaging_Application_2026-10-31.md) for the approved Noorly pouch concept imagery, SVG arrow fix and shorter checkout action. New pouch visuals are explicitly concepts; current supplier packaging remains shown on product pages.
 
 **Latest design follow-up, 31 October:** see [Colour story](Noorly_Colour_Story_2026-10-31.md) for the owner's Dribbble references, bold variant-based visual chapters and exact-colour product links. The original scroll-controlled video remains a standing requirement.

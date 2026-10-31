@@ -11,7 +11,6 @@ import {
   CustomerCareNavigation,
   CustomerPolicyContent,
 } from "@/components/content/customer-policy";
-import { launchBundlePhotos } from "@/content/launch-bundle";
 import "@/styles/customer-pages.css";
 
 type Props = { params: Promise<{ locale: string; page: string }> };
@@ -51,7 +50,7 @@ export default async function InformationPage({ params }: Props) {
       : content.title;
   return (
     <div
-      className={`section-wrap customer-pages${about ? " customer-about" : ""}`}
+      className={`section-wrap customer-pages${about ? " customer-about" : faq ? " customer-faq" : ""}`}
     >
       <div className="customer-page-heading">
         <p className="eyebrow">{about ? "NOORLY" : content.eyebrow}</p>
@@ -61,15 +60,24 @@ export default async function InformationPage({ params }: Props) {
       {!about && <CustomerCareNavigation locale={locale} activePage={page} />}
       {about ? (
         <section className="customer-about-story">
-          <div className="customer-about-image">
+          <figure className="customer-about-image">
             <Image
-              src={launchBundlePhotos[0].url}
-              alt={launchBundlePhotos[0].alt[locale]}
-              width={900}
-              height={900}
-              sizes="(max-width: 760px) 90vw, 44vw"
+              src="/media/products/alva/noorly-alva-editorial.webp"
+              alt={
+                sv
+                  ? "Alva, dekorativ teakskål i en stylad miljö"
+                  : "Alva decorative teak bowl in a styled scene"
+              }
+              width={1536}
+              height={1024}
+              sizes="(max-width: 760px) 90vw, 50vw"
             />
-          </div>
+            <figcaption>
+              {sv
+                ? "Alva · Dekorativ teakskål · Miljöbild"
+                : "Alva · Decorative teak bowl · Styled scene"}
+            </figcaption>
+          </figure>
           <div className="customer-about-copy">
             <h2>
               {sv ? "En plats för det enkla." : "Room for the simple things."}
@@ -99,9 +107,17 @@ export default async function InformationPage({ params }: Props) {
                   }}
                 />
                 <div className="customer-faq-list">
-                  {t.faqs.map((f) => (
+                  {t.faqs.map((f, index) => (
                     <details className="faq-item" key={f.q}>
-                      <summary>{f.q}</summary>
+                      <summary>
+                        <span
+                          className="customer-faq-number"
+                          aria-hidden="true"
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span>{f.q}</span>
+                      </summary>
                       <p>{f.a}</p>
                     </details>
                   ))}
