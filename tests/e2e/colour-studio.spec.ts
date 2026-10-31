@@ -122,6 +122,11 @@ test("colour choices work by keyboard without motion and carry through to the mo
     await material.screenshot({
       path: testInfo.outputPath("material-story-mobile-390.png"),
     });
+    const guide = page.locator(".candle-sand-guide--editorial");
+    await loadSectionImages(guide);
+    await guide.screenshot({
+      path: testInfo.outputPath("candle-sand-guide-mobile-390.png"),
+    });
   }
 
   await studio.getByRole("link", { name: "Discover Dusty Rose" }).click();

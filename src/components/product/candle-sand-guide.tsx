@@ -78,9 +78,9 @@ export function CandleSandGuide({
         {editorial && (
           <div className="candle-sand-guide__texture" aria-hidden="true">
             <Image
-              src="/media/products/candle-sand/csand-08-0.webp"
+              src="/media/products/candle-sand/noorly-grain-waves.webp"
               alt=""
-              width={800}
+              width={1600}
               height={800}
               sizes="(max-width: 680px) 90vw, 38vw"
             />

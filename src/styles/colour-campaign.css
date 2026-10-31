@@ -288,19 +288,16 @@
 }
 .candle-sand-guide__texture {
   position: relative;
-  height: clamp(180px, 19vw, 280px);
+  aspect-ratio: 2 / 1;
   overflow: hidden;
-  border-radius: 14px 120px 14px 14px;
-  background: #edc366;
+  border-radius: 12px;
+  background: #f5d9d7;
 }
 .candle-sand-guide__texture img {
   display: block;
-  width: 300%;
-  max-width: none;
-  height: auto;
-  position: absolute;
-  bottom: -5%;
-  left: -100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .noorly-store .candle-sand-guide--editorial ol {
   display: block;
@@ -421,9 +418,6 @@
   .noorly-store .candle-sand-guide--editorial h2 {
     font-size: 48px;
     max-width: 12ch;
-  }
-  .candle-sand-guide__texture {
-    height: 180px;
   }
   .candle-sand-guide--editorial > .product-note {
     margin-top: 0;
